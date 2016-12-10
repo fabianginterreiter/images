@@ -10,7 +10,7 @@
     "watch-css": "./bin/watch-css",
     "test": "NODE_ENV=test mocha",
     "build": "npm run browserify ",
-    "start": "npm run watch & npm run watch-css & NODE_ENV=development node server/index.js"
+    "start": "./bin/start"
   },
   "author": "",
   "license": "",

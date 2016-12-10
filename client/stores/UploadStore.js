@@ -1,0 +1,104 @@
+var Dispatcher = require('./Dispatcher');
+
+var $ = require("jquery");
+
+class UploadStore extends Dispatcher {
+  constructor() {
+    super([]);
+    this._active = false;
+  }
+
+  setFiles(list) {
+    var files = [];
+
+    for (var index = 0; index < list.length; index++) {
+      var file = list[index];
+      super.getObject().push({
+        name: file.name,
+        file: file
+      });
+    }
+
+    super.dispatch();
+  }
+
+  isUploading() {
+    return this._active;
+  }
+
+  completeHandler() {
+    console.log("Upload [" + super.getObject()[this._index].name + "] complete.");
+    super.getObject()[this._index].complete = true;
+    super.dispatch();
+    this._index++;
+    this._upload(this._index);
+  }
+
+  beforeSendHandler(e) {
+    super.getObject()[this._index].complete = false;
+    super.getObject()[this._index].process = 0;
+    super.getObject()[this._index].started = true;
+    super.dispatch();
+  }
+
+  errorHandler() {
+    super.getObject()[this._index].complete = false;
+    super.getObject()[this._index].error = true;
+  }
+
+  _upload(index) {
+    if (!(index < super.getObject().length)) {
+      this._active = false;
+      super.dispatch();
+      return;
+    }
+
+    console.log("Uploading: " + super.getObject()[index].name);
+
+    var formData = new FormData();
+    formData.append('image', super.getObject()[index].file);
+
+    //var formData = new FormData($('form')[0]);
+    $.ajax({
+      url: '/api/upload',  //Server script to process data
+      type: 'POST',
+      xhr: function() {
+        var myXhr = $.ajaxSettings.xhr();
+        if(myXhr.upload){
+          myXhr.upload.addEventListener('progress',this.progressHandlingFunction.bind(this), false);
+        }
+        return myXhr;
+      }.bind(this),
+      //Ajax events
+      beforeSend: this.beforeSendHandler.bind(this),
+      success: this.completeHandler.bind(this),
+      //error: errorHandler,
+      // Form data
+      data: formData,
+      //Options to tell jQuery not to process data or worry about content-type.
+      cache: false,
+      contentType: false,
+      processData: false
+    });
+  }
+
+  progressHandlingFunction(e) {
+    if(e.lengthComputable) {
+      var max = e.total;
+      var current = e.loaded;
+
+      var Percentage = (current * 100)/max;
+
+      super.getObject()[this._index].process = Percentage;
+      super.dispatch();
+    }  
+  }
+
+  upload() {
+    this._index = 0;
+    this._active = true;
+    this._upload(0);
+  }
+}
+
+module.exports = new UploadStore();

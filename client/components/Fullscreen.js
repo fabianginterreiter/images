@@ -1,0 +1,111 @@
+var React = require('react');
+
+var OptionsList = require('./OptionsList');
+
+var ImagesStore = require('../stores/ImagesStore');
+
+var $ = require("jquery");
+
+class Fullscreen extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      show: false
+    };
+  }
+
+  componentDidMount() {
+    $("body").css("overflow", "hidden");
+    this._show();
+  }
+
+  componentWillUnmount() {
+    $("body").css("overflow", "auto");
+    clearTimeout(this.timeout);
+  }
+
+  _hide() {
+    if (this.state.menu) {
+      return;
+    }
+
+    this.setState({
+      show: false
+    });
+  }
+
+  handleMouseMove() {
+    this._show();
+  }
+
+  _show() {
+    this.setState({
+      show: true
+    });
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(this._hide.bind(this), 1000);
+  }
+
+  handleClick(option) {
+    switch (option.key) {
+      case 'delete': {
+        ImagesStore.delete(this.props.image);
+        break;
+      }
+    }
+  }
+
+  toggleMenu() {
+    if (this.state.menu) {
+      this._hide();
+      this.setState({
+        menu: false
+      });
+    } else {
+      this.setState({
+        show: true,
+        menu: true
+      });
+    }
+  }
+
+  render() {
+    var titleClass = 'title';
+
+    if (this.state.show) {
+      titleClass += ' show';
+    }
+
+    var opt = (<span />);
+
+    if (this.state.menu) {
+      var options = [{
+        key: 'delete',
+        type: 'action',
+        name: 'Delete'
+      }];
+
+      opt = (
+        <div className="opt">
+          <OptionsList values={options} onClick={this.handleClick.bind(this)} />
+        </div>);
+    }
+
+    return (
+      <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
+        <img src={'images/' + this.props.image.path} alt={this.props.image.filename} />
+        <div className={titleClass}>
+          <div onClick={this.props.handleClose} className="close">✕</div>
+          {this.props.image.filename}
+          <div onClick={this.toggleMenu.bind(this)} className="options">✕</div>
+        </div>
+        <div className="previous" onClick={this.props.previous} />
+        <div className="next" onClick={this.props.next} />
+        {opt}
+      </div>
+    );
+  }
+}
+
+module.exports = Fullscreen;

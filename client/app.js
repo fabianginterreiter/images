@@ -46,8 +46,6 @@ class ImgApp extends React.Component {
             </div>
           </nav>
         </header>
-
-        <div className="clear" />
         
         <Images />
 

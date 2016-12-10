@@ -1,7 +1,4 @@
-var config = require('../../knexfile'); 
-
-var env = process.env.NODE_ENV || 'development'; 
-var knex = require('knex')(config[env]);
+var knex = require('knex')(require('../config').getDatabaseConfiguration());
 
 var bookshelf = require('bookshelf')(knex);
 bookshelf.plugin('registry');

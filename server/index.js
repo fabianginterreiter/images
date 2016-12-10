@@ -31,6 +31,10 @@ app.delete('/api/images/:id', function(req, res) {
   DeleteImage(req.params.id, 'data').then((result) => (res.send(result))).catch((e) => (res.status(404).send('Fehler')));
 });
 
+app.get('/api/config', function(req, res) {
+  res.send(require('./config').getDatabaseConfiguration());
+});
+
 app.get('/api/options', function(req, res) {
   res.send([{
     key: 'test',

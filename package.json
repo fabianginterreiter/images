@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "watchify client/app.js -o public/bundle.js -v",
-    "browserify": "browserify client/app.js | uglifyjs > public/bundle.js",
+    "watch": "./bin/watch-javascript",
+    "browserify": "./bin/build-javascript",
+    "build-css": "./bin/build-css",
+    "watch-css": "./bin/watch-css",
     "test": "NODE_ENV=test mocha",
     "build": "npm run browserify ",
-    "start": "npm run watch & NODE_ENV=development node server/index.js"
+    "start": "./bin/start"
   },
   "author": "",
   "license": "",
@@ -33,6 +35,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
     "mocha": "^3.2.0",
+    "node-sass": "^3.13.1",
     "reactify": "^1.1.1",
     "sinon": "^1.17.6",
     "tmp": "0.0.31",

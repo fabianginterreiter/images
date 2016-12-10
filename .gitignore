@@ -2,5 +2,6 @@ data/
 uploads/
 node_modules/
 public/bundle.js
-public/css/*
+public/css/*.css
+public/javascript/*.js
 *.log

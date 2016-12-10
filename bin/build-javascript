@@ -1,1 +1,1 @@
-browserify client/app.js | uglifyjs > public/bundle.js
+browserify client/app.js | uglifyjs > public/javascript/client.js

@@ -1,1 +1,1 @@
-watchify client/app.js -o public/bundle.js -v
+watchify client/app.js -o public/javascript/client.js -v

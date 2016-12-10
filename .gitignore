@@ -3,3 +3,4 @@ uploads/
 node_modules/
 public/bundle.js
 public/css/*
+*.log

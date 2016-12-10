@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "watchify client/app.js -o public/bundle.js -v",
-    "browserify": "browserify client/app.js | uglifyjs > public/bundle.js",
-    "build-css": "node-sass --include-path scss scss/main.scss   public/css/main.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
+    "watch": "./bin/watch-javascript",
+    "browserify": "./bin/build-javascript",
+    "build-css": "./bin/build-css",
+    "watch-css": "./bin/watch-css",
     "test": "NODE_ENV=test mocha",
     "build": "npm run browserify ",
     "start": "npm run watch & npm run watch-css & NODE_ENV=development node server/index.js"

@@ -26,6 +26,7 @@ class ImgApp extends React.Component {
   }
 
   render() {
+    
     return (
       <div>
         <header>
@@ -34,15 +35,16 @@ class ImgApp extends React.Component {
           </div>
 
           <nav>
-            <div className="navbar-left">
-              <ThumbnailsResizer />
-            </div>
             <div className="navbar-right">
               <Options />
             </div>
             
             <div className="navbar-right min500">
               <Upload />
+            </div>
+
+            <div className="navbar-right">
+              <ThumbnailsResizer />
             </div>
           </nav>
         </header>

@@ -1,0 +1,1 @@
+browserify client/app.js | uglifyjs > public/bundle.js

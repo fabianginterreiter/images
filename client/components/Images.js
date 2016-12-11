@@ -31,13 +31,25 @@ class Images extends React.Component {
   componentDidMount() {
     ImagesStore.addChangeListener(this.updateImages.bind(this));
     ThumbnailsSizeStore.addChangeListener((size) => (this.setState({size:size})));
-    NavigationsState.addChangeListener(this.handleResize.bind(this));
+    NavigationsState.addChangeListener(this.handlePinningNavigation.bind(this));
 
     $(document).keyup(this.handleKeyUp.bind(this));
 
     this.width = document.getElementById('container').clientWidth;
 
     window.addEventListener('resize', this.handleResize.bind(this), true);
+  }
+
+  handlePinningNavigation() {
+    clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(function() {
+      var width = document.getElementById('container').clientWidth;
+
+      if (width !== this.width) {
+        this.width = width;
+        this.forceUpdate();  
+      }
+    }.bind(this), 500);
   }
 
   handleResize() {

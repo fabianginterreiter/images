@@ -53,9 +53,9 @@ header {
         margin: 0;
         float: left;
         list-style: none;
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1;
-        padding: 10px;
+        padding: 12px;
         cursor: pointer;
       }
 
@@ -456,11 +456,13 @@ input[type=range] {
 
 @media only screen and (max-width: 500px) {
     .min500 {
+      display: none;
     }
 }
 
 @media only screen and (min-width: 500px) {
     .max500 {
+      display: none;
     }
 }
 

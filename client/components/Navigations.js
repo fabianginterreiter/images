@@ -68,7 +68,7 @@ class Navigations extends React.Component {
       clickCatcher = (<div className="click" onClick={NavigationsState.close.bind(NavigationsState)} />);
     }
 
-    var pinClass = "badge";
+    var pinClass = "badge min500";
     if (NavigationsState.getObject().pinned) {
       pinClass += " selected";
     }

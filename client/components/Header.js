@@ -27,7 +27,7 @@ class Header extends React.Component {
         <nav>
           <ul className="right">
             <li className="btn"><ThumbnailsResizer /></li>
-            <li onClick={this.handleClick.bind(this)} className="btn">
+            <li onClick={this.handleClick.bind(this)} className="btn min500">
               <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
               <i className="icon-upload" /> Upload
             </li>

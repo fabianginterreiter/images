@@ -4,6 +4,7 @@ var ThumbnailsResizer = require('../components/ThumbnailsResizer');
 var Options = require('../components/Options');
 
 var NavigationsState = require('../states/NavigationsState');
+var UploadStore = require('../stores/UploadStore');
 
 var $ = require("jquery");
 
@@ -16,10 +17,6 @@ class Header extends React.Component {
     UploadStore.setFiles(event.target.files);
   }
 
-  handleOptions() {
-
-  }
-
   render() {
     return (
       <header>
@@ -29,11 +26,11 @@ class Header extends React.Component {
 
         <nav>
           <ul className="left">
-            <li><ThumbnailsResizer /></li>
+            <li className="btn"><ThumbnailsResizer /></li>
           </ul>
 
           <ul className="right">
-            <li onClick={this.handleClick.bind(this)}>
+            <li onClick={this.handleClick.bind(this)} className="btn">
               <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
               <i className="icon-upload" /> Upload
             </li>

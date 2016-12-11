@@ -121,7 +121,7 @@ class Options extends React.Component {
     }
 
     return (
-      <li onClick={this.toggle.bind(this)}>
+      <li onClick={this.toggle.bind(this)} className="btn">
         <i className="icon-reorder" />
         {clickCatcher}
         <div className="menu" style={style}>

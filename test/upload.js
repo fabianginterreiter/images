@@ -15,6 +15,8 @@ var path = null;
 
 var id = null;
 
+var config = require('../server/config');
+
 describe('API', function() {
   before(function(done) {
     fs.copySync('test/IMG_4351.jpg', 'test/3064de21f8ff5226705f390d6ff4f324.jpg');
@@ -23,6 +25,7 @@ describe('API', function() {
       tmp.dir(function _tempDirCreated(err, p, cleanupCallback) {
         if (err) throw err;
         path = p;
+        config.setPath(path);
         done();
       });
     });
@@ -62,12 +65,12 @@ describe('API', function() {
 
         assert.equal('2016/9/1.jpg', result.path);
 
-        var stats = fs.statSync(path + '/images/' + result.path);
+        var stats = fs.statSync(config.getImagesPath() + '/' + result.path);
         assert.equal(263388, stats.size);
-        stats = fs.statSync(path + '/thumbs/' + result.path);
+        stats = fs.statSync(config.getThumbnailPath() + '/' + result.path);
         assert.equal(15499, stats.size);
 
-        assert.equal(true, fs.existsSync(path + '/cache/' + result.path));
+        assert.equal(true, fs.existsSync(config.getPreviewPath() + '/' + result.path));
 
         id = result.id;
 

@@ -8,7 +8,9 @@ var ExifImage = require('exif').ExifImage;
 
 var Image = require('../model/Image');
 
-module.exports = function(file, path) {
+var config = require('../config');
+
+module.exports = function(file) {
   return new Promise(function(resolve, reject) {
     var result = {
       filename: file.originalname, 
@@ -39,14 +41,14 @@ module.exports = function(file, path) {
         new Image(result).save().then(function(data) {
 
 
-          fs.ensureDir(path + '/images/' + result.year + '/' + result.month, function(err) {
+          fs.ensureDir(config.getImagesPath() + '/' + result.year + '/' + result.month, function(err) {
             if (err) {
               return reject(err);
             }
 
             var subpath = result.year + '/' + result.month + '/' + data.get('id') + '.jpg';
 
-            fs.copy(file.path, path + '/images/' + subpath, function(err) {
+            fs.copy(file.path, config.getImagesPath() + '/' + subpath, function(err) {
               if (err) {
                 return reject(err);
               }
@@ -55,26 +57,26 @@ module.exports = function(file, path) {
 
               data.save().then(function(data) {
                 
-                fs.ensureDir(path + '/thumbs/' + result.year + '/' + result.month, function(err) {
+                fs.ensureDir(config.getThumbnailPath() + '/' + result.year + '/' + result.month, function(err) {
                   if (err) {
                     return reject(err);
                   }
 
-                  sharp(path + '/images/' + subpath)
+                  sharp(config.getImagesPath() + '/' + subpath)
                   .resize(400, 200)
-                  .max().toFile(path + '/thumbs/' + subpath, function(err) {
+                  .max().toFile(config.getThumbnailPath() + '/' + subpath, function(err) {
                     if (err) {
                       return reject(err);
                     }
 
-                    fs.ensureDir(path + '/cache/' + result.year + '/' + result.month, function(err) {
+                    fs.ensureDir(config.getPreviewPath() + '/' + result.year + '/' + result.month, function(err) {
                       if (err) {
                         return reject(err);
                       }
 
-                       sharp(path + '/images/' + subpath)
+                       sharp(config.getImagesPath() + '/' + subpath)
                       .resize(2000, 2000)
-                      .max().toFile(path + '/cache/' + subpath, function(err) {
+                      .max().toFile(config.getPreviewPath() + '/' + subpath, function(err) {
                         if (err) {
                           return reject(err);
                         }

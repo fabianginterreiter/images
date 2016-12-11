@@ -55,7 +55,7 @@ class OptionsList extends React.Component {
     var options = this._renderOptions([], this.props.values, 0);
     
     return (
-      <ul>
+      <ul className="options">
         {options}
       </ul>
     );

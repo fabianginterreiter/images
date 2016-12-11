@@ -109,10 +109,6 @@ class Options extends React.Component {
     return !object.selected || this.selected;
   }
 
-  _renderButton() {
-    return (<div onClick={this.toggle.bind(this)} className="options"><i className="icon-reorder icon-large"></i></div>);
-  }
-
   render() {
     this.selected = ImagesStore.hasSelected();
 
@@ -124,16 +120,14 @@ class Options extends React.Component {
       clickCatcher = (<div className="click" onClick={this.close.bind(this)} />);
     }
 
-    var button = this._renderButton();
-
     return (
-      <div>
-        {button}
+      <li onClick={this.toggle.bind(this)}>
+        <i className="icon-reorder" />
         {clickCatcher}
         <div className="menu" style={style}>
           <OptionsList values={this.state.values} active={this.isActive.bind(this)} onClick={this.handleClick.bind(this)} />
         </div>
-      </div>
+      </li>
     );
   }
 }

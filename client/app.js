@@ -2,13 +2,16 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var Images = require('./components/Images');
-var Options = require('./components/Options');
+
 var Navigations = require('./components/Navigations');
-var ThumbnailsResizer = require('./components/ThumbnailsResizer');
-var Upload = require('./components/Upload');
+
+
 var Uploader = require('./components/Uploader');
 var DragAndDropUpload = require('./components/DragAndDropUpload');
 var ImagesStore = require('./stores/ImagesStore');
+var Header = require('./components/Header');
+
+var NavigationsState = require('./states/NavigationsState');
 
 class ImgApp extends React.Component {
   constructor(props) {
@@ -16,6 +19,8 @@ class ImgApp extends React.Component {
   }
 
   componentDidMount() {
+    NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
+
     fetch('/api/images', {
       accept: 'application/json',
     }).then(function(response) {
@@ -25,31 +30,25 @@ class ImgApp extends React.Component {
     }.bind(this));
   }
 
+  handleNavigationChange() {
+    this.forceUpdate();
+  }
+
   render() {
+    var contentClass = 'content';
+      
+    if (NavigationsState.getObject().pinned) {
+      contentClass += ' open';
+    }
     
     return (
       <div>
-        <header>
-          <div className="title">
-            <Navigations />
-          </div>
+        <Navigations />
 
-          <nav>
-            <div className="navbar-right">
-              <Options />
-            </div>
-            
-            <div className="navbar-right min500">
-              <Upload />
-            </div>
-
-            <div className="navbar-right">
-              <ThumbnailsResizer />
-            </div>
-          </nav>
-        </header>
-        
-        <Images />
+        <div className={contentClass}>
+          <Header />
+          <Images />
+        </div>
 
         <Uploader />
         <DragAndDropUpload />

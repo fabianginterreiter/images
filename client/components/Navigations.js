@@ -4,18 +4,22 @@ var React = require('react');
 var OptionsList = require('./OptionsList');
 
 var ImagesStore = require('../stores/ImagesStore');
+var NavigationsState = require('../states/NavigationsState');
 
 class Navigations extends React.Component {
   constructor(props) {
     super(props, 'left');
     this.state = {
-      open: false,
       values: []
     }
     this.selected = 'all';
   }
 
   componentDidMount() {
+    NavigationsState.addChangeListener(function() {
+      this.forceUpdate();
+    }.bind(this));
+
     fetch('/api/navigations', {
       accept: 'application/json',
     }).then(function(response) {
@@ -45,43 +49,42 @@ class Navigations extends React.Component {
   handleClick(option) {
     ImagesStore.load(option.service);
     this.selected = option.key;
-    this.close();
+    NavigationsState.close();
   }
 
   isSelected(option) {
     return this.selected === option.key;
   }
 
-  open() {
-    this.setState({
-      open: true
-    });
-  }
-
-  close() {
-    this.setState({
-      open: false
-    });
-  }
-
   render() {
     var style = {};
     var clickCatcher = (<span />);
 
-    if (this.state.open) {
+    if (NavigationsState.getObject().open || NavigationsState.getObject().pinned) {
       style.width = '300px';
+    }
 
-      clickCatcher = (<div className="click" onClick={this.close.bind(this)} />);
+    if (NavigationsState.getObject().open && !NavigationsState.getObject().pinned) {
+      clickCatcher = (<div className="click" onClick={NavigationsState.close.bind(NavigationsState)} />);
+    }
+
+    var pinClass = "badge min500";
+    if (NavigationsState.getObject().pinned) {
+      pinClass += " selected";
     }
 
     return (
-      <div style={{position: 'relative'}}>
-        <div onClick={this.open.bind(this)}>Images</div>
+      <div>
         {clickCatcher}
         <div className="panel left" style={style}>
-          <div onClick={this.close.bind(this)} className="title">Images</div>
+          <div className="title">
+            <span onClick={NavigationsState.close.bind(NavigationsState)}><i className="icon-camera-retro"></i> Images</span>
+            <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin icon-large"></i></div>
+          </div>
           <div style={{clear:'both'}} />
           <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
+          <div className="footer">
+          </div>
         </div>
       </div>);
   }

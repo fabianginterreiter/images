@@ -1,6 +1,4 @@
-
-
-  var React = require('react');
+var React = require('react');
 var moment = require('moment');
 
 var InlineProgress = require('./InlineProgress');

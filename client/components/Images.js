@@ -7,6 +7,7 @@ var Fullscreen = require('./Fullscreen');
 
 var ImagesStore = require('../stores/ImagesStore');
 var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
+var NavigationsState = require('../states/NavigationsState');
 
 class Images extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class Images extends React.Component {
   componentDidMount() {
     ImagesStore.addChangeListener(this.updateImages.bind(this));
     ThumbnailsSizeStore.addChangeListener((size) => (this.setState({size:size})));
+    NavigationsState.addChangeListener(this.handlePinningNavigation.bind(this));
 
     $(document).keyup(this.handleKeyUp.bind(this));
 
@@ -38,11 +40,27 @@ class Images extends React.Component {
     window.addEventListener('resize', this.handleResize.bind(this), true);
   }
 
+  handlePinningNavigation() {
+    clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(function() {
+      var width = document.getElementById('container').clientWidth;
+
+      if (width !== this.width) {
+        this.width = width;
+        this.forceUpdate();  
+      }
+    }.bind(this), 500);
+  }
+
   handleResize() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(function() {
-      this.width = document.getElementById('container').clientWidth;
-      this.forceUpdate();
+      var width = document.getElementById('container').clientWidth;
+
+      if (width !== this.width) {
+        this.width = width;
+        this.forceUpdate();  
+      }
     }.bind(this), 100);
   }
 
@@ -230,7 +248,7 @@ class Images extends React.Component {
           <div className='date' key={newDate}>
             <DateDivider date={datetime} />
             <span onClick={this.loadFromDate.bind(this, image.year, image.month, image.day)}>Select</span>
-            <div className="select" onClick={this.handleDateSelect.bind(this, idx)}>☑</div>
+            <div className="select" onClick={this.handleDateSelect.bind(this, idx)}><i className="icon-check"></i></div>
           </div>);
         lastDate = newDate;
       }
@@ -243,10 +261,12 @@ class Images extends React.Component {
         className += ' selected';
       }
 
+      var checkBoxClass = image.selected ? "icon-check" : "icon-check-empty";
+
       elements.push(
         <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
           <Image image={image} style={style} />
-          <div className="select" onClick={this.handleSelect.bind(this, image)}>☑</div>
+          <div className="select" onClick={this.handleSelect.bind(this, image)}><i className={checkBoxClass}></i></div>
           <div className="mark" />
         </div>);
     }.bind(this));

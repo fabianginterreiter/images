@@ -24,7 +24,7 @@ module.exports = function(file) {
 
       return CopyImageFile(file.path, result);
     }).then(function(result) {
-      return ResizeImage(result, config.getThumbnailPath(), 400, 200);
+      return ResizeImage(result, config.getThumbnailPath(), 1000, 200);
     }).then(function(result) {
       return ResizeImage(result, config.getPreviewPath(), 2000, 2000);
     }).then(function(result) {

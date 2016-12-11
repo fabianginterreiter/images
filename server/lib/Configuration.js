@@ -35,6 +35,7 @@ class Configuration {
     } else {
       return {
         client: 'sqlite3',
+        useNullAsDefault: true,
         connection: {
           filename: this.config.path + '/data.sqlite3'
         }

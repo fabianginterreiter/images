@@ -80,6 +80,7 @@ class Navigations extends React.Component {
         {clickCatcher}
         <div className="panel left" style={style}>
           <div onClick={this.close.bind(this)} className="title">Images</div>
+          <div style={{clear:'both'}} />
           <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
         </div>
       </div>);

@@ -35,18 +35,17 @@ class ImgApp extends React.Component {
   }
 
   render() {
-    var contentStyle = {
-    };
+    var contentClass = 'content';
       
     if (NavigationsState.getObject().pinned) {
-      contentStyle.paddingLeft = '300px';
+      contentClass += ' open';
     }
     
     return (
       <div>
         <Navigations />
 
-        <div style={contentStyle} className="content">
+        <div className={contentClass}>
           <Header />
           <Images />
         </div>

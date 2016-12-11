@@ -4,6 +4,8 @@ $selectedBackgroundColor: #e7f4fd;
 $selectedColor: #108ee9;
 $hoverBackgroundColor: #e7f4fd;
 
+$navigationPanelWidth: 300px;
+
 body { 
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   padding: 0;
@@ -64,7 +66,9 @@ header {
   }
 }
 
-
+.open {
+  padding-left: $navigationPanelWidth;
+}
 
 .selected {
   color: $selectedColor;

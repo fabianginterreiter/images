@@ -10,7 +10,7 @@ var Uploader = require('./components/Uploader');
 var DragAndDropUpload = require('./components/DragAndDropUpload');
 var ImagesStore = require('./stores/ImagesStore');
 
-var NavigationsControlStore = require('./stores/NavigationsControlStore');
+var NavigationsState = require('./states/NavigationsState');
 
 class ImgApp extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class ImgApp extends React.Component {
         <Navigations />
 
         <header>
-          <div className="title" onClick={NavigationsControlStore.open.bind(NavigationsControlStore)}>
+          <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
             IMG
           </div>
 

@@ -2,7 +2,7 @@ var State = require('../states/State');
 
 var cookie = require('react-cookie');
 
-class NavigationsControlStore extends State {
+class NavigationsState extends State {
   constructor() {
     var c = cookie.load('thumbnailsSize');
     super({
@@ -24,4 +24,4 @@ class NavigationsControlStore extends State {
   }
 }
 
-module.exports = new NavigationsControlStore();
+module.exports = new NavigationsState();

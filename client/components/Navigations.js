@@ -4,7 +4,7 @@ var React = require('react');
 var OptionsList = require('./OptionsList');
 
 var ImagesStore = require('../stores/ImagesStore');
-var NavigationsControlStore = require('../stores/NavigationsControlStore');
+var NavigationsState = require('../states/NavigationsState');
 
 class Navigations extends React.Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class Navigations extends React.Component {
   }
 
   componentDidMount() {
-    NavigationsControlStore.addChangeListener(function() {
+    NavigationsState.addChangeListener(function() {
       this.forceUpdate();
     }.bind(this));
 
@@ -49,7 +49,7 @@ class Navigations extends React.Component {
   handleClick(option) {
     ImagesStore.load(option.service);
     this.selected = option.key;
-    NavigationsControlStore.close();
+    NavigationsState.close();
   }
 
   isSelected(option) {
@@ -60,16 +60,16 @@ class Navigations extends React.Component {
     var style = {};
     var clickCatcher = (<span />);
 
-    if (NavigationsControlStore.getObject().open) {
+    if (NavigationsState.getObject().open) {
       style.width = '300px';
-      clickCatcher = (<div className="click" onClick={NavigationsControlStore.close.bind(NavigationsControlStore)} />);
+      clickCatcher = (<div className="click" onClick={NavigationsState.close.bind(NavigationsState)} />);
     }
 
     return (
       <div>
         {clickCatcher}
         <div className="panel left" style={style}>
-          <div onClick={NavigationsControlStore.close.bind(NavigationsControlStore)} className="title">Images</div>
+          <div onClick={NavigationsState.close.bind(NavigationsState)} className="title">Images</div>
           <div style={{clear:'both'}} />
           <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
           <div className="footer">

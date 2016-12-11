@@ -79,7 +79,7 @@ class Navigations extends React.Component {
         <div className="panel left" style={style}>
           <div className="title">
             <span onClick={NavigationsState.close.bind(NavigationsState)}><i className="icon-camera-retro icon-large"></i> Images</span>
-            <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin"></i></div>
+            <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin icon-large"></i></div>
           </div>
           <div style={{clear:'both'}} />
           <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />

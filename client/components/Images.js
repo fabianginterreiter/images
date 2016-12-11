@@ -236,7 +236,7 @@ class Images extends React.Component {
           <div className='date' key={newDate}>
             <DateDivider date={datetime} />
             <span onClick={this.loadFromDate.bind(this, image.year, image.month, image.day)}>Select</span>
-            <div className="select" onClick={this.handleDateSelect.bind(this, idx)}><i class="icon-check"></i></div>
+            <div className="select" onClick={this.handleDateSelect.bind(this, idx)}><i className="icon-check"></i></div>
           </div>);
         lastDate = newDate;
       }

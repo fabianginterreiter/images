@@ -110,7 +110,7 @@ class Options extends React.Component {
   }
 
   _renderButton() {
-    return (<div onClick={this.toggle.bind(this)} className="options">Options</div>);
+    return (<div onClick={this.toggle.bind(this)} className="options"><i className="icon-reorder icon-large"></i></div>);
   }
 
   render() {

@@ -18,6 +18,8 @@ class ImgApp extends React.Component {
   }
 
   componentDidMount() {
+    NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
+
     fetch('/api/images', {
       accept: 'application/json',
     }).then(function(response) {
@@ -27,33 +29,45 @@ class ImgApp extends React.Component {
     }.bind(this));
   }
 
+  handleNavigationChange() {
+    this.forceUpdate();
+  }
+
   render() {
+    var contentStyle = {
+    };
+      
+    if (NavigationsState.getObject().pinned) {
+      contentStyle.paddingLeft = '300px';
+    }
     
     return (
       <div>
         <Navigations />
 
-        <header>
-          <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
-            IMG
-          </div>
-
-          <nav>
-            <div className="navbar-right">
-              <Options />
-            </div>
-            
-            <div className="navbar-right min500">
-              <Upload />
+        <div style={contentStyle} className="content">
+          <header>
+            <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
+              IMG
             </div>
 
-            <div className="navbar-right">
-              <ThumbnailsResizer />
-            </div>
-          </nav>
-        </header>
-        
-        <Images />
+            <nav>
+              <div className="navbar-right">
+                <Options />
+              </div>
+              
+              <div className="navbar-right min500">
+                <Upload />
+              </div>
+
+              <div className="navbar-right">
+                <ThumbnailsResizer />
+              </div>
+            </nav>
+          </header>
+          
+          <Images />
+        </div>
 
         <Uploader />
         <DragAndDropUpload />

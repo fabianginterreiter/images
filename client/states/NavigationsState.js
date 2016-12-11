@@ -4,10 +4,11 @@ var cookie = require('react-cookie');
 
 class NavigationsState extends State {
   constructor() {
-    var c = cookie.load('thumbnailsSize');
+    var c = cookie.load('pinned') === 'true';
+
     super({
-      open:false,
-      pinned: true
+      open:c,
+      pinned: c
     });
   }
 
@@ -21,6 +22,15 @@ class NavigationsState extends State {
     this.setState({
       open:false
     });
+  }
+
+  pin() {
+    this.setState({
+      pinned: !this.getObject().pinned,
+      open:true
+    });
+
+    cookie.save('pinned', this.getObject().pinned.toString());
   }
 }
 

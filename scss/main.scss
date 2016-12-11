@@ -11,6 +11,10 @@ body {
   background: white;
 }
 
+.content {
+  transition: 0.3s;
+}
+
 header {
   background-color: #222;
   color: white;
@@ -39,6 +43,10 @@ nav {
   }
 }
 
+.selected {
+  color: $selectedColor;
+}
+
 .panel {
   position: fixed;
   top: 0;
@@ -55,6 +63,14 @@ nav {
 
   .title {
     padding: 10px;
+
+    .badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 8px;
+      cursor: pointer;
+    }
   }
 
   .footer {
@@ -339,7 +355,7 @@ ul {
 
 .dimming {
   position: fixed;
-  z-index: 499;
+  z-index: 199;
   top: 0;
   left: 0;
   right: 0;

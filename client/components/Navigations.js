@@ -60,20 +60,30 @@ class Navigations extends React.Component {
     var style = {};
     var clickCatcher = (<span />);
 
-    if (NavigationsState.getObject().open) {
+    if (NavigationsState.getObject().open || NavigationsState.getObject().pinned) {
       style.width = '300px';
+    }
+
+    if (NavigationsState.getObject().open && !NavigationsState.getObject().pinned) {
       clickCatcher = (<div className="click" onClick={NavigationsState.close.bind(NavigationsState)} />);
+    }
+
+    var pinClass = "badge";
+    if (NavigationsState.getObject().pinned) {
+      pinClass += " selected";
     }
 
     return (
       <div>
         {clickCatcher}
         <div className="panel left" style={style}>
-          <div onClick={NavigationsState.close.bind(NavigationsState)} className="title">Images</div>
+          <div className="title">
+            <span onClick={NavigationsState.close.bind(NavigationsState)}>Images</span>
+            <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin"></i></div>
+          </div>
           <div style={{clear:'both'}} />
           <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
           <div className="footer">
-            PIN
           </div>
         </div>
       </div>);

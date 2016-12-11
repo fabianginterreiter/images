@@ -7,6 +7,7 @@ var Fullscreen = require('./Fullscreen');
 
 var ImagesStore = require('../stores/ImagesStore');
 var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
+var NavigationsState = require('../states/NavigationsState');
 
 class Images extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class Images extends React.Component {
   componentDidMount() {
     ImagesStore.addChangeListener(this.updateImages.bind(this));
     ThumbnailsSizeStore.addChangeListener((size) => (this.setState({size:size})));
+    NavigationsState.addChangeListener(this.handleResize.bind(this));
 
     $(document).keyup(this.handleKeyUp.bind(this));
 
@@ -41,8 +43,12 @@ class Images extends React.Component {
   handleResize() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(function() {
-      this.width = document.getElementById('container').clientWidth;
-      this.forceUpdate();
+      var width = document.getElementById('container').clientWidth;
+
+      if (width !== this.width) {
+        this.width = width;
+        this.forceUpdate();  
+      }
     }.bind(this), 100);
   }
 

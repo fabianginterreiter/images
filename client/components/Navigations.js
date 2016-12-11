@@ -4,18 +4,22 @@ var React = require('react');
 var OptionsList = require('./OptionsList');
 
 var ImagesStore = require('../stores/ImagesStore');
+var NavigationsControlStore = require('../stores/NavigationsControlStore');
 
 class Navigations extends React.Component {
   constructor(props) {
     super(props, 'left');
     this.state = {
-      open: false,
       values: []
     }
     this.selected = 'all';
   }
 
   componentDidMount() {
+    NavigationsControlStore.addChangeListener(function() {
+      this.forceUpdate();
+    }.bind(this));
+
     fetch('/api/navigations', {
       accept: 'application/json',
     }).then(function(response) {
@@ -45,43 +49,32 @@ class Navigations extends React.Component {
   handleClick(option) {
     ImagesStore.load(option.service);
     this.selected = option.key;
-    this.close();
+    NavigationsControlStore.close();
   }
 
   isSelected(option) {
     return this.selected === option.key;
   }
 
-  open() {
-    this.setState({
-      open: true
-    });
-  }
-
-  close() {
-    this.setState({
-      open: false
-    });
-  }
-
   render() {
     var style = {};
     var clickCatcher = (<span />);
 
-    if (this.state.open) {
+    if (NavigationsControlStore.getObject().open) {
       style.width = '300px';
-
-      clickCatcher = (<div className="click" onClick={this.close.bind(this)} />);
+      clickCatcher = (<div className="click" onClick={NavigationsControlStore.close.bind(NavigationsControlStore)} />);
     }
 
     return (
-      <div style={{position: 'relative'}}>
-        <div onClick={this.open.bind(this)}>Images</div>
+      <div>
         {clickCatcher}
         <div className="panel left" style={style}>
-          <div onClick={this.close.bind(this)} className="title">Images</div>
+          <div onClick={NavigationsControlStore.close.bind(NavigationsControlStore)} className="title">Images</div>
           <div style={{clear:'both'}} />
           <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
+          <div className="footer">
+            PIN
+          </div>
         </div>
       </div>);
   }

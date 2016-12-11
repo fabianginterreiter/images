@@ -56,6 +56,13 @@ nav {
   .title {
     padding: 10px;
   }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .menu {
@@ -70,7 +77,7 @@ nav {
   border-color: $borderColor;
   border-radius: 3px;
   color: #666;
-  max-height:100%;
+  max-height:90%;
   overflow: scroll;
   transition: 0.3s;
   height: 0;
@@ -397,6 +404,7 @@ input[type=range] {
   color: $color;
   font-size: 0.8em;
   padding: 3px;
+  user-select: none;
 }
 
 .button:hover {

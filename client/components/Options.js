@@ -120,7 +120,7 @@ class Options extends React.Component {
     var clickCatcher = (<span />);
 
     if (this.state.visible) {
-      style.height = 'auto';
+      style.height = '400px';
       clickCatcher = (<div className="click" onClick={this.close.bind(this)} />);
     }
 

@@ -58,19 +58,23 @@ describe('API', function() {
         "size":263388};
 
       upload(file, path).then(function(result) {
+        
         assert.equal('IMG_4351.jpg', result.filename);
         assert.equal(263388, result.size);
         assert.equal(600, result.width);
         assert.equal(400, result.height);
 
-        assert.equal('2016/9/1.jpg', result.path);
+        assert.equal('2016/9/IMG_4351.jpg', result.path);
 
         var stats = fs.statSync(config.getImagesPath() + '/' + result.path);
+
         assert.equal(263388, stats.size);
         stats = fs.statSync(config.getThumbnailPath() + '/' + result.path);
         assert.equal(15499, stats.size);
 
         assert.equal(true, fs.existsSync(config.getPreviewPath() + '/' + result.path));
+
+        assert.equal(false, fs.existsSync('test/3064de21f8ff5226705f390d6ff4f324.jpg'));
 
         id = result.id;
 

@@ -200,6 +200,10 @@ class Images extends React.Component {
   }
 
   render() {
+    if (this.state.images.length === 0) {
+      return (<div id="container">Leer</div>);
+    }
+    
     var view = (<span></span>);
 
     if (this.state.view >= 0) {

@@ -249,10 +249,12 @@ class Images extends React.Component {
         className += ' selected';
       }
 
+      var checkBoxClass = image.selected ? "icon-check" : "icon-check-empty";
+
       elements.push(
         <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
           <Image image={image} style={style} />
-          <div className="select" onClick={this.handleSelect.bind(this, image)}>☑</div>
+          <div className="select" onClick={this.handleSelect.bind(this, image)}><i className={checkBoxClass}></i></div>
           <div className="mark" />
         </div>);
     }.bind(this));

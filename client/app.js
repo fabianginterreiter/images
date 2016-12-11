@@ -48,7 +48,7 @@ class ImgApp extends React.Component {
         <div style={contentStyle} className="content">
           <header>
             <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
-              IMG
+              <i className="icon-camera-retro icon-large"></i> Images
             </div>
 
             <nav>

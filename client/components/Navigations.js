@@ -78,7 +78,7 @@ class Navigations extends React.Component {
         {clickCatcher}
         <div className="panel left" style={style}>
           <div className="title">
-            <span onClick={NavigationsState.close.bind(NavigationsState)}>Images</span>
+            <span onClick={NavigationsState.close.bind(NavigationsState)}><i className="icon-camera-retro icon-large"></i> Images</span>
             <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin"></i></div>
           </div>
           <div style={{clear:'both'}} />

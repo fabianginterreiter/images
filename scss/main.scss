@@ -1,3 +1,4 @@
+$color: #666;
 $borderColor: #e9e9e9;
 $selectedBackgroundColor: #e7f4fd;
 $selectedColor: #108ee9;
@@ -387,6 +388,25 @@ input[type=range] {
 .options {
   user-select: none;
   cursor: pointer;
+}
+
+.button {
+  border: 1px solid $borderColor;
+  border-radius: 3px;
+  background-color: white;
+  color: $color;
+  font-size: 0.8em;
+  padding: 3px;
+}
+
+.button:hover {
+  background-color: $hoverBackgroundColor;
+  cursor: pointer;
+}
+
+.button:active {
+  background-color: $selectedBackgroundColor;
+  color: $selectedColor;
 }
 
 @media only screen and (max-width: 500px) {

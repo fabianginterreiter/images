@@ -18,8 +18,8 @@ class Upload extends React.Component {
   render() {
     return (
       <span>
-        <input type="file" name="images" multiple="multiple" id="fileSelect" style={{visibility:'hidden'}} onChange={this.handleFileSelect.bind(this)} />
-        <button onClick={this.handleClick.bind(this)}>Upload</button>
+        <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
+        <span onClick={this.handleClick.bind(this)} className="button">Upload</span>
       </span>
     );
   }

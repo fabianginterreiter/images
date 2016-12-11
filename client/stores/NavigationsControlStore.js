@@ -1,21 +1,24 @@
-var Dispatcher = require('./Dispatcher');
+var State = require('../states/State');
 
 var cookie = require('react-cookie');
 
-class NavigationsControlStore extends Dispatcher {
+class NavigationsControlStore extends State {
   constructor() {
     var c = cookie.load('thumbnailsSize');
-    super({open:false});
+    super({
+      open:false,
+      pinned: true
+    });
   }
 
   open() {
-    super.setObject({
-      open:true
+    this.setState({
+      open: true
     });
   }
 
   close() {
-    super.setObject({
+    this.setState({
       open:false
     });
   }

@@ -4,8 +4,6 @@ var assert = require('assert');
 
 var sinon = require('sinon');
 
-var upload = require('../server/lib/Upload');
-
 var tmp = require('tmp');
 
 var bookshelf = require('../server/model/bookshelf');
@@ -59,7 +57,7 @@ describe('API', function() {
         "path":"test/3064de21f8ff5226705f390d6ff4f324.jpg",
         "size":263388};
 
-      upload(file, path).then(function(result) {
+      ImagesController.create(file).then(function(result) {
         
         assert.equal('IMG_4351.jpg', result.filename);
         assert.equal(263388, result.size);
@@ -119,7 +117,7 @@ describe('API', function() {
 
   describe('Delete Image', function() {
     it ('should delete the image', function(done) {
-      require('../server/lib/DeleteImage')(id, path).then(function(result) {
+      ImagesController.destroy(id).then(function(result) {
         assert.equal(id, result.id);
 
         assert.equal(false, fs.existsSync(path + '/images/' + result.path));

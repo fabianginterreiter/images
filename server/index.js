@@ -1,31 +1,15 @@
 var express = require('express');
 var fs = require('fs-extra');
 var app = express();
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
-var uploads = require('./lib/Upload');
 
 
-var DeleteImage = require('./lib/DeleteImage');
 var moment = require('moment');
 
 var bookshelf = require('./model/bookshelf');
 
 var config = require('./config');
 
-app.post('/api/upload', upload.single('image'), function(req, res) {
-  uploads(req.file, 'data').then(function(result) {
-    res.send(result);
-  }).catch(function(err) {
-    res.send(err);
-  })
-});
-
 app.use('/api/images', require('./routes/images'));
-
-app.delete('/api/images/:id', function(req, res) {
-  DeleteImage(req.params.id).then((result) => (res.send(result))).catch((e) => (res.status(404).send('Fehler')));
-});
 
 app.get('/api/options', function(req, res) {
   res.send([{

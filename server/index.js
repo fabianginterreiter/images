@@ -5,7 +5,7 @@ var multer  = require('multer')
 var upload = multer({ dest: 'uploads/' })
 var uploads = require('./lib/Upload');
 
-var GetImages = require('./lib/GetImages');
+
 var DeleteImage = require('./lib/DeleteImage');
 var moment = require('moment');
 
@@ -21,13 +21,7 @@ app.post('/api/upload', upload.single('image'), function(req, res) {
   })
 });
 
-app.get('/api/images', function(req, res) {
-  GetImages(req.query).then(function(images) {
-    res.send(images);
-  }).catch(function(e) {
-    res.status(404).send('Fehler');
-  });
-});
+app.use('/api/images', require('./routes/images'));
 
 app.delete('/api/images/:id', function(req, res) {
   DeleteImage(req.params.id).then((result) => (res.send(result))).catch((e) => (res.status(404).send('Fehler')));

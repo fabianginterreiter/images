@@ -17,6 +17,8 @@ var id = null;
 
 var config = require('../server/config');
 
+var ImagesController = require('../server/controllers/ImagesController');
+
 describe('API', function() {
   before(function(done) {
     fs.copySync('test/IMG_4351.jpg', 'test/3064de21f8ff5226705f390d6ff4f324.jpg');
@@ -87,7 +89,7 @@ describe('API', function() {
 
   describe('Load Images', function() {
     it('should return the json', function(done) {
-      require('../server/lib/GetImages')().then(function(images) {
+      ImagesController.index().then(function(images) {
         assert.equal(1, images.length);
 
         var image = images[0];
@@ -133,7 +135,7 @@ describe('API', function() {
 
   describe('Check after deleting', function() {
     it ('should return nothing', function(done) {
-      require('../server/lib/GetImages')().then(function(images) {
+      ImagesController.index().then(function(images) {
         assert.equal(0, images.length);
         done();
       });

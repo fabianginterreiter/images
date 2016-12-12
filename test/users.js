@@ -8,7 +8,7 @@ var id2 = 0;
 describe('Test User Management', function() {
   describe('Test Creating User', function() {
     it('Should Create new User', function(done) {
-      controller.create('Fabian').then(function(user) {
+      controller.create({name:'Fabian'}).then(function(user) {
         assert.equal('Fabian', user.name);
         assert.equal(true, user.id > 0);
         id1 = user.id;
@@ -29,7 +29,7 @@ describe('Test User Management', function() {
 
   describe('Test Creating User', function() {
     it('Should Create new User', function(done) {
-      controller.create('Marius').then(function(user) {
+      controller.create({name:'Marius'}).then(function(user) {
         assert.equal('Marius', user.name);
         assert.equal(true, user.id > 0);
         id2 = user.id;

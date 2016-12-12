@@ -3,9 +3,9 @@
 var User = require('../model/User');
 
 class UserController {
-  create(name) {
+  create(object) {
     return new User({
-      name: name
+      name: object.name
     }).save().then((result) => (result.toJSON()));
   }
 

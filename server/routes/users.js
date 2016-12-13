@@ -3,9 +3,6 @@ const passport = require('passport');
 const UsersController = require('../controllers/UsersController');
 const router = express.Router();
 
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
-
 router.get('/', (req, res) => {
   new UsersController(req).index().then((users) => (res.send(users))).catch(function(e) {
     res.status(404).send('Fehler');

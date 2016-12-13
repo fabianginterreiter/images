@@ -2,28 +2,30 @@
 
 var User = require('../model/User');
 
-class UserController {
-  create(object) {
+var BaseController = require('./BaseController');
+
+class UserController extends BaseController {
+  create() {
     return new User({
-      name: object.name
+      name: this.body.name
     }).save().then((result) => (result.toJSON()));
   }
 
-  get(id) {
-    return new User({id:id}).fetch().then((result) => (result.toJSON()));
+  get() {
+    return new User({id:this.params.id}).fetch().then((result) => (result.toJSON()));
   }
 
   index() {
     return User.fetchAll().then((result) => (result.toJSON()));
   }
 
-  destroy(id) {
-    return new User({id:id}).fetch().then(function(result) {
-      return new User({id:id}).destroy().then(function() {
+  destroy() {
+    return new User({id:this.params.id}).fetch().then(function(result) {
+      return new User({id:this.params.id}).destroy().then(function() {
         return result.toJSON();
       });
-    });
+    }.bind(this));
   }
 }
 
-module.exports = new UserController();
+module.exports = UserController;

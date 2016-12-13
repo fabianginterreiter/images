@@ -7,13 +7,14 @@ var config = require('../config');
 var ImageInfo = require('../lib/ImageInfo');
 var CopyImageFile = require('../lib/CopyImageFile');
 var ResizeImage = require('../lib/ResizeImage');
+var BaseController = require('./BaseController');
 
-class ImagesController {
-  create(file) {
-    return ImageInfo(file.path).then(function(info) {
+class ImagesController extends BaseController {
+  create() {
+    return ImageInfo(this.file.path).then(function(info) {
       var result = {
-        filename: file.originalname, 
-        size: file.size
+        filename: this.file.originalname, 
+        size: this.file.size
       };
 
       result.width = info.width;
@@ -24,8 +25,8 @@ class ImagesController {
       result.month = result.date.getMonth() + 1;
       result.day = result.date.getDate();
 
-      return CopyImageFile(file.path, result);
-    }).then(function(result) {
+      return CopyImageFile(this.file.path, result);
+    }.bind(this)).then(function(result) {
       return ResizeImage(result, config.getThumbnailPath(), 1000, 200);
     }).then(function(result) {
       return ResizeImage(result, config.getPreviewPath(), 2000, 2000);
@@ -34,37 +35,34 @@ class ImagesController {
     }).then((result) => (result.toJSON()));
   }
 
-  get(id) {
-    return new Image({id:id}).fetch().then((image) => (image.toJSON()));
+  get() {
+    return new Image({id:this.params.id}).fetch().then((image) => (image.toJSON()));
   }
 
-  index(params) {
-    if (!params) {
-      params = [];
-    }
-
+  index() {
     return Image.query(function(qb) {
       var where = {};
 
-      if (params.year) {
-        where.year = params.year;
+      if (this.query.year) {
+        where.year = this.query.year;
       }
 
-      if (params.month) {
-        where.month = params.month;
+      if (this.query.month) {
+        where.month = this.query.month;
       }
 
-      if (params.day) {
-        where.day = params.day;
+      if (this.query.day) {
+        where.day = this.query.day;
       }
 
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }).fetchAll().then((images) => (images.toJSON()));
+    }.bind(this)).fetchAll().then((images) => (images.toJSON()));
   }
 
-  destroy(id) {
+  destroy() {
+    var id = this.params.id;
     return new Promise(function(resolve, reject) {
       new Image({'id': id}).fetch()
       .then(function(image) {
@@ -94,4 +92,4 @@ class ImagesController {
   }
 }
 
-module.exports = new ImagesController();
+module.exports = ImagesController;

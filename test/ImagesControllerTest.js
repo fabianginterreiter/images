@@ -57,7 +57,9 @@ describe('API', function() {
         "path":"test/3064de21f8ff5226705f390d6ff4f324.jpg",
         "size":263388};
 
-      ImagesController.create(file).then(function(result) {
+      new ImagesController({
+        file:file
+      }).create().then(function(result) {
         
         assert.equal('IMG_4351.jpg', result.filename);
         assert.equal(263388, result.size);
@@ -87,7 +89,7 @@ describe('API', function() {
 
   describe('Load Images', function() {
     it('should return the json', function(done) {
-      ImagesController.index().then(function(images) {
+      new ImagesController({}).index().then(function(images) {
         assert.equal(1, images.length);
 
         var image = images[0];
@@ -117,7 +119,11 @@ describe('API', function() {
 
   describe('Delete Image', function() {
     it ('should delete the image', function(done) {
-      ImagesController.destroy(id).then(function(result) {
+      new ImagesController({
+        params: {
+          id:id
+        }
+      }).destroy().then(function(result) {
         assert.equal(id, result.id);
 
         assert.equal(false, fs.existsSync(path + '/images/' + result.path));
@@ -133,7 +139,7 @@ describe('API', function() {
 
   describe('Check after deleting', function() {
     it ('should return nothing', function(done) {
-      ImagesController.index().then(function(images) {
+      new ImagesController({}).index().then(function(images) {
         assert.equal(0, images.length);
         done();
       });

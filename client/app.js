@@ -5,21 +5,55 @@ var Images = require('./components/Images');
 
 var Navigations = require('./components/Navigations');
 
-
 var Uploader = require('./components/Uploader');
 var DragAndDropUpload = require('./components/DragAndDropUpload');
 var ImagesStore = require('./stores/ImagesStore');
 var Header = require('./components/Header');
 
+var UsersManagement = require('./components/UsersManagement');
+
 var NavigationsState = require('./states/NavigationsState');
+var UserState = require('./states/UserState');
 
 class ImgApp extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      user: null
+    };
+  }
+
+  handleUserChange() {
+    console.log("change of user!");
+
+    this.setState({
+      user: UserState.getUser()
+    });
   }
 
   componentDidMount() {
+    UserState.addChangeListener(this.handleUserChange.bind(this));
     NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
+
+    console.log("mounting");
+
+    fetch('/api/session',
+    {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cache': 'no-cache'
+      },
+      credentials: 'include'
+    }).then(function(response) {
+      console.log(response);
+      return response.json();
+    }).then(function(user) {
+        console.log("se user!");
+        UserState.setUser(user);
+    }.bind(this));
 
     fetch('/api/images', {
       accept: 'application/json',
@@ -35,6 +69,10 @@ class ImgApp extends React.Component {
   }
 
   render() {
+    if (!this.state.user) {
+      return (<UsersManagement />);
+    }
+
     var contentClass = 'content';
       
     if (NavigationsState.getObject().pinned) {

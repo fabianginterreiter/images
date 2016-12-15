@@ -1,10 +1,22 @@
-var express = require('express');
 var fs = require('fs-extra');
-var app = express();
-
+var bodyParser = require('body-parser');
 var bookshelf = require('./model/bookshelf');
 var config = require('./config');
 
+var express = require('express');
+var cookieSession = require('cookie-session')
+
+var app = express();
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2'],
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+
+app.use(bodyParser.json());
+
+app.use('/api/session', require('./routes/session'));
 app.use('/api/images', require('./routes/images'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/options', require('./routes/options'));

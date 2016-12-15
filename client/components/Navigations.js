@@ -5,6 +5,7 @@ var OptionsList = require('./OptionsList');
 
 var ImagesStore = require('../stores/ImagesStore');
 var NavigationsState = require('../states/NavigationsState');
+var UserState = require('../states/UserState');
 
 class Navigations extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Navigations extends React.Component {
   }
 
   componentDidMount() {
-    NavigationsState.addChangeListener(function() {
+    this.i = NavigationsState.addChangeListener(function() {
       this.forceUpdate();
     }.bind(this));
 
@@ -46,6 +47,10 @@ class Navigations extends React.Component {
     }.bind(this));
   }
 
+  componentWillUnmount() {
+    NavigationsState.removeChangeListener(this.i);
+  }
+
   handleClick(option) {
     ImagesStore.load(option.service);
     this.selected = option.key;
@@ -54,6 +59,11 @@ class Navigations extends React.Component {
 
   isSelected(option) {
     return this.selected === option.key;
+  }
+
+  handleChangeUser() {
+    UserState.clear();
+    NavigationsState.close();
   }
 
   render() {
@@ -84,6 +94,7 @@ class Navigations extends React.Component {
           <div style={{clear:'both'}} />
           <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
           <div className="footer">
+            <div className="profile" onClick={this.handleChangeUser.bind(this)}><i className="icon-user"></i> {UserState.getUser().name}</div>
           </div>
         </div>
       </div>);

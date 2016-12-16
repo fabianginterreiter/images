@@ -25,23 +25,44 @@ class ImgApp extends React.Component {
   }
 
   handleUserChange() {
-    console.log("change of user!");
+
+    var user = UserState.getUser();
+
+    console.log("Set User to: " + (user ? user.name : 'null'));
 
     this.setState({
-      user: UserState.getUser()
+      user: user
     });
+
+    if (user) {
+      fetch('/api/images').then(function(response) {
+        return response.json();
+      }).then(function(images) {
+        ImagesStore.setObject(images);
+      }.bind(this));
+    }
   }
 
   componentDidMount() {
     UserState.addChangeListener(this.handleUserChange.bind(this));
     NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
 
-    console.log("mounting");
-
-    fetch('/api/images').then(function(response) {
-      return response.json();
-    }).then(function(images) {
-      ImagesStore.setObject(images);
+    fetch('/api/session', {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cache': 'no-cache'
+      },
+      credentials: 'include'
+    }).then(function(response) {
+      if (response.status === 200) {
+        return response.json();  
+      } else {
+        return null;
+      }
+    }).then(function(user) {
+      UserState.setUser(user);
     }.bind(this));
   }
 

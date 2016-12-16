@@ -5,12 +5,6 @@ var $ = require("jquery");
 class ImagesStore extends Dispatcher {
   constructor() {
     super([]);
-
-    fetch('/api/images').then(function(response) {
-      return response.json();
-    }).then(function(images) {
-      this.setObject(images);
-    }.bind(this));
   }
 
   getSelected() {

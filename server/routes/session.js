@@ -7,7 +7,7 @@ var User = require('../model/User');
 
 router.get('/', function(req, res) {
   if (!req.session.user) {
-    return res.send(null);
+    return res.status(401);
   }
 
   new User({id:req.session.user}).fetch().then((user) => (res.send(user.toJSON())));

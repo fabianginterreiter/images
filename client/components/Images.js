@@ -47,7 +47,7 @@ class Images extends React.Component {
 
   componentDidMount() {
     ImagesStore.addChangeListener(this.updateImages.bind(this));
-    ThumbnailsSizeStore.addChangeListener((size) => (this.setState({size:size})));
+    this.thSizId = ThumbnailsSizeStore.addChangeListener((size) => (this.setState({size:size})));
     NavigationsState.addChangeListener(this.handlePinningNavigation.bind(this));
 
     $(document).keyup(this.handleKeyUp.bind(this));
@@ -60,6 +60,7 @@ class Images extends React.Component {
   }
 
   componentWillUnmount() {
+    ThumbnailsSizeStore.removeChangeListener(this.thSizId);
     $(document).unbind('keyup', this.handleKeyUp.bind(this));
     window.removeEventListener('resize', this.handleResize.bind(this), true);
   }

@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
           key: 'date' + year,
           type: 'action',
           service: '/api/images?year=' + year,
+          link: '/images/dates/' + year,
           name: year,
           options: months
         });
@@ -32,7 +33,8 @@ router.get('/', (req, res) => {
         key: 'date' + year + date.month,
         type: 'action',
         name: moment().month(date.month - 1).format("MMMM"),
-        service: '/api/images?year=' + year + '&month=' + date.month
+        service: '/api/images?year=' + year + '&month=' + date.month,
+        link: '/images/dates/' + year + '/' + date.month
       })
     });
 
@@ -40,6 +42,7 @@ router.get('/', (req, res) => {
       key: 'date' + year,
       type: 'action',
       service: '/api/images?year=' + year,
+      link: '/images/dates/' + year,
       name: year,
       options: months
     });

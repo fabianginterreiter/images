@@ -28,6 +28,23 @@ class Images extends React.Component {
     this.setState({images:images})
   }
 
+  componentWillReceiveProps(nextProps) {
+    let routeParams = nextProps.routeParams;
+    if (routeParams) {
+      if (routeParams.year) {
+        if (routeParams.month) {
+          if (routeParams.day) {
+            return ImagesStore.load('/api/images?year=' + routeParams.year + '&month=' + routeParams.month + '&day=' + routeParams.day);
+          }
+          return ImagesStore.load('/api/images?year=' + routeParams.year + '&month=' + routeParams.month);
+        }
+        return ImagesStore.load('/api/images?year=' + routeParams.year);
+      }
+    }
+
+    return ImagesStore.load('/api/images');
+  }
+
   componentDidMount() {
     ImagesStore.addChangeListener(this.updateImages.bind(this));
     ThumbnailsSizeStore.addChangeListener((size) => (this.setState({size:size})));
@@ -38,6 +55,8 @@ class Images extends React.Component {
     this.width = document.getElementById('container').clientWidth;
 
     window.addEventListener('resize', this.handleResize.bind(this), true);
+
+    this.componentWillReceiveProps(this.props);
   }
 
   componentWillUnmount() {
@@ -225,6 +244,8 @@ class Images extends React.Component {
 
   loadFromDate(year, month, day) {
     ImagesStore.load('/api/images?year=' + year + '&month=' + month + '&day=' + day);
+    var history = require('react-router').hashHistory;
+    history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
 
   render() {

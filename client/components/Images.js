@@ -40,10 +40,20 @@ class Images extends React.Component {
     window.addEventListener('resize', this.handleResize.bind(this), true);
   }
 
+  componentWillUnmount() {
+    $(document).unbind('keyup', this.handleKeyUp.bind(this));
+    window.removeEventListener('resize', this.handleResize.bind(this), true);
+  }
+
   handlePinningNavigation() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(function() {
-      var width = document.getElementById('container').clientWidth;
+      var container = document.getElementById('container');
+      if (!container) {
+        return;
+      }
+
+      var width = container.clientWidth;
 
       if (width !== this.width) {
         this.width = width;
@@ -55,17 +65,17 @@ class Images extends React.Component {
   handleResize() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(function() {
-      var width = document.getElementById('container').clientWidth;
+      var container = document.getElementById('container');
+      if (!container) {
+        return;
+      }
+      var width = container.clientWidth;
 
       if (width !== this.width) {
         this.width = width;
         this.forceUpdate();  
       }
     }.bind(this), 100);
-  }
-
-  componentWillUnmount() {
-    $(document).unbind('keyup', this.handleKeyUp.bind(this));
   }
 
   handleKeyUp(e) {

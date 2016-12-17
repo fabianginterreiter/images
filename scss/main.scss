@@ -105,7 +105,17 @@ header {
     bottom: 0;
     left: 0;
     right: 0;
+    border-top: 1px solid $borderColor;
   }
+}
+
+.profile {
+  padding: 10px;
+}
+
+.profile:hover {
+  color: $selectedColor;
+  cursor: pointer;
 }
 
 .menu {
@@ -452,6 +462,29 @@ input[type=range] {
 .button:active {
   background-color: $selectedBackgroundColor;
   color: $selectedColor;
+}
+
+.users {
+  background-color: white;
+  text-align: center;
+
+  .list {
+    padding: 0;
+    margin: 0 auto;
+
+    >div {
+      display: inline-block;      
+      margin: 5px;
+      padding: 10px;
+    }
+
+    >div:hover {
+      color: $selectedColor;
+      cursor: pointer;
+    }
+  }
+
+
 }
 
 @media only screen and (max-width: 500px) {

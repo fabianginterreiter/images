@@ -60,7 +60,7 @@ class UploadStore extends Dispatcher {
 
     //var formData = new FormData($('form')[0]);
     $.ajax({
-      url: '/api/upload',  //Server script to process data
+      url: '/api/images',  //Server script to process data
       type: 'POST',
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();

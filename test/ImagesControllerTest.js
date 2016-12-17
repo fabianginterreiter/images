@@ -4,8 +4,6 @@ var assert = require('assert');
 
 var sinon = require('sinon');
 
-var upload = require('../server/lib/Upload');
-
 var tmp = require('tmp');
 
 var bookshelf = require('../server/model/bookshelf');
@@ -14,8 +12,12 @@ var Image = require('../server/model/Image');
 var path = null;
 
 var id = null;
+var user_id = null;
 
 var config = require('../server/config');
+
+var ImagesController = require('../server/controllers/ImagesController');
+var UsersController = require('../server/controllers/UsersController.js');
 
 describe('API', function() {
   before(function(done) {
@@ -57,12 +59,20 @@ describe('API', function() {
         "path":"test/3064de21f8ff5226705f390d6ff4f324.jpg",
         "size":263388};
 
-      upload(file, path).then(function(result) {
-        
+      new UsersController({
+        body:{name:'Fabian'}
+      }).create().then(function(user) {
+        user_id = user.id;
+        return new ImagesController({
+          file:file,
+          session:{user:user.id}
+        }).create()
+      }).then(function(result) {
         assert.equal('IMG_4351.jpg', result.filename);
         assert.equal(263388, result.size);
         assert.equal(600, result.width);
         assert.equal(400, result.height);
+        assert.equal(user_id, result.user_id);
 
         assert.equal('2016/9/IMG_4351.jpg', result.path);
 
@@ -79,18 +89,19 @@ describe('API', function() {
         id = result.id;
 
         done();        
-      }).catch(function(e) {
-        throw new Error(e);
       });
     });
   });
 
   describe('Load Images', function() {
     it('should return the json', function(done) {
-      require('../server/lib/GetImages')().then(function(images) {
+      new ImagesController({}).index().then(function(images) {
         assert.equal(1, images.length);
 
         var image = images[0];
+
+        assert.equal(user_id, image.user_id);
+        assert.equal('Fabian', image.user.name);
 
         assert.equal('IMG_4351.jpg', image.filename);
         assert.equal(263388, image.size);
@@ -117,7 +128,11 @@ describe('API', function() {
 
   describe('Delete Image', function() {
     it ('should delete the image', function(done) {
-      require('../server/lib/DeleteImage')(id, path).then(function(result) {
+      new ImagesController({
+        params: {
+          id:id
+        }
+      }).destroy().then(function(result) {
         assert.equal(id, result.id);
 
         assert.equal(false, fs.existsSync(path + '/images/' + result.path));
@@ -133,10 +148,18 @@ describe('API', function() {
 
   describe('Check after deleting', function() {
     it ('should return nothing', function(done) {
-      require('../server/lib/GetImages')().then(function(images) {
+      new ImagesController({}).index().then(function(images) {
         assert.equal(0, images.length);
         done();
       });
     });
+  });
+
+  after(function(done) {
+    new UsersController({
+        params: { id:user_id}
+      }).destroy().then(function() {
+      done();
+    })
   });
 });

@@ -13,8 +13,8 @@ var Images = require('./components/Images');
 
 ReactDOM.render(
   <Router history={hashHistory}>
-    <Route path="/" components={ImagesApp}>
-      <Route path="images">
+    <Route path="/">
+      <Route path="images" components={ImagesApp}>
         <Route path="dates/:year/:month/:day" component={Images} />
         <Route path="dates/:year/:month" component={Images} />
         <Route path="dates/:year" component={Images} />

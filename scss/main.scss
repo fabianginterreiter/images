@@ -74,6 +74,14 @@ header {
   color: $selectedColor;
 }
 
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
 .panel {
   position: fixed;
   top: 0;
@@ -90,14 +98,6 @@ header {
 
   .title {
     padding: 10px;
-
-    .badge {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 8px;
-      cursor: pointer;
-    }
   }
 
   .footer {
@@ -282,6 +282,7 @@ ul.options {
     font-size: 14px;
     user-select: none;
     text-align: left;
+    position: relative;
   }
 
   >li:hover {
@@ -301,6 +302,7 @@ ul.options {
 
   >li.action {
     padding: 10px 15px;
+    cursor: pointer;
   }
 
   >.divider {

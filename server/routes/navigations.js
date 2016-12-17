@@ -19,7 +19,8 @@ router.get('/', (req, res) => {
       if (year !== date.year) {
         years.push({
           key: 'date' + year,
-          type: 'menu',
+          type: 'action',
+          service: '/api/images?year=' + year,
           name: year,
           options: months
         });
@@ -36,8 +37,9 @@ router.get('/', (req, res) => {
     });
 
     years.push({
-      key: 'send',
-      type: 'menu',
+      key: 'date' + year,
+      type: 'action',
+      service: '/api/images?year=' + year,
       name: year,
       options: months
     });

@@ -25,6 +25,8 @@ class ImagesController extends BaseController {
       result.month = result.date.getMonth() + 1;
       result.day = result.date.getDate();
 
+      result.user_id = this.session.user;
+
       return CopyImageFile(this.file.path, result);
     }.bind(this)).then(function(result) {
       return ResizeImage(result, config.getThumbnailPath(), 1000, 200);
@@ -36,7 +38,7 @@ class ImagesController extends BaseController {
   }
 
   get() {
-    return new Image({id:this.params.id}).fetch().then((image) => (image.toJSON()));
+    return new Image({id:this.params.id}).fetch({withRelated: ['user']}).then((image) => (image.toJSON()));
   }
 
   index() {
@@ -58,13 +60,13 @@ class ImagesController extends BaseController {
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }.bind(this)).fetchAll().then((images) => (images.toJSON()));
+    }.bind(this)).fetchAll({withRelated: ['user']}).then((images) => (images.toJSON()));
   }
 
   destroy() {
     var id = this.params.id;
     return new Promise(function(resolve, reject) {
-      new Image({'id': id}).fetch()
+      new Image({'id': id}).fetch({withRelated: ['user']})
       .then(function(image) {
         return new Image({'id': id}).destroy().then(function() {
           fs.unlink(config.getImagesPath() + '/' + image.get('path'), function(err) {

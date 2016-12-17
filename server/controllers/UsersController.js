@@ -6,7 +6,6 @@ var BaseController = require('./BaseController');
 
 class UserController extends BaseController {
   create() {
-    console.log(this.body);
     return new User({
       name: this.body.name
     }).save().then((result) => (result.toJSON()));

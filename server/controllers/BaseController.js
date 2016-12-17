@@ -6,7 +6,8 @@ class BaseController {
     this.file = req.file || null;
     this.files = req.files || [];
     this.query = req.query || [];
-    this.body = req.body || null;
+    this.body = req.body || {};
+    this.session = req.session || {};
   }
 }
 

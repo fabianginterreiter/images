@@ -12,6 +12,7 @@ exports.up = function(knex, Promise) {
       table.integer('month');
       table.integer('day');
       table.string('path');
+      table.integer('user_id').references('users.id');
       table.timestamps();
     })
   ]);

@@ -15,6 +15,13 @@ var UsersManagement = require('./components/UsersManagement');
 var NavigationsState = require('./states/NavigationsState');
 var UserState = require('./states/UserState');
 
+var Router = require('react-router').Router;
+var Route = require('react-router').Route;
+var hashHistory = require('react-router').hashHistory;
+var Redirect = require('react-router').Redirect;
+var IndexRoute = require('react-router').IndexRoute;
+var IndexRedirect = require('react-router').IndexRedirect;
+
 class ImgApp extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +32,6 @@ class ImgApp extends React.Component {
   }
 
   handleUserChange() {
-
     var user = UserState.getUser();
 
     console.log("Set User to: " + (user ? user.name : 'null'));
@@ -33,14 +39,6 @@ class ImgApp extends React.Component {
     this.setState({
       user: user
     });
-
-    if (user) {
-      fetch('/api/images').then(function(response) {
-        return response.json();
-      }).then(function(images) {
-        ImagesStore.setObject(images);
-      }.bind(this));
-    }
   }
 
   componentDidMount() {
@@ -83,11 +81,11 @@ class ImgApp extends React.Component {
     
     return (
       <div>
-        <Navigations />
+        <Navigations location={this.props.location} />
 
         <div className={contentClass}>
           <Header />
-          <Images />
+          {this.props.children}
         </div>
 
         <Uploader />
@@ -98,6 +96,16 @@ class ImgApp extends React.Component {
 };
 
 ReactDOM.render(
-  <ImgApp />,
+  <Router history={hashHistory}>
+    <Route path="/" components={ImgApp}>
+      <Route path="images">
+        <Route path="dates/:year/:month/:day" component={Images} />
+        <Route path="dates/:year/:month" component={Images} />
+        <Route path="dates/:year" component={Images} />
+        <IndexRoute component={Images} />
+      </Route>
+      <IndexRedirect to="/images" />
+    </Route>
+  </Router>,
   document.getElementById('app')
 );

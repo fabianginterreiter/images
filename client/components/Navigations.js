@@ -13,7 +13,6 @@ class Navigations extends React.Component {
     this.state = {
       values: []
     }
-    this.selected = 'all';
   }
 
   componentDidMount() {
@@ -32,7 +31,8 @@ class Navigations extends React.Component {
         key: 'all',
         type: 'action',
         name: 'All',
-        service: '/api/images'
+        service: '/api/images',
+        link: '/images'
       });
 
       navigations.push({
@@ -52,13 +52,14 @@ class Navigations extends React.Component {
   }
 
   handleClick(option) {
-    ImagesStore.load(option.service);
-    this.selected = option.key;
+    var history = require('react-router').hashHistory;
+    history.push(option.link);
+
     NavigationsState.close();
   }
 
   isSelected(option) {
-    return this.selected === option.key;
+    return this.props.location.pathname === option.link;
   }
 
   handleChangeUser() {

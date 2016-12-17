@@ -32,24 +32,7 @@ class ImagesApp extends React.Component {
   componentDidMount() {
     UserState.addChangeListener(this.handleUserChange.bind(this));
     NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
-
-    fetch('/api/session', {
-      method: "GET",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cache': 'no-cache'
-      },
-      credentials: 'include'
-    }).then(function(response) {
-      if (response.status === 200) {
-        return response.json();  
-      } else {
-        return null;
-      }
-    }).then(function(user) {
-      UserState.setUser(user);
-    }.bind(this));
+    UserState.load();
   }
 
   handleNavigationChange() {

@@ -19,25 +19,12 @@ class ImagesApp extends React.Component {
     };
   }
 
-  handleUserChange() {
-    var user = UserState.getUser();
-
-    console.log("Set User to: " + (user ? user.name : 'null'));
+  componentDidMount() {
+    NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
 
     this.setState({
-      user: user
+      user: UserState.getUser()
     });
-
-    if (!user) {
-      var history = require('react-router').hashHistory;
-      history.push('/profiles');
-    }
-  }
-
-  componentDidMount() {
-    UserState.addChangeListener(this.handleUserChange.bind(this));
-    NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
-    UserState.load();
   }
 
   handleNavigationChange() {
@@ -46,7 +33,7 @@ class ImagesApp extends React.Component {
 
   render() {
     if (!this.state.user) {
-      return (<UsersManagement />);
+      return (<div>Not User</div>);
     }
 
     var contentClass = 'content';

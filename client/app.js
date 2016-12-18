@@ -12,9 +12,11 @@ var ImagesApp = require('./components/ImagesApp');
 var Images = require('./components/Images');
 var UsersManagement = require('./components/UsersManagement');
 
+var Init = require('./components/Init');
+
 ReactDOM.render(
   <Router history={hashHistory}>
-    <Route path="/">
+    <Route path="/" component={Init}>
       <Route path="images" components={ImagesApp}>
         <Route path="dates/:year/:month/:day" component={Images} />
         <Route path="dates/:year/:month" component={Images} />
@@ -22,7 +24,6 @@ ReactDOM.render(
         <IndexRoute component={Images} />
       </Route>
       <Route path="profiles" component={UsersManagement} />
-      <IndexRedirect to="/images" />
     </Route>
   </Router>,
   document.getElementById('app')

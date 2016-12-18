@@ -94,7 +94,7 @@ class Fullscreen extends React.Component {
 
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
-        <img src={'images/' + this.props.image.path} alt={this.props.image.filename} />
+        <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename}

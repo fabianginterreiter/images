@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom');
 
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 var Redirect = require('react-router').Redirect;
 var IndexRoute = require('react-router').IndexRoute;
 var IndexRedirect = require('react-router').IndexRedirect;
@@ -15,7 +15,7 @@ var UsersManagement = require('./components/UsersManagement');
 var Init = require('./components/Init');
 
 ReactDOM.render(
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={Init}>
       <Route path="images" components={ImagesApp}>
         <Route path="dates/:year/:month/:day" component={Images} />

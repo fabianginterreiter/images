@@ -52,7 +52,7 @@ class Navigations extends React.Component {
   }
 
   handleClick(option) {
-    var history = require('react-router').hashHistory;
+    var history = require('react-router').browserHistory;
     history.push(option.link);
 
     NavigationsState.close();

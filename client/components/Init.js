@@ -17,10 +17,10 @@ class Init extends React.Component {
         return;
       }
 
-      var history = require('react-router').hashHistory;
+      var history = require('react-router').browserHistory;
       history.push('/images');
     } else {
-      var history = require('react-router').hashHistory;
+      var history = require('react-router').browserHistory;
       history.push('/profiles');
     }
   }

@@ -36,6 +36,9 @@ class UsersManagement extends React.Component {
           'Content-Type': 'application/json'
         }
     }).then((response) => (response.json())).then(function(user) {
+      var users = UsersStore.getObject();
+      users.push(user);
+      UsersStore.setObject(users)
       UserState.setUser(user);
     });
   }

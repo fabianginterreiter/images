@@ -95,7 +95,7 @@ class Fullscreen extends React.Component {
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename}
-          <div onClick={this.toggleMenu.bind(this)} className="options">✕</div>
+          <div onClick={this.toggleMenu.bind(this)} className="options"><i className="icon-reorder" /></div>
         </div>
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />

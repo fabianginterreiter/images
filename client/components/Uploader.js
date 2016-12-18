@@ -16,7 +16,7 @@ class Uploader extends React.Component {
   }
 
   componentWillUnmount() {
-    UploadStore.removeChangelistener(this);
+    UploadStore.removeChangeListener(this);
   }
 
   handleStart() {

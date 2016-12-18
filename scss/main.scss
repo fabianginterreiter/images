@@ -96,6 +96,15 @@ header {
   width: 0;
   max-width: 90%;
 
+  .body {
+    overflow-x: scroll;
+    position: absolute;
+    top: 38px;
+    bottom: 38px;
+    left: 0;
+    right: 0;
+  }
+
   .title {
     padding: 10px;
   }

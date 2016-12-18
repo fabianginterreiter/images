@@ -1,9 +1,6 @@
 var React = require('react');
-
 var OptionsList = require('./OptionsList');
-
 var ImagesStore = require('../stores/ImagesStore');
-
 var $ = require("jquery");
 
 class Fullscreen extends React.Component {

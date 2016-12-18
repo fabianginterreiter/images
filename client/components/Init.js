@@ -2,6 +2,8 @@ var React = require('react');
 
 var UserState = require('../states/UserState');
 
+var history = require('react-router').browserHistory;
+
 class Init extends React.Component {
   constructor(props) {
     super(props);
@@ -16,11 +18,9 @@ class Init extends React.Component {
       if (this.props.location.pathname.startsWith('/images')) {
         return;
       }
-
-      var history = require('react-router').browserHistory;
+      
       history.push('/images');
     } else {
-      var history = require('react-router').browserHistory;
       history.push('/profiles');
     }
   }

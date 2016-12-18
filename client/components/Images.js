@@ -9,6 +9,8 @@ var ImagesStore = require('../stores/ImagesStore');
 var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
 var NavigationsState = require('../states/NavigationsState');
 
+var history = require('react-router').browserHistory;
+
 class Images extends React.Component {
   constructor(props) {
     super(props);
@@ -248,7 +250,7 @@ class Images extends React.Component {
 
   loadFromDate(year, month, day) {
     ImagesStore.load('/api/images?year=' + year + '&month=' + month + '&day=' + day);
-    var history = require('react-router').browserHistory;
+    
     history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
 

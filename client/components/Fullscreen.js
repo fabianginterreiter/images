@@ -1,9 +1,6 @@
 var React = require('react');
-
 var OptionsList = require('./OptionsList');
-
 var ImagesStore = require('../stores/ImagesStore');
-
 var $ = require("jquery");
 
 class Fullscreen extends React.Component {
@@ -94,7 +91,7 @@ class Fullscreen extends React.Component {
 
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
-        <img src={'images/' + this.props.image.path} alt={this.props.image.filename} />
+        <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename}

@@ -2,6 +2,7 @@ var fs = require('fs-extra');
 var bodyParser = require('body-parser');
 var bookshelf = require('./model/bookshelf');
 var config = require('./config');
+const path = require('path');
 
 var express = require('express');
 var cookieSession = require('cookie-session')
@@ -26,6 +27,10 @@ app.use(express.static('public'));
 
 app.use('/thumbs', express.static(config.getThumbnailPath()));
 app.use('/images', express.static(config.getPreviewPath()));
+
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+});
 
 fs.ensureDir(config.getPath(), function(err) {
   if (err) {

@@ -6,6 +6,7 @@ var OptionsList = require('./OptionsList');
 var ImagesStore = require('../stores/ImagesStore');
 var NavigationsState = require('../states/NavigationsState');
 var UserState = require('../states/UserState');
+var history = require('react-router').browserHistory;
 
 class Navigations extends React.Component {
   constructor(props) {
@@ -52,7 +53,6 @@ class Navigations extends React.Component {
   }
 
   handleClick(option) {
-    var history = require('react-router').hashHistory;
     history.push(option.link);
 
     NavigationsState.close();

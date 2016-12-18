@@ -47,7 +47,7 @@ class Image extends React.Component {
         <div style={this.props.style} className="preloaded" ref="child" />
       );
     }
-     return (<img src={'thumbs/' + this.props.image.path} alt={this.props.image.filename} style={this.props.style} />);
+     return (<img src={'/thumbs/' + this.props.image.path} alt={this.props.image.filename} style={this.props.style} />);
   }
 }
 

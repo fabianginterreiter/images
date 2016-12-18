@@ -13,18 +13,10 @@ var Navigations = require('./Navigations');
 class ImagesApp extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      user: null
-    };
   }
 
   componentDidMount() {
     NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
-
-    this.setState({
-      user: UserState.getUser()
-    });
   }
 
   handleNavigationChange() {
@@ -32,7 +24,7 @@ class ImagesApp extends React.Component {
   }
 
   render() {
-    if (!this.state.user) {
+    if (!UserState.getUser()) {
       return (<div>Not User</div>);
     }
 

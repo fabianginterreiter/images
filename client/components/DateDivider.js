@@ -6,7 +6,7 @@ class DateDivider extends React.Component {
     var date = moment(this.props.date);
     
     return (
-      <span onClick={this.props.onClick}>{date.format('DD MMM YYYY')}</span>
+      <span onClick={this.props.onClick} className="dateText">{date.format('DD MMM YYYY')}</span>
     );
   }
 }

@@ -26,13 +26,17 @@ class Init extends React.Component {
   }
 
   componentDidMount() {
-    UserState.addChangeListener(this.handleUserChange.bind(this));
+    UserState.addChangeListener(this, this.handleUserChange.bind(this));
 
     UserState.load().then(function() {
       this.setState({
         initializing: false
       });
     }.bind(this));
+  }
+
+  componentWillUnmount() {
+    UserState.removeChangeListener(this);
   }
 
   render() {

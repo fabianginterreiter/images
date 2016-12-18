@@ -13,7 +13,11 @@ class ThumbnailsResizer extends React.Component {
   }
 
   componentDidMount() {
-    ThumbnailsSizeStore.addChangeListener((size) => (this.setState({size:size})));
+    ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size:size})));
+  }
+
+  componentWillUnmount() {
+    ThumbnailsSizeStore.removeChangeListener(this);
   }
 
   handleChange(event) {

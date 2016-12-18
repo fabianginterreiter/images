@@ -16,7 +16,7 @@ class Navigations extends React.Component {
   }
 
   componentDidMount() {
-    this.i = NavigationsState.addChangeListener(function() {
+    NavigationsState.addChangeListener(this, function() {
       this.forceUpdate();
     }.bind(this));
 
@@ -48,7 +48,7 @@ class Navigations extends React.Component {
   }
 
   componentWillUnmount() {
-    NavigationsState.removeChangeListener(this.i);
+    NavigationsState.removeChangeListener(this);
   }
 
   handleClick(option) {

@@ -16,7 +16,11 @@ class ImagesApp extends React.Component {
   }
 
   componentDidMount() {
-    NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
+    NavigationsState.addChangeListener(this, this.handleNavigationChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    NavigationsState.removeChangeListener(this);
   }
 
   handleNavigationChange() {

@@ -16,7 +16,7 @@ class Navigations extends React.Component {
   }
 
   componentDidMount() {
-    this.i = NavigationsState.addChangeListener(function() {
+    NavigationsState.addChangeListener(this, function() {
       this.forceUpdate();
     }.bind(this));
 
@@ -48,7 +48,7 @@ class Navigations extends React.Component {
   }
 
   componentWillUnmount() {
-    NavigationsState.removeChangeListener(this.i);
+    NavigationsState.removeChangeListener(this);
   }
 
   handleClick(option) {
@@ -93,7 +93,9 @@ class Navigations extends React.Component {
             <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin icon-large"></i></div>
           </div>
           <div style={{clear:'both'}} />
-          <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
+          <div className="body">
+            <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
+          </div>
           <div className="footer">
             <div className="profile" onClick={this.handleChangeUser.bind(this)}><i className="icon-user"></i> {UserState.getUser().name}</div>
           </div>

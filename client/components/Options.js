@@ -29,7 +29,7 @@ class Options extends React.Component {
   }
 
   componentDidMount() {
-    this.id = ImagesStore.addChangeListener((images) => (this.setState({images:images})));
+    ImagesStore.addChangeListener(this, (images) => (this.setState({images:images})));
 
     fetch('/api/options', {
       accept: 'application/json',
@@ -75,7 +75,7 @@ class Options extends React.Component {
   }
 
   componentWillUnmount() {
-    ImagesStore.removeChangeListener(this.id);    
+    ImagesStore.removeChangeListener(this);    
   }
 
   handleClick(option) {

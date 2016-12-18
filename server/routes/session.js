@@ -7,7 +7,7 @@ var User = require('../model/User');
 
 router.get('/', function(req, res) {
   if (!req.session.user) {
-    return res.status(401);
+    return res.status(401).send('No Profile is selected');
   }
 
   new User({id:req.session.user}).fetch().then((user) => (res.send(user.toJSON())));

@@ -13,31 +13,14 @@ var Navigations = require('./Navigations');
 class ImagesApp extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      user: null
-    };
-  }
-
-  handleUserChange() {
-    var user = UserState.getUser();
-
-    console.log("Set User to: " + (user ? user.name : 'null'));
-
-    this.setState({
-      user: user
-    });
-
-    if (!user) {
-      var history = require('react-router').hashHistory;
-      history.push('/profiles');
-    }
   }
 
   componentDidMount() {
-    UserState.addChangeListener(this.handleUserChange.bind(this));
-    NavigationsState.addChangeListener(this.handleNavigationChange.bind(this));
-    UserState.load();
+    NavigationsState.addChangeListener(this, this.handleNavigationChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    NavigationsState.removeChangeListener(this);
   }
 
   handleNavigationChange() {
@@ -45,8 +28,8 @@ class ImagesApp extends React.Component {
   }
 
   render() {
-    if (!this.state.user) {
-      return (<UsersManagement />);
+    if (!UserState.getUser()) {
+      return (<div>Not User</div>);
     }
 
     var contentClass = 'content';

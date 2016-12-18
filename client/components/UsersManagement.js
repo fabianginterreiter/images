@@ -15,11 +15,11 @@ class UsersManagement extends React.Component {
   }
 
   componentDidMount() {
-    this.l = UsersStore.addChangeListener((users) => (this.setState({users:users})));
+    UsersStore.addChangeListener(this, (users) => (this.setState({users:users})));
   }
 
   componentWillUnmount() {
-    UsersStore.removeChangeListener(this.l);
+    UsersStore.removeChangeListener(this);
   }
 
   handleCreateUser() {

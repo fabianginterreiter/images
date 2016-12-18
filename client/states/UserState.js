@@ -12,7 +12,7 @@ class UserState extends State {
   }
 
   load() {
-    fetch('/api/session', {
+    return fetch('/api/session', {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -21,14 +21,12 @@ class UserState extends State {
       },
       credentials: 'include'
     }).then(function(response) {
-      if (response.status === 200) {
+      if (response.ok) {
         return response.json();  
       } else {
         return null;
       }
-    }).then(function(user) {
-      this.setUser(user);
-    }.bind(this));
+    }).then((user) => (this.setState({user:user})));
   }
 
   setUser(user) {
@@ -42,11 +40,7 @@ class UserState extends State {
       },
       credentials: 'include'
     })
-    .then(() => {
-      this.setState({user:user})
-      var history = require('react-router').hashHistory;
-      history.push('/');
-    });
+    .then(() => (this.setState({user:user})));
   }
 
   clear() {
@@ -59,11 +53,7 @@ class UserState extends State {
         'Cache': 'no-cache'
       },
       credentials: 'include'
-    }).then(() => {
-      this.setState({user:null})
-      var history = require('react-router').hashHistory;
-      history.push('/profiles');
-    });
+    }).then(() => (this.setState({user:null})));
   }
 }
 

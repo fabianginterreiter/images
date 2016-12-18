@@ -12,7 +12,11 @@ class Uploader extends React.Component {
   }
 
   componentDidMount() {
-    UploadStore.addChangeListener((files) => (this.setState({files:files})));
+    UploadStore.addChangeListener(this, (files) => (this.setState({files:files})));
+  }
+
+  componentWillUnmount() {
+    UploadStore.removeChangeListener(this);
   }
 
   handleStart() {

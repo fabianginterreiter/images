@@ -42,7 +42,11 @@ class UserState extends State {
       },
       credentials: 'include'
     })
-    .then(() => (this.setState({user:user})));
+    .then(() => {
+      this.setState({user:user})
+      var history = require('react-router').hashHistory;
+      history.push('/');
+    });
   }
 
   clear() {
@@ -55,7 +59,11 @@ class UserState extends State {
         'Cache': 'no-cache'
       },
       credentials: 'include'
-    }).then(() => (this.setState({user:null})));
+    }).then(() => {
+      this.setState({user:null})
+      var history = require('react-router').hashHistory;
+      history.push('/profiles');
+    });
   }
 }
 

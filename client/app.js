@@ -10,6 +10,7 @@ var IndexRedirect = require('react-router').IndexRedirect;
 
 var ImagesApp = require('./components/ImagesApp');
 var Images = require('./components/Images');
+var UsersManagement = require('./components/UsersManagement');
 
 ReactDOM.render(
   <Router history={hashHistory}>
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Route path="dates/:year" component={Images} />
         <IndexRoute component={Images} />
       </Route>
+      <Route path="profiles" component={UsersManagement} />
       <IndexRedirect to="/images" />
     </Route>
   </Router>,

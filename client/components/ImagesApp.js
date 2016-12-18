@@ -27,6 +27,11 @@ class ImagesApp extends React.Component {
     this.setState({
       user: user
     });
+
+    if (!user) {
+      var history = require('react-router').hashHistory;
+      history.push('/profiles');
+    }
   }
 
   componentDidMount() {

@@ -34,7 +34,7 @@ class ImagesStore extends Dispatcher {
   }
 
   delete(image) {
-    console.log("Delete: " + image.id);
+    // console.log("Delete: " + image.id);
 
     $.ajax({
       url: '/api/images/' + image.id,

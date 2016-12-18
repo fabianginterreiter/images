@@ -27,7 +27,7 @@ class UploadStore extends Dispatcher {
   }
 
   completeHandler() {
-    console.log("Upload [" + super.getObject()[this._index].name + "] complete.");
+    // console.log("Upload [" + super.getObject()[this._index].name + "] complete.");
     super.getObject()[this._index].complete = true;
     super.dispatch();
     this._index++;
@@ -53,7 +53,7 @@ class UploadStore extends Dispatcher {
       return;
     }
 
-    console.log("Uploading: " + super.getObject()[index].name);
+    // console.log("Uploading: " + super.getObject()[index].name);
 
     var formData = new FormData();
     formData.append('image', super.getObject()[index].file);

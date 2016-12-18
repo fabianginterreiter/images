@@ -21,7 +21,6 @@ class UserState extends State {
       },
       credentials: 'include'
     }).then(function(response) {
-      console.log(response);
       if (response.ok) {
         return response.json();  
       } else {

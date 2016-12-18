@@ -43,6 +43,11 @@ class Init extends React.Component {
     if (this.state.initializing) {
       return (<span>Loading</span>);
     }
+
+    if (this.props.location.pathname === '/') {
+      this.handleUserChange();
+    }
+
     return (
       <div>{this.props.children}</div>
     );

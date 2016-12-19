@@ -1,6 +1,8 @@
 "use strict"
 
-var Image = require('../model/Image');
+const Image = require('../model/Image');
+const Like = require('../model/Like');
+
 var fs = require('fs');
 var config = require('../config');
 
@@ -38,11 +40,48 @@ class ImagesController extends BaseController {
   }
 
   get() {
-    return new Image({id:this.params.id}).fetch({withRelated: ['user']}).then((image) => (image.toJSON()));
+    var userId = this.session.user;
+    console.log(userId);
+    var imageId = this.params.id;
+
+    return Image.query(function(qb) {
+      qb.debug(true);
+
+      qb.select('images.*', 'likes.user_id AS liked');
+
+      qb.where('images.id', imageId);
+
+      qb.leftJoin('likes', function() {
+        this.on('images.id', 'likes.image_id')
+        this.on('likes.user_id', userId);
+      });
+    }).fetch({withRelated: ['user']}).then((image) => {
+      console.log(image.toJSON());
+      return image.toJSON()
+    }).then((image) => this.__transform(image));
+  }
+
+  __transform(image) {
+    image.liked = image.liked > 0;
+    return image;
+  }
+
+  like() {
+    return new Like({image_id:this.params.id, user_id:this.session.user}).save().then((result) => (result.toJSON()));
   }
 
   index() {
+    var userId = this.session.user;
+    console.log("userId: " + userId);
+
     return Image.query(function(qb) {
+      if (this.query.liked) {
+        qb.join('likes', function() {
+          this.on('images.id', 'likes.image_id')
+          this.on('likes.user_id', userId);
+        });
+      }
+
       var where = {};
 
       if (this.query.year) {

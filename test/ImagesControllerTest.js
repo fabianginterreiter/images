@@ -115,6 +115,67 @@ describe('API', function() {
     });
   });
 
+  describe('Get Image by id', function() {
+    it('Should return one image', function(done) {
+      new ImagesController({
+        params:{id:id},
+        session:{user:user_id}
+      }).get().then(function(image) {
+        assert.equal('IMG_4351.jpg', image.filename);
+        assert.equal(false, image.liked);
+        done();
+      });
+    });
+  });
+
+  describe('Load Images which the user likes', function() {
+    it('should return no images', function(done) {
+      new ImagesController({
+        query:{liked:true},
+        session:{user:user_id}
+      }).index().then(function(images) {
+        assert.equal(0, images.length);
+        done();
+      });
+    });
+  });
+
+  describe('Like Image', function() {
+    it('Should like image', function(done) {
+      new ImagesController({
+        params:{id:id}, 
+        session:{user:user_id}
+      }).like().then((like) => {
+        done();
+      });
+    });
+  });
+
+  describe('Load Images which the user likes', function() {
+    it('should return one images', function(done) {
+      new ImagesController({
+        query:{liked:true},
+        session:{user:user_id}
+      }).index().then(function(images) {
+        assert.equal(1, images.length);
+        done();
+      });
+    });
+  });
+
+  describe('Get Image by id', function() {
+    it('Should return one image', function(done) {
+      new ImagesController({
+        params:{id:id},
+        session:{user:user_id}
+      }).get().then(function(image) {
+        assert.equal('IMG_4351.jpg', image.filename);
+        assert.equal(true, image.liked);
+        done();
+      });
+    });
+  });
+
   describe('Get Dates', function() {
     it('should return all the years and months', function(done) {
       bookshelf.knex('images').distinct('year', 'month').select().orderBy('year', 'month').then(function(result) {

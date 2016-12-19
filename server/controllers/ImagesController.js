@@ -70,9 +70,12 @@ class ImagesController extends BaseController {
     return new Like({image_id:this.params.id, user_id:this.session.user}).save().then((result) => (result.toJSON()));
   }
 
+  unlike() {
+    return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy();
+  }
+
   index() {
     var userId = this.session.user;
-    console.log("userId: " + userId);
 
     return Image.query(function(qb) {
       if (this.query.liked) {

@@ -176,6 +176,27 @@ describe('API', function() {
     });
   });
 
+  describe('Unlike Image', function() {
+    it('Should unlike image', function(done) {
+      new ImagesController({
+        params:{id:id}, 
+        session:{user:user_id}
+      }).unlike().then(() =>  done());
+    });
+  });
+
+  describe('Load Images which the user likes', function() {
+    it('should return no images', function(done) {
+      new ImagesController({
+        query:{liked:true},
+        session:{user:user_id}
+      }).index().then(function(images) {
+        assert.equal(0, images.length);
+        done();
+      });
+    });
+  });
+
   describe('Get Dates', function() {
     it('should return all the years and months', function(done) {
       bookshelf.knex('images').distinct('year', 'month').select().orderBy('year', 'month').then(function(result) {

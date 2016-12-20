@@ -94,6 +94,16 @@ class Fullscreen extends React.Component {
     }).then((result) => result.json());
   }
 
+  handleDeleteTag(tag) {
+    fetch('/api/images/' + this.props.image.id + '/tags/' + tag.id, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   render() {
     var titleClass = 'title';
 
@@ -115,6 +125,13 @@ class Fullscreen extends React.Component {
           <OptionsList values={options} onClick={this.handleClick.bind(this)} />
 
           <AutoComplete service='/api/tags' onSelect={this.handleAddTag.bind(this)} />
+
+          <h4>Tags</h4>
+          <ul>
+            {
+              this.props.image.tags.map((tag, idx) => (<li key={tag.id}>{tag.name} <i className="icon-remove" onClick={this.handleDeleteTag.bind(this, tag)} /></li>))
+            }
+          </ul>
         </div>);
     }
 

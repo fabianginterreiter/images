@@ -1,0 +1,48 @@
+.modal {
+  position: fixed;
+
+  width: 500px;
+  height: 500px;
+  margin: 5% auto;
+  left: 0;
+  right: 0;
+
+  top: 0;
+
+  max-width: 95%;
+  max-height: 95%;
+
+  background-color: #fff;
+  border-style: solid;
+  border-width: 1px;
+  border-color: $borderColor;
+  border-radius: 3px;
+
+  color: #666;
+
+  z-index: 500;
+
+  .title {
+    border-bottom: 1px solid $borderColor;
+    padding: 10px;
+  }
+
+  .body {
+    padding: 5px 10px;
+    position: absolute;
+    top: 39px;
+    left: 0;
+    right: 0;
+    bottom: 39px;
+    overflow: auto;
+  }
+
+  .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    border-top: 1px solid $borderColor;
+  }
+}

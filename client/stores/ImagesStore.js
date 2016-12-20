@@ -19,6 +19,26 @@ class ImagesStore extends Dispatcher {
     return images;
   }
 
+  like(image) {
+    if (image.liked) {
+      fetch('/api/images/' + image.id + '/unlike', {
+        method: "PUT",
+        credentials: 'include'
+      }).then(() => {
+        image.liked = false;
+        this.dispatch();
+      });
+    } else {
+      fetch('/api/images/' + image.id + '/like', {
+        method: "PUT",
+        credentials: 'include'
+      }).then(() => {
+        image.liked = true;
+        this.dispatch();
+      });
+    }
+  }
+
   load(service) {
     fetch(service, {
       accept: 'application/json',

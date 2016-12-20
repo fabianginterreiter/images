@@ -4,6 +4,8 @@ const Like = require('./Like')
 var ImagesStore = require('../stores/ImagesStore');
 var $ = require("jquery");
 
+var KeyUpListener = require('../stores/KeyUpListener');
+
 class Fullscreen extends React.Component {
   constructor(props) {
     super(props);
@@ -14,13 +16,24 @@ class Fullscreen extends React.Component {
   }
 
   componentDidMount() {
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     $("body").css("overflow", "hidden");
     this._show();
   }
 
   componentWillUnmount() {
+    KeyUpListener.removeChangeListener(this);    
     $("body").css("overflow", "auto");
     clearTimeout(this.timeout);
+  }
+
+  handleKeyUp(e) {
+    switch (e.keyCode) {
+      case 32: {
+        this._show();
+        ImagesStore.like(this.props.image);        
+      }
+    }
   }
 
   _hide() {

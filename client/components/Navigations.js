@@ -37,6 +37,14 @@ class Navigations extends React.Component {
       });
 
       navigations.push({
+        key: 'favorites',
+        type: 'action',
+        name: 'Favorites',
+        service: '/api/images/favorites',
+        link: '/images/favorites'
+      });
+
+      navigations.push({
         type: 'divider'
       });
 

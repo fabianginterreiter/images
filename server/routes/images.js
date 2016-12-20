@@ -20,8 +20,11 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.put('/:id/like', (req, res) => new ImagesController(req).like().then((image) => res.send(image)).catch((e) => res.status(404).send('Fehler'));
-router.put('/:id/unlike', (req, res) => new ImagesController(req).unlike().then((image) => res.send(image)).catch((e) => res.status(404).send('Fehler'));
+router.put('/:id/like', 
+  (req, res) => new ImagesController(req).like().then(() => res.send('ok')).catch((e) => res.status(404).send('Fehler')));
+
+router.put('/:id/unlike', 
+  (req, res) => new ImagesController(req).unlike().then(() => res.send('ok')).catch((e) => res.status(404).send('Fehler')));
 
 router.delete('/:id', (req, res) => {
   new ImagesController(req).destroy().then((image) => (res.send(image))).catch(function(e) {

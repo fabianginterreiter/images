@@ -4,6 +4,7 @@ var $ = require("jquery");
 var Image = require('./Image');
 var DateDivider = require('./DateDivider');
 var Fullscreen = require('./Fullscreen');
+var Like = require('./Like');
 
 var ImagesStore = require('../stores/ImagesStore');
 var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
@@ -42,6 +43,10 @@ class Images extends React.Component {
         }
         return ImagesStore.load('/api/images?year=' + routeParams.year);
       }
+    }
+
+    if('/images/favorites' === nextProps.location.pathname) {
+      return ImagesStore.load('/api/images?liked=true');
     }
 
     return ImagesStore.load('/api/images');
@@ -303,6 +308,7 @@ class Images extends React.Component {
         <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
           <Image image={image} style={style} />
           <div className="select" onClick={this.handleSelect.bind(this, image)}><i className={checkBoxClass}></i></div>
+          <Like image={image} />
           <div className="mark" />
         </div>);
     }.bind(this));

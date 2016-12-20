@@ -22,6 +22,7 @@ class ImagesStore extends Dispatcher {
   load(service) {
     fetch(service, {
       accept: 'application/json',
+      credentials: 'include'
     }).then(function(response) {
       return response.json();
     }).then(function(images) {

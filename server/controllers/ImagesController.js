@@ -1,6 +1,8 @@
 "use strict"
 
-var Image = require('../model/Image');
+const Image = require('../model/Image');
+const Like = require('../model/Like');
+
 var fs = require('fs');
 var config = require('../config');
 
@@ -38,11 +40,58 @@ class ImagesController extends BaseController {
   }
 
   get() {
-    return new Image({id:this.params.id}).fetch({withRelated: ['user']}).then((image) => (image.toJSON()));
+    return Image.query((qb) => {
+      qb.select('images.*')
+
+      qb.select('likes.user_id AS liked');
+      var userId = this.session.user;
+      qb.leftJoin('likes', function() {
+        this.on('images.id', 'likes.image_id')
+        this.on('likes.user_id', userId);
+      });
+
+      qb.where('images.id', this.params.id);
+    }).fetch({withRelated: ['user']}).then((image) => {
+      return image.toJSON()
+    }).then((image) => this.__transformImage(image));
+  }
+
+  __transformImage(image) {
+    image.liked = image.liked > 0;
+    return image;
+  }
+
+  __transformImages(images) {
+    images.forEach((image) => this.__transformImage(image));
+    return images;
+  }
+
+  like() {
+    return new Like({image_id:this.params.id, user_id:this.session.user}).save().then((result) => (result.toJSON()));
+  }
+
+  unlike() {
+    return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy();
   }
 
   index() {
-    return Image.query(function(qb) {
+    return Image.query((qb) => {
+      qb.select('images.*');
+
+      var userId = this.session.user;
+      qb.select('likes.user_id AS liked');
+      if (this.query.liked) {
+        qb.join('likes', function() {
+          this.on('images.id', 'likes.image_id')
+          this.on('likes.user_id', userId);
+        });
+      } else {
+        qb.leftJoin('likes', function() {
+          this.on('images.id', 'likes.image_id')
+          this.on('likes.user_id', userId);
+        });
+      }
+
       var where = {};
 
       if (this.query.year) {
@@ -60,7 +109,7 @@ class ImagesController extends BaseController {
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }.bind(this)).fetchAll({withRelated: ['user']}).then((images) => (images.toJSON()));
+    }).fetchAll({withRelated: ['user']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
   }
 
   destroy() {

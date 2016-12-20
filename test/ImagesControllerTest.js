@@ -102,6 +102,7 @@ describe('API', function() {
 
         assert.equal(user_id, image.user_id);
         assert.equal('Fabian', image.user.name);
+        assert.equal(false, image.liked);
 
         assert.equal('IMG_4351.jpg', image.filename);
         assert.equal(263388, image.size);
@@ -111,6 +112,89 @@ describe('API', function() {
         done();
       }).catch(function(e) {
         throw new Error(e);
+      });
+    });
+  });
+
+  describe('Get Image by id', function() {
+    it('Should return one image', function(done) {
+      new ImagesController({
+        params:{id:id},
+        session:{user:user_id}
+      }).get().then(function(image) {
+        assert.equal('IMG_4351.jpg', image.filename);
+        assert.equal(false, image.liked);
+        done();
+      });
+    });
+  });
+
+  describe('Load Images which the user likes', function() {
+    it('should return no images', function(done) {
+      new ImagesController({
+        query:{liked:true},
+        session:{user:user_id}
+      }).index().then(function(images) {
+        assert.equal(0, images.length);
+        done();
+      });
+    });
+  });
+
+  describe('Like Image', function() {
+    it('Should like image', function(done) {
+      new ImagesController({
+        params:{id:id}, 
+        session:{user:user_id}
+      }).like().then((like) => {
+        done();
+      });
+    });
+  });
+
+  describe('Load Images which the user likes', function() {
+    it('should return one images', function(done) {
+      new ImagesController({
+        query:{liked:true},
+        session:{user:user_id}
+      }).index().then(function(images) {
+        assert.equal(1, images.length);
+        assert.equal(true, images[0].liked);
+        done();
+      });
+    });
+  });
+
+  describe('Get Image by id', function() {
+    it('Should return one image', function(done) {
+      new ImagesController({
+        params:{id:id},
+        session:{user:user_id}
+      }).get().then(function(image) {
+        assert.equal('IMG_4351.jpg', image.filename);
+        assert.equal(true, image.liked);
+        done();
+      });
+    });
+  });
+
+  describe('Unlike Image', function() {
+    it('Should unlike image', function(done) {
+      new ImagesController({
+        params:{id:id}, 
+        session:{user:user_id}
+      }).unlike().then(() =>  done());
+    });
+  });
+
+  describe('Load Images which the user likes', function() {
+    it('should return no images', function(done) {
+      new ImagesController({
+        query:{liked:true},
+        session:{user:user_id}
+      }).index().then(function(images) {
+        assert.equal(0, images.length);
+        done();
       });
     });
   });

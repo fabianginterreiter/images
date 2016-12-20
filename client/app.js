@@ -21,6 +21,7 @@ ReactDOM.render(
         <Route path="dates/:year/:month/:day" component={Images} />
         <Route path="dates/:year/:month" component={Images} />
         <Route path="dates/:year" component={Images} />
+        <Route path="favorites" component={Images} />
         <IndexRoute component={Images} />
       </Route>
       <Route path="profiles" component={UsersManagement} />

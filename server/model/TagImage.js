@@ -6,7 +6,7 @@ require('./Tag');
 let bookshelf = require('./bookshelf');
 
 module.exports = bookshelf.Model.extend({
-  tableName: 'image_tags',
+  tableName: 'tag_images',
   hasTimestamps: true,
 
   image: function() {

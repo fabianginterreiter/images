@@ -76,6 +76,8 @@ class ImagesController extends BaseController {
 
   index() {
     return Image.query((qb) => {
+      var query = this.query;
+
       qb.select('images.*');
 
       var userId = this.session.user;
@@ -89,6 +91,13 @@ class ImagesController extends BaseController {
         qb.leftJoin('likes', function() {
           this.on('images.id', 'likes.image_id')
           this.on('likes.user_id', userId);
+        });
+      }
+
+      if (query.tag) {
+        qb.join('tag_images', function() {
+          this.on('images.id', 'tag_images.image_id'),
+          this.on('tag_images.tag_id', query.tag);
         });
       }
 

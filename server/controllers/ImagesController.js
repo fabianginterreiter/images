@@ -67,7 +67,6 @@ class ImagesController extends BaseController {
   }
 
   like() {
-    console.log('User: ' + this.session.user);
     return new Like({image_id:this.params.id, user_id:this.session.user}).save().then((result) => (result.toJSON()));
   }
 

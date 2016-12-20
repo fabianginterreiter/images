@@ -9,6 +9,7 @@ var Like = require('./Like');
 var ImagesStore = require('../stores/ImagesStore');
 var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
 var NavigationsState = require('../states/NavigationsState');
+var NavigationsStore = require('../stores/NavigationsStore');
 
 var history = require('react-router').browserHistory;
 
@@ -32,21 +33,10 @@ class Images extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let routeParams = nextProps.routeParams;
-    if (routeParams) {
-      if (routeParams.year) {
-        if (routeParams.month) {
-          if (routeParams.day) {
-            return ImagesStore.load('/api/images?year=' + routeParams.year + '&month=' + routeParams.month + '&day=' + routeParams.day);
-          }
-          return ImagesStore.load('/api/images?year=' + routeParams.year + '&month=' + routeParams.month);
-        }
-        return ImagesStore.load('/api/images?year=' + routeParams.year);
-      }
-    }
+    var option = NavigationsStore.getOption(nextProps.location.pathname);
 
-    if('/images/favorites' === nextProps.location.pathname) {
-      return ImagesStore.load('/api/images?liked=true');
+    if (option) {
+      return ImagesStore.load(option.service);
     }
 
     return ImagesStore.load('/api/images');

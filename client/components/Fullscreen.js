@@ -1,5 +1,6 @@
 var React = require('react');
 var OptionsList = require('./OptionsList');
+const Like = require('./Like')
 var ImagesStore = require('../stores/ImagesStore');
 var $ = require("jquery");
 
@@ -95,7 +96,10 @@ class Fullscreen extends React.Component {
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename}
-          <div onClick={this.toggleMenu.bind(this)} className="options"><i className="icon-reorder" /></div>
+          <div className="options">
+            <Like image={this.props.image} />
+            <i className="icon-reorder" onClick={this.toggleMenu.bind(this)} />
+          </div>
         </div>
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />

@@ -28,7 +28,7 @@ class Like extends React.Component {
     var className = this.props.image.liked ? 'icon-heart' : 'icon-heart-empty';
     
     return (
-      <div className="like" onClick={this.handleClick.bind(this)}><i className={className} /></div>
+      <span className="like" onClick={this.handleClick.bind(this)}><i className={className} /></span>
     );
   }
 }

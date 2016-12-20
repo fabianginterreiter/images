@@ -10,6 +10,8 @@ var ImagesStore = require('../stores/ImagesStore');
 var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
 var NavigationsState = require('../states/NavigationsState');
 var NavigationsStore = require('../stores/NavigationsStore');
+var KeyUpListener = require('../stores/KeyUpListener');
+var ResizeListener = require('../stores/ResizeListener');
 
 var history = require('react-router').browserHistory;
 
@@ -46,12 +48,10 @@ class Images extends React.Component {
     ImagesStore.addChangeListener(this, this.updateImages.bind(this));
     ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size:size})));
     NavigationsState.addChangeListener(this, this.handlePinningNavigation.bind(this));
-
-    $(document).keyup(this.handleKeyUp.bind(this));
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    ResizeListener.addChangeListener(this, this.handleResize.bind(this));
 
     this.width = document.getElementById('container').clientWidth;
-
-    window.addEventListener('resize', this.handleResize.bind(this), true);
 
     this.componentWillReceiveProps(this.props);
   }
@@ -60,9 +60,8 @@ class Images extends React.Component {
     ImagesStore.removeChangeListener(this);
     ThumbnailsSizeStore.removeChangeListener(this);
     NavigationsState.removeChangeListener(this);
-
-    $(document).unbind('keyup', this.handleKeyUp.bind(this));
-    window.removeEventListener('resize', this.handleResize.bind(this), true);
+    KeyUpListener.removeChangeListener(this);
+    ResizeListener.removeChangeListener(this);
   }
 
   handlePinningNavigation() {

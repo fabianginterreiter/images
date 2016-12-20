@@ -232,11 +232,6 @@ header {
   }
 }
 
-.like {
-  padding: 5px;
-  cursor: pointer;
-}
-
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -259,10 +254,7 @@ header {
       z-index: 10;
       cursor: pointer;
       padding: 5px;
-    }
-
-    .select:hover, .like:hover {
-      color: $selectedColor;
+      visibility: hidden;
     }
 
     .like {
@@ -271,6 +263,12 @@ header {
       top: 0;
       right: 0;
       z-index: 10;
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+      cursor: pointer;
+      visibility: hidden;
+      text-align: right;
     }
 
     .mark {
@@ -289,7 +287,21 @@ header {
 
   .item:hover {
     .mark {
-      background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.23) 23%,rgba(0,0,0,0.04) 34%,rgba(0,0,0,0) 36%);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.65) 21%,rgba(0,0,0,0.65) 26%,rgba(0,0,0,0) 60%,rgba(0,0,0,0) 62%);
+    }
+
+    .select {
+      color: white;
+      visibility: visible;
+    }
+
+    .like {
+      color: white;
+      visibility: visible;
+    }    
+
+    .like:hover, .select:hover {
+      color: $selectedColor;
     }
   }
 }
@@ -441,24 +453,15 @@ input[type=range] {
   border: 1px solid #000000;
 }
 
-.select {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 24px;
-  visibility: hidden;
-}
-
 .preloaded {
   background: #eee;
 } 
 
 .selected > .mark, .selected:hover > .mark {
-  border: 10px solid blue;
+  border: 10px solid $selectedColor;
 }
 
-.item:hover > .select, .date:hover > .dateSelect {
+.date:hover > .dateSelect {
   visibility: visible;
 }
 

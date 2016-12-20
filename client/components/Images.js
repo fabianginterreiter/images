@@ -41,6 +41,13 @@ class Images extends React.Component {
       return ImagesStore.load(option.service);
     }
 
+    let routeParams = nextProps.routeParams;
+    if (routeParams) {
+      if (routeParams.year && routeParams.month && routeParams.day) {
+        return ImagesStore.load('/api/images?year=' + routeParams.year + '&month=' + routeParams.month + '&day=' + routeParams.day);
+      }
+    }
+
     return ImagesStore.load('/api/images');
   }
 

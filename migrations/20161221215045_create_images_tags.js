@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('tag_images', function(table) {
+    knex.schema.createTable('images_tags', function(table) {
       table.increments().primary();
       table.integer('image_id').references('images.id');
       table.integer('tag_id').references('tags.id');

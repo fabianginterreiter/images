@@ -104,12 +104,14 @@ describe('Test tag Management', function() {
   describe('Adding one image', function() {
     it('Should add one image', function(done) {
       new Image({filename:'test.jpg'}).save().then((image) => {
-        new TagsController({
+        new ImagesController({
           params: {
-            id:id1,
-            image_id:image.get('id')
+            id:image.get('id')
+          },
+          body: {
+            id: id1
           }
-        }).addImage().then(() => done());
+        }).addTag().then(() => done());
       })
     });
   });

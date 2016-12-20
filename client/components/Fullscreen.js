@@ -1,5 +1,6 @@
 var React = require('react');
 var OptionsList = require('./OptionsList');
+var AutoComplete = require('./AutoComplete');
 const Like = require('./Like')
 var ImagesStore = require('../stores/ImagesStore');
 var $ = require("jquery");
@@ -11,7 +12,8 @@ class Fullscreen extends React.Component {
     super(props);
 
     this.state = {
-      show: false
+      show: false,
+      menu: true
     };
   }
 
@@ -80,6 +82,17 @@ class Fullscreen extends React.Component {
       });
     }
   }
+  
+  handleAddTag(tag) {
+    fetch('/api/images/' + this.props.image.id + '/tags', {
+      method: "PUT",
+      body: JSON.stringify(tag), 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((result) => result.json());
+  }
 
   render() {
     var titleClass = 'title';
@@ -100,6 +113,8 @@ class Fullscreen extends React.Component {
       opt = (
         <div className="opt">
           <OptionsList values={options} onClick={this.handleClick.bind(this)} />
+
+          <AutoComplete service='/api/tags' onSelect={this.handleAddTag.bind(this)} />
         </div>);
     }
 

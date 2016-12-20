@@ -28,7 +28,4 @@ router.post('/', function(req, res) {
   })
 });
 
-router.put('/:id/:image_id', (req, res) => new TagsController(req).addImage().then(() => res.send('OK'))).catch((e) => res.status(400).send('Fehler'));
-router.delete('/:id/:image_id', (req, res) => new TagsController(req).removeImage().then(() => res.send('OK'))).catch((e) => res.status(400).send('Fehler'));
-
 module.exports = router;

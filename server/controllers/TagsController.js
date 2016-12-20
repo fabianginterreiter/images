@@ -1,7 +1,6 @@
 "use strict"
 
 var Tag = require('../model/Tag');
-var TagImage = require('../model/TagImage');
 
 var BaseController = require('./BaseController');
 
@@ -14,20 +13,6 @@ class UserController extends BaseController {
 
   get() {
     return new Tag({id:this.params.id}).fetch().then((result) => (result.toJSON()));
-  }
-
-  addImage() {
-    return new TagImage({
-      tag_id: this.params.id,
-      image_id: this.params.image_id
-    }).save();
-  }
-
-  removeImage() {
-    return TagImage.where({
-      tag_id: this.params.id,
-      image_id: this.params.image_id
-    }).destroy();
   }
 
   index() {

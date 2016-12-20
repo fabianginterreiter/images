@@ -31,6 +31,10 @@ router.delete('/:id', (req, res) => {
   });
 });
 
+router.put('/:id/tags', (req, res) => {
+  new ImagesController(req).addTag().then(() => res.send('OK')).catch((e) => res.status(404).send('Fehler'));
+})
+
 router.post('/', upload.single('image'), function(req, res) {
   new ImagesController(req).create().then(function(result) {
     res.send(result);

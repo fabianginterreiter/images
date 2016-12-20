@@ -2,6 +2,8 @@
 
 const Image = require('../model/Image');
 const Like = require('../model/Like');
+const ImageTag = require('../model/ImageTag');
+const Tag = require('../model/Tag');
 
 var fs = require('fs');
 var config = require('../config');
@@ -51,9 +53,9 @@ class ImagesController extends BaseController {
       });
 
       qb.where('images.id', this.params.id);
-    }).fetch({withRelated: ['user']}).then((image) => {
+    }).fetch({withRelated: ['user', 'tags']}).then((image) => {
       return image.toJSON()
-    }).then((image) => this.__transformImage(image));
+    }).then((image) => this.__transformImage(image)).catch((e) => console.log(e));
   }
 
   __transformImage(image) {
@@ -73,6 +75,27 @@ class ImagesController extends BaseController {
   unlike() {
     return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy();
   }
+
+  addTag() {
+    var tag = this.body;
+
+    if (tag.id) {
+      return new ImageTag({
+        tag_id: tag.id,
+        image_id: this.params.id
+      }).save().then((tag) => tag.toJSON());
+    } else {
+      return new Tag({
+        name:tag.name
+      }).save().then((tag) => {
+        return new ImageTag({
+          tag_id: tag.get('id'),
+          image_id: this.params.id
+        }).save().then(() => tag.toJSON());
+      });
+    }
+  }
+
 
   index() {
     return Image.query((qb) => {
@@ -95,9 +118,9 @@ class ImagesController extends BaseController {
       }
 
       if (query.tag) {
-        qb.join('tag_images', function() {
-          this.on('images.id', 'tag_images.image_id'),
-          this.on('tag_images.tag_id', query.tag);
+        qb.join('images_tags', function() {
+          this.on('images.id', 'images_tags.image_id'),
+          this.on('images_tags.tag_id', query.tag);
         });
       }
 
@@ -118,13 +141,13 @@ class ImagesController extends BaseController {
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }).fetchAll({withRelated: ['user']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
+    }).fetchAll({withRelated: ['user', 'tags']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
   }
 
   destroy() {
     var id = this.params.id;
     return new Promise(function(resolve, reject) {
-      new Image({'id': id}).fetch({withRelated: ['user']})
+      new Image({'id': id}).fetch()
       .then(function(image) {
         return new Image({'id': id}).destroy().then(function() {
           fs.unlink(config.getImagesPath() + '/' + image.get('path'), function(err) {

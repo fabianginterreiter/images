@@ -3,9 +3,11 @@ const router = express.Router();
 
 var bookshelf = require('../model/bookshelf');
 var moment = require('moment');
+var Tag = require('../model/Tag');
 
 router.get('/', (req, res) => {
-    var options = [];
+
+  var options = [];
 
   bookshelf.knex('images').distinct('year', 'month').select().orderBy('year', 'desc').orderBy('month', 'desc').then(function(result) {
     var year = null;
@@ -47,13 +49,32 @@ router.get('/', (req, res) => {
       options: months
     });
 
-    res.send([{
+    options.push({
       key: 'delete',
       type: 'menu',
       name: 'Dates',
       options: years
-    }]);
-  }).catch(function(e) {
+    });
+
+    return Tag.fetchAll().then((tags) => tags.toJSON());
+  }).then((tags) => {
+    var result = {
+      key: 'tags',
+      type: 'menu',
+      name: 'Tags',
+      options: []
+    };
+
+    tags.forEach((tag) => result.options.push({
+      key: 'tag_' + tag.id,
+      type: 'action',
+      name: tag.name,
+      link: '/images/tags/' + tag.id,
+      service: '/api/images?tag=' + tag.id
+    }));
+
+    options.push(result);
+  }).then(() => res.send(options)).catch(function(e) {
     console.log(e);
     res.status(404).send('Fehler');
   });

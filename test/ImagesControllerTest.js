@@ -102,6 +102,7 @@ describe('API', function() {
 
         assert.equal(user_id, image.user_id);
         assert.equal('Fabian', image.user.name);
+        assert.equal(false, image.liked);
 
         assert.equal('IMG_4351.jpg', image.filename);
         assert.equal(263388, image.size);
@@ -158,6 +159,7 @@ describe('API', function() {
         session:{user:user_id}
       }).index().then(function(images) {
         assert.equal(1, images.length);
+        assert.equal(true, images[0].liked);
         done();
       });
     });

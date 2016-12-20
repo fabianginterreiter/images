@@ -40,30 +40,30 @@ class ImagesController extends BaseController {
   }
 
   get() {
-    var userId = this.session.user;
-    console.log(userId);
-    var imageId = this.params.id;
+    return Image.query((qb) => {
+      qb.select('images.*')
 
-    return Image.query(function(qb) {
-      qb.debug(true);
-
-      qb.select('images.*', 'likes.user_id AS liked');
-
-      qb.where('images.id', imageId);
-
+      qb.select('likes.user_id AS liked');
+      var userId = this.session.user;
       qb.leftJoin('likes', function() {
         this.on('images.id', 'likes.image_id')
         this.on('likes.user_id', userId);
       });
+
+      qb.where('images.id', this.params.id);
     }).fetch({withRelated: ['user']}).then((image) => {
-      console.log(image.toJSON());
       return image.toJSON()
-    }).then((image) => this.__transform(image));
+    }).then((image) => this.__transformImage(image));
   }
 
-  __transform(image) {
+  __transformImage(image) {
     image.liked = image.liked > 0;
     return image;
+  }
+
+  __transformImages(images) {
+    images.forEach((image) => this.__transformImage(image));
+    return images;
   }
 
   like() {
@@ -75,11 +75,18 @@ class ImagesController extends BaseController {
   }
 
   index() {
-    var userId = this.session.user;
+    return Image.query((qb) => {
+      qb.select('images.*');
 
-    return Image.query(function(qb) {
+      var userId = this.session.user;
+      qb.select('likes.user_id AS liked');
       if (this.query.liked) {
         qb.join('likes', function() {
+          this.on('images.id', 'likes.image_id')
+          this.on('likes.user_id', userId);
+        });
+      } else {
+        qb.leftJoin('likes', function() {
           this.on('images.id', 'likes.image_id')
           this.on('likes.user_id', userId);
         });
@@ -102,7 +109,7 @@ class ImagesController extends BaseController {
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }.bind(this)).fetchAll({withRelated: ['user']}).then((images) => (images.toJSON()));
+    }).fetchAll({withRelated: ['user']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
   }
 
   destroy() {

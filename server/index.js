@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 app.use('/api/session', require('./routes/session'));
 app.use('/api/images', require('./routes/images'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/tags', require('./routes/tags'));
 app.use('/api/options', require('./routes/options'));
 app.use('/api/navigations', require('./routes/navigations'));
 

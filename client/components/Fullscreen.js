@@ -1,8 +1,11 @@
 var React = require('react');
 var OptionsList = require('./OptionsList');
+
 const Like = require('./Like')
+const Tags = require('./Tags')
 var ImagesStore = require('../stores/ImagesStore');
 var $ = require("jquery");
+
 
 var KeyUpListener = require('../stores/KeyUpListener');
 
@@ -11,7 +14,8 @@ class Fullscreen extends React.Component {
     super(props);
 
     this.state = {
-      show: false
+      show: false,
+      menu: true
     };
   }
 
@@ -28,10 +32,15 @@ class Fullscreen extends React.Component {
   }
 
   handleKeyUp(e) {
+    if (document.activeElement.tagName === 'INPUT') {
+      return;
+    }
+
     switch (e.keyCode) {
       case 32: {
         this._show();
-        ImagesStore.like(this.props.image);        
+        ImagesStore.like(this.props.image);
+        break;
       }
     }
   }
@@ -80,6 +89,8 @@ class Fullscreen extends React.Component {
       });
     }
   }
+  
+  
 
   render() {
     var titleClass = 'title';
@@ -100,6 +111,8 @@ class Fullscreen extends React.Component {
       opt = (
         <div className="opt">
           <OptionsList values={options} onClick={this.handleClick.bind(this)} />
+
+          <Tags image={this.props.image} />
         </div>);
     }
 

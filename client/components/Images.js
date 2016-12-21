@@ -5,6 +5,7 @@ var Image = require('./Image');
 var DateDivider = require('./DateDivider');
 var Fullscreen = require('./Fullscreen');
 var Like = require('./Like');
+var Empty = require('./Empty');
 
 var ImagesStore = require('../stores/ImagesStore');
 var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
@@ -35,6 +36,10 @@ class Images extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setState({
+      view: -1
+    });
+
     var option = NavigationsStore.getOption(nextProps.location.pathname);
 
     if (option) {
@@ -105,6 +110,10 @@ class Images extends React.Component {
   }
 
   handleKeyUp(e) {
+    if (document.activeElement.tagName === 'INPUT') {
+      return;
+    }
+
     switch (e.keyCode) {
       case 27: {
         this.handleFullscreenClose();
@@ -255,9 +264,14 @@ class Images extends React.Component {
     history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
 
+
+
+
   render() {
     if (this.state.images.length === 0) {
-      return (<div id="container">Leer</div>);
+      return (<div id="container">
+        <Empty />
+      </div>);
     }
     
     var view = (<span></span>);

@@ -10,7 +10,17 @@ router.get('/', function(req, res) {
     return res.status(401).send('No Profile is selected');
   }
 
-  new User({id:req.session.user}).fetch().then((user) => (res.send(user.toJSON())));
+  new User({id:req.session.user}).fetch().then((user) => { 
+    if (user) {
+      res.send(user.toJSON())
+    } else {
+      req.session = null;
+      res.status(401).send('No Profile is selected');
+    }
+  }).catch(() => {
+    req.session = null;
+    res.status(401).send('No Profile is selected')
+  });
 });
 
 router.get('/:id', function (req, res) {

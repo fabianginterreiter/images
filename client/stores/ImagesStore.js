@@ -1,6 +1,6 @@
-var Dispatcher = require('./Dispatcher');
-
-var $ = require("jquery");
+const Dispatcher = require('./Dispatcher');
+const NavigationsStore = require('./NavigationsStore');
+const $ = require("jquery");
 
 class ImagesStore extends Dispatcher {
   constructor() {
@@ -37,6 +37,44 @@ class ImagesStore extends Dispatcher {
         this.dispatch();
       });
     }
+  }
+
+  addTag(image, tag) {
+    var newEntry = !tag.id;
+    fetch('/api/images/' + image.id + '/tags', {
+      method: "PUT",
+      body: JSON.stringify(tag), 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((result) => result.json()).then((tag) => {
+      image.tags.push(tag);
+      this.dispatch();
+
+      if (newEntry) {
+        NavigationsStore.load();
+      }
+    });
+  }
+
+  deleteTag(image, tag) {
+    fetch('/api/images/' + image.id + '/tags/' + tag.id, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => { 
+      NavigationsStore.load();
+      for (var index = 0; index < image.tags.length; index++) {
+        if (image.tags[index].id === tag.id) {
+          image.tags.splice(index, 1);
+          break;
+        }
+      }
+      this.dispatch(); 
+    });
   }
 
   load(service) {

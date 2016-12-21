@@ -1,5 +1,4 @@
 const express = require('express');
-const passport = require('passport');
 const ImagesController = require('../controllers/ImagesController');
 const router = express.Router();
 
@@ -31,6 +30,12 @@ router.delete('/:id', (req, res) => {
     res.status(404).send('Fehler');
   });
 });
+
+router.put('/:id/tags', (req, res) => {
+  new ImagesController(req).addTag().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
+});
+
+router.delete('/:id/tags/:tag_id', (req, res) => new ImagesController(req).deleteTag().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
 
 router.post('/', upload.single('image'), function(req, res) {
   new ImagesController(req).create().then(function(result) {

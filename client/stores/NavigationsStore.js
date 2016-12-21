@@ -4,6 +4,10 @@ class NavigationsStore extends Dispatcher {
   constructor() {
     super([]);
 
+    this.load();
+  }
+
+  load() {
     fetch('/api/navigations', {
       accept: 'application/json',
     }).then(function(response) {

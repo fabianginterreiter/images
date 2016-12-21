@@ -1,28 +1,28 @@
 const express = require('express');
-const UsersController = require('../controllers/UsersController');
+const TagsController = require('../controllers/TagsController');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  new UsersController(req).index().then((users) => (res.send(users))).catch(function(e) {
+  new TagsController(req).index().then((tags) => (res.send(tags))).catch(function(e) {
     res.status(404).send('Fehler');
   });
 });
 
 router.get('/:id', (req, res) => {
-  new UsersController(req).get().then((user) => (res.send(user))).catch(function(e) {
+  new TagsController(req).get().then((tag) => (res.send(tag))).catch(function(e) {
     res.status(404).send('Fehler');
   });
 });
 
 router.delete('/:id', (req, res) => {
-  new UsersController(req).destroy().then((user) => (res.send(user))).catch(function(e) {
+  new TagsController(req).destroy().then((tag) => (res.send(tag))).catch(function(e) {
     res.status(404).send('Fehler');
   });
 });
 
 router.post('/', function(req, res) {
-  new UsersController(req).create().then(function(user) {
-    res.send(user);
+  new TagsController(req).create().then(function(tag) {
+    res.send(tag);
   }).catch(function(err) {
     res.send(err);
   })

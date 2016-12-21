@@ -83,7 +83,7 @@ class ImagesController extends BaseController {
       return new ImageTag({
         tag_id: tag.id,
         image_id: this.params.id
-      }).save().then((tag) => tag.toJSON());
+      }).save().then(() => tag);
     } else {
       return new Tag({
         name:tag.name
@@ -105,7 +105,6 @@ class ImagesController extends BaseController {
       }).destroy();
     });
   }
-
 
   index() {
     return Image.query((qb) => {

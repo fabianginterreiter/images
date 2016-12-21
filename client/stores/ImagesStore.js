@@ -39,6 +39,20 @@ class ImagesStore extends Dispatcher {
     }
   }
 
+  addTag(image, tag) {
+    fetch('/api/images/' + image.id + '/tags', {
+      method: "PUT",
+      body: JSON.stringify(tag), 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((result) => result.json()).then((tag) => {
+      image.tags.push(tag);
+      this.dispatch();
+    });
+  }
+
   load(service) {
     fetch(service, {
       accept: 'application/json',

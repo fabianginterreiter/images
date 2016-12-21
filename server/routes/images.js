@@ -32,7 +32,7 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id/tags', (req, res) => {
-  new ImagesController(req).addTag().then(() => res.send('OK')).catch((e) => res.status(404).send('Fehler'));
+  new ImagesController(req).addTag().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
 });
 
 router.delete('/:id/tags/:tag_id', (req, res) => new ImagesController(req).deleteTag().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));

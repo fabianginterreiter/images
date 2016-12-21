@@ -1,12 +1,62 @@
-var React = require('react');
+const React = require('react');
+const KeyUpListener = require('../stores/KeyUpListener');
 
 class AutoComplete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: '',
-      tags: []
+      tags: [],
+      focus: false,
+      index: -1
     }
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+    });
+  }
+
+  componentDidMount() {
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+  }
+
+  componentWillUnmount() {
+    KeyUpListener.removeChangeListener(this);
+  }
+
+  handleKeyUp(event) {
+    switch (event.keyCode) {
+      case 38: {
+        if (this.state.index > 0) {
+          var newIndex = this.state.index - 1;
+          this.setState({
+            index: newIndex,
+            value: this.state.tags[newIndex].name
+          });
+        }
+        break;
+      }
+      case 40: {
+        if (this.state.index < this.state.tags.length - 1) {
+          var newIndex = this.state.index + 1;
+          this.setState({
+            index: newIndex,
+            value: this.state.tags[newIndex].name
+          });
+        }
+        break;
+      }
+    }
+  }
+
+  contains(tags, tag) {
+    for (var index = 0; index < tags.length; index++) {
+      if (tags[index].name === tag.name) {
+        return true;
+      }
+    }
+    return false;
   }
 
   handleChange(event) {
@@ -16,12 +66,24 @@ class AutoComplete extends React.Component {
     });
 
     if (value.length > 2) {
-      fetch(this.props.service + '?q=' + value + '%').then((result) => result.json()).then((tags) => this.setState({
-        tags:tags
-      }));
+      fetch(this.props.service + '?q=' + value + '%').then((result) => result.json()).then((result) => {
+        var tags = [];
+
+        result.forEach((tag) => {
+          if (!this.contains(this.props.ignore, tag)) {
+            tags.push(tag);  
+          }
+        });
+
+        this.setState({
+          tags:tags,
+          index: -1
+        })
+      });
     } else {
       this.setState({
-        tags:[]
+        tags:[],
+        index: -1
       });
     }
   }
@@ -29,8 +91,18 @@ class AutoComplete extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.props.onSelect) {
-      this.props.onSelect({
-        name: this.state.value
+      if (this.marked) {
+        this.props.onSelect(this.marked);
+      } else {
+        this.props.onSelect({
+          name: this.state.value
+        });  
+      }
+
+      this.setState({
+        value: '',
+        tags: '',
+        index: -1
       });
     }
   }
@@ -41,24 +113,67 @@ class AutoComplete extends React.Component {
     }
   }
 
+  handleFocus() {
+    this.setState({
+      focus: true
+    })
+  }
+
+  handleBlur() {
+    this.setState({
+      focus: false
+    })
+  }
+
+  getMenuClassName(tag) {
+    if (this.marked) {
+      return;
+    }
+
+    if (this.state.index > -1) {
+      if (this.state.tags[this.state.index].id === tag.id) {
+        this.marked = tag;
+        return 'select';
+      }
+    }
+
+    if (tag.name === this.state.value) {
+      this.marked = tag;
+      return 'marked';
+    }
+  }
+
   render() {
+    this.marked = null;
+
+    var className='';
+
+    if (this.contains(this.props.ignore, {
+      name: this.state.value
+    })) {
+      className += 'marked';
+    }
+
     var tags = (<span />);
-    if (this.state.tags.length > 0) {
-      tags = (<div>
-          <ul>
+    if (this.state.focus && this.state.tags.length > 0) {
+      var style = {
+        top: this.refs.field.height
+      }
+
+      tags = (
+          <ul style={style}>
             {
               this.state.tags.map((tag, idx) => (
-                <li key={tag.id} onClick={this.handleSelect.bind(this, tag)}>{tag.name}</li>
+                <li key={tag.id} onClick={this.handleSelect.bind(this, tag)} className={this.getMenuClassName(tag)}>{tag.name}</li>
               ))
             }
-          </ul>
-        </div>);
+          </ul>);
     }
 
     return (
-      <div>
+      <div className="autocomplete">
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <input type="text" value={this.state.value} onChange={this.handleChange.bind(this)} />
+          <input className={className} type="text" value={this.state.value} onChange={this.handleChange.bind(this)} ref="field" onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} />
           {tags}
         </form>
       </div>

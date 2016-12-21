@@ -1,9 +1,11 @@
 var React = require('react');
 var OptionsList = require('./OptionsList');
-var AutoComplete = require('./AutoComplete');
+
 const Like = require('./Like')
+const Tags = require('./Tags')
 var ImagesStore = require('../stores/ImagesStore');
 var $ = require("jquery");
+
 
 var KeyUpListener = require('../stores/KeyUpListener');
 
@@ -83,26 +85,7 @@ class Fullscreen extends React.Component {
     }
   }
   
-  handleAddTag(tag) {
-    fetch('/api/images/' + this.props.image.id + '/tags', {
-      method: "PUT",
-      body: JSON.stringify(tag), 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then((result) => result.json());
-  }
-
-  handleDeleteTag(tag) {
-    fetch('/api/images/' + this.props.image.id + '/tags/' + tag.id, {
-      method: "DELETE",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-  }
+  
 
   render() {
     var titleClass = 'title';
@@ -124,14 +107,7 @@ class Fullscreen extends React.Component {
         <div className="opt">
           <OptionsList values={options} onClick={this.handleClick.bind(this)} />
 
-          <AutoComplete service='/api/tags' onSelect={this.handleAddTag.bind(this)} />
-
-          <h4>Tags</h4>
-          <ul>
-            {
-              this.props.image.tags.map((tag, idx) => (<li key={tag.id}>{tag.name} <i className="icon-remove" onClick={this.handleDeleteTag.bind(this, tag)} /></li>))
-            }
-          </ul>
+          <Tags image={this.props.image} />
         </div>);
     }
 

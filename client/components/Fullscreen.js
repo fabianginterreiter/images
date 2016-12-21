@@ -106,8 +106,11 @@ class Fullscreen extends React.Component {
 
     var style = {};
 
+    var clickCatcher = (<span />);
+
     if (this.state.menu) {
       style.width = '300px';
+      clickCatcher = (<div className="click" onClick={this.toggleMenu.bind(this)} />);
     }
 
     return (
@@ -127,6 +130,7 @@ class Fullscreen extends React.Component {
           <OptionsList values={options} onClick={this.handleClick.bind(this)} />
           <Tags image={this.props.image} />
         </div>
+        {clickCatcher}
       </div>
     );
   }

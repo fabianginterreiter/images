@@ -1,5 +1,7 @@
-var React = require('react');
-var moment = require('moment');
+"use strict"
+
+const React = require('react');
+const moment = require('moment');
 
 class DateDivider extends React.Component {
   render() {

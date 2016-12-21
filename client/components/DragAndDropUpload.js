@@ -1,13 +1,11 @@
-var React = require('react');
-var moment = require('moment');
+"use strict"
 
-var InlineProgress = require('./InlineProgress');
-
-var $ = require("jquery");
+const React = require('react');
+const $ = require("jquery");
 
 // http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
 
-var UploadStore = require('../stores/UploadStore');
+const UploadStore = require('../stores/UploadStore');
 
 class DragAndDropUpload extends React.Component {
   constructor(props) {

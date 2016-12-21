@@ -115,9 +115,8 @@ class AutoComplete extends React.Component {
   }
 
   handleSelect(tag) {
-    console.log("JAJAJAJJA");
     if (this.props.onSelect) {
-      //this.props.onSelect(tag);
+      this.props.onSelect(tag);
     }
   }
 
@@ -127,12 +126,12 @@ class AutoComplete extends React.Component {
     })
   }
 
-  handleBlur() {
-    this.setState({
+  handleBlur(event) {
+    setTimeout(() => this.setState({
       focus: false,
       value: '',
       tags: []
-    })
+    }), 100);
   }
 
   getMenuClassName(tag) {
@@ -196,7 +195,7 @@ class AutoComplete extends React.Component {
             onFocus={this.handleFocus.bind(this)} 
             onBlur={this.handleBlur.bind(this)} 
             placeholder={this.props.placeholder} />
-          {this.__renderTags()}
+            {this.__renderTags()}
         </form>
       </div>
     );

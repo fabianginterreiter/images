@@ -104,8 +104,6 @@ class Fullscreen extends React.Component {
         name: 'Delete'
       }];
 
-    
-
     var style = {};
 
     if (this.state.menu) {

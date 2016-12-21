@@ -115,6 +115,10 @@ header {
   left: 0;
 }
 
+.right {
+  right: 0;
+}
+
 .click {
   position: fixed;
   top: 0;
@@ -187,18 +191,6 @@ header {
 
   .show {
     opacity: 1;
-  }
-
-  .opt {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 300px;
-    background-color: #fff;
-    border-right: 1px solid $borderColor;
-    color: #666;
-    padding-top: 40px;
   }
 }
 

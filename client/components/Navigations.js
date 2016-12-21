@@ -11,7 +11,7 @@ var history = require('react-router').browserHistory;
 
 class Navigations extends React.Component {
   constructor(props) {
-    super(props, 'left');
+    super(props);
     this.state = {
       values: NavigationsStore.getObject()
     }

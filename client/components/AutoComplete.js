@@ -1,5 +1,3 @@
-"use strict"
-
 const React = require('react');
 const KeyUpListener = require('../stores/KeyUpListener');
 const $ = require("jquery");
@@ -115,8 +113,9 @@ class AutoComplete extends React.Component {
   }
 
   handleSelect(tag) {
+    console.log("JAJAJAJJA");
     if (this.props.onSelect) {
-      this.props.onSelect(tag);
+      //this.props.onSelect(tag);
     }
   }
 
@@ -152,6 +151,27 @@ class AutoComplete extends React.Component {
     }
   }
 
+  __renderTags() {
+    if (!this.state.focus || this.state.tags.length === 0) {
+      return (<span />);
+    }
+    
+    var style = {
+      top: $(this.refs.box).height()
+    }
+
+    return (
+      <ul style={style}>
+        {
+          this.state.tags.map((tag) => (
+            <li key={tag.id} 
+              onClick={this.handleSelect.bind(this, tag)}
+              className={this.getMenuClassName(tag)}>{tag.name}</li>
+          ), this)
+        }
+      </ul>);
+  }
+
   render() {
     this.marked = null;
 
@@ -161,22 +181,6 @@ class AutoComplete extends React.Component {
       name: this.state.value
     })) {
       className += 'marked';
-    }
-
-    var tags = (<span />);
-    if (this.state.focus && this.state.tags.length > 0) {
-      var style = {
-        top: $(this.refs.box).height()
-      }
-
-      tags = (
-          <ul style={style}>
-            {
-              this.state.tags.map((tag, idx) => (
-                <li key={tag.id} onClick={this.handleSelect.bind(this, tag)} className={this.getMenuClassName(tag)}>{tag.name}</li>
-              ))
-            }
-          </ul>);
     }
 
     return (
@@ -190,7 +194,7 @@ class AutoComplete extends React.Component {
             onFocus={this.handleFocus.bind(this)} 
             onBlur={this.handleBlur.bind(this)} 
             placeholder={this.props.placeholder} />
-          {tags}
+          {this.__renderTags()}
         </form>
       </div>
     );

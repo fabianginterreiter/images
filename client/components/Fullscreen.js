@@ -98,21 +98,18 @@ class Fullscreen extends React.Component {
       titleClass += ' show';
     }
 
-    var opt = (<span />);
-
-    if (this.state.menu) {
-      var options = [{
+    var options = [{
         key: 'delete',
         type: 'action',
         name: 'Delete'
       }];
 
-      opt = (
-        <div className="opt">
-          <OptionsList values={options} onClick={this.handleClick.bind(this)} />
+    
 
-          <Tags image={this.props.image} />
-        </div>);
+    var style = {};
+
+    if (this.state.menu) {
+      style.width = '300px';
     }
 
     return (
@@ -128,7 +125,10 @@ class Fullscreen extends React.Component {
         </div>
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />
-        {opt}
+        <div className="panel right" style={style}>
+          <OptionsList values={options} onClick={this.handleClick.bind(this)} />
+          <Tags image={this.props.image} />
+        </div>
       </div>
     );
   }

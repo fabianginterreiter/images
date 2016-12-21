@@ -15,7 +15,7 @@ class Fullscreen extends React.Component {
 
     this.state = {
       show: false,
-      menu: true
+      menu: false
     };
   }
 

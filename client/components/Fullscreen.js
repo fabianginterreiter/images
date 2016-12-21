@@ -127,8 +127,10 @@ class Fullscreen extends React.Component {
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />
         <div className="panel right" style={style}>
-          <OptionsList values={options} onClick={this.handleClick.bind(this)} />
-          <Tags image={this.props.image} />
+          <div className="body">
+            <OptionsList values={options} onClick={this.handleClick.bind(this)} />
+            <Tags image={this.props.image} />
+          </div>
         </div>
         {clickCatcher}
       </div>

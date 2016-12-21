@@ -110,6 +110,10 @@ class Images extends React.Component {
   }
 
   handleKeyUp(e) {
+    if (document.activeElement.tagName === 'INPUT') {
+      return;
+    }
+
     switch (e.keyCode) {
       case 27: {
         this.handleFullscreenClose();

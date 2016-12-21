@@ -32,10 +32,15 @@ class Fullscreen extends React.Component {
   }
 
   handleKeyUp(e) {
+    if (document.activeElement.tagName === 'INPUT') {
+      return;
+    }
+
     switch (e.keyCode) {
       case 32: {
         this._show();
-        ImagesStore.like(this.props.image);        
+        ImagesStore.like(this.props.image);
+        break;
       }
     }
   }

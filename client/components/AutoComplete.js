@@ -30,6 +30,10 @@ class AutoComplete extends React.Component {
 
   handleKeyUp(event) {
     switch (event.keyCode) {
+      case 27: {
+        this.refs.input.blur();
+        break;
+      }
       case 38: {
         if (this.state.index > 0) {
           var newIndex = this.state.index - 1;
@@ -124,7 +128,9 @@ class AutoComplete extends React.Component {
 
   handleBlur() {
     this.setState({
-      focus: false
+      focus: false,
+      value: '',
+      tags: []
     })
   }
 
@@ -177,7 +183,8 @@ class AutoComplete extends React.Component {
       <div className="autocomplete" ref="box">
         <form onSubmit={this.handleSubmit.bind(this)}>
           <input className={className} 
-            type="text" 
+            type="text"
+            ref="input"
             value={this.state.value} 
             onChange={this.handleChange.bind(this)} 
             onFocus={this.handleFocus.bind(this)} 

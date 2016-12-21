@@ -1,6 +1,6 @@
-var Dispatcher = require('./Dispatcher');
-
-var $ = require("jquery");
+const Dispatcher = require('./Dispatcher');
+const NavigationsStore = require('./NavigationsStore');
+const $ = require("jquery");
 
 class ImagesStore extends Dispatcher {
   constructor() {
@@ -40,6 +40,7 @@ class ImagesStore extends Dispatcher {
   }
 
   addTag(image, tag) {
+    var newEntry = !tag.id;
     fetch('/api/images/' + image.id + '/tags', {
       method: "PUT",
       body: JSON.stringify(tag), 
@@ -50,6 +51,10 @@ class ImagesStore extends Dispatcher {
     }).then((result) => result.json()).then((tag) => {
       image.tags.push(tag);
       this.dispatch();
+
+      if (newEntry) {
+        NavigationsStore.load();
+      }
     });
   }
 

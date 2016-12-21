@@ -99,8 +99,9 @@ class ImagesController extends BaseController {
   deleteTag() {
     return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
       return Tag.query((qb) => {
+        qb.debug(true);
         qb.whereNotExists(function() {
-          this.select('images_tags.id').from('images_tags').whereRaw('tags.id = images_tags.id');
+          this.select('images_tags.id').from('images_tags').whereRaw('tags.id = images_tags.tag_id');
         });
       }).destroy();
     });

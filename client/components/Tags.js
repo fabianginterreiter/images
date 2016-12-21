@@ -10,13 +10,7 @@ class Tags extends React.Component {
   }
 
   handleDeleteTag(tag) {
-    fetch('/api/images/' + this.props.image.id + '/tags/' + tag.id, {
-      method: "DELETE",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
+    ImagesStore.deleteTag(this.props.image, tag);
   }
 
   render() {

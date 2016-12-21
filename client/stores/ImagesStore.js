@@ -58,6 +58,25 @@ class ImagesStore extends Dispatcher {
     });
   }
 
+  deleteTag(image, tag) {
+    fetch('/api/images/' + image.id + '/tags/' + tag.id, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => { 
+      NavigationsStore.load();
+      for (var index = 0; index < image.tags.length; index++) {
+        if (image.tags[index].id === tag.id) {
+          image.tags.splice(index, 1);
+          break;
+        }
+      }
+      this.dispatch(); 
+    });
+  }
+
   load(service) {
     fetch(service, {
       accept: 'application/json',

@@ -36,6 +36,10 @@ class Images extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setState({
+      view: -1
+    });
+
     var option = NavigationsStore.getOption(nextProps.location.pathname);
 
     if (option) {

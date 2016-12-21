@@ -277,7 +277,8 @@ class Images extends React.Component {
           image={this.state.images[this.state.view]} 
           next={this.handleNext.bind(this)} 
           previous={this.handlePrevious.bind(this)} 
-          handleClose={this.handleFullscreenClose.bind(this)} />
+          handleClose={this.handleFullscreenClose.bind(this)}
+          number={this.state.view + 1} size={this.state.images.length} />
       );
     }
 

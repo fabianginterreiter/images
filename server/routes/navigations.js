@@ -3,9 +3,9 @@
 const express = require('express');
 const router = express.Router();
 
-var bookshelf = require('../model/bookshelf');
-var moment = require('moment');
-var Tag = require('../model/Tag');
+const bookshelf = require('../model/bookshelf');
+const moment = require('moment');
+const Tag = require('../model/Tag');
 
 router.get('/', (req, res) => {
 

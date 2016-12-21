@@ -1,13 +1,12 @@
-var React = require('react');
-var OptionsList = require('./OptionsList');
+"use strict"
 
+const React = require('react');
+const OptionsList = require('./OptionsList');
 const Like = require('./Like')
 const Tags = require('./Tags')
-var ImagesStore = require('../stores/ImagesStore');
-var $ = require("jquery");
-
-
-var KeyUpListener = require('../stores/KeyUpListener');
+const ImagesStore = require('../stores/ImagesStore');
+const $ = require("jquery");
+const KeyUpListener = require('../stores/KeyUpListener');
 
 class Fullscreen extends React.Component {
   constructor(props) {

@@ -1,20 +1,20 @@
-var React = require('react');
-var moment = require('moment');
-var $ = require("jquery");
-var Image = require('./Image');
-var DateDivider = require('./DateDivider');
-var Fullscreen = require('./Fullscreen');
-var Like = require('./Like');
-var Empty = require('./Empty');
+"use strict"
 
-var ImagesStore = require('../stores/ImagesStore');
-var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
-var NavigationsState = require('../states/NavigationsState');
-var NavigationsStore = require('../stores/NavigationsStore');
-var KeyUpListener = require('../stores/KeyUpListener');
-var ResizeListener = require('../stores/ResizeListener');
-
-var history = require('react-router').browserHistory;
+const React = require('react');
+const moment = require('moment');
+const $ = require("jquery");
+const Image = require('./Image');
+const DateDivider = require('./DateDivider');
+const Fullscreen = require('./Fullscreen');
+const Like = require('./Like');
+const Empty = require('./Empty');
+const ImagesStore = require('../stores/ImagesStore');
+const ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
+const NavigationsState = require('../states/NavigationsState');
+const NavigationsStore = require('../stores/NavigationsStore');
+const KeyUpListener = require('../stores/KeyUpListener');
+const ResizeListener = require('../stores/ResizeListener');
+const history = require('react-router').browserHistory;
 
 class Images extends React.Component {
   constructor(props) {
@@ -260,12 +260,8 @@ class Images extends React.Component {
 
   loadFromDate(year, month, day) {
     ImagesStore.load('/api/images?year=' + year + '&month=' + month + '&day=' + day);
-    
     history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
-
-
-
 
   render() {
     if (this.state.images.length === 0) {

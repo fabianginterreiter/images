@@ -1,8 +1,8 @@
-var React = require('react');
+"use strict"
 
-var UserState = require('../states/UserState');
-
-var history = require('react-router').browserHistory;
+const React = require('react');
+const UserState = require('../states/UserState');
+const history = require('react-router').browserHistory;
 
 class Init extends React.Component {
   constructor(props) {

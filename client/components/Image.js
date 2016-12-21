@@ -1,8 +1,8 @@
-var React = require('react');
+"use strict"
 
-var $ = require("jquery");
-
-var ViewPointStore = require('../stores/ViewPointStore');
+const React = require('react');
+const $ = require("jquery");
+const ViewPointStore = require('../stores/ViewPointStore');
 
 class Image extends React.Component {
   constructor(props) {

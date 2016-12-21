@@ -1,12 +1,11 @@
-var React = require('react');
+"use strict"
 
-var ThumbnailsResizer = require('../components/ThumbnailsResizer');
-var Options = require('../components/Options');
-
-var NavigationsState = require('../states/NavigationsState');
-var UploadStore = require('../stores/UploadStore');
-
-var $ = require("jquery");
+const React = require('react');
+const ThumbnailsResizer = require('../components/ThumbnailsResizer');
+const Options = require('../components/Options');
+const NavigationsState = require('../states/NavigationsState');
+const UploadStore = require('../stores/UploadStore');
+const $ = require("jquery");
 
 class Header extends React.Component {
   handleClick() {

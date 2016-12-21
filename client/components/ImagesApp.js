@@ -1,14 +1,14 @@
-var React = require('react');
+"use strict"
 
-var NavigationsState = require('../states/NavigationsState');
-var UserState = require('../states/UserState');
-var Uploader = require('./Uploader');
-var DragAndDropUpload = require('./DragAndDropUpload');
-var ImagesStore = require('../stores/ImagesStore');
-var Header = require('./Header');
-var UsersManagement = require('./UsersManagement');
-var Navigations = require('./Navigations');
-
+const React = require('react');
+const NavigationsState = require('../states/NavigationsState');
+const UserState = require('../states/UserState');
+const Uploader = require('./Uploader');
+const DragAndDropUpload = require('./DragAndDropUpload');
+const ImagesStore = require('../stores/ImagesStore');
+const Header = require('./Header');
+const UsersManagement = require('./UsersManagement');
+const Navigations = require('./Navigations');
 
 class ImagesApp extends React.Component {
   constructor(props) {

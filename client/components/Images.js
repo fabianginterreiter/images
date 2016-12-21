@@ -166,7 +166,6 @@ class Images extends React.Component {
 
   handleSelect(image, event) {
     image.selected = !image.selected;
-    event.preventDefault();
     this.forceUpdate()
   }
 

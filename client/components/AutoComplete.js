@@ -140,7 +140,7 @@ class AutoComplete extends React.Component {
       }
     }
 
-    if (tag.name === this.state.value) {
+    if (tag.name.toUpperCase() === this.state.value.toUpperCase()) {
       this.marked = tag;
       return 'marked';
     }

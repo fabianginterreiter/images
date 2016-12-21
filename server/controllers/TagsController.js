@@ -4,7 +4,7 @@ var Tag = require('../model/Tag');
 
 var BaseController = require('./BaseController');
 
-class UserController extends BaseController {
+class TagsController extends BaseController {
   create() {
     return new Tag({
       name: this.body.name
@@ -20,6 +20,8 @@ class UserController extends BaseController {
       if (this.query.q) {
         qb.where('name', 'LIKE', this.query.q);
       }
+
+      qb.orderBy('name','asc');
     }).fetchAll().then((result) => (result.toJSON()));
   }
 
@@ -32,4 +34,4 @@ class UserController extends BaseController {
   }
 }
 
-module.exports = UserController;
+module.exports = TagsController;

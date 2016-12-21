@@ -1,3 +1,5 @@
+"use strict"
+
 const React = require('react');
 const KeyUpListener = require('../stores/KeyUpListener');
 const $ = require("jquery");

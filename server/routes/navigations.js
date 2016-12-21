@@ -1,3 +1,5 @@
+"use strict"
+
 const express = require('express');
 const router = express.Router();
 
@@ -56,7 +58,9 @@ router.get('/', (req, res) => {
       options: years
     });
 
-    return Tag.fetchAll().then((tags) => tags.toJSON());
+    return Tag.query((qb) => {
+      qb.orderBy('name','asc');
+    }).fetchAll().then((tags) => tags.toJSON());
   }).then((tags) => {
     var result = {
       key: 'tags',

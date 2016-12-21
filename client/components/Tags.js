@@ -15,15 +15,18 @@ class Tags extends React.Component {
 
   render() {
     return (
-      <div>
-        <AutoComplete service='/api/tags' onSelect={this.handleAddTag.bind(this)} ignore={this.props.image.tags} />
-
+      <div className="tags">
         <h4>Tags</h4>
+
+        <div className="input">
+          <AutoComplete service='/api/tags' onSelect={this.handleAddTag.bind(this)} ignore={this.props.image.tags} placeholder='Add Tag' />
+        </div>
+
         <ul>
           {
             this.props.image.tags.map((tag, idx) => (<li key={tag.id}>
               <Link to={`/images/tags/${tag.id}`}>{tag.name}</Link>
-              <i className="icon-remove" onClick={this.handleDeleteTag.bind(this, tag)} />
+              <span className="badge"><i className="icon-remove" onClick={this.handleDeleteTag.bind(this, tag)} /></span>
             </li>))
           }
         </ul>

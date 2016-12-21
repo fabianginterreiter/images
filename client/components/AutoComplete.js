@@ -1,5 +1,6 @@
 const React = require('react');
 const KeyUpListener = require('../stores/KeyUpListener');
+const $ = require("jquery");
 
 class AutoComplete extends React.Component {
   constructor(props) {
@@ -157,7 +158,7 @@ class AutoComplete extends React.Component {
     var tags = (<span />);
     if (this.state.focus && this.state.tags.length > 0) {
       var style = {
-        top: this.refs.field.height
+        top: $(this.refs.box).height()
       }
 
       tags = (
@@ -171,9 +172,15 @@ class AutoComplete extends React.Component {
     }
 
     return (
-      <div className="autocomplete">
+      <div className="autocomplete" ref="box">
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <input className={className} type="text" value={this.state.value} onChange={this.handleChange.bind(this)} ref="field" onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} />
+          <input className={className} 
+            type="text" 
+            value={this.state.value} 
+            onChange={this.handleChange.bind(this)} 
+            onFocus={this.handleFocus.bind(this)} 
+            onBlur={this.handleBlur.bind(this)} 
+            placeholder={this.props.placeholder} />
           {tags}
         </form>
       </div>

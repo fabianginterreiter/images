@@ -1,16 +1,55 @@
+.tags {
+  text-align: left;
+
+  h4 {
+    padding: 5px;
+    margin: 0;
+  }
+
+  .input {
+    padding: 5px;
+    margin: 0;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+      position: relative;
+      padding: 7px;
+      list-style: none;
+      margin: 0;
+
+      a {
+        text-decoration: none;
+        color: $color;
+      }
+    }
+
+    li:hover {
+      background-color: $hoverBackgroundColor;
+    }
+  }
+}
+
 .autocomplete {
   text-align: left;
 
   form {
     width: 100%;
     position: relative;
+    margin: 0;
+    padding: 0;
 
     input {
       width: 100%;
+      font-size: 14px;
+      padding: 5px;
     }
 
     input.marked {
-      background-color: green;
+      background-color: #ffdaa0;
     }
 
     ul {
@@ -18,21 +57,26 @@
       position: absolute;
       background: white;
       padding: 0;
+      margin: 0;
+      z-index: 200;
 
       li {
         list-style: none;
         color: black;
-        padding: 3px;
+        font-size: 14px;
+        padding: 5px;
         margin: 0;
         border: 1px solid #e9e9e9;
+        background-color: white;
       }
 
       li.marked {
-        background-color: red;
+        background-color: $hoverBackgroundColor;
       }
 
       li.select {
-        background-color: blue;
+        background-color: $selectedBackgroundColor;
+        color: $selectedColor;
       }
     }  
   }

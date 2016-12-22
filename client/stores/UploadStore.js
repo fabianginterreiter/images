@@ -26,9 +26,10 @@ class UploadStore extends Dispatcher {
     return this._active;
   }
 
-  completeHandler() {
+  completeHandler(image) {
     // console.log("Upload [" + super.getObject()[this._index].name + "] complete.");
     super.getObject()[this._index].complete = true;
+    super.getObject()[this._index].image = image;
     super.dispatch();
     this._index++;
     this._upload(this._index);
@@ -47,7 +48,7 @@ class UploadStore extends Dispatcher {
   }
 
   _upload(index) {
-    if (!(index < super.getObject().length)) {
+    if (!(index < super.getObject().length) || this._canceled) {
       this._active = false;
       super.dispatch();
       return;
@@ -95,9 +96,14 @@ class UploadStore extends Dispatcher {
   }
 
   upload() {
+    this._canceled = false;
     this._index = 0;
     this._active = true;
     this._upload(0);
+  }
+
+  cancel() {
+    this._canceled = true;
   }
 }
 

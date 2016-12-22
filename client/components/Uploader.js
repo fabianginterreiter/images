@@ -1,14 +1,18 @@
-var UploadStore = require('../stores/UploadStore');
-var React = require('react');
-var InlineProgress = require('./InlineProgress');
-var Modal = require('../components/Modal');
+"use strict"
+
+const ImagesStore = require('../stores/ImagesStore');
+const UploadStore = require('../stores/UploadStore');
+const React = require('react');
+const InlineProgress = require('./InlineProgress');
+const Modal = require('../components/Modal');
 
 class Uploader extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      files: []
+      files: [],
+      started: false
     };
   }
 
@@ -22,6 +26,9 @@ class Uploader extends React.Component {
 
   handleStart() {
     UploadStore.upload();
+    this.setState({
+      started: true
+    });
   }
 
   handleCancel() {
@@ -29,7 +36,35 @@ class Uploader extends React.Component {
       uploads: false
     });
 
+    UploadStore.cancel();
     UploadStore.setObject([]);
+  }
+
+  handleOpen() {
+    var images = [];
+
+    this.state.files.forEach((file) => images.push(file.image));
+
+    ImagesStore.setObject(images);
+    UploadStore.setObject([]);
+  }
+
+  __renderButtons() {
+    var buttons = [];
+
+    if (!this.state.started) {
+      buttons.push(<button key='UploadButton' onClick={this.handleStart.bind(this)}>Upload</button>)
+      buttons.push(<button key='CancelButton' onClick={this.handleCancel.bind(this)}>Cancel</button>)
+    } else {
+      if (!UploadStore.isUploading()) {
+        buttons.push(<button key='ShowButton' onClick={this.handleOpen.bind(this)}>Show</button>)
+        buttons.push(<button key='CloseButton' onClick={this.handleCancel.bind(this)}>Close</button>)
+      } else {
+        buttons.push(<button key='CancelUploading' onClick={this.handleCancel.bind(this)}>Cancel</button>)  
+      }
+    }
+
+    return (<div className="bottom">{buttons}</div>)
   }
 
   render() {
@@ -57,10 +92,7 @@ class Uploader extends React.Component {
         <div className="body">
           <ul>{files}</ul>
         </div>
-        <div className="bottom">
-          <button onClick={this.handleStart.bind(this)}>Upload</button>
-          <button onClick={this.handleCancel.bind(this)}>Cancel</button>
-        </div>
+        {this.__renderButtons()}
       </Modal>
     );
   }

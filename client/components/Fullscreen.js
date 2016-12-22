@@ -7,6 +7,7 @@ const Tags = require('./Tags')
 const ImagesStore = require('../stores/ImagesStore');
 const $ = require("jquery");
 const KeyUpListener = require('../stores/KeyUpListener');
+const Panel = require('./Panel');
 
 class Fullscreen extends React.Component {
   constructor(props) {
@@ -104,15 +105,6 @@ class Fullscreen extends React.Component {
         name: 'Delete'
       }];
 
-    var style = {};
-
-    var clickCatcher = (<span />);
-
-    if (this.state.menu) {
-      style.width = '300px';
-      clickCatcher = (<div className="click" onClick={this.toggleMenu.bind(this)} />);
-    }
-
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
         <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} />
@@ -126,13 +118,12 @@ class Fullscreen extends React.Component {
         </div>
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />
-        <div className="panel right" style={style}>
+        <Panel open={this.state.menu} clickCatcher={this.state.menu} side='right' onClickCatcherClick={this.toggleMenu.bind(this)}>
           <div className="body">
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <Tags image={this.props.image} />
           </div>
-        </div>
-        {clickCatcher}
+        </Panel>
       </div>
     );
   }

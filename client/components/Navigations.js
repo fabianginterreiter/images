@@ -1,13 +1,14 @@
-var Options = require('./Options');
-var React = require('react');
+"use strict"
 
-var OptionsList = require('./OptionsList');
-
-var ImagesStore = require('../stores/ImagesStore');
-var NavigationsStore = require('../stores/NavigationsStore');
-var NavigationsState = require('../states/NavigationsState');
-var UserState = require('../states/UserState');
-var history = require('react-router').browserHistory;
+const Options = require('./Options');
+const React = require('react');
+const OptionsList = require('./OptionsList');
+const ImagesStore = require('../stores/ImagesStore');
+const NavigationsStore = require('../stores/NavigationsStore');
+const NavigationsState = require('../states/NavigationsState');
+const UserState = require('../states/UserState');
+const history = require('react-router').browserHistory;
+const Panel = require('./Panel');
 
 class Navigations extends React.Component {
   constructor(props) {
@@ -46,16 +47,9 @@ class Navigations extends React.Component {
   }
 
   render() {
-    var style = {};
-    var clickCatcher = (<span />);
+    var open = (NavigationsState.getObject().open || NavigationsState.getObject().pinned);
 
-    if (NavigationsState.getObject().open || NavigationsState.getObject().pinned) {
-      style.width = '300px';
-    }
-
-    if (NavigationsState.getObject().open && !NavigationsState.getObject().pinned) {
-      clickCatcher = (<div className="click" onClick={NavigationsState.close.bind(NavigationsState)} />);
-    }
+    var clickCatcher = (NavigationsState.getObject().open && !NavigationsState.getObject().pinned);
 
     var pinClass = "badge min500";
     if (NavigationsState.getObject().pinned) {
@@ -63,22 +57,19 @@ class Navigations extends React.Component {
     }
 
     return (
-      <div>
-        {clickCatcher}
-        <div className="panel left" style={style}>
-          <div className="title">
-            <span onClick={NavigationsState.close.bind(NavigationsState)}><i className="icon-camera-retro"></i> Images</span>
-            <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin icon-large"></i></div>
-          </div>
-          <div style={{clear:'both'}} />
-          <div className="body">
-            <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
-          </div>
-          <div className="footer">
-            <div className="profile" onClick={this.handleChangeUser.bind(this)}><i className="icon-user"></i> {UserState.getUser().name}</div>
-          </div>
+      <Panel open={open} clickCatcher={clickCatcher} onClickCatcherClick={NavigationsState.close.bind(NavigationsState)} side='left'>
+        <div className="title">
+          <span onClick={NavigationsState.close.bind(NavigationsState)}><i className="icon-camera-retro"></i> Images</span>
+          <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin icon-large"></i></div>
         </div>
-      </div>);
+        <div style={{clear:'both'}} />
+        <div className="body">
+          <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
+        </div>
+        <div className="footer">
+          <div className="profile" onClick={this.handleChangeUser.bind(this)}><i className="icon-user"></i> {UserState.getUser().name}</div>
+        </div>
+      </Panel>);
   }
 }
 

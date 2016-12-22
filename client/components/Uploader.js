@@ -1,6 +1,7 @@
 var UploadStore = require('../stores/UploadStore');
 var React = require('react');
 var InlineProgress = require('./InlineProgress');
+var Modal = require('../components/Modal');
 
 class Uploader extends React.Component {
   constructor(props) {
@@ -51,19 +52,16 @@ class Uploader extends React.Component {
     });
 
     return (
-      <div>
-        <div className="dimming" />
-        <div className="modal">
-          <div className="title">Upload</div>
-          <div className="body">
-            <ul>{files}</ul>
-          </div>
-          <div className="bottom">
-            <button onClick={this.handleStart.bind(this)}>Upload</button>
-            <button onClick={this.handleCancel.bind(this)}>Cancel</button>
-          </div>
+      <Modal onCancel={this.handleCancel.bind(this)}>
+        <div className="title">Upload</div>
+        <div className="body">
+          <ul>{files}</ul>
         </div>
-      </div>
+        <div className="bottom">
+          <button onClick={this.handleStart.bind(this)}>Upload</button>
+          <button onClick={this.handleCancel.bind(this)}>Cancel</button>
+        </div>
+      </Modal>
     );
   }
 }

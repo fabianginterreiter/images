@@ -14,13 +14,20 @@ class Navigations extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      values: NavigationsStore.getObject()
+      values: NavigationsStore.getObject(),
+      query: ''
     }
   }
 
   componentDidMount() {
     NavigationsState.addChangeListener(this, function() {
-      this.forceUpdate();
+      if (NavigationsState.getObject().open) {
+        this.setState({
+          query: ''
+        });
+      } else {
+        this.forceUpdate();  
+      }
     }.bind(this));
 
     NavigationsStore.addChangeListener(this, (navigations) => this.setState({values:navigations}));
@@ -35,6 +42,12 @@ class Navigations extends React.Component {
     history.push(option.link);
 
     NavigationsState.close();
+  }
+
+  handleSearchChange(event) {
+    this.setState({
+      query: event.target.value
+    });
   }
 
   isSelected(option) {
@@ -60,11 +73,12 @@ class Navigations extends React.Component {
       <Panel open={open} clickCatcher={clickCatcher} onClickCatcherClick={NavigationsState.close.bind(NavigationsState)} side='left'>
         <div className="title">
           <span onClick={NavigationsState.close.bind(NavigationsState)}><i className="icon-camera-retro"></i> Images</span>
+          <input type="text" onChange={this.handleSearchChange.bind(this)} value={this.state.query} placeholder="Search" />
           <div className={pinClass} onClick={NavigationsState.pin.bind(NavigationsState)}><i className="icon-pushpin icon-large"></i></div>
         </div>
         <div style={{clear:'both'}} />
         <div className="body">
-          <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} />
+          <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} query={this.state.query} />
         </div>
         <div className="footer">
           <div className="profile" onClick={this.handleChangeUser.bind(this)}><i className="icon-user"></i> {UserState.getUser().name}</div>

@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
           type: 'action',
           service: '/api/images?year=' + year,
           link: '/images/dates/' + year,
-          name: year,
+          name: '' + year,
           options: months
         });
         months = [];
@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
       months.push({
         key: 'date' + year + date.month,
         type: 'action',
-        name: moment().month(date.month - 1).format("MMMM"),
+        name: moment().month(date.month - 1).format("MMMM YYYY"),
         service: '/api/images?year=' + year + '&month=' + date.month,
         link: '/images/dates/' + year + '/' + date.month
       })
@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
       type: 'action',
       service: '/api/images?year=' + year,
       link: '/images/dates/' + year,
-      name: year,
+      name: '' + year,
       options: months
     });
 

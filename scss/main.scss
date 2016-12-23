@@ -16,7 +16,13 @@ body {
   margin: 60px 0 0 0;
   background: white;
 }
-
+.panel > .title > input {
+  position: absolute;
+  top: 6px;
+  right: 40px;
+  padding: 5px;
+  width: 160px;
+}
 .content {
   transition: 0.3s;
 }

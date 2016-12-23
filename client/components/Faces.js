@@ -211,8 +211,6 @@ class Faces extends React.Component {
   }
 
   render() {
-    var className = 'faces' + this.props.show ? '' : ' hide';
-
     return (
       <div className="faces" style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
         {this._renderSelection()}

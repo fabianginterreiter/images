@@ -149,15 +149,10 @@ header {
     max-height: 100%;
   }
 
-  .hide {
-    visibility: none;
-  }
-
   .faces {
     position: absolute;
     z-index: 1100;
     top: 0;
-    visibility: visible;
     transition:opacity 1s linear;
 
     .face {

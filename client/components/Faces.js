@@ -34,6 +34,8 @@ class Faces extends React.Component {
       return;
     }
 
+    e.preventDefault();
+
     switch (e.keyCode) {
       case 32: {
         this.setState({
@@ -175,7 +177,7 @@ class Faces extends React.Component {
     }
 
     let style2 = {
-      top: (this.props.style.height * ((parseFloat(person._pivot_top) + parseFloat(person._pivot_height))/100) + 10) + 'px',
+      top: (this.props.style.height * (((person._pivot_top) + (person._pivot_height))/100) + 10) + 'px',
       left: (person._pivot_left) + '%',
     };
 

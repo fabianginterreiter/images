@@ -13,10 +13,10 @@ exports.up = function(knex, Promise) {
       table.integer('person_id').references('persons.id').onDelete('CASCADE');
       table.unique(['person_id', 'image_id']);
       
-      table.string('left');
-      table.string('top');
-      table.string('width');
-      table.string('height');
+      table.float('left');
+      table.float('top');
+      table.float('width');
+      table.float('height');
 
       table.timestamps();
     })

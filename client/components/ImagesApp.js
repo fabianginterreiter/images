@@ -10,6 +10,8 @@ const Header = require('./Header');
 const UsersManagement = require('./UsersManagement');
 const Navigations = require('./Navigations');
 
+const Dialog = require('./Dialog');
+
 class ImagesApp extends React.Component {
   constructor(props) {
     super(props);
@@ -49,6 +51,7 @@ class ImagesApp extends React.Component {
 
         <Uploader />
         <DragAndDropUpload />
+        <Dialog />
       </div>
     );
   }

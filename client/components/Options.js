@@ -1,10 +1,13 @@
-var React = require('react');
+"use strict"
 
-var $ = require("jquery");
+const React = require('react');
 
-var OptionsList = require('./OptionsList');
-var Dropdown = require('./Dropdown');
-var ImagesStore = require('../stores/ImagesStore');
+const $ = require("jquery");
+
+const OptionsList = require('./OptionsList');
+const Dropdown = require('./Dropdown');
+const ImagesStore = require('../stores/ImagesStore');
+const DialogStore = require('../stores/DialogStore');
 
 class Options extends React.Component {
   constructor(props) {
@@ -84,8 +87,14 @@ class Options extends React.Component {
 
     switch (option.key) {
       case 'delete': {
-        images.forEach(function(image) {
-          ImagesStore.delete(image);
+        
+
+        DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then((result) => {
+          if (result) {
+            images.forEach(function(image) {
+              ImagesStore.delete(image);
+            });
+          }
         });
 
         break;

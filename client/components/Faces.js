@@ -8,6 +8,7 @@ const UploadStore = require('../stores/UploadStore');
 const $ = require("jquery");
 const AutoComplete = require('./AutoComplete');
 const ImagesStore = require('../stores/ImagesStore');
+const Link = require('react-router').Link;
 
 class Faces extends React.Component {
 
@@ -96,7 +97,7 @@ class Faces extends React.Component {
       return (<span />);
     }
 
-    return (<div className="face" style={this.state.selection} />);
+    return (<div className="face"><div className="border borderCreate" style={this.state.selection} /></div>);
   }
 
   _renderCreate() {
@@ -106,17 +107,13 @@ class Faces extends React.Component {
 
     let style = {
       top: (this.state.create.top + this.state.create.height) + 'px',
-      left: (this.state.create.left + this.state.create.width / 2 - 100) + 'px',
-      background: 'green',
-      width: '200px',
-      height: '20px',
-      position: 'absolute'
+      left: this.state.create.left + 'px'
     };
 
     return (
-      <div>
-        <div className="face" style={this.state.create} />
-        <div style={style}>
+      <div className="face">
+        <div className="border borderCreate" style={this.state.create} />
+        <div className="field" style={style}>
            <AutoComplete service='/api/persons' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' />
         </div>
       </div>);
@@ -147,10 +144,10 @@ class Faces extends React.Component {
       left: (person._pivot_left) + '%',
     };
 
-    return (<div key={person.id}>
-      <div className="face" style={style} />
+    return (<div key={person.id} className="face">
+      <div className="border" style={style} />
       <div style={style2} className="name">
-        {person.name}
+        <Link to={`/images/persons/${person.id}`}>{person.name}</Link>
         <i className="icon-remove" onClick={(e) => this.handleDeletePerson(e, person)} />
       </div>
     </div>);
@@ -179,6 +176,8 @@ class Faces extends React.Component {
   }
 
   render() {
+    var className = 'faces' + this.props.show ? '' : ' hide';
+
     return (
       <div className="faces" style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
         {this._renderSelection()}

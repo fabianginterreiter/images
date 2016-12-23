@@ -176,6 +176,13 @@ class ImagesController extends BaseController {
         });
       }
 
+      if (query.person) {
+        qb.join('images_persons', function() {
+          this.on('images.id', 'images_persons.image_id'),
+          this.on('images_persons.person_id', query.person);
+        });
+      }
+
       var where = {};
 
       if (this.query.year) {

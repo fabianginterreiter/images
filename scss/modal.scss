@@ -1,6 +1,6 @@
 .dimming {
   position: fixed;
-  z-index: 199;
+  z-index: 4000;
   top: 0;
   left: 0;
   right: 0;
@@ -9,6 +9,41 @@
   opacity:0.7;
 }
 
+.dialog {
+  position: fixed;
+
+  width: 500px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: 5%;
+
+  background-color: #fff;
+  border-style: solid;
+  border-width: 1px;
+  border-color: $borderColor;
+  border-radius: 3px;
+
+  color: #666;
+
+  z-index: 5000;
+
+  .title {
+    border-bottom: 1px solid $borderColor;
+    padding: 10px;
+  }
+
+  .body {
+    padding: 5px 10px;
+  }
+
+  .bottom {
+    padding: 10px;
+    border-top: 1px solid $borderColor;
+  }
+}
 .modal {
   position: fixed;
 
@@ -29,7 +64,7 @@
 
   color: #666;
 
-  z-index: 500;
+  z-index: 5000;
 
   .title {
     border-bottom: 1px solid $borderColor;

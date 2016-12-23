@@ -8,16 +8,16 @@ class Panel extends React.Component {
       clickCatcher = (<div className="click" onClick={this.props.onClickCatcherClick} />);
     }
 
-    var style = {};
+    var className = 'panel ' + this.props.side;
 
     if (this.props.open) {
-      style.width = '300px';
+      className += ' open';
     }
 
     return (
-      <div>
+      <div className="panelm">
         {clickCatcher}
-        <div className={'panel ' + this.props.side} style={style}>
+        <div className={className}>
           {this.props.children}
         </div>
       </div>

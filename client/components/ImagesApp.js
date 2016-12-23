@@ -35,7 +35,7 @@ class ImagesApp extends React.Component {
     var contentClass = 'content';
       
     if (NavigationsState.getObject().pinned) {
-      contentClass += ' open';
+      contentClass += ' pinned';
     }
     
     return (

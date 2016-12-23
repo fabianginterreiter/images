@@ -16,7 +16,8 @@ class Fullscreen extends React.Component {
 
     this.state = {
       show: false,
-      menu: false
+      menu: false,
+      style: {}
     };
   }
 
@@ -96,7 +97,17 @@ class Fullscreen extends React.Component {
       });
     }
   }
-  
+
+  handleImageLoad(event) {
+    let img = event.target;
+    this.setState({
+      style: {
+        width: img.width,
+        height: img.height,
+        left: img.offsetLeft
+      }
+    });
+  };
   
 
   render() {
@@ -112,9 +123,12 @@ class Fullscreen extends React.Component {
         name: 'Delete'
       }];
 
+    console.log(this.state.style);
+
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
-        <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} />
+        <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
+        <div style={this.state.style} className="faces" />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename} ({this.props.number}/{this.props.size})

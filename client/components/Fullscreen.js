@@ -9,6 +9,7 @@ const $ = require("jquery");
 const KeyUpListener = require('../stores/KeyUpListener');
 const Panel = require('./Panel');
 const DialogStore = require('../stores/DialogStore');
+const Faces = require('./Faces')
 
 class Fullscreen extends React.Component {
   constructor(props) {
@@ -108,7 +109,8 @@ class Fullscreen extends React.Component {
       }
     });
   };
-  
+
+
 
   render() {
     var titleClass = 'title';
@@ -123,12 +125,10 @@ class Fullscreen extends React.Component {
         name: 'Delete'
       }];
 
-    console.log(this.state.style);
-
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
         <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
-        <div style={this.state.style} className="faces" />
+        <Faces style={this.state.style} image={this.props.image} />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename} ({this.props.number}/{this.props.size})

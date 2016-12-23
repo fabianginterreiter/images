@@ -3,6 +3,7 @@ var React = require('react');
 var $ = require("jquery");
 
 var OptionsList = require('./OptionsList');
+var Dropdown = require('./Dropdown');
 var ImagesStore = require('../stores/ImagesStore');
 
 class Options extends React.Component {
@@ -113,21 +114,12 @@ class Options extends React.Component {
   render() {
     this.selected = ImagesStore.hasSelected();
 
-    var style = {};
-    var clickCatcher = (<span />);
-
-    if (this.state.visible) {
-      style.height = '400px';
-      clickCatcher = (<div className="click" onClick={this.close.bind(this)} />);
-    }
-
     return (
       <li onClick={this.toggle.bind(this)} className="btn">
         <i className="icon-reorder" />
-        {clickCatcher}
-        <div className="menu" style={style}>
+        <Dropdown open={this.state.visible} onCancel={this.close.bind(this)}>
           <OptionsList values={this.state.values} active={this.isActive.bind(this)} onClick={this.handleClick.bind(this)} />
-        </div>
+        </Dropdown>
       </li>
     );
   }

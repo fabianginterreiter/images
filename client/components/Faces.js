@@ -143,10 +143,9 @@ class Faces extends React.Component {
     }
 
     let style2 = {
-      top: (parseFloat(person._pivot_top) + parseFloat(person._pivot_height)) + '%',
+      top: (this.props.style.height * ((parseFloat(person._pivot_top) + parseFloat(person._pivot_height))/100) + 10) + 'px',
       left: (person._pivot_left) + '%',
       background: 'green',
-      width: '200px',
       height: '20px',
       position: 'absolute',
       textAlign: 'left'

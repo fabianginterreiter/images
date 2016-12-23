@@ -145,15 +145,14 @@ class Faces extends React.Component {
     let style2 = {
       top: (this.props.style.height * ((parseFloat(person._pivot_top) + parseFloat(person._pivot_height))/100) + 10) + 'px',
       left: (person._pivot_left) + '%',
-      background: 'green',
-      height: '20px',
-      position: 'absolute',
-      textAlign: 'left'
     };
 
     return (<div key={person.id}>
       <div className="face" style={style} />
-      <div style={style2}>{person.name}</div>
+      <div style={style2} className="name">
+        {person.name}
+        <i className="icon-remove" onClick={(e) => this.handleDeletePerson(e, person)} />
+      </div>
     </div>);
   }
 
@@ -172,6 +171,11 @@ class Faces extends React.Component {
     this.setState({
       create: null
     });
+  }
+
+  handleDeletePerson(e, person) {
+    e.preventDefault();
+    ImagesStore.deletePerson(this.props.image, person);
   }
 
   render() {

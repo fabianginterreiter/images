@@ -155,8 +155,17 @@ header {
     top: 0;
 
     .face {
-      border: 5px solid green;
+      border-style: solid;
+      border-width: 5px;
+      border-color: green;
       position: absolute;
+    }
+
+    .name {
+      color: white;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      position: absolute;
+      text-align: left;
     }
   }
 

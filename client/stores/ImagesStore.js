@@ -77,6 +77,44 @@ class ImagesStore extends Dispatcher {
     });
   }
 
+  addPerson(image, person) {
+    var newEntry = !person.id;
+    fetch('/api/images/' + image.id + '/persons', {
+      method: "PUT",
+      body: JSON.stringify(person), 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((result) => result.json()).then((person) => {
+      image.persons.push(person);
+      this.dispatch();
+
+      if (newEntry) {
+        NavigationsStore.load();
+      }
+    });
+  }
+
+  deletePerson(image, person) {
+    fetch('/api/images/' + image.id + '/persons/' + person.id, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => { 
+      NavigationsStore.load();
+      for (var index = 0; index < image.persons.length; index++) {
+        if (image.persons[index].id === person.id) {
+          image.persons.splice(index, 1);
+          break;
+        }
+      }
+      this.dispatch(); 
+    });
+  }
+
   load(service) {
     fetch(service, {
       accept: 'application/json',

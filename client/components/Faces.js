@@ -7,6 +7,7 @@ const NavigationsState = require('../states/NavigationsState');
 const UploadStore = require('../stores/UploadStore');
 const $ = require("jquery");
 const AutoComplete = require('./AutoComplete');
+const ImagesStore = require('../stores/ImagesStore');
 
 class Faces extends React.Component {
 
@@ -116,7 +117,7 @@ class Faces extends React.Component {
       <div>
         <div className="face" style={this.state.create} />
         <div style={style}>
-           <AutoComplete service='/api/tags' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' />
+           <AutoComplete service='/api/persons' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' />
         </div>
       </div>);
   }
@@ -124,7 +125,7 @@ class Faces extends React.Component {
   _renderPersons() {
     var persons = [];
 
-    if (!this.props.image.persons || !this.props.show) {
+    if (!this.props.show) {
       return persons;
     }
 
@@ -135,15 +136,15 @@ class Faces extends React.Component {
 
   _renderPerson(person) {
     var style = {
-      top: person.top + '%',
-      left: person.left + '%',
-      width: person.width + '%',
-      height: person.height + '%'
+      top: person._pivot_top + '%',
+      left: person._pivot_left + '%',
+      width: person._pivot_width + '%',
+      height: person._pivot_height + '%'
     }
 
     let style2 = {
-      top: (person.top + person.height) + '%',
-      left: (person.left) + '%',
+      top: (parseFloat(person._pivot_top) + parseFloat(person._pivot_height)) + '%',
+      left: (person._pivot_left) + '%',
       background: 'green',
       width: '200px',
       height: '20px',
@@ -151,7 +152,7 @@ class Faces extends React.Component {
       textAlign: 'left'
     };
 
-    return (<div>
+    return (<div key={person.id}>
       <div className="face" style={style} />
       <div style={style2}>{person.name}</div>
     </div>);
@@ -167,11 +168,7 @@ class Faces extends React.Component {
       name: person.name
     }
 
-    if (!this.props.image.persons) {
-      this.props.image.persons = [];
-    }
-
-    this.props.image.persons.push(object);
+    ImagesStore.addPerson(this.props.image, object);
 
     this.setState({
       create: null

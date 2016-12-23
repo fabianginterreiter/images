@@ -34,7 +34,7 @@ class OptionsList extends React.Component {
   }
 
   _renderName(name) {
-    if (this.props.query && this.props.query.length >  0) {
+    if (this.props.query && this.props.query.length > 0 && name.toUpperCase().startsWith(this.props.query.toUpperCase())) {
       return (<span><span className="selected">{name.substring(0, this.props.query.length)}</span>{name.substring(this.props.query.length)}</span>);
     }
     return name;
@@ -49,7 +49,7 @@ class OptionsList extends React.Component {
     values.map(function(option, idx) {
       var className = option.className ? option.className : '';
 
-      if (this._isOptionVisible(option, open)) {
+      if (deep === 0 || this._isOptionVisible(option, open)) {
         switch (option.type) {
           case 'divider':
             elements.push(<li key={'divider' + idx} className={className + ' divider'} style={style} />);

@@ -9,6 +9,7 @@ const $ = require("jquery");
 const AutoComplete = require('./AutoComplete');
 const ImagesStore = require('../stores/ImagesStore');
 const Link = require('react-router').Link;
+const KeyUpListener = require('../stores/KeyUpListener');
 
 class Faces extends React.Component {
 
@@ -17,6 +18,30 @@ class Faces extends React.Component {
 
     this.state = {
       selection: null
+    }
+  }
+
+  componentDidMount() {
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+  }
+
+  componentWillUnmount() {
+    KeyUpListener.removeChangeListener(this);    
+  }
+
+  handleKeyUp(e) {
+    if (!this.state.create) {
+      return;
+    }
+
+    switch (e.keyCode) {
+      case 32: {
+        this.setState({
+          create: null
+        });
+        e.preventDefault();
+        break;
+      }
     }
   }
 
@@ -34,6 +59,8 @@ class Faces extends React.Component {
 
     this.offsetLeft = event.target.offsetLeft;
     this.offsetTop = event.target.offsetTop
+
+    this.startTime = new Date().getTime();
 
     var position = this.getMousePosition(event);
 
@@ -79,6 +106,14 @@ class Faces extends React.Component {
       return;
     }
 
+    var time = new Date().getTime() - this.startTime;
+
+    if (time < 300) {
+      return this.setState({
+        selection: null
+      })
+    }
+
     var selection = this.state.selection;
 
     this.setState({
@@ -106,7 +141,7 @@ class Faces extends React.Component {
     }
 
     let style = {
-      top: (this.state.create.top + this.state.create.height) + 'px',
+      top: (this.state.create.top + this.state.create.height + 10) + 'px',
       left: this.state.create.left + 'px'
     };
 

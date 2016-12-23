@@ -102,7 +102,13 @@ class ImagesController extends BaseController {
           left: person.left,
           width: person.width,
           height: person.height
-        }).save().then(() => person);
+        }).save().then(() => { 
+          person._pivot_top = person.top;
+          person._pivot_left = person.left;
+          person._pivot_width = person.width;
+          person._pivot_height = person.height;
+          return person
+        });
       });
     }
   }

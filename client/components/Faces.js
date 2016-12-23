@@ -6,6 +6,7 @@ const Options = require('../components/Options');
 const NavigationsState = require('../states/NavigationsState');
 const UploadStore = require('../stores/UploadStore');
 const $ = require("jquery");
+const AutoComplete = require('./AutoComplete');
 
 class Faces extends React.Component {
 
@@ -56,8 +57,8 @@ class Faces extends React.Component {
 
     var x = Math.min(position.x, this.state.startX);
     var y = Math.min(position.y, this.state.startY);
-    var width = Math.max(position.x, this.state.startX) - x;
-    var height = Math.max(position.y, this.state.startY) - y;
+    var width = Math.abs(position.x - this.state.startX);
+    var height = Math.abs(position.y - this.state.startY);
 
     this.setState({
       selection: {
@@ -102,7 +103,79 @@ class Faces extends React.Component {
       return (<span />);
     }
 
-    return (<div className="face" style={this.state.create} />);
+    let style = {
+      top: (this.state.create.top + this.state.create.height) + 'px',
+      left: (this.state.create.left + this.state.create.width / 2 - 100) + 'px',
+      background: 'green',
+      width: '200px',
+      height: '20px',
+      position: 'absolute'
+    };
+
+    return (
+      <div>
+        <div className="face" style={this.state.create} />
+        <div style={style}>
+           <AutoComplete service='/api/tags' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' />
+        </div>
+      </div>);
+  }
+
+  _renderPersons() {
+    var persons = [];
+
+    if (!this.props.image.persons || !this.props.show) {
+      return persons;
+    }
+
+    this.props.image.persons.forEach((person) => persons.push(this._renderPerson(person)))
+
+    return persons;
+  }
+
+  _renderPerson(person) {
+    var style = {
+      top: person.top + '%',
+      left: person.left + '%',
+      width: person.width + '%',
+      height: person.height + '%'
+    }
+
+    let style2 = {
+      top: (person.top + person.height) + '%',
+      left: (person.left) + '%',
+      background: 'green',
+      width: '200px',
+      height: '20px',
+      position: 'absolute',
+      textAlign: 'left'
+    };
+
+    return (<div>
+      <div className="face" style={style} />
+      <div style={style2}>{person.name}</div>
+    </div>);
+  }
+
+  handleAddPerson(person) {
+    var object = {
+      top: (this.state.create.top / this.props.style.height * 100),
+      left: (this.state.create.left / this.props.style.width * 100),
+      width: (this.state.create.width / this.props.style.width * 100),
+      height: (this.state.create.height / this.props.style.height * 100),
+      id: person.id,
+      name: person.name
+    }
+
+    if (!this.props.image.persons) {
+      this.props.image.persons = [];
+    }
+
+    this.props.image.persons.push(object);
+
+    this.setState({
+      create: null
+    });
   }
 
   render() {
@@ -110,6 +183,7 @@ class Faces extends React.Component {
       <div className="faces" style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
         {this._renderSelection()}
         {this._renderCreate()}
+        {this._renderPersons()}
       </div>
     );
   }

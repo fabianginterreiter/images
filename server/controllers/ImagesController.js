@@ -4,6 +4,8 @@ const Image = require('../model/Image');
 const Like = require('../model/Like');
 const ImageTag = require('../model/ImageTag');
 const Tag = require('../model/Tag');
+const Person = require('../model/Person');
+const ImagePerson = require('../model/ImagePerson');
 
 var fs = require('fs');
 var config = require('../config');
@@ -76,6 +78,52 @@ class ImagesController extends BaseController {
     return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy();
   }
 
+  addPerson() {
+    var person = this.body;
+
+    if (person.id) {
+      return new ImagePerson({
+        image_id: this.params.id,
+        person_id: person.id,
+        top: person.top,
+        left: person.left,
+        width: person.width,
+        height: person.height
+      }).save().then(() => person);
+    } else {
+      return new Person({
+        name:person.name
+      }).save().then((result) => {
+        person.id = result.get('id');
+        return new ImagePerson({
+          image_id: this.params.id,
+          person_id: result.id,
+          top: person.top,
+          left: person.left,
+          width: person.width,
+          height: person.height
+        }).save().then(() => { 
+          person._pivot_top = person.top;
+          person._pivot_left = person.left;
+          person._pivot_width = person.width;
+          person._pivot_height = person.height;
+          return person
+        });
+      });
+    }
+  }
+
+  deletePerson() {
+    return ImagePerson.where({image_id:this.params.id, person_id:this.params.person_id}).destroy().then(() => {
+      return Person.query((qb) => {
+        qb.debug(true);
+        qb.whereNotExists(function() {
+          this.select('images_persons.id').from('images_persons').whereRaw('persons.id = images_persons.person_id');
+        });
+      }).destroy();
+    });
+  }
+
   addTag() {
     var tag = this.body;
 
@@ -134,6 +182,13 @@ class ImagesController extends BaseController {
         });
       }
 
+      if (query.person) {
+        qb.join('images_persons', function() {
+          this.on('images.id', 'images_persons.image_id'),
+          this.on('images_persons.person_id', query.person);
+        });
+      }
+
       var where = {};
 
       if (this.query.year) {
@@ -151,7 +206,7 @@ class ImagesController extends BaseController {
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }).fetchAll({withRelated: ['user', 'tags']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
+    }).fetchAll({withRelated: ['user', 'tags', 'persons']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
   }
 
   destroy() {

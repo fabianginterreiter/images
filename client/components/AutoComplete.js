@@ -22,6 +22,10 @@ class AutoComplete extends React.Component {
 
   componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+
+    if (this.props.focus) {
+      this.refs.input.focus();
+    }
   }
 
   componentWillUnmount() {
@@ -121,17 +125,27 @@ class AutoComplete extends React.Component {
   }
 
   handleFocus() {
+    KeyUpListener.take(this);
+
     this.setState({
       focus: true
     })
   }
 
   handleBlur(event) {
-    setTimeout(() => this.setState({
-      focus: false,
-      value: '',
-      tags: []
-    }), 100);
+    KeyUpListener.release(this);
+
+    setTimeout(() => {
+      this.setState({
+        focus: false,
+        value: '',
+        tags: []
+      });
+
+      if (this.props.onBlur) {
+        this.props.onBlur(event);
+      }
+    }, 100);
   }
 
   getMenuClassName(tag) {

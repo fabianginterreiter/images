@@ -6,6 +6,7 @@ const router = express.Router();
 const bookshelf = require('../model/bookshelf');
 const moment = require('moment');
 const Tag = require('../model/Tag');
+const Person = require('../model/Person');
 
 router.get('/', (req, res) => {
 
@@ -75,6 +76,27 @@ router.get('/', (req, res) => {
       name: tag.name,
       link: '/images/tags/' + tag.id,
       service: '/api/images?tag=' + tag.id
+    }));
+
+    options.push(result);
+
+    return Person.query((qb) => {
+      qb.orderBy('name','asc');
+    }).fetchAll()
+  }).then((persons) => persons.toJSON()).then((persons) => {
+    var result = {
+      key: 'persons',
+      type: 'menu',
+      name: 'Persons',
+      options: []
+    };
+
+    persons.forEach((person) => result.options.push({
+      key: 'person_' + person.id,
+      type: 'action',
+      name: person.name,
+      link: '/images/persons/' + person.id,
+      service: '/api/images?person=' + person.id
     }));
 
     options.push(result);

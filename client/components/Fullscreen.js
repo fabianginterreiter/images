@@ -4,11 +4,14 @@ const React = require('react');
 const OptionsList = require('./OptionsList');
 const Like = require('./Like')
 const Tags = require('./Tags')
+const PersonsList = require('./PersonsList')
 const ImagesStore = require('../stores/ImagesStore');
 const $ = require("jquery");
 const KeyUpListener = require('../stores/KeyUpListener');
 const Panel = require('./Panel');
 const DialogStore = require('../stores/DialogStore');
+const Faces = require('./Faces')
+const ResizeListener = require('../stores/ResizeListener');
 
 class Fullscreen extends React.Component {
   constructor(props) {
@@ -16,18 +19,21 @@ class Fullscreen extends React.Component {
 
     this.state = {
       show: false,
-      menu: false
+      menu: false,
+      style: {}
     };
   }
 
   componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    ResizeListener.addChangeListener(this, this.handleImageLoad.bind(this));
     $("body").css("overflow", "hidden");
     this._show();
   }
 
   componentWillUnmount() {
-    KeyUpListener.removeChangeListener(this);    
+    KeyUpListener.removeChangeListener(this);
+    ResizeListener.removeChangeListener(this);     
     $("body").css("overflow", "auto");
     clearTimeout(this.timeout);
   }
@@ -96,8 +102,17 @@ class Fullscreen extends React.Component {
       });
     }
   }
-  
-  
+
+  handleImageLoad() {
+    let img = this.refs.image;
+    this.setState({
+      style: {
+        width: img.width,
+        height: img.height,
+        left: img.offsetLeft
+      }
+    });
+  };
 
   render() {
     var titleClass = 'title';
@@ -114,7 +129,8 @@ class Fullscreen extends React.Component {
 
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
-        <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} />
+        <img ref="image" src={'/images/' + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
+        <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename} ({this.props.number}/{this.props.size})
@@ -126,9 +142,12 @@ class Fullscreen extends React.Component {
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />
         <Panel open={this.state.menu} clickCatcher={this.state.menu} side='right' onClickCatcherClick={this.toggleMenu.bind(this)}>
+          <div className="title">
+          </div>
           <div className="body">
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <Tags image={this.props.image} />
+            <PersonsList image={this.props.image} />
           </div>
         </Panel>
       </div>

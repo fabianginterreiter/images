@@ -8,4 +8,12 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:id', (req, res) => (
+  new PersonsController(req).get().then((person) => (res.send(person))).catch((e) => res.status(404).send('Fehler'))
+  ));
+
+router.put('/:id', (req, res) => (
+  new PersonsController(req).update().then((person) => (res.send(person))).catch((e) => res.status(404).send('Fehler'))
+  ));
+
 module.exports = router;

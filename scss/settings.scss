@@ -1,0 +1,27 @@
+.settings {
+  width: 600px;
+  max-width: 90%;
+  overflow: auto;
+  margin: 0 auto;
+
+  table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 3px;
+    width: 100%;
+
+    tr {
+      td, th {
+        border: 1px solid $borderColor;
+        padding: 5px;
+      }
+    }
+
+    tr:hover {
+      td {
+        background-color: $hoverBackgroundColor;
+      }
+    }
+
+  }
+}

@@ -14,6 +14,14 @@ class PersonsController extends BaseController {
       qb.orderBy('name','asc');
     }).fetchAll().then((result) => (result.toJSON()));
   }
+
+  get() {
+    return new Person({id:this.params.id}).fetch().then((result) => (result.toJSON()));
+  }
+
+  update() {
+    return new Person({id:this.params.id}).save({name:this.body.name}, {patch: true}).then((result) => (result.toJSON()));
+  }
 }
 
 module.exports = PersonsController;

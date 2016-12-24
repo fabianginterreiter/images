@@ -67,6 +67,7 @@ router.get('/', (req, res) => {
       key: 'tags',
       type: 'menu',
       name: 'Tags',
+      settings: '/images/tags',
       options: []
     };
 

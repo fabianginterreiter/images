@@ -11,6 +11,7 @@ var IndexRedirect = require('react-router').IndexRedirect;
 var ImagesApp = require('./components/ImagesApp');
 var Images = require('./components/Images');
 var Persons = require('./components/Persons');
+var Tags = require('./components/Tags');
 var UsersManagement = require('./components/UsersManagement');
 
 var Init = require('./components/Init');
@@ -26,6 +27,7 @@ ReactDOM.render(
         <Route path="persons/:id" component={Images} />
         <Route path="favorites" component={Images} />
         <Route path="persons" component={Persons} />
+        <Route path="tags" component={Tags} />
         <IndexRoute component={Images} />
       </Route>
       <Route path="profiles" component={UsersManagement} />

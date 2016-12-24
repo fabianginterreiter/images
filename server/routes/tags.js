@@ -14,6 +14,12 @@ router.get('/:id', (req, res) => {
   });
 });
 
+router.put('/:id', (req, res) => {
+  new TagsController(req).update().then((tag) => (res.send(tag))).catch(function(e) {
+    res.status(404).send('Fehler');
+  });
+});
+
 router.delete('/:id', (req, res) => {
   new TagsController(req).destroy().then((tag) => (res.send(tag))).catch(function(e) {
     res.status(404).send('Fehler');

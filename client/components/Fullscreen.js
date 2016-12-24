@@ -3,7 +3,7 @@
 const React = require('react');
 const OptionsList = require('./OptionsList');
 const Like = require('./Like')
-const Tags = require('./Tags')
+const TagsList = require('./TagsList')
 const PersonsList = require('./PersonsList')
 const ImagesStore = require('../stores/ImagesStore');
 const $ = require("jquery");
@@ -146,7 +146,7 @@ class Fullscreen extends React.Component {
           </div>
           <div className="body">
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
-            <Tags image={this.props.image} />
+            <TagsList image={this.props.image} />
             <PersonsList image={this.props.image} />
           </div>
         </Panel>

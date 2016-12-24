@@ -25,6 +25,10 @@ class TagsController extends BaseController {
     }).fetchAll().then((result) => (result.toJSON()));
   }
 
+  update() {
+    return new Tag({id:this.params.id}).save({name:this.body.name}, {patch: true}).then((result) => (result.toJSON()));
+  }
+
   destroy() {
     return new Tag({id:this.params.id}).fetch().then(function(result) {
       return new Tag({id:this.params.id}).destroy().then(function() {

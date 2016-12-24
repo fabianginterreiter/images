@@ -86,17 +86,19 @@ class Faces extends React.Component {
 
     var position = this.getMousePosition(event);
 
-    var x = Math.min(position.x, this.state.startX);
-    var y = Math.min(position.y, this.state.startY);
-    var width = Math.abs(position.x - this.state.startX);
-    var height = Math.abs(position.y - this.state.startY);
+
+    var width = Math.max(position.x, this.state.startX) - Math.min(position.x, this.state.startX);
+    var height = Math.max(position.y, this.state.startY) - Math.min(position.y, this.state.startY);
+    var length = Math.max(width, height);
+    var x = this.state.startX < position.x ? this.state.startX : this.state.startX - length;
+    var y = this.state.startY < position.y ? this.state.startY : this.state.startY - length;
 
     this.setState({
       selection: {
         left: x,
         top: y,
-        width: Math.max(width, height),
-        height: Math.max(width, height)
+        width: length,
+        height: length
       }
     });
   }

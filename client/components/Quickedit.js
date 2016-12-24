@@ -4,6 +4,7 @@ const React = require('react');
 const $ = require("jquery");
 const Link = require('react-router').Link;
 const KeyUpListener = require('../stores/KeyUpListener');
+const DialogStore = require('../stores/DialogStore');
 
 class Persons extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class Persons extends React.Component {
   }
 
   render() {
-    return (<form onSubmit={this.handleSubmit.bind(this)}>
+    return (<form onSubmit={this.handleSubmit.bind(this)} className="quickedit">
       <input type="text" value={this.state.value} onBlur={this.handleBlur.bind(this)} autoFocus onChange={this.handleChange.bind(this)} />
     </form>);
   }

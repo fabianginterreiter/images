@@ -1,13 +1,26 @@
-var React = require('react');
-var cookie = require('react-cookie');
+"use strict"
+
+const React = require('react');
+const cookie = require('react-cookie');
+const Link = require('react-router').Link;
 
 class OptionsList extends React.Component {
-  toggleMenu(option) {
+  toggleMenu(event, option) {
+    if (event.target.className === "icon-cog") {
+      return;
+    }
+
     option.open = !option.open;
 
     cookie.save('menu_' + option.key, option.open.toString());
 
     this.forceUpdate();
+  }
+
+  handleSettings(event, option) {
+    if (this.props.onSettingsClick) {
+      this.props.onSettingsClick(option);
+    }
   }
 
   handleClick(e, options) {
@@ -50,6 +63,12 @@ class OptionsList extends React.Component {
       var className = option.className ? option.className : '';
 
       if (deep === 0 || this._isOptionVisible(option, open)) {
+        var settings = (<span />);
+
+        if (option.settings) {
+          settings = (<span className="badge" onClick={(event) => this.handleSettings(event, option)}><i className="icon-cog" />&nbsp;</span>);  
+        }
+
         switch (option.type) {
           case 'divider':
             elements.push(<li key={'divider' + idx} className={className + ' divider'} style={style} />);
@@ -58,9 +77,9 @@ class OptionsList extends React.Component {
             var badge = (<span />);
             if (option.options && option.options.length) {
               if (option.open) {
-                badge = (<div className="badge" onClick={this.toggleMenu.bind(this, option)}><i className="icon-chevron-down" /></div>);  
+                badge = (<div className="badge" onClick={(event) => this.toggleMenu(event, option)}><i className="icon-chevron-down" /></div>);  
               } else {
-                badge = (<div className="badge" onClick={this.toggleMenu.bind(this, option)}><i className="icon-chevron-up" /></div>);  
+                badge = (<div className="badge" onClick={(event) => this.toggleMenu(event, option)}><i className="icon-chevron-up" /></div>);  
               }
             }
 
@@ -80,7 +99,7 @@ class OptionsList extends React.Component {
               badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
             }
 
-            elements.push(<li key={option.key} className={className + ' action'} onClick={this.toggleMenu.bind(this, option)} style={style}>{this._renderName(option.name)}{badge}</li>);
+            elements.push(<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option.name)}{badge} {settings}</li>);
         }
       }
 

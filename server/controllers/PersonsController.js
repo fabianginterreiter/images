@@ -22,6 +22,14 @@ class PersonsController extends BaseController {
   update() {
     return new Person({id:this.params.id}).save({name:this.body.name}, {patch: true}).then((result) => (result.toJSON()));
   }
+
+  destroy() {
+    return new Person({id:this.params.id}).fetch().then(function(result) {
+      return new Person({id:this.params.id}).destroy().then(function() {
+        return result.toJSON();
+      });
+    }.bind(this));
+  }
 }
 
 module.exports = PersonsController;

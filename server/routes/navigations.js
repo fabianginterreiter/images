@@ -88,6 +88,7 @@ router.get('/', (req, res) => {
       key: 'persons',
       type: 'menu',
       name: 'Persons',
+      settings: '/images/persons',
       options: []
     };
 

@@ -4,6 +4,8 @@ const React = require('react');
 const $ = require("jquery");
 const Link = require('react-router').Link;
 const Quickedit = require('./Quickedit');
+const DialogStore = require('../stores/DialogStore');
+const NavigationsStore = require('../stores/NavigationsStore');
 
 class Persons extends React.Component {
   constructor(props) {
@@ -48,6 +50,26 @@ class Persons extends React.Component {
     this.forceUpdate();
   }
 
+  handleDelete(person) {
+    DialogStore.open('Delete Person', 'Do you really want to delete the Person?').then((result) => {
+      if (result) {
+        fetch('/api/persons/' + person.id, {
+          method: "DELETE",
+          credentials: 'include'
+        }).then(() => {
+          for (var index = 0; index < this.state.persons.length; index++) {
+            if (this.state.persons[index].id === person.id) {
+              this.state.persons.splice(index, 1);
+              break;
+            }
+          }
+          this.forceUpdate();
+          NavigationsStore.load();
+        });
+      }
+    });
+  }
+
   _renderText(person) {
     if (person.edit) {
       return (<Quickedit 
@@ -66,13 +88,15 @@ class Persons extends React.Component {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Delete</th>
+            <th className="option">Edit</th>
+            <th className="option">Delete</th>
           </tr>
         </thead>
         <tbody>
           {this.state.persons.map((person) => (<tr key={person.id}>
             <td>{this._renderText(person)}</td>
-            <td onClick={this.handleEdit.bind(this, person)}>Edit</td>
+            <td onClick={this.handleEdit.bind(this, person)} className="option"><i className="icon-cog" /></td>
+            <td onClick={this.handleDelete.bind(this, person)} className="option"><i className="icon-trash" /></td>
           </tr>))}
         </tbody>
       </table>

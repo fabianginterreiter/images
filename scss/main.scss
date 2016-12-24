@@ -82,11 +82,12 @@ header {
 }
 
 .badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 8px;
+  float: right;
   cursor: pointer;
+}
+
+.badge:hover {
+  color: $selectedColor;
 }
 
 .profile {

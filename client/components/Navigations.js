@@ -44,6 +44,11 @@ class Navigations extends React.Component {
     NavigationsState.close();
   }
 
+  handleSettingClick(option) {
+    history.push(option.settings);
+    NavigationsState.close();
+  }
+
   handleSearchChange(event) {
     this.setState({
       query: event.target.value
@@ -78,7 +83,11 @@ class Navigations extends React.Component {
         </div>
         <div style={{clear:'both'}} />
         <div className="body">
-          <OptionsList values={this.state.values} onClick={this.handleClick.bind(this)} selected={this.isSelected.bind(this)} query={this.state.query} />
+          <OptionsList values={this.state.values} 
+            onClick={this.handleClick.bind(this)} 
+            onSettingsClick={this.handleSettingClick.bind(this)}
+            selected={this.isSelected.bind(this)} 
+            query={this.state.query} />
         </div>
         <div className="footer">
           <div className="profile" onClick={this.handleChangeUser.bind(this)}><i className="icon-user"></i> {UserState.getUser().name}</div>

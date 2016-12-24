@@ -5,7 +5,7 @@ const Link = require('react-router').Link;
 const AutoComplete = require('./AutoComplete');
 const ImagesStore = require('../stores/ImagesStore');
 
-class Persons extends React.Component {
+class PersonsList extends React.Component {
 
   handleDeletePerson(person) {
     ImagesStore.deletePerson(this.props.image, person);
@@ -28,4 +28,4 @@ class Persons extends React.Component {
   }
 }
 
-module.exports = Persons;
+module.exports = PersonsList;

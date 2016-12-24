@@ -4,7 +4,7 @@ const React = require('react');
 const OptionsList = require('./OptionsList');
 const Like = require('./Like')
 const Tags = require('./Tags')
-const Persons = require('./Persons')
+const PersonsList = require('./PersonsList')
 const ImagesStore = require('../stores/ImagesStore');
 const $ = require("jquery");
 const KeyUpListener = require('../stores/KeyUpListener');
@@ -142,10 +142,12 @@ class Fullscreen extends React.Component {
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />
         <Panel open={this.state.menu} clickCatcher={this.state.menu} side='right' onClickCatcherClick={this.toggleMenu.bind(this)}>
+          <div className="title">
+          </div>
           <div className="body">
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <Tags image={this.props.image} />
-            <Persons image={this.props.image} />
+            <PersonsList image={this.props.image} />
           </div>
         </Panel>
       </div>

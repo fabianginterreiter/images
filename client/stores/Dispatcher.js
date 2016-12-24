@@ -4,6 +4,7 @@ class Dispatcher {
   constructor(playload) {
     this._callbacks = {};
     this._payload = playload;
+    this._takeover = null;
   }
 
   _objectId(object) {
@@ -32,6 +33,11 @@ class Dispatcher {
 
   dispatch() {
     var payload = this.getObject();
+
+    if (this._takeover && this._callbacks[this._takeover]) {
+      return this._callbacks[this._takeover](payload);
+    }
+
     for (var id in this._callbacks) {
       this._callbacks[id](payload);
     }
@@ -44,6 +50,28 @@ class Dispatcher {
 
   getObject() {
     return this._payload;
+  }
+
+  take(object) {
+    if (this._takeover) {
+      return;
+    }
+
+    if (!object.__obj_id) {
+      return;
+    }
+
+    if (!this._callbacks[object.__obj_id]) {
+      return;
+    }
+
+    this._takeover = object.__obj_id;
+  }
+
+  release(object) {
+    if (this._takeover === object.__obj_id) {
+      this._takeover = null;  
+    }
   }
 }
 

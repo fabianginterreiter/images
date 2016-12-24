@@ -21,32 +21,6 @@ class Faces extends React.Component {
     }
   }
 
-  componentDidMount() {
-    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
-  }
-
-  componentWillUnmount() {
-    KeyUpListener.removeChangeListener(this);    
-  }
-
-  handleKeyUp(e) {
-    if (!this.state.create) {
-      return;
-    }
-
-    e.preventDefault();
-
-    switch (e.keyCode) {
-      case 32: {
-        this.setState({
-          create: null
-        });
-        e.preventDefault();
-        break;
-      }
-    }
-  }
-
   getMousePosition(event) {
     return {
       x: event.clientX - this.offsetLeft,
@@ -141,6 +115,7 @@ class Faces extends React.Component {
 
   _renderCreate() {
     if (!this.state.create) {
+      
       return (<span />);
     }
 
@@ -154,7 +129,7 @@ class Faces extends React.Component {
         <div className="clickCatcher" onClick={this.handleCancelCreation.bind(this)} />
         <div className="border borderCreate" style={this.state.create} />
         <div className="field" style={style}>
-           <AutoComplete service='/api/persons' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' />
+           <AutoComplete service='/api/persons' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' onBlur={this.handleCancelCreation.bind(this)} focus={true} />
         </div>
       </div>);
   }

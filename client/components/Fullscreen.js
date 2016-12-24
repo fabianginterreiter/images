@@ -110,8 +110,6 @@ class Fullscreen extends React.Component {
     });
   };
 
-
-
   render() {
     var titleClass = 'title';
 

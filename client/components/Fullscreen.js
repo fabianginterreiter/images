@@ -135,7 +135,7 @@ class Fullscreen extends React.Component {
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.filename} ({this.props.number}/{this.props.size})
           <div className="options">
-            <Like image={this.props.image} />
+            <Like image={this.props.image} />&nbsp;
             <i className="icon-reorder" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>

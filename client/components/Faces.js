@@ -184,7 +184,7 @@ class Faces extends React.Component {
     };
 
     return (<div key={person.id} className="face">
-      <div className="border" style={style} />
+      <Link to={`/images/persons/${person.id}`}><div className="border" style={style}><div /></div></Link>
       <div style={style2} className="name">
         <Link to={`/images/persons/${person.id}`}>{person.name}</Link>
         <i className="icon-remove" onClick={(e) => this.handleDeletePerson(e, person)} />

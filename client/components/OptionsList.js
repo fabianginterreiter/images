@@ -24,7 +24,7 @@ class OptionsList extends React.Component {
   }
 
   handleClick(e, options) {
-    if(e.target.tagName !== 'LI') {
+    if(e.target.tagName !== 'LI' && (e.target.className === '' || e.target.className === 'selected')) {
       return;
     }
 

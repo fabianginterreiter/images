@@ -161,10 +161,6 @@ class Faces extends React.Component {
   _renderPersons() {
     var persons = [];
 
-    if (!this.props.show) {
-      return persons;
-    }
-
     this.props.image.persons.forEach((person) => persons.push(this._renderPerson(person)))
 
     return persons;
@@ -215,8 +211,10 @@ class Faces extends React.Component {
   }
 
   render() {
+    var className = 'faces' + (this.props.show ? ' show' : '');
+
     return (
-      <div className="faces" style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
+      <div className={className} style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
         {this._renderSelection()}
         {this._renderCreate()}
         {this._renderPersons()}

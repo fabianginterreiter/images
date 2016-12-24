@@ -153,6 +153,7 @@ header {
     position: absolute;
     z-index: 1100;
     top: 0;
+    opacity:0;
     transition:opacity 1s linear;
 
     .face {
@@ -162,8 +163,6 @@ header {
         border-color: white;        
         position: absolute;
       }
-
-
 
       .borderCreate {
         border-color: $selectedColor;

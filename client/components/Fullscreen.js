@@ -10,6 +10,7 @@ const KeyUpListener = require('../stores/KeyUpListener');
 const Panel = require('./Panel');
 const DialogStore = require('../stores/DialogStore');
 const Faces = require('./Faces')
+const ResizeListener = require('../stores/ResizeListener');
 
 class Fullscreen extends React.Component {
   constructor(props) {
@@ -24,12 +25,14 @@ class Fullscreen extends React.Component {
 
   componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    ResizeListener.addChangeListener(this, this.handleImageLoad.bind(this));
     $("body").css("overflow", "hidden");
     this._show();
   }
 
   componentWillUnmount() {
-    KeyUpListener.removeChangeListener(this);    
+    KeyUpListener.removeChangeListener(this);
+    ResizeListener.removeChangeListener(this);     
     $("body").css("overflow", "auto");
     clearTimeout(this.timeout);
   }
@@ -99,8 +102,8 @@ class Fullscreen extends React.Component {
     }
   }
 
-  handleImageLoad(event) {
-    let img = event.target;
+  handleImageLoad() {
+    let img = this.refs.image;
     this.setState({
       style: {
         width: img.width,
@@ -125,7 +128,7 @@ class Fullscreen extends React.Component {
 
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
-        <img src={'/images/' + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
+        <img ref="image" src={'/images/' + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
         <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>

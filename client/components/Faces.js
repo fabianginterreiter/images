@@ -11,13 +11,15 @@ const ImagesStore = require('../stores/ImagesStore');
 const Link = require('react-router').Link;
 const KeyUpListener = require('../stores/KeyUpListener');
 
+
 class Faces extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      selection: null
+      selection: null,
+      create: null
     }
   }
 

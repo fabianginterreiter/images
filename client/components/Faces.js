@@ -151,11 +151,19 @@ class Faces extends React.Component {
 
     return (
       <div className="face">
+        <div className="clickCatcher" onClick={this.handleCancelCreation.bind(this)} />
         <div className="border borderCreate" style={this.state.create} />
         <div className="field" style={style}>
            <AutoComplete service='/api/persons' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' />
         </div>
       </div>);
+  }
+
+  handleCancelCreation() {
+    this.setState({
+      create:null,
+      selection:null
+    });
   }
 
   _renderPersons() {
@@ -211,7 +219,7 @@ class Faces extends React.Component {
   }
 
   render() {
-    var className = 'faces' + (this.props.show ? ' show' : '');
+    var className = 'faces' + (this.props.show || this.state.create || this.state.selection ? ' show' : '');
 
     return (
       <div className={className} style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>

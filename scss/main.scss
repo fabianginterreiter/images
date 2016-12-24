@@ -196,6 +196,11 @@ header {
           text-decoration: none;
           color: white;
         }
+
+        .remove:hover {
+          color: $selectedColor;
+          cursor: pointer;
+        }
       }
     }
 

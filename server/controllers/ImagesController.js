@@ -4,8 +4,10 @@ const Image = require('../model/Image');
 const Like = require('../model/Like');
 const ImageTag = require('../model/ImageTag');
 const Tag = require('../model/Tag');
+const Album = require('../model/Album');
 const Person = require('../model/Person');
 const ImagePerson = require('../model/ImagePerson');
+const AlbumImage = require('../model/AlbumImage');
 
 var fs = require('fs');
 var config = require('../config');
@@ -151,6 +153,26 @@ class ImagesController extends BaseController {
     }
   }
 
+  addAlbum() {
+    var album = this.body;
+
+    if (album.id) {
+      return new AlbumImage({
+        album_id: album.id,
+        image_id: this.params.id
+      }).save().then(() => album);
+    } else {
+      return new Album({
+        name:album.name
+      }).save().then((album) => {
+        return new AlbumImage({
+          album_id: album.get('id'),
+          image_id: this.params.id
+        }).save().then(() => tag.toJSON());
+      });
+    }
+  }
+
   deleteTag() {
     return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
       return Tag.query((qb) => {
@@ -210,10 +232,14 @@ class ImagesController extends BaseController {
         where.day = this.query.day;
       }
 
+      qb.debug(true);
+
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }).fetchAll({withRelated: ['user', 'tags', 'persons']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
+    }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
+    .then((images) => (images.toJSON())).then((images) => this.__transformImages(images))
+    .catch((e) => console.log(e));
   }
 
   destroy() {

@@ -67,6 +67,13 @@ class Options extends React.Component {
         selected: true
       });
 
+      options.push({
+        key: 'selectAlbum',
+        type: 'action',
+        name: 'Set Albums',
+        selected: true
+      });
+
       result.forEach((option) => (options.push(option)));
 
       options.push({
@@ -172,6 +179,64 @@ class Options extends React.Component {
             ImagesStore.addTags(ImagesStore.getSelected(), tags)
           } else {
             Promise.all(promises).then(() => ImagesStore.addTags(ImagesStore.getSelected(), tags));
+          }
+        }).catch((e) => console.log(e));
+        break;
+      }  
+
+      case 'selectAlbum': {
+        var getElement = function(list, id) {
+          for (var index = 0; index < list.length; index++) {
+            if (list[index].id === id) {
+              return list[index];
+            }
+          }
+
+          return null;
+        }
+
+        fetch('/api/albums').then((result) => result.json()).then((albums) => {
+          ImagesStore.getSelected().forEach((image) => {
+            image.albums.forEach((album) => {
+              var e = getElement(albums, album.id);
+              if (e) {
+                e.__count = e.__count ? e.__count + 1 : 1;
+              }
+            });
+          });
+
+          albums.forEach((album) => {
+            if (album.__count && album.__count > 0) {
+              if (album.__count === ImagesStore.getSelected().length) {
+                album.selected = true;
+              } else {
+                album.marked = true;
+              }
+            }
+          });
+
+          return SelectDialogStore.open('Manage albums', albums);
+        }).then((albums) => {
+          var promises = [];
+          albums.forEach((album) => {
+            if (album.id || !album.selected) {
+              return;
+            }
+
+            promises.push(fetch('/api/albums', {
+              method: "POST",
+              body: JSON.stringify(album), 
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }).then((result) => (result.json())).then((result) => (album.id = result.id)));
+          });
+
+          if (promises.length === 0) {
+            ImagesStore.addAlbums(ImagesStore.getSelected(), albums)
+          } else {
+            Promise.all(promises).then(() => ImagesStore.addAlbums(ImagesStore.getSelected(), albums));
           }
         }).catch((e) => console.log(e));
         break;

@@ -83,7 +83,7 @@ class Tags extends React.Component {
         onCancel={() => this.handleCancel(tag)} />);
     }
 
-    return (<Link to={`/images/tags/${tag.id}`}>{tag.name}</Link>);
+    return (<Link to={`/images/tags/${tag.id}`}>{tag.name} ({tag.count})</Link>);
   }
 
   render() {

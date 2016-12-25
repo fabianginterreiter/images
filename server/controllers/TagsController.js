@@ -17,9 +17,17 @@ class TagsController extends BaseController {
 
   index() {
     return Tag.query((qb) => {
+      qb.select('tags.*');
+
       if (this.query.q) {
         qb.where('name', 'LIKE', this.query.q);
       }
+
+      qb.count('images_tags.tag_id AS count')
+      qb.join('images_tags', function() {
+        this.on('tags.id', 'images_tags.tag_id');
+      });
+      qb.groupBy('tags.id');
 
       qb.orderBy('name','asc');
     }).fetchAll().then((result) => (result.toJSON()));

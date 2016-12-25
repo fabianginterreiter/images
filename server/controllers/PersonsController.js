@@ -7,7 +7,6 @@ var BaseController = require('./BaseController');
 class PersonsController extends BaseController {
   index() {
     return Person.query((qb) => {
-      qb.debug(true);
       qb.select('persons.*');
 
       if (this.query.q) {

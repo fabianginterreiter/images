@@ -24,7 +24,7 @@ class TagsController extends BaseController {
       }
 
       qb.count('images_tags.tag_id AS count')
-      qb.join('images_tags', function() {
+      qb.leftJoin('images_tags', function() {
         this.on('tags.id', 'images_tags.tag_id');
       });
       qb.groupBy('tags.id');

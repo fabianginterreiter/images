@@ -43,8 +43,22 @@ class Images extends React.Component {
     var option = NavigationsStore.getOption(nextProps.location.pathname);
 
     if (option) {
+      var title = null;
+
+      if (option.key !== 'all') {
+        title = option.name; 
+      }
+
+      this.setState({
+        title:title
+      });
+
       return ImagesStore.load(option.service);
     }
+
+    this.setState({
+      title:null
+    });
 
     let routeParams = nextProps.routeParams;
     if (routeParams) {
@@ -262,6 +276,14 @@ class Images extends React.Component {
     history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
 
+  _renderTitle() {
+    if (this.state.title) {
+      return (<h3>{this.state.title}</h3>);
+    } else {
+      return (<span />);
+    }
+  }
+
   render() {
     if (this.state.images.length === 0) {
       return (<div id="container">
@@ -322,6 +344,7 @@ class Images extends React.Component {
     return (
       <div id="container">
         {view}
+        {this._renderTitle()}
         <div className={'container size' + this.state.size}>
           {elements}
         </div>

@@ -83,7 +83,7 @@ class Persons extends React.Component {
         onCancel={() => this.handleCancel(person)} />);
     }
 
-    return (<Link to={`/images/persons/${person.id}`}>{person.name}</Link>);
+    return (<Link to={`/images/persons/${person.id}`}>{person.name} ({person.count})</Link>);
   }
 
   render() {

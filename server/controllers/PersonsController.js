@@ -7,9 +7,18 @@ var BaseController = require('./BaseController');
 class PersonsController extends BaseController {
   index() {
     return Person.query((qb) => {
+      qb.debug(true);
+      qb.select('persons.*');
+
       if (this.query.q) {
         qb.where('name', 'LIKE', this.query.q);
       }
+
+      qb.count('images_persons.person_id AS count')
+      qb.join('images_persons', function() {
+        this.on('persons.id', 'images_persons.person_id');
+      });
+      qb.groupBy('persons.id');
 
       qb.orderBy('name','asc');
     }).fetchAll().then((result) => (result.toJSON()));

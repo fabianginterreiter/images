@@ -52,6 +52,7 @@ class ImagesApp extends React.Component {
 
         <Uploader />
         <DragAndDropUpload />
+        <Dialog />
         <SelectDialog />
       </div>
     );

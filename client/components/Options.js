@@ -8,6 +8,7 @@ const OptionsList = require('./OptionsList');
 const Dropdown = require('./Dropdown');
 const ImagesStore = require('../stores/ImagesStore');
 const DialogStore = require('../stores/DialogStore');
+const SelectDialogStore = require('../stores/SelectDialogStore');
 
 class Options extends React.Component {
   constructor(props) {
@@ -59,6 +60,13 @@ class Options extends React.Component {
         type: 'divider'
       });
 
+      options.push({
+        key: 'selectTag',
+        type: 'action',
+        name: 'Set Tags',
+        selected: false
+      });
+
       result.forEach((option) => (options.push(option)));
 
       options.push({
@@ -87,7 +95,6 @@ class Options extends React.Component {
 
     switch (option.key) {
       case 'delete': {
-        
 
         DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then((result) => {
           if (result) {
@@ -113,6 +120,18 @@ class Options extends React.Component {
         this.close();
         break;
       }
+
+      case 'selectTag': {
+        fetch('/api/tags').then((result) => result.json()).then((tags) => {
+          tags[0].marked = true;
+          tags[1].selected = true;
+          return tags;
+        }).then((tags) => SelectDialogStore.open('Delete Images', tags))
+        .then((result) => {
+          console.log(result);
+        });
+        break;
+      }  
     }
   }
 

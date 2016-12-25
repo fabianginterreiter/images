@@ -29,8 +29,13 @@ class Persons extends React.Component {
   }
 
   handleChange(person, value) {
-    person.name = value;
     person.edit = false;
+
+    if (person.name === value) {
+      return this.forceUpdate();
+    }    
+
+    person.name = value;
 
     fetch('/api/persons/' + person.id, {
       method: "PUT",

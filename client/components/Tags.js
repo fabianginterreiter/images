@@ -29,8 +29,13 @@ class Tags extends React.Component {
   }
 
   handleChange(tag, value) {
-    tag.name = value;
     tag.edit = false;
+
+    if (tag.name === value) {
+      return this.forceUpdate();
+    }
+
+    tag.name = value;
 
     fetch('/api/tags/' + tag.id, {
       method: "PUT",

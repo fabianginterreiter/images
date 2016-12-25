@@ -96,12 +96,10 @@ class Options extends React.Component {
     switch (option.key) {
       case 'delete': {
 
-        DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then((result) => {
-          if (result) {
-            images.forEach(function(image) {
-              ImagesStore.delete(image);
-            });
-          }
+        DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then(() => {
+          images.forEach(function(image) {
+            ImagesStore.delete(image);
+          });
         });
 
         break;
@@ -152,35 +150,30 @@ class Options extends React.Component {
             }
           });
 
-          return tags;
+          return SelectDialogStore.open('Manage Tags', tags);
         }).then((tags) => {
-          SelectDialogStore.open('Manage Tags', tags).then((result) => {
-            if (result) {
-              var promises = [];
-
-              tags.forEach((tag) => {
-                if (tag.id || !tag.selected) {
-                  return;
-                }
-
-                promises.push(fetch('/api/tags', {
-                  method: "POST",
-                  body: JSON.stringify(tag), 
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  }
-                }).then((result) => (result.json())).then((result) => (tag.id = result.id)));
-              });
-
-              if (promises.length === 0) {
-                ImagesStore.addTags(ImagesStore.getSelected(), tags)
-              } else {
-                Promise.all(promises).then(() => ImagesStore.addTags(ImagesStore.getSelected(), tags));
-              }
+          var promises = [];
+          tags.forEach((tag) => {
+            if (tag.id || !tag.selected) {
+              return;
             }
+
+            promises.push(fetch('/api/tags', {
+              method: "POST",
+              body: JSON.stringify(tag), 
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }).then((result) => (result.json())).then((result) => (tag.id = result.id)));
           });
-        });
+
+          if (promises.length === 0) {
+            ImagesStore.addTags(ImagesStore.getSelected(), tags)
+          } else {
+            Promise.all(promises).then(() => ImagesStore.addTags(ImagesStore.getSelected(), tags));
+          }
+        }).catch((e) => console.log(e));
         break;
       }  
     }

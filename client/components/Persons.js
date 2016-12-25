@@ -56,23 +56,20 @@ class Persons extends React.Component {
   }
 
   handleDelete(person) {
-    DialogStore.open('Delete Person', 'Do you really want to delete the Person?').then((result) => {
-      if (result) {
-        fetch('/api/persons/' + person.id, {
-          method: "DELETE",
-          credentials: 'include'
-        }).then(() => {
-          for (var index = 0; index < this.state.persons.length; index++) {
-            if (this.state.persons[index].id === person.id) {
-              this.state.persons.splice(index, 1);
-              break;
-            }
-          }
-          this.forceUpdate();
-          NavigationsStore.load();
-        });
+    DialogStore.open('Delete Person', 'Do you really want to delete the Person?')
+    .then(() => fetch('/api/persons/' + person.id, {
+      method: "DELETE",
+      credentials: 'include'
+    })).then(() => {
+      for (var index = 0; index < this.state.persons.length; index++) {
+        if (this.state.persons[index].id === person.id) {
+          this.state.persons.splice(index, 1);
+          break;
+        }
       }
-    });
+      this.forceUpdate();
+      NavigationsStore.load();
+    }).catch((e) => console.log(e));
   }
 
   _renderText(person) {

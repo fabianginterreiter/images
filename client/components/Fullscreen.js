@@ -77,13 +77,8 @@ class Fullscreen extends React.Component {
   handleClick(option) {
     switch (option.key) {
       case 'delete': {
-        
-
-        DialogStore.open('Delete Image', 'Do you really want to delete the image?').then((result) => {
-          if (result) {
-            ImagesStore.delete(this.props.image);
-          }
-        });
+        DialogStore.open('Delete Image', 'Do you really want to delete the image?')
+        .then(() => ImagesStore.delete(this.props.image)).catch((e) => console.log(e));
         break;
       }
     }

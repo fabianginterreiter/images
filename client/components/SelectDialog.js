@@ -22,12 +22,12 @@ class Dialog extends React.Component {
   }
 
   handleCancel() {
-    this.state.options.resolve(false);
+    this.state.options.reject(false);
     SelectDialogStore.setObject({});
   }
 
   handleOk() {
-    this.state.options.resolve(true);
+    this.state.options.resolve(this.state.options.options);
     SelectDialogStore.setObject({});
   }
 

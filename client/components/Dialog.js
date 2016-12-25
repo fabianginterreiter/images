@@ -17,7 +17,7 @@ class Dialog extends React.Component {
   }
 
   handleCancel() {
-    this.state.options.resolve(false);
+    this.state.options.reject(false);
     DialogStore.setObject({});
   }
 

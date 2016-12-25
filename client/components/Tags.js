@@ -56,23 +56,20 @@ class Tags extends React.Component {
   }
 
   handleDelete(tag) {
-    DialogStore.open('Delete Tag', 'Do you really want to delete the Tags?').then((result) => {
-      if (result) {
-        fetch('/api/tags/' + tag.id, {
-          method: "DELETE",
-          credentials: 'include'
-        }).then(() => {
-          for (var index = 0; index < this.state.tags.length; index++) {
-            if (this.state.tags[index].id === tag.id) {
-              this.state.tags.splice(index, 1);
-              break;
-            }
-          }
-          this.forceUpdate();
-          NavigationsStore.load();
-        });
+    DialogStore.open('Delete Tag', 'Do you really want to delete the Tags?')
+    .then((result) => fetch('/api/tags/' + tag.id, {
+        method: "DELETE",
+        credentials: 'include'
+      })).then(() => {
+      for (var index = 0; index < this.state.tags.length; index++) {
+        if (this.state.tags[index].id === tag.id) {
+          this.state.tags.splice(index, 1);
+          break;
+        }
       }
-    });
+      this.forceUpdate();
+      NavigationsStore.load();
+    }).catch((e) => console.log(e));
   }
 
   _renderText(tag) {

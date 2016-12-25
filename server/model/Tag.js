@@ -1,6 +1,5 @@
 "use strict"
 const Image = require('./Image');
-const ImageTag = require('./ImageTag');
 
 let bookshelf = require('./bookshelf');
 

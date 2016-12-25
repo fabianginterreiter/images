@@ -9,6 +9,7 @@ const Dropdown = require('./Dropdown');
 const ImagesStore = require('../stores/ImagesStore');
 const DialogStore = require('../stores/DialogStore');
 const SelectDialogStore = require('../stores/SelectDialogStore');
+const SingleSelectDialogStore = require('../stores/SingleSelectDialogStore');
 
 class Options extends React.Component {
   constructor(props) {
@@ -215,28 +216,23 @@ class Options extends React.Component {
             }
           });
 
-          return SelectDialogStore.open('Manage albums', albums);
-        }).then((albums) => {
-          var promises = [];
-          albums.forEach((album) => {
-            if (album.id || !album.selected) {
-              return;
-            }
-
-            promises.push(fetch('/api/albums', {
+          return SingleSelectDialogStore.open('Manage albums', albums);
+        }).then((album) => {
+          if (!album.id) {
+             return fetch('/api/albums', {
               method: "POST",
               body: JSON.stringify(album), 
               headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              }
-            }).then((result) => (result.json())).then((result) => (album.id = result.id)));
-          });
-
-          if (promises.length === 0) {
-            ImagesStore.addAlbums(ImagesStore.getSelected(), albums)
+                'Content-Type': 'application/json',
+                'Cache': 'no-cache'
+              },
+              credentials: 'include'
+            }).then((result) => (result.json())).then((result) => (album.id = result.id)).then(() => {
+              ImagesStore.addAlbums(ImagesStore.getSelected(), album);
+            });
           } else {
-            Promise.all(promises).then(() => ImagesStore.addAlbums(ImagesStore.getSelected(), albums));
+            ImagesStore.addAlbums(ImagesStore.getSelected(), album);
           }
         }).catch((e) => console.log(e));
         break;

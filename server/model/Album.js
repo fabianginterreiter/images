@@ -1,13 +1,18 @@
 "use strict"
-const Image = require('./Image');
 
-let bookshelf = require('./bookshelf');
+const bookshelf = require('./bookshelf');
 
-module.exports = bookshelf.Model.extend({
+const User = require('./User');
+
+module.exports = bookshelf.model('Album', {
   tableName: 'albums',
   hasTimestamps: true,
 
-  images: function() {
-    return this.belongsToMany(Image);
+  user: function() {
+    return this.belongsTo(User);
   },
+
+  images: function() {
+    return this.belongsToMany('Image');
+  }
 });

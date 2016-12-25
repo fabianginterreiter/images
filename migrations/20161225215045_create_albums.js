@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
       table.increments().primary();
       table.string('name');
       table.integer('user_id').references('users.id');
+      table.boolean('public').defaultTo(false);
       table.timestamps();
     }),
 

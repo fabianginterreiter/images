@@ -1,7 +1,7 @@
 "use strict"
 
-require('./Image');
-require('./Album');
+const Image = require('./Image');
+const Album = require('./Album');
 
 let bookshelf = require('./bookshelf');
 

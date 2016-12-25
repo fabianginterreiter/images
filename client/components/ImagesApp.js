@@ -12,6 +12,7 @@ const Navigations = require('./Navigations');
 
 const Dialog = require('./Dialog');
 const SelectDialog = require('./SelectDialog');
+const SingleSelectDialog = require('./SingleSelectDialog');
 
 class ImagesApp extends React.Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class ImagesApp extends React.Component {
         <DragAndDropUpload />
         <Dialog />
         <SelectDialog />
+        <SingleSelectDialog />
       </div>
     );
   }

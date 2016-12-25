@@ -25,14 +25,14 @@ class AlbumsController extends BaseController {
         qb.where('name', 'LIKE', this.query.q);
       }
 
-      qb.count('images_albums.album_id AS count')
-      qb.leftJoin('images_albums', function() {
-        this.on('albums.id', 'images_albums.album_id');
+      qb.count('albums_images.album_id AS count')
+      qb.leftJoin('albums_images', function() {
+        this.on('albums.id', 'albums_images.album_id');
       });
       qb.groupBy('albums.id');
 
       qb.orderBy('name','asc');
-    }).fetchAll().then((result) => (result.toJSON()));
+    }).fetchAll({withRelated: ['user']}).then((result) => (result.toJSON()));
   }
 
   update() {

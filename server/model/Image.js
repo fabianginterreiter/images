@@ -1,25 +1,24 @@
 "use strict"
 
-let bookshelf = require('./bookshelf');
-let User = require('./User');
-let Tag = require('./Tag') 
-let Album = require('./Album') 
+const bookshelf = require('./bookshelf');
+const User = require('./User');
+const Tag = require('./Tag') 
 const Person = require('./Person');
-let ImageTag = require('./ImageTag') 
+const ImageTag = require('./ImageTag') 
 
-module.exports = bookshelf.Model.extend({
+module.exports = bookshelf.model('Image', {
   tableName: 'images',
   hasTimestamps: true,
   user: function() {
     return this.belongsTo(User);
   },
 
-  tags: function() {
-    return this.belongsToMany(Tag);
+  albums: function() {
+    return this.belongsToMany('Album');
   },
 
-  albums: function() {
-    return this.belongsToMany(Album, 'albums_images', 'image_id', 'album_id');
+  tags: function() {
+    return this.belongsToMany(Tag);
   },
 
   persons: function() {

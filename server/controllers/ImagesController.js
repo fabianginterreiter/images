@@ -163,12 +163,13 @@ class ImagesController extends BaseController {
       }).save().then(() => album);
     } else {
       return new Album({
-        name:album.name
+        name:album.name,
+        user_id: this.session.user
       }).save().then((album) => {
         return new AlbumImage({
           album_id: album.get('id'),
           image_id: this.params.id
-        }).save().then(() => tag.toJSON());
+        }).save().then(() => album.toJSON());
       });
     }
   }
@@ -215,6 +216,13 @@ class ImagesController extends BaseController {
         qb.join('images_persons', function() {
           this.on('images.id', 'images_persons.image_id'),
           this.on('images_persons.person_id', query.person);
+        });
+      }
+
+      if (query.album) {
+        qb.join('albums_images', function() {
+          this.on('images.id', 'albums_images.image_id'),
+          this.on('albums_images.album_id', query.album);
         });
       }
 

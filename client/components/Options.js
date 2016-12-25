@@ -8,6 +8,7 @@ const OptionsList = require('./OptionsList');
 const Dropdown = require('./Dropdown');
 const ImagesStore = require('../stores/ImagesStore');
 const DialogStore = require('../stores/DialogStore');
+const SelectDialogStore = require('../stores/SelectDialogStore');
 
 class Options extends React.Component {
   constructor(props) {
@@ -59,6 +60,13 @@ class Options extends React.Component {
         type: 'divider'
       });
 
+      options.push({
+        key: 'selectTag',
+        type: 'action',
+        name: 'Set Tags',
+        selected: true
+      });
+
       result.forEach((option) => (options.push(option)));
 
       options.push({
@@ -87,7 +95,6 @@ class Options extends React.Component {
 
     switch (option.key) {
       case 'delete': {
-        
 
         DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then((result) => {
           if (result) {
@@ -113,6 +120,69 @@ class Options extends React.Component {
         this.close();
         break;
       }
+
+      case 'selectTag': {
+        var getElement = function(list, id) {
+          for (var index = 0; index < list.length; index++) {
+            if (list[index].id === id) {
+              return list[index];
+            }
+          }
+
+          return null;
+        }
+
+        fetch('/api/tags').then((result) => result.json()).then((tags) => {
+          ImagesStore.getSelected().forEach((image) => {
+            image.tags.forEach((tag) => {
+              var e = getElement(tags, tag.id);
+              if (e) {
+                e.__count = e.__count ? e.__count + 1 : 1;
+              }
+            });
+          });
+
+          tags.forEach((tag) => {
+            if (tag.__count && tag.__count > 0) {
+              if (tag.__count === ImagesStore.getSelected().length) {
+                tag.selected = true;
+              } else {
+                tag.marked = true;
+              }
+            }
+          });
+
+          return tags;
+        }).then((tags) => {
+          SelectDialogStore.open('Manage Tags', tags).then((result) => {
+            if (result) {
+              var promises = [];
+
+              tags.forEach((tag) => {
+                if (tag.id || !tag.selected) {
+                  return;
+                }
+
+                promises.push(fetch('/api/tags', {
+                  method: "POST",
+                  body: JSON.stringify(tag), 
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  }
+                }).then((result) => (result.json())).then((result) => (tag.id = result.id)));
+              });
+
+              if (promises.length === 0) {
+                ImagesStore.addTags(ImagesStore.getSelected(), tags)
+              } else {
+                Promise.all(promises).then(() => ImagesStore.addTags(ImagesStore.getSelected(), tags));
+              }
+            }
+          });
+        });
+        break;
+      }  
     }
   }
 

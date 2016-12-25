@@ -39,9 +39,9 @@ class ImagesStore extends Dispatcher {
     }
   }
 
-  addTag(image, tag) {
+  addTag(image, tag, mass) {
     var newEntry = !tag.id;
-    fetch('/api/images/' + image.id + '/tags', {
+    return fetch('/api/images/' + image.id + '/tags', {
       method: "PUT",
       body: JSON.stringify(tag), 
       headers: {
@@ -52,28 +52,69 @@ class ImagesStore extends Dispatcher {
       image.tags.push(tag);
       this.dispatch();
 
-      if (newEntry) {
+      if (newEntry && !mass) {
         NavigationsStore.load();
       }
+
+      return tag;
     });
   }
 
-  deleteTag(image, tag) {
-    fetch('/api/images/' + image.id + '/tags/' + tag.id, {
+  addTags(images, tags) {
+    var getElement = function(list, id) {
+      for (var index = 0; index < list.length; index++) {
+        if (list[index].id === id) {
+          return list[index];
+        }
+      }
+
+      return null;
+    }
+
+    var promises = [];
+
+    tags.forEach((tag) => {
+      if (tag.marked) {
+        return;
+      }
+
+      images.forEach((image) => {
+        var e = getElement(image.tags, tag.id);
+        if (e && !tag.selected) {
+          promises.push(this.deleteTag(image, tag, true));
+        } else if (!e && tag.selected) {
+          promises.push(this.addTag(image, tag, true));
+        }
+      });  
+    });
+
+    return Promise.all(promises).then(() => {
+      return NavigationsStore.load();
+    });
+  }
+
+  deleteTag(image, tag, mass) {
+    return fetch('/api/images/' + image.id + '/tags/' + tag.id, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     }).then(() => { 
-      NavigationsStore.load();
+      if (!mass) {
+        NavigationsStore.load();
+      }
+
       for (var index = 0; index < image.tags.length; index++) {
         if (image.tags[index].id === tag.id) {
           image.tags.splice(index, 1);
           break;
         }
       }
+
       this.dispatch(); 
+
+      return tag;
     });
   }
 

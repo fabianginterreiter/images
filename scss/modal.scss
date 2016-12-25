@@ -9,6 +9,10 @@
   opacity:0.7;
 }
 
+.marked {
+  color: $selectedColor;
+}
+
 .dialog {
   position: fixed;
 

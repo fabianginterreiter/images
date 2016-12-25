@@ -11,6 +11,7 @@ const UsersManagement = require('./UsersManagement');
 const Navigations = require('./Navigations');
 
 const Dialog = require('./Dialog');
+const SelectDialog = require('./SelectDialog');
 
 class ImagesApp extends React.Component {
   constructor(props) {
@@ -52,6 +53,7 @@ class ImagesApp extends React.Component {
         <Uploader />
         <DragAndDropUpload />
         <Dialog />
+        <SelectDialog />
       </div>
     );
   }

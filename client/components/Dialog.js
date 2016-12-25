@@ -5,7 +5,6 @@ var DialogStore = require('../stores/DialogStore');
 class Dialog extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {options:{}};
   }
 

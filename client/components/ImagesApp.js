@@ -47,7 +47,7 @@ class ImagesApp extends React.Component {
         <Navigations location={this.props.location} />
 
         <div className={contentClass}>
-          <Header />
+          <Header params={this.props.params} />
           {this.props.children}
         </div>
 

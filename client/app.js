@@ -25,7 +25,7 @@ ReactDOM.render(
         <Route path="dates/:year" component={Images} />
         <Route path="tags/:id" component={Images} />
         <Route path="persons/:id" component={Images} />
-        <Route path="albums/:id" component={Images} />
+        <Route path="albums/:albumId" component={Images} />
         <Route path="favorites" component={Images} />
         <Route path="persons" component={Persons} />
         <Route path="tags" component={Tags} />

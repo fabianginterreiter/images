@@ -174,6 +174,10 @@ class ImagesController extends BaseController {
     }
   }
 
+  deleteAlbum() {
+    return AlbumImage.where({image_id:this.params.id, album_id:this.params.album_id}).destroy();
+  }
+
   deleteTag() {
     return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
       return Tag.query((qb) => {

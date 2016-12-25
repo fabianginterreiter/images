@@ -8,6 +8,10 @@ const UploadStore = require('../stores/UploadStore');
 const $ = require("jquery");
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   handleClick() {
     $("#fileSelect").click();
   }
@@ -30,7 +34,7 @@ class Header extends React.Component {
               <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
               <i className="icon-upload" /> Upload
             </li>
-            <Options />
+            <Options params={this.props.params} />
           </ul>
         </nav>
       </header>

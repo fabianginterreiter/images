@@ -11,6 +11,8 @@ const DialogStore = require('../stores/DialogStore');
 const SelectDialogStore = require('../stores/SelectDialogStore');
 const SingleSelectDialogStore = require('../stores/SingleSelectDialogStore');
 
+const location = require('react-router').location;
+
 class Options extends React.Component {
   constructor(props) {
     super(props);
@@ -72,6 +74,13 @@ class Options extends React.Component {
         key: 'selectAlbum',
         type: 'action',
         name: 'Set Albums',
+        selected: true
+      });
+
+      options.push({
+        key: 'removeAlbum',
+        type: 'action',
+        name: 'Remove from Albums',
         selected: true
       });
 
@@ -236,11 +245,20 @@ class Options extends React.Component {
           }
         }).catch((e) => console.log(e));
         break;
-      }  
+      }
+
+      case 'removeAlbum': {
+        ImagesStore.deleteFromAlbum(ImagesStore.getSelected(), {id:this.props.params.albumId})
+        break;
+      }
     }
   }
 
   isActive(object) {
+    if (object.key === 'removeAlbum') {
+      return this.selected && this.props.params.albumId;
+    }
+
     return !object.selected || this.selected;
   }
 

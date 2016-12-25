@@ -141,6 +141,43 @@ class ImagesStore extends Dispatcher {
     });
   }
 
+  deleteFromAlbum(images, album) {
+    var promises = [];
+
+    images.forEach((image) => {
+      promises.push(this.deleteAlbum(image, album, true));
+    });  
+
+    return Promise.all(promises).then(() => {
+      // TODO Delete Images from current Images.
+    });
+  }
+
+  deleteAlbum(image, album, mass) {
+    return fetch('/api/images/' + image.id + '/albums/' + album.id, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => { 
+      if (!mass) {
+        NavigationsStore.load();
+      }
+
+      for (var index = 0; index < image.albums.length; index++) {
+        if (image.albums[index].id === album.id) {
+          image.albums.splice(index, 1);
+          break;
+        }
+      }
+
+      this.dispatch(); 
+
+      return album;
+    });
+  }
+
   deleteTag(image, tag, mass) {
     return fetch('/api/images/' + image.id + '/tags/' + tag.id, {
       method: "DELETE",

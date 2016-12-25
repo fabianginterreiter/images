@@ -64,7 +64,7 @@ class Options extends React.Component {
         key: 'selectTag',
         type: 'action',
         name: 'Set Tags',
-        selected: false
+        selected: true
       });
 
       result.forEach((option) => (options.push(option)));
@@ -156,7 +156,28 @@ class Options extends React.Component {
         }).then((tags) => {
           SelectDialogStore.open('Manage Tags', tags).then((result) => {
             if (result) {
-              ImagesStore.addTags(ImagesStore.getSelected(), tags);
+              var promises = [];
+
+              tags.forEach((tag) => {
+                if (tag.id || !tag.selected) {
+                  return;
+                }
+
+                promises.push(fetch('/api/tags', {
+                  method: "POST",
+                  body: JSON.stringify(tag), 
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  }
+                }).then((result) => (result.json())).then((result) => (tag.id = result.id)));
+              });
+
+              if (promises.length === 0) {
+                ImagesStore.addTags(ImagesStore.getSelected(), tags)
+              } else {
+                Promise.all(promises).then(() => ImagesStore.addTags(ImagesStore.getSelected(), tags));
+              }
             }
           });
         });

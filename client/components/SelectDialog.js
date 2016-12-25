@@ -8,7 +8,8 @@ class Dialog extends React.Component {
 
     this.state = {
       options:{},
-      filter:''
+      filter:'',
+      match:false
     };
   }
 
@@ -39,8 +40,37 @@ class Dialog extends React.Component {
   }
 
   handleChangeOnFilter(event) {
+    var value = event.target.value;
+    var match = false;
+
+    if (value.length === 0) {
+      match = true;
+    } else {
+      this.state.options.options.forEach((option) => {
+        if (option.name.toUpperCase() === value.toUpperCase()) {
+          match = true;
+        }
+      });
+    }
+
     this.setState({
-      filter:event.target.value
+      filter:value,
+      match:match
+    });
+  }
+
+  handleCreate() {
+    var options = this.state.options;
+
+    options.options.push({
+      selected:true,
+      name:this.state.filter
+    });
+
+    this.setState({
+      options:options,
+      filter:'',
+      match:false
     });
   }
 
@@ -56,7 +86,7 @@ class Dialog extends React.Component {
       }
 
       var className = (option.marked && !option.selected) ? 'marked' : '';
-      options.push(<div key={option.id} className={className}><label><input type="checkbox" onChange={this.handleClickOnCheckbox.bind(this, option)} checked={option.selected} /> {option.name}</label></div>);
+      options.push(<div key={option.name} className={className}><label><input type="checkbox" onChange={this.handleClickOnCheckbox.bind(this, option)} checked={option.selected} /> {option.name}</label></div>);
     });
     return options;
   }
@@ -72,7 +102,10 @@ class Dialog extends React.Component {
         <div className="dialog">
           <div className="title">{this.state.options.title}</div>
           <div className="body">
-            <input type="text" value={this.state.filter} onChange={this.handleChangeOnFilter.bind(this)} placeholder="Filter" />
+            <div>
+              <input type="text" value={this.state.filter} onChange={this.handleChangeOnFilter.bind(this)} placeholder="Filter" />
+              <button disabled={this.state.match} onClick={this.handleCreate.bind(this)}>Create</button>
+            </div>
             {this._renderOptions()}
           </div>
           <div className="bottom">

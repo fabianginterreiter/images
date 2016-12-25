@@ -122,13 +122,43 @@ class Options extends React.Component {
       }
 
       case 'selectTag': {
+        var getElement = function(list, id) {
+          for (var index = 0; index < list.length; index++) {
+            if (list[index].id === id) {
+              return list[index];
+            }
+          }
+
+          return null;
+        }
+
         fetch('/api/tags').then((result) => result.json()).then((tags) => {
-          tags[0].marked = true;
-          tags[1].selected = true;
+          ImagesStore.getSelected().forEach((image) => {
+            image.tags.forEach((tag) => {
+              var e = getElement(tags, tag.id);
+              if (e) {
+                e.__count = e.__count ? e.__count + 1 : 1;
+              }
+            });
+          });
+
+          tags.forEach((tag) => {
+            if (tag.__count && tag.__count > 0) {
+              if (tag.__count === ImagesStore.getSelected().length) {
+                tag.selected = true;
+              } else {
+                tag.marked = true;
+              }
+            }
+          });
+
           return tags;
-        }).then((tags) => SelectDialogStore.open('Delete Images', tags))
-        .then((result) => {
-          console.log(result);
+        }).then((tags) => {
+          SelectDialogStore.open('Manage Tags', tags).then((result) => {
+            if (result) {
+              ImagesStore.addTags(ImagesStore.getSelected(), tags);
+            }
+          });
         });
         break;
       }  

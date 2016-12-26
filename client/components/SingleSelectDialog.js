@@ -65,15 +65,15 @@ class Dialog extends React.Component {
       }
 
       if (option.selected) {
-        return; // We ignore albums where all the images are
+        return options.push(<li key={option.name}>{option.name}</li>)
       }
 
       var className = (option.marked) ? 'marked' : ''; // we mark images where a few are
-      options.push(<div key={option.name} className={className} onClick={this.handleOk.bind(this, option)}>
+      options.push(<li key={option.name} className={className} onClick={this.handleOk.bind(this, option)}>
         {option.name}
-        </div>);
+        </li>);
     });
-    return options;
+    return (<ul>{options}</ul>);
   }
 
   render() {

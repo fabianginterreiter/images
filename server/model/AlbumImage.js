@@ -1,13 +1,11 @@
 "use strict"
+
 const Image = require('./Image');
+const Album = require('./Album');
 
 let bookshelf = require('./bookshelf');
 
 module.exports = bookshelf.Model.extend({
-  tableName: 'tags',
-  hasTimestamps: true,
-
-  images: function() {
-    return this.belongsToMany(Image);
-  },
+  tableName: 'albums_images',
+  hasTimestamps: true
 });

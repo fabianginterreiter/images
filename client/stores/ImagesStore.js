@@ -93,6 +93,91 @@ class ImagesStore extends Dispatcher {
     });
   }
 
+  addAlbum(image, album, mass) {
+    var newEntry = !album.id;
+    return fetch('/api/images/' + image.id + '/albums', {
+      method: "PUT",
+      body: JSON.stringify(album), 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cache': 'no-cache'
+      },
+      credentials: 'include'
+    }).then((result) => result.json()).then((album) => {
+      image.albums.push(album);
+      this.dispatch();
+
+      if (newEntry && !mass) {
+        NavigationsStore.load();
+      }
+
+      return album;
+    });
+  }
+
+  addAlbums(images, album) {
+    var getElement = function(list, id) {
+      for (var index = 0; index < list.length; index++) {
+        if (list[index].id === id) {
+          return list[index];
+        }
+      }
+
+      return null;
+    }
+
+    var promises = [];
+
+    images.forEach((image) => {
+      var e = getElement(image.albums, album.id);
+      if (!e) {
+        promises.push(this.addAlbum(image, album, true));
+      }
+    });  
+
+    return Promise.all(promises).then(() => {
+      return NavigationsStore.load();
+    });
+  }
+
+  deleteFromAlbum(images, album) {
+    var promises = [];
+
+    images.forEach((image) => {
+      promises.push(this.deleteAlbum(image, album, true));
+    });  
+
+    return Promise.all(promises).then(() => {
+      // TODO Delete Images from current Images.
+    });
+  }
+
+  deleteAlbum(image, album, mass) {
+    return fetch('/api/images/' + image.id + '/albums/' + album.id, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => { 
+      if (!mass) {
+        NavigationsStore.load();
+      }
+
+      for (var index = 0; index < image.albums.length; index++) {
+        if (image.albums[index].id === album.id) {
+          image.albums.splice(index, 1);
+          break;
+        }
+      }
+
+      this.dispatch(); 
+
+      return album;
+    });
+  }
+
   deleteTag(image, tag, mass) {
     return fetch('/api/images/' + image.id + '/tags/' + tag.id, {
       method: "DELETE",

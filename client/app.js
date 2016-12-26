@@ -12,6 +12,7 @@ var ImagesApp = require('./components/ImagesApp');
 var Images = require('./components/Images');
 var Persons = require('./components/Persons');
 var Tags = require('./components/Tags');
+var Albums = require('./components/Albums');
 var UsersManagement = require('./components/UsersManagement');
 
 var Init = require('./components/Init');
@@ -25,9 +26,11 @@ ReactDOM.render(
         <Route path="dates/:year" component={Images} />
         <Route path="tags/:id" component={Images} />
         <Route path="persons/:id" component={Images} />
+        <Route path="albums/:albumId" component={Images} />
         <Route path="favorites" component={Images} />
         <Route path="persons" component={Persons} />
         <Route path="tags" component={Tags} />
+        <Route path="albums" component={Albums} />
         <IndexRoute component={Images} />
       </Route>
       <Route path="profiles" component={UsersManagement} />

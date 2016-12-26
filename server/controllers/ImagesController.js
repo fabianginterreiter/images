@@ -4,8 +4,10 @@ const Image = require('../model/Image');
 const Like = require('../model/Like');
 const ImageTag = require('../model/ImageTag');
 const Tag = require('../model/Tag');
+const Album = require('../model/Album');
 const Person = require('../model/Person');
 const ImagePerson = require('../model/ImagePerson');
+const AlbumImage = require('../model/AlbumImage');
 
 var fs = require('fs');
 var config = require('../config');
@@ -151,6 +153,31 @@ class ImagesController extends BaseController {
     }
   }
 
+  addAlbum() {
+    var album = this.body;
+
+    if (album.id) {
+      return new AlbumImage({
+        album_id: album.id,
+        image_id: this.params.id
+      }).save().then(() => album);
+    } else {
+      return new Album({
+        name:album.name,
+        user_id: this.session.user
+      }).save().then((album) => {
+        return new AlbumImage({
+          album_id: album.get('id'),
+          image_id: this.params.id
+        }).save().then(() => album.toJSON());
+      });
+    }
+  }
+
+  deleteAlbum() {
+    return AlbumImage.where({image_id:this.params.id, album_id:this.params.album_id}).destroy();
+  }
+
   deleteTag() {
     return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
       return Tag.query((qb) => {
@@ -196,6 +223,13 @@ class ImagesController extends BaseController {
         });
       }
 
+      if (query.album) {
+        qb.join('albums_images', function() {
+          this.on('images.id', 'albums_images.image_id'),
+          this.on('albums_images.album_id', query.album);
+        });
+      }
+
       var where = {};
 
       if (this.query.year) {
@@ -210,10 +244,14 @@ class ImagesController extends BaseController {
         where.day = this.query.day;
       }
 
+      qb.debug(true);
+
       qb.where(where);
 
       qb.orderBy('date','DESC'); 
-    }).fetchAll({withRelated: ['user', 'tags', 'persons']}).then((images) => (images.toJSON())).then((images) => this.__transformImages(images));
+    }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
+    .then((images) => (images.toJSON())).then((images) => this.__transformImages(images))
+    .catch((e) => console.log(e));
   }
 
   destroy() {

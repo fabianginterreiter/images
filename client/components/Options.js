@@ -9,6 +9,9 @@ const Dropdown = require('./Dropdown');
 const ImagesStore = require('../stores/ImagesStore');
 const DialogStore = require('../stores/DialogStore');
 const SelectDialogStore = require('../stores/SelectDialogStore');
+const SingleSelectDialogStore = require('../stores/SingleSelectDialogStore');
+
+const location = require('react-router').location;
 
 class Options extends React.Component {
   constructor(props) {
@@ -64,6 +67,20 @@ class Options extends React.Component {
         key: 'selectTag',
         type: 'action',
         name: 'Set Tags',
+        selected: true
+      });
+
+      options.push({
+        key: 'selectAlbum',
+        type: 'action',
+        name: 'Set Albums',
+        selected: true
+      });
+
+      options.push({
+        key: 'removeAlbum',
+        type: 'action',
+        name: 'Remove from Albums',
         selected: true
       });
 
@@ -176,10 +193,74 @@ class Options extends React.Component {
         }).catch((e) => console.log(e));
         break;
       }  
+
+      case 'selectAlbum': {
+        var getElement = function(list, id) {
+          for (var index = 0; index < list.length; index++) {
+            if (list[index].id === id) {
+              return list[index];
+            }
+          }
+
+          return null;
+        }
+
+        fetch('/api/albums',{
+          credentials: 'include'
+        }).then((result) => result.json()).then((albums) => {
+          ImagesStore.getSelected().forEach((image) => {
+            image.albums.forEach((album) => {
+              var e = getElement(albums, album.id);
+              if (e) {
+                e.__count = e.__count ? e.__count + 1 : 1;
+              }
+            });
+          });
+
+          albums.forEach((album) => {
+            if (album.__count && album.__count > 0) {
+              if (album.__count === ImagesStore.getSelected().length) {
+                album.selected = true;
+              } else {
+                album.marked = true;
+              }
+            }
+          });
+
+          return SingleSelectDialogStore.open('Manage albums', albums);
+        }).then((album) => {
+          if (!album.id) {
+             return fetch('/api/albums', {
+              method: "POST",
+              body: JSON.stringify(album), 
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Cache': 'no-cache'
+              },
+              credentials: 'include'
+            }).then((result) => (result.json())).then((result) => (album.id = result.id)).then(() => {
+              ImagesStore.addAlbums(ImagesStore.getSelected(), album);
+            });
+          } else {
+            ImagesStore.addAlbums(ImagesStore.getSelected(), album);
+          }
+        }).catch((e) => console.log(e));
+        break;
+      }
+
+      case 'removeAlbum': {
+        ImagesStore.deleteFromAlbum(ImagesStore.getSelected(), {id:this.props.params.albumId})
+        break;
+      }
     }
   }
 
   isActive(object) {
+    if (object.key === 'removeAlbum') {
+      return this.selected && this.props.params.albumId;
+    }
+
     return !object.selected || this.selected;
   }
 

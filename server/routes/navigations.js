@@ -7,6 +7,7 @@ const bookshelf = require('../model/bookshelf');
 const moment = require('moment');
 const Tag = require('../model/Tag');
 const Person = require('../model/Person');
+const Album = require('../model/Album');
 
 router.get('/', (req, res) => {
 
@@ -99,6 +100,30 @@ router.get('/', (req, res) => {
       name: person.name,
       link: '/images/persons/' + person.id,
       service: '/api/images?person=' + person.id
+    }));
+
+    options.push(result);
+  
+    return Album.query((qb) => {
+      qb.where('user_id', req.session.user).orWhere('public', '>', 0)
+
+      qb.orderBy('name','asc');
+    }).fetchAll()
+  }).then((albums) => albums.toJSON()).then((albums) => {
+    var result = {
+      key: 'albums',
+      type: 'menu',
+      name: 'Albums',
+      settings: '/images/albums',
+      options: []
+    };
+
+    albums.forEach((album) => result.options.push({
+      key: 'album_' + album.id,
+      type: 'action',
+      name: album.name,
+      link: '/images/albums/' + album.id,
+      service: '/api/images?album=' + album.id
     }));
 
     options.push(result);

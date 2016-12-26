@@ -17,6 +17,7 @@ app.use(cookieSession({
 
 app.use(bodyParser.json());
 
+app.use('/api/albums', require('./routes/albums'));
 app.use('/api/session', require('./routes/session'));
 app.use('/api/images', require('./routes/images'));
 app.use('/api/users', require('./routes/users'));

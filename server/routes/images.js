@@ -35,6 +35,13 @@ router.put('/:id/tags', (req, res) => {
   new ImagesController(req).addTag().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
 });
 
+router.put('/:id/albums', (req, res) => {
+  new ImagesController(req).addAlbum().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
+});
+
+router.delete('/:id/albums/:album_id', (req, res) => new ImagesController(req).deleteAlbum().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
+
+
 router.delete('/:id/tags/:tag_id', (req, res) => new ImagesController(req).deleteTag().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
 
 router.put('/:id/persons', (req, res) => {

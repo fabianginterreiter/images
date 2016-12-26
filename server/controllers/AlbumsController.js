@@ -19,15 +19,17 @@ class AlbumsController extends BaseController {
 
   index() {
     return Album.query((qb) => {
-      qb.debug(true)
-
       qb.select('albums.*');
 
       if (this.query.q) {
         qb.where('name', 'LIKE', this.query.q);
       }
 
-      qb.where('albums.user_id', this.session.user).orWhere('albums.public', '>', 0)
+      if (this.query.own) {
+        qb.where('albums.user_id', this.session.user);
+      } else {
+        qb.where('albums.user_id', this.session.user).orWhere('albums.public', '>', 0)  
+      }
 
       qb.count('albums_images.album_id AS count')
       qb.leftJoin('albums_images', function() {
@@ -40,7 +42,17 @@ class AlbumsController extends BaseController {
   }
 
   update() {
-    return new Album({id:this.params.id}).save({name:this.body.name}, {patch: true}).then((result) => (result.toJSON()));
+    return new Album({id:this.params.id}).fetch().then((album) => {
+      console.log(album.get('user_id') + " # " + this.session.user);
+      if (album.get('user_id') != this.session.user) {
+        throw new Error('Illegal Access');
+      }
+
+      return new Album({id:this.params.id}).save({
+        name:this.body.name,
+        public:this.body.public
+      }, {patch: true}).then((result) => (result.toJSON()));
+    });
   }
 
   destroy() {

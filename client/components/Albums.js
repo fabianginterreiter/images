@@ -17,7 +17,7 @@ class Albums extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/albums',{
+    fetch('/api/albums?own=true',{
       credentials: 'include'
     }).then((result) => result.json()).then((albums) => this.setState({albums:albums}));
   }
@@ -39,6 +39,10 @@ class Albums extends React.Component {
 
     album.name = value;
 
+    this.save(album);
+  }
+
+  save(album) {
     fetch('/api/albums/' + album.id, {
       method: "PUT",
       credentials: 'include',
@@ -50,6 +54,12 @@ class Albums extends React.Component {
     }).then(() => {
       this.forceUpdate();
     });
+  }
+
+  handleVisibility(album) {
+    album.public = !album.public;
+
+    this.save(album);
   }
 
   handleCancel(album) {
@@ -92,6 +102,7 @@ class Albums extends React.Component {
         <thead>
           <tr>
             <th>Name</th>
+            <th className="option">Public</th>
             <th className="option">Edit</th>
             <th className="option">Delete</th>
           </tr>
@@ -99,6 +110,9 @@ class Albums extends React.Component {
         <tbody>
           {this.state.albums.map((album) => (<tr key={album.id}>
             <td>{this._renderText(album)}</td>
+            <td onClick={this.handleVisibility.bind(this, album)} className="option">
+              <input type="checkbox" checked={album.public} />
+            </td>
             <td onClick={this.handleEdit.bind(this, album)} className="option"><i className="icon-cog" /></td>
             <td onClick={this.handleDelete.bind(this, album)} className="option"><i className="icon-trash" /></td>
           </tr>))}

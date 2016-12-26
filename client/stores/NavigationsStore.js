@@ -9,7 +9,7 @@ class NavigationsStore extends Dispatcher {
 
   load() {
     fetch('/api/navigations', {
-      accept: 'application/json',
+      credentials: 'include'
     }).then(function(response) {
       return response.json();
     }).then((result) => {

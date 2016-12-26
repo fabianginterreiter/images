@@ -19,11 +19,15 @@ class AlbumsController extends BaseController {
 
   index() {
     return Album.query((qb) => {
+      qb.debug(true)
+
       qb.select('albums.*');
 
       if (this.query.q) {
         qb.where('name', 'LIKE', this.query.q);
       }
+
+      qb.where('albums.user_id', this.session.user).orWhere('albums.public', '>', 0)
 
       qb.count('albums_images.album_id AS count')
       qb.leftJoin('albums_images', function() {

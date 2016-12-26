@@ -17,7 +17,9 @@ class Albums extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/albums').then((result) => result.json()).then((albums) => this.setState({albums:albums}));
+    fetch('/api/albums',{
+      credentials: 'include'
+    }).then((result) => result.json()).then((albums) => this.setState({albums:albums}));
   }
 
   componentWillUnmount() {

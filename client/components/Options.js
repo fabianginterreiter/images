@@ -205,7 +205,9 @@ class Options extends React.Component {
           return null;
         }
 
-        fetch('/api/albums').then((result) => result.json()).then((albums) => {
+        fetch('/api/albums',{
+          credentials: 'include'
+        }).then((result) => result.json()).then((albums) => {
           ImagesStore.getSelected().forEach((image) => {
             image.albums.forEach((album) => {
               var e = getElement(albums, album.id);

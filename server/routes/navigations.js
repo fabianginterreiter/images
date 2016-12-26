@@ -105,6 +105,8 @@ router.get('/', (req, res) => {
     options.push(result);
   
     return Album.query((qb) => {
+      qb.where('user_id', req.session.user).orWhere('public', '>', 0)
+
       qb.orderBy('name','asc');
     }).fetchAll()
   }).then((albums) => albums.toJSON()).then((albums) => {

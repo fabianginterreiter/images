@@ -5,6 +5,7 @@ $selectedColor: #108ee9;
 $hoverBackgroundColor: #e7f4fd;
 $navigationPanelWidth: 300px;
 
+@import 'form';
 @import 'modal';
 @import 'panel';
 @import 'autocomplete';
@@ -18,6 +19,17 @@ body {
   padding: 0;
   margin: 60px 0 0 0;
   background: white;
+}
+
+.selection {
+  position: fixed;
+  background-color: $selectedColor;
+  color: white;
+  bottom: 0;
+  right: 20px;
+  width: 100px;
+  height: 30px;
+  border: 5px solid white;
 }
 
 h3 {

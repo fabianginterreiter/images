@@ -15,6 +15,7 @@ const NavigationsStore = require('../stores/NavigationsStore');
 const KeyUpListener = require('../stores/KeyUpListener');
 const ResizeListener = require('../stores/ResizeListener');
 const history = require('react-router').browserHistory;
+const SelectionStore = require('../stores/SelectionStore');
 
 class Images extends React.Component {
   constructor(props) {
@@ -180,7 +181,11 @@ class Images extends React.Component {
 
   handleSelect(image, event) {
     image.selected = !image.selected;
-    this.forceUpdate()
+    SelectionStore.handle(image);
+    
+    console.log(event.shiftKey);
+
+    this.forceUpdate();
   }
 
   handleDateSelect(idx) {

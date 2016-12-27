@@ -2,10 +2,10 @@
 
 const React = require('react');
 
-const SelectionStore = require('../stores/SelectionStore');
-const ImagesStore = require('../stores/ImagesStore');
-const NavigationsState = require('../states/NavigationsState');
-const SelectionOptions = require('../components/SelectionOptions');
+const SelectionStore = require('../../stores/SelectionStore');
+const ImagesStore = require('../../stores/ImagesStore');
+const NavigationsState = require('../../states/NavigationsState');
+const SelectionOptions = require('./SelectionOptions');
 
 class Selection extends React.Component {
   constructor(props) {

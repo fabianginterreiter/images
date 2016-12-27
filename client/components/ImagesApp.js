@@ -13,7 +13,7 @@ const Navigations = require('./Navigations');
 const Dialog = require('./Dialog');
 const SelectDialog = require('./SelectDialog');
 const SingleSelectDialog = require('./SingleSelectDialog');
-const Selection = require('./Selection');
+const Selection = require('./selections/Selection');
 
 class ImagesApp extends React.Component {
   constructor(props) {

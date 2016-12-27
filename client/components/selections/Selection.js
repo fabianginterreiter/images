@@ -6,6 +6,7 @@ const SelectionStore = require('../../stores/SelectionStore');
 const ImagesStore = require('../../stores/ImagesStore');
 const NavigationsState = require('../../states/NavigationsState');
 const SelectionOptions = require('./SelectionOptions');
+const history = require('react-router').browserHistory;
 
 class Selection extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Selection extends React.Component {
   }
 
   handleShow() {
-    ImagesStore.setObject(SelectionStore.getSelected());
+    history.push('/images/selected');
   }
 
   render() {

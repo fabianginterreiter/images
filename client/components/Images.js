@@ -43,6 +43,20 @@ class Images extends React.Component {
 
     var option = NavigationsStore.getOption(nextProps.location.pathname);
 
+    if (!option) {
+      if (nextProps.location.pathname === '/images/selected') {
+        if (SelectionStore.isEmpty()) {
+          history.push('/images');
+        }
+
+        ImagesStore.setObject(SelectionStore.getSelected());
+        this.setState({
+          title: 'Selected'
+        });
+        return;
+      }
+    }
+
     if (option) {
       var title = null;
 

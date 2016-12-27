@@ -5,6 +5,7 @@ const React = require('react');
 const SelectionStore = require('../stores/SelectionStore');
 const ImagesStore = require('../stores/ImagesStore');
 const NavigationsState = require('../states/NavigationsState');
+const Options = require('../components/Options');
 
 class Selection extends React.Component {
   constructor(props) {
@@ -30,23 +31,18 @@ class Selection extends React.Component {
     }
 
     return (
-      <div className="selection">
+      <div className={'selection ' + this.props.className}>
         <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
           <i className="icon-camera-retro"></i> Images
         </div>
-        <div className="">
-          {SelectionStore.size()}
-          <span onClick={SelectionStore.clear.bind(SelectionStore)}>Clear</span>
-          <span onClick={this.handleShow.bind(this)}>Show</span>
-        </div>
 
         <nav>
+          <ul className="left">
+            <li className="btn">{SelectionStore.size()}</li>
+            <li className="btn" onClick={SelectionStore.clear.bind(SelectionStore)}>Clear</li>
+            <li className="btn" onClick={this.handleShow.bind(this)}>Show</li>
+          </ul>
           <ul className="right">
-            <li className="btn"><ThumbnailsResizer /></li>
-            <li onClick={this.handleClick.bind(this)} className="btn min500">
-              <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
-              <i className="icon-upload" /> Upload
-            </li>
             <Options params={this.props.params} />
           </ul>
         </nav>

@@ -38,17 +38,19 @@ class ImagesApp extends React.Component {
     }
 
     var contentClass = 'content';
-      
+    var pinned = '';      
     if (NavigationsState.getObject().pinned) {
       contentClass += ' pinned';
+      pinned = 'pinned';
     }
-    
+
+
     return (
       <div>
         <Navigations location={this.props.location} />
 
         <div className={contentClass}>
-          <Selection />
+          <Selection className={pinned} params={this.props.params}  />
           <Header params={this.props.params} />
           {this.props.children}
         </div>

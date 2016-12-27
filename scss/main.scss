@@ -39,7 +39,7 @@ h3 {
 }
 
 .selection {
-  position: absolute;
+  position: fixed;
   background-color: $selectedColor;
   color: white;
   top: 0;

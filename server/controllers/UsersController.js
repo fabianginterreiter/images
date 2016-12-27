@@ -4,7 +4,7 @@ const BaseController = require('./BaseController');
 
 const User = require('../model/User');
 
-class UserController extends BaseController {
+class UsersController extends BaseController {
   create() {
     return new User({
       name: this.body.name
@@ -28,4 +28,4 @@ class UserController extends BaseController {
   }
 }
 
-module.exports = UserController;
+module.exports = UsersController;

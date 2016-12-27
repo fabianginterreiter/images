@@ -58,12 +58,14 @@ class NavigationsController extends BaseController {
         options: months
       });
 
-      options.push({
-        key: 'delete',
-        type: 'menu',
-        name: 'Dates',
-        options: years
-      });
+      if (years.length > 0) {
+        options.push({
+          key: 'dates',
+          type: 'menu',
+          name: 'Dates',
+          options: years
+        });  
+      }
 
       return options;
     });
@@ -89,7 +91,9 @@ class NavigationsController extends BaseController {
         service: '/api/images?tag=' + tag.id
       }));
 
-      options.push(result);
+      if (result.options.length > 0) {
+        options.push(result);  
+      }
 
       return options;
     });
@@ -115,7 +119,9 @@ class NavigationsController extends BaseController {
         service: '/api/images?person=' + person.id
       }));
 
-      options.push(result);
+      if (result.options.length > 0) {
+        options.push(result);  
+      }
 
       return options;
     });
@@ -142,7 +148,9 @@ class NavigationsController extends BaseController {
         service: '/api/images?album=' + album.id
       }));
 
-      options.push(result);
+      if (result.options.length > 0) {
+        options.push(result);  
+      }
 
       return options;
     });

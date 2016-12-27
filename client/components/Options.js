@@ -10,6 +10,7 @@ const ImagesStore = require('../stores/ImagesStore');
 const DialogStore = require('../stores/DialogStore');
 const SelectDialogStore = require('../stores/SelectDialogStore');
 const SingleSelectDialogStore = require('../stores/SingleSelectDialogStore');
+const SelectionStore = require('../stores/SelectionStore');
 
 const location = require('react-router').location;
 
@@ -108,7 +109,7 @@ class Options extends React.Component {
   }
 
   handleClick(option) {
-    var images = ImagesStore.getSelected();
+    var images = SelectionStore.getSelected();
 
     switch (option.key) {
       case 'delete': {
@@ -123,14 +124,14 @@ class Options extends React.Component {
       }
 
       case 'selectAll': {
-        ImagesStore.getObject().forEach((image) => (image.selected = true));
+        ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
         ImagesStore.dispatch();
         this.close();
         break;
       }
 
       case 'unselectAll': {
-        ImagesStore.getObject().forEach((image) => (image.selected = false));
+        ImagesStore.getObject().forEach((image) => (SelectionStore.unselect(image)));
         ImagesStore.dispatch();
         this.close();
         break;
@@ -148,7 +149,7 @@ class Options extends React.Component {
         }
 
         fetch('/api/tags').then((result) => result.json()).then((tags) => {
-          ImagesStore.getSelected().forEach((image) => {
+          SelectionStore.getSelected().forEach((image) => {
             image.tags.forEach((tag) => {
               var e = getElement(tags, tag.id);
               if (e) {
@@ -159,7 +160,7 @@ class Options extends React.Component {
 
           tags.forEach((tag) => {
             if (tag.__count && tag.__count > 0) {
-              if (tag.__count === ImagesStore.getSelected().length) {
+              if (tag.__count === SelectionStore.size()) {
                 tag.selected = true;
               } else {
                 tag.marked = true;
@@ -186,9 +187,9 @@ class Options extends React.Component {
           });
 
           if (promises.length === 0) {
-            ImagesStore.addTags(ImagesStore.getSelected(), tags)
+            ImagesStore.addTags(SelectionStore.getSelected(), tags)
           } else {
-            Promise.all(promises).then(() => ImagesStore.addTags(ImagesStore.getSelected(), tags));
+            Promise.all(promises).then(() => ImagesStore.addTags(SelectionStore.getSelected(), tags));
           }
         }).catch((e) => console.log(e));
         break;
@@ -208,7 +209,7 @@ class Options extends React.Component {
         fetch('/api/albums',{
           credentials: 'include'
         }).then((result) => result.json()).then((albums) => {
-          ImagesStore.getSelected().forEach((image) => {
+          SelectionStore.getSelected().forEach((image) => {
             image.albums.forEach((album) => {
               var e = getElement(albums, album.id);
               if (e) {
@@ -219,7 +220,7 @@ class Options extends React.Component {
 
           albums.forEach((album) => {
             if (album.__count && album.__count > 0) {
-              if (album.__count === ImagesStore.getSelected().length) {
+              if (album.__count === SelectionStore.size()) {
                 album.selected = true;
               } else {
                 album.marked = true;
@@ -240,17 +241,17 @@ class Options extends React.Component {
               },
               credentials: 'include'
             }).then((result) => (result.json())).then((result) => (album.id = result.id)).then(() => {
-              ImagesStore.addAlbums(ImagesStore.getSelected(), album);
+              ImagesStore.addAlbums(SelectionStore.getSelected(), album);
             });
           } else {
-            ImagesStore.addAlbums(ImagesStore.getSelected(), album);
+            ImagesStore.addAlbums(SelectionStore.getSelected(), album);
           }
         }).catch((e) => console.log(e));
         break;
       }
 
       case 'removeAlbum': {
-        ImagesStore.deleteFromAlbum(ImagesStore.getSelected(), {id:this.props.params.albumId})
+        ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), {id:this.props.params.albumId})
         break;
       }
     }
@@ -265,7 +266,7 @@ class Options extends React.Component {
   }
 
   render() {
-    this.selected = ImagesStore.hasSelected();
+    this.selected = !SelectionStore.isEmpty();
 
     return (
       <li onClick={this.toggle.bind(this)} className="btn">

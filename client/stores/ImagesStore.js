@@ -7,18 +7,6 @@ class ImagesStore extends Dispatcher {
     super([]);
   }
 
-  getSelected() {
-    var images = [];
-
-    super.getObject().forEach(function(image) {
-      if (image.selected) {
-        images.push(image);
-      }
-    });
-
-    return images;
-  }
-
   like(image) {
     if (image.liked) {
       fetch('/api/images/' + image.id + '/unlike', {
@@ -250,10 +238,6 @@ class ImagesStore extends Dispatcher {
     }).then(function(images) {
       this.setObject(images);
     }.bind(this));
-  }
-
-  hasSelected() {
-    return this.getSelected().length > 0;
   }
 
   delete(image) {

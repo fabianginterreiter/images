@@ -1,8 +1,12 @@
-var React = require('react');
+"use strict"
 
-var SelectionStore = require('../stores/SelectionStore');
+const React = require('react');
 
-class Dialog extends React.Component {
+const SelectionStore = require('../stores/SelectionStore');
+const ImagesStore = require('../stores/ImagesStore');
+const NavigationsState = require('../states/NavigationsState');
+
+class Selection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {selection:{}};
@@ -16,6 +20,10 @@ class Dialog extends React.Component {
     SelectionStore.removeChangeListener(this);    
   }
 
+  handleShow() {
+    ImagesStore.setObject(SelectionStore.getSelected());
+  }
+
   render() {
     if (SelectionStore.isEmpty()) {
       return (<span />);
@@ -23,10 +31,28 @@ class Dialog extends React.Component {
 
     return (
       <div className="selection">
-        {SelectionStore.size()}
+        <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
+          <i className="icon-camera-retro"></i> Images
+        </div>
+        <div className="">
+          {SelectionStore.size()}
+          <span onClick={SelectionStore.clear.bind(SelectionStore)}>Clear</span>
+          <span onClick={this.handleShow.bind(this)}>Show</span>
+        </div>
+
+        <nav>
+          <ul className="right">
+            <li className="btn"><ThumbnailsResizer /></li>
+            <li onClick={this.handleClick.bind(this)} className="btn min500">
+              <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
+              <i className="icon-upload" /> Upload
+            </li>
+            <Options params={this.props.params} />
+          </ul>
+        </nav>
       </div>
     );
   }
 }
 
-module.exports = Dialog;
+module.exports = Selection;

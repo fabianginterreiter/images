@@ -39,69 +39,25 @@ class Options extends React.Component {
 
   componentDidMount() {
     ImagesStore.addChangeListener(this, (images) => (this.setState({images:images})));
+ 
+    var options = [];
 
-    fetch('/api/options', {
-      accept: 'application/json',
-    }).then(function(response) {
-      return response.json();
-    }).then(function(result) {
-      var options = [];
+    options.push({
+      key: 'selectAll',
+      type: 'action',
+      name: 'Select All'
+    });
 
-      options.push({
-        key: 'selectAll',
-        type: 'action',
-        name: 'Select All'
-      });
+    options.push({
+      key: 'unselectAll',
+      type: 'action',
+      name: 'Unselect All',
+      selected: true
+    });
 
-      options.push({
-        key: 'unselectAll',
-        type: 'action',
-        name: 'Unselect All',
-        selected: true
-      });
-
-      options.push({
-        type: 'divider'
-      });
-
-      options.push({
-        key: 'selectTag',
-        type: 'action',
-        name: 'Set Tags',
-        selected: true
-      });
-
-      options.push({
-        key: 'selectAlbum',
-        type: 'action',
-        name: 'Set Albums',
-        selected: true
-      });
-
-      options.push({
-        key: 'removeAlbum',
-        type: 'action',
-        name: 'Remove from Albums',
-        selected: true
-      });
-
-      result.forEach((option) => (options.push(option)));
-
-      options.push({
-        type: 'divider'
-      });
-
-      options.push({
-        key: 'delete',
-        type: 'action',
-        name: 'Delete',
-        selected: true
-      });
-
-      this.setState({
-        values: options
-      });
-    }.bind(this));
+    this.setState({
+      values: options
+    });
   }
 
   componentWillUnmount() {
@@ -112,17 +68,6 @@ class Options extends React.Component {
     var images = SelectionStore.getSelected();
 
     switch (option.key) {
-      case 'delete': {
-
-        DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then(() => {
-          images.forEach(function(image) {
-            ImagesStore.delete(image);
-          });
-        });
-
-        break;
-      }
-
       case 'selectAll': {
         ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
         ImagesStore.dispatch();
@@ -136,132 +81,10 @@ class Options extends React.Component {
         this.close();
         break;
       }
-
-      case 'selectTag': {
-        var getElement = function(list, id) {
-          for (var index = 0; index < list.length; index++) {
-            if (list[index].id === id) {
-              return list[index];
-            }
-          }
-
-          return null;
-        }
-
-        fetch('/api/tags').then((result) => result.json()).then((tags) => {
-          SelectionStore.getSelected().forEach((image) => {
-            image.tags.forEach((tag) => {
-              var e = getElement(tags, tag.id);
-              if (e) {
-                e.__count = e.__count ? e.__count + 1 : 1;
-              }
-            });
-          });
-
-          tags.forEach((tag) => {
-            if (tag.__count && tag.__count > 0) {
-              if (tag.__count === SelectionStore.size()) {
-                tag.selected = true;
-              } else {
-                tag.marked = true;
-              }
-            }
-          });
-
-          return SelectDialogStore.open('Manage Tags', tags);
-        }).then((tags) => {
-          var promises = [];
-          tags.forEach((tag) => {
-            if (tag.id || !tag.selected) {
-              return;
-            }
-
-            promises.push(fetch('/api/tags', {
-              method: "POST",
-              body: JSON.stringify(tag), 
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              }
-            }).then((result) => (result.json())).then((result) => (tag.id = result.id)));
-          });
-
-          if (promises.length === 0) {
-            ImagesStore.addTags(SelectionStore.getSelected(), tags)
-          } else {
-            Promise.all(promises).then(() => ImagesStore.addTags(SelectionStore.getSelected(), tags));
-          }
-        }).catch((e) => console.log(e));
-        break;
-      }  
-
-      case 'selectAlbum': {
-        var getElement = function(list, id) {
-          for (var index = 0; index < list.length; index++) {
-            if (list[index].id === id) {
-              return list[index];
-            }
-          }
-
-          return null;
-        }
-
-        fetch('/api/albums',{
-          credentials: 'include'
-        }).then((result) => result.json()).then((albums) => {
-          SelectionStore.getSelected().forEach((image) => {
-            image.albums.forEach((album) => {
-              var e = getElement(albums, album.id);
-              if (e) {
-                e.__count = e.__count ? e.__count + 1 : 1;
-              }
-            });
-          });
-
-          albums.forEach((album) => {
-            if (album.__count && album.__count > 0) {
-              if (album.__count === SelectionStore.size()) {
-                album.selected = true;
-              } else {
-                album.marked = true;
-              }
-            }
-          });
-
-          return SingleSelectDialogStore.open('Manage albums', albums);
-        }).then((album) => {
-          if (!album.id) {
-             return fetch('/api/albums', {
-              method: "POST",
-              body: JSON.stringify(album), 
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Cache': 'no-cache'
-              },
-              credentials: 'include'
-            }).then((result) => (result.json())).then((result) => (album.id = result.id)).then(() => {
-              ImagesStore.addAlbums(SelectionStore.getSelected(), album);
-            });
-          } else {
-            ImagesStore.addAlbums(SelectionStore.getSelected(), album);
-          }
-        }).catch((e) => console.log(e));
-        break;
-      }
-
-      case 'removeAlbum': {
-        ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), {id:this.props.params.albumId})
-        break;
-      }
     }
   }
 
   isActive(object) {
-    if (object.key === 'removeAlbum') {
-      return this.selected && this.props.params.albumId;
-    }
-
     return !object.selected || this.selected;
   }
 

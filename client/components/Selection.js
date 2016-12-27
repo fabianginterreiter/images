@@ -5,7 +5,7 @@ const React = require('react');
 const SelectionStore = require('../stores/SelectionStore');
 const ImagesStore = require('../stores/ImagesStore');
 const NavigationsState = require('../states/NavigationsState');
-const Options = require('../components/Options');
+const SelectionOptions = require('../components/SelectionOptions');
 
 class Selection extends React.Component {
   constructor(props) {
@@ -38,12 +38,12 @@ class Selection extends React.Component {
 
         <nav>
           <ul className="left">
-            <li className="btn">{SelectionStore.size()}</li>
+            <li className="info">{SelectionStore.size()} selected</li>
             <li className="btn" onClick={SelectionStore.clear.bind(SelectionStore)}>Clear</li>
             <li className="btn" onClick={this.handleShow.bind(this)}>Show</li>
           </ul>
           <ul className="right">
-            <Options params={this.props.params} />
+            <SelectionOptions params={this.props.params} />
           </ul>
         </nav>
       </div>

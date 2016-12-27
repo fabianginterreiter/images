@@ -39,6 +39,39 @@
         border-color: white;        
         position: absolute;
         cursor: pointer;
+
+        .resizer {
+          background-color: none;
+          position: absolute;
+        }
+
+        .top {
+          top: -10px;
+          height: 15px;
+          left: 0;
+          right: 0;
+        }
+
+        .bottom {
+          bottom: -10px;
+          height: 15px;
+          left: 0;
+          right: 0;
+        }
+
+        .left {
+          left: -10px;
+          width: 15px;
+          top: 0;
+          bottom: 0;
+        }
+
+        .right {
+          right: -10px;
+          width: 15px;
+          top: 0;
+          bottom: 0;
+        }
       }
 
       .borderCreate {
@@ -71,7 +104,7 @@
     }
 
     .face:hover {
-      .border {
+      .s {
         div {
           width: 100%;
           height: 100%;

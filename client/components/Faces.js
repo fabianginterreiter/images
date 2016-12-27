@@ -32,6 +32,13 @@ class Faces extends React.Component {
 
   handleMouseDown(event) {
     if (this.state.selection || this.state.create) {
+
+      if (event.target.className.includes('resizer')) {
+        console.log("RESIZER");
+
+
+      }
+
       return;
     }
 
@@ -57,6 +64,10 @@ class Faces extends React.Component {
 
   handleMouseMove(event) {
     if (!this.state.selection) {
+      if (event.target.className.includes('resizer')) {
+        console.log("RESIZER");
+      }
+
       return;
     }
 
@@ -83,6 +94,10 @@ class Faces extends React.Component {
     event.preventDefault();
 
     if (!this.state.selection) {
+      if (event.target.className.includes('resizer')) {
+        console.log("RESIZER");
+      }
+
       return;
     }
 
@@ -129,7 +144,12 @@ class Faces extends React.Component {
     return (
       <div className="face">
         <div className="clickCatcher" onClick={this.handleCancelCreation.bind(this)} />
-        <div className="border borderCreate" style={this.state.create} />
+        <div className="border borderCreate" style={this.state.create}>
+          <div className="resizer top" />
+          <div className="resizer bottom" />
+          <div className="resizer left" />
+          <div className="resizer right" />
+        </div>
         <div className="field" style={style}>
            <AutoComplete service='/api/persons' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' onBlur={this.handleCancelCreation.bind(this)} focus={true} />
         </div>
@@ -165,7 +185,7 @@ class Faces extends React.Component {
     };
 
     return (<div key={person.id} className="face">
-      <Link to={`/images/persons/${person.id}`}><div className="border" style={style}><div /></div></Link>
+      <Link to={`/images/persons/${person.id}`}><div className="border s" style={style}><div /></div></Link>
       <div style={style2} className="name">
         <Link to={`/images/persons/${person.id}`}>{person.name}</Link>&nbsp;
         <span className="remove"><i className="icon-remove" onClick={(e) => this.handleDeletePerson(e, person)} /></span>

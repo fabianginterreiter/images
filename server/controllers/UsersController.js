@@ -1,8 +1,8 @@
 "use strict"
 
-var User = require('../model/User');
+const BaseController = require('./BaseController');
 
-var BaseController = require('./BaseController');
+const User = require('../model/User');
 
 class UserController extends BaseController {
   create() {

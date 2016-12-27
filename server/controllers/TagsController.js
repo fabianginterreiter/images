@@ -70,7 +70,7 @@ class TagsController extends BaseController {
     return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
       return Tag.query((qb) => {
         qb.whereNotExists(function() {
-          this.select('images_tags.id').from('images_tags').whereRaw('tags.id = images_tags.tag_id');
+          this.select('images_tags.id').from('images_tags').where('tags.id', 'images_tags.tag_id');
         });
       }).destroy();
     });

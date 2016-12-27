@@ -125,7 +125,6 @@ class ImagesController extends BaseController {
   deletePerson() {
     return ImagePerson.where({image_id:this.params.id, person_id:this.params.person_id}).destroy().then(() => {
       return Person.query((qb) => {
-        qb.debug(true);
         qb.whereNotExists(function() {
           this.select('images_persons.id').from('images_persons').whereRaw('persons.id = images_persons.person_id');
         });
@@ -181,7 +180,6 @@ class ImagesController extends BaseController {
   deleteTag() {
     return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
       return Tag.query((qb) => {
-        qb.debug(true);
         qb.whereNotExists(function() {
           this.select('images_tags.id').from('images_tags').whereRaw('tags.id = images_tags.tag_id');
         });
@@ -243,8 +241,6 @@ class ImagesController extends BaseController {
       if (this.query.day) {
         where.day = this.query.day;
       }
-
-      qb.debug(true);
 
       qb.where(where);
 

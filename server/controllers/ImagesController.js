@@ -1,9 +1,6 @@
 "use strict"
 
 const Image = require('../model/Image');
-const Like = require('../model/Like');
-
-
 
 var fs = require('fs');
 var config = require('../config');
@@ -66,14 +63,6 @@ class ImagesController extends BaseController {
   __transformImages(images) {
     images.forEach((image) => this.__transformImage(image));
     return images;
-  }
-
-  like() {
-    return new Like({image_id:this.params.id, user_id:this.session.user}).save().then((result) => (result.toJSON()));
-  }
-
-  unlike() {
-    return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy();
   }
 
   index() {

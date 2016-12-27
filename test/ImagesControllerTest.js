@@ -17,7 +17,8 @@ var user_id = null;
 var config = require('../server/config');
 
 var ImagesController = require('../server/controllers/ImagesController');
-var UsersController = require('../server/controllers/UsersController.js');
+var UsersController = require('../server/controllers/UsersController');
+const FavoritesController = require('../server/controllers/FavoritesController');
 
 describe('API', function() {
   before(function(done) {
@@ -143,7 +144,7 @@ describe('API', function() {
 
   describe('Like Image', function() {
     it('Should like image', function(done) {
-      new ImagesController({
+      new FavoritesController({
         params:{id:id}, 
         session:{user:user_id}
       }).like().then((like) => {
@@ -180,7 +181,7 @@ describe('API', function() {
 
   describe('Unlike Image', function() {
     it('Should unlike image', function(done) {
-      new ImagesController({
+      new FavoritesController({
         params:{id:id}, 
         session:{user:user_id}
       }).unlike().then(() =>  done());

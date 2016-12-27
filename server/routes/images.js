@@ -10,6 +10,7 @@ const ImagesController = require('../controllers/ImagesController');
 const TagsController = require('../controllers/TagsController');
 const PersonsController = require('../controllers/PersonsController');
 const AlbumsController = require('../controllers/AlbumsController');
+const FavoritesController = require('../controllers/FavoritesController');
 
 router.get('/', (req, res) => {
   new ImagesController(req).index().then(function(images) {
@@ -26,10 +27,10 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/:id/like', 
-  (req, res) => new ImagesController(req).like().then(() => res.send('ok')).catch((e) => res.status(404).send('Fehler')));
+  (req, res) => new FavoritesController(req).like().then(() => res.send('ok')).catch((e) => res.status(404).send('Fehler')));
 
 router.put('/:id/unlike', 
-  (req, res) => new ImagesController(req).unlike().then(() => res.send('ok')).catch((e) => res.status(404).send('Fehler')));
+  (req, res) => new FavoritesController(req).unlike().then(() => res.send('ok')).catch((e) => res.status(404).send('Fehler')));
 
 router.delete('/:id', (req, res) => {
   new ImagesController(req).destroy().then((image) => (res.send(image))).catch(function(e) {

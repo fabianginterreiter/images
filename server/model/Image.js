@@ -3,6 +3,7 @@
 const bookshelf = require('./bookshelf');
 const User = require('./User');
 const Tag = require('./Tag') 
+const Album = require('./Album') 
 const Person = require('./Person');
 const ImageTag = require('./ImageTag') 
 

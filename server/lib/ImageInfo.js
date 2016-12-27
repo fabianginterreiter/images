@@ -20,8 +20,6 @@ module.exports = function(file) {
 
         result.date = new Date(exifData.exif.CreateDate.replace(':', '.').replace(':', '.'));
 
-        console.log(exifData);
-
         // http://www.daveperrett.com/articles/2012/07/28/exif-orientation-handling-is-a-ghetto/
         result.horizontal = !exifData.image.Orientation || exifData.image.Orientation < 5;
 

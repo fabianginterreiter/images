@@ -1,8 +1,9 @@
 "use strict"
 
-var Person = require('../model/Person');
+const BaseController = require('./BaseController');
 
-var BaseController = require('./BaseController');
+const Person = require('../model/Person');
+const ImagePerson = require('../model/ImagePerson');
 
 class PersonsController extends BaseController {
   index() {
@@ -37,6 +38,58 @@ class PersonsController extends BaseController {
         return result.toJSON();
       });
     }.bind(this));
+  }
+
+  addPerson() {
+    var person = this.body;
+
+    if (person.id) {
+      return new ImagePerson({
+        image_id: this.params.id,
+        person_id: person.id,
+        top: person.top,
+        left: person.left,
+        width: person.width,
+        height: person.height
+      }).save().then(() => {
+        person._pivot_top = person.top;
+        person._pivot_left = person.left;
+        person._pivot_width = person.width;
+        person._pivot_height = person.height;
+        
+        return person;
+      });
+    } else {
+      return new Person({
+        name:person.name
+      }).save().then((result) => {
+        person.id = result.get('id');
+        return new ImagePerson({
+          image_id: this.params.id,
+          person_id: result.id,
+          top: person.top,
+          left: person.left,
+          width: person.width,
+          height: person.height
+        }).save().then(() => { 
+          person._pivot_top = person.top;
+          person._pivot_left = person.left;
+          person._pivot_width = person.width;
+          person._pivot_height = person.height;
+          return person
+        });
+      });
+    }
+  }
+
+  deletePerson() {
+    return ImagePerson.where({image_id:this.params.id, person_id:this.params.person_id}).destroy().then(() => {
+      return Person.query((qb) => {
+        qb.whereNotExists(function() {
+          this.select('images_persons.id').from('images_persons').whereRaw('persons.id = images_persons.person_id');
+        });
+      }).destroy();
+    });
   }
 }
 

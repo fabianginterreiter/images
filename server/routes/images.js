@@ -1,9 +1,15 @@
+"use strict"
+
 const express = require('express');
-const ImagesController = require('../controllers/ImagesController');
 const router = express.Router();
 
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
+
+const ImagesController = require('../controllers/ImagesController');
+const TagsController = require('../controllers/TagsController');
+const PersonsController = require('../controllers/PersonsController');
+const AlbumsController = require('../controllers/AlbumsController');
 
 router.get('/', (req, res) => {
   new ImagesController(req).index().then(function(images) {
@@ -32,23 +38,25 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id/tags', (req, res) => {
-  new ImagesController(req).addTag().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
+  new TagsController(req).addTag().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
 });
+
+router.delete('/:id/tags/:tag_id', (req, res) => new TagsController(req).deleteTag().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
+
 
 router.put('/:id/albums', (req, res) => {
-  new ImagesController(req).addAlbum().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
+  new AlbumsController(req).addAlbum().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
 });
 
-router.delete('/:id/albums/:album_id', (req, res) => new ImagesController(req).deleteAlbum().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
+router.delete('/:id/albums/:album_id', (req, res) => new AlbumsController(req).deleteAlbum().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
 
 
-router.delete('/:id/tags/:tag_id', (req, res) => new ImagesController(req).deleteTag().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
 
 router.put('/:id/persons', (req, res) => {
-  new ImagesController(req).addPerson().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
+  new PersonsController(req).addPerson().then((tag) => res.send(tag)).catch((e) => res.status(404).send('Fehler'));
 });
 
-router.delete('/:id/persons/:person_id', (req, res) => new ImagesController(req).deletePerson().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
+router.delete('/:id/persons/:person_id', (req, res) => new PersonsController(req).deletePerson().then(() => res.send('OK')).catch((e) => res.status(404).send(e)));
 
 
 router.post('/', upload.single('image'), function(req, res) {

@@ -1,8 +1,8 @@
 "use strict"
 
-var Album = require('../model/Album');
+const BaseController = require('./BaseController');
 
-var BaseController = require('./BaseController');
+const Album = require('../model/Album');
 const AlbumImage = require('../model/AlbumImage');
 
 class AlbumsController extends BaseController {
@@ -61,6 +61,31 @@ class AlbumsController extends BaseController {
         return result.toJSON();
       });
     }.bind(this));
+  }
+
+  addAlbum() {
+    var album = this.body;
+
+    if (album.id) {
+      return new AlbumImage({
+        album_id: album.id,
+        image_id: this.params.id
+      }).save().then(() => album);
+    } else {
+      return new Album({
+        name:album.name,
+        user_id: this.session.user
+      }).save().then((album) => {
+        return new AlbumImage({
+          album_id: album.get('id'),
+          image_id: this.params.id
+        }).save().then(() => album.toJSON());
+      });
+    }
+  }
+
+  deleteAlbum() {
+    return AlbumImage.where({image_id:this.params.id, album_id:this.params.album_id}).destroy();
   }
 }
 

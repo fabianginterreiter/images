@@ -1,8 +1,9 @@
 "use strict"
 
-var Tag = require('../model/Tag');
+const BaseController = require('./BaseController');
 
-var BaseController = require('./BaseController');
+const Tag = require('../model/Tag');
+const ImageTag = require('../model/ImageTag');
 
 class TagsController extends BaseController {
   create() {
@@ -43,6 +44,36 @@ class TagsController extends BaseController {
         return result.toJSON();
       });
     }.bind(this));
+  }
+
+  addTag() {
+    var tag = this.body;
+
+    if (tag.id) {
+      return new ImageTag({
+        tag_id: tag.id,
+        image_id: this.params.id
+      }).save().then(() => tag);
+    } else {
+      return new Tag({
+        name:tag.name
+      }).save().then((tag) => {
+        return new ImageTag({
+          tag_id: tag.get('id'),
+          image_id: this.params.id
+        }).save().then(() => tag.toJSON());
+      });
+    }
+  }
+
+  deleteTag() {
+    return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
+      return Tag.query((qb) => {
+        qb.whereNotExists(function() {
+          this.select('images_tags.id').from('images_tags').whereRaw('tags.id = images_tags.tag_id');
+        });
+      }).destroy();
+    });
   }
 }
 

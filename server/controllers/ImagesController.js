@@ -2,12 +2,8 @@
 
 const Image = require('../model/Image');
 const Like = require('../model/Like');
-const ImageTag = require('../model/ImageTag');
-const Tag = require('../model/Tag');
-const Album = require('../model/Album');
-const Person = require('../model/Person');
-const ImagePerson = require('../model/ImagePerson');
-const AlbumImage = require('../model/AlbumImage');
+
+
 
 var fs = require('fs');
 var config = require('../config');
@@ -78,113 +74,6 @@ class ImagesController extends BaseController {
 
   unlike() {
     return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy();
-  }
-
-  addPerson() {
-    var person = this.body;
-
-    if (person.id) {
-      return new ImagePerson({
-        image_id: this.params.id,
-        person_id: person.id,
-        top: person.top,
-        left: person.left,
-        width: person.width,
-        height: person.height
-      }).save().then(() => {
-        person._pivot_top = person.top;
-        person._pivot_left = person.left;
-        person._pivot_width = person.width;
-        person._pivot_height = person.height;
-        
-        return person;
-      });
-    } else {
-      return new Person({
-        name:person.name
-      }).save().then((result) => {
-        person.id = result.get('id');
-        return new ImagePerson({
-          image_id: this.params.id,
-          person_id: result.id,
-          top: person.top,
-          left: person.left,
-          width: person.width,
-          height: person.height
-        }).save().then(() => { 
-          person._pivot_top = person.top;
-          person._pivot_left = person.left;
-          person._pivot_width = person.width;
-          person._pivot_height = person.height;
-          return person
-        });
-      });
-    }
-  }
-
-  deletePerson() {
-    return ImagePerson.where({image_id:this.params.id, person_id:this.params.person_id}).destroy().then(() => {
-      return Person.query((qb) => {
-        qb.whereNotExists(function() {
-          this.select('images_persons.id').from('images_persons').whereRaw('persons.id = images_persons.person_id');
-        });
-      }).destroy();
-    });
-  }
-
-  addTag() {
-    var tag = this.body;
-
-    if (tag.id) {
-      return new ImageTag({
-        tag_id: tag.id,
-        image_id: this.params.id
-      }).save().then(() => tag);
-    } else {
-      return new Tag({
-        name:tag.name
-      }).save().then((tag) => {
-        return new ImageTag({
-          tag_id: tag.get('id'),
-          image_id: this.params.id
-        }).save().then(() => tag.toJSON());
-      });
-    }
-  }
-
-  addAlbum() {
-    var album = this.body;
-
-    if (album.id) {
-      return new AlbumImage({
-        album_id: album.id,
-        image_id: this.params.id
-      }).save().then(() => album);
-    } else {
-      return new Album({
-        name:album.name,
-        user_id: this.session.user
-      }).save().then((album) => {
-        return new AlbumImage({
-          album_id: album.get('id'),
-          image_id: this.params.id
-        }).save().then(() => album.toJSON());
-      });
-    }
-  }
-
-  deleteAlbum() {
-    return AlbumImage.where({image_id:this.params.id, album_id:this.params.album_id}).destroy();
-  }
-
-  deleteTag() {
-    return ImageTag.where({image_id:this.params.id, tag_id:this.params.tag_id}).destroy().then(() => {
-      return Tag.query((qb) => {
-        qb.whereNotExists(function() {
-          this.select('images_tags.id').from('images_tags').whereRaw('tags.id = images_tags.tag_id');
-        });
-      }).destroy();
-    });
   }
 
   index() {

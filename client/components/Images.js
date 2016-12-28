@@ -15,6 +15,7 @@ const NavigationsStore = require('../stores/NavigationsStore');
 const KeyUpListener = require('../stores/KeyUpListener');
 const ResizeListener = require('../stores/ResizeListener');
 const history = require('react-router').browserHistory;
+const SelectionStore = require('../stores/SelectionStore');
 
 class Images extends React.Component {
   constructor(props) {
@@ -41,6 +42,20 @@ class Images extends React.Component {
     });
 
     var option = NavigationsStore.getOption(nextProps.location.pathname);
+
+    if (!option) {
+      if (nextProps.location.pathname === '/images/selected') {
+        if (SelectionStore.isEmpty()) {
+          history.push('/images');
+        }
+
+        ImagesStore.setObject(SelectionStore.getSelected());
+        this.setState({
+          title: 'Selected'
+        });
+        return;
+      }
+    }
 
     if (option) {
       var title = null;
@@ -76,6 +91,7 @@ class Images extends React.Component {
     NavigationsState.addChangeListener(this, this.handlePinningNavigation.bind(this));
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ResizeListener.addChangeListener(this, this.handleResize.bind(this));
+    SelectionStore.addChangeListener(this, () => this.forceUpdate());
 
     this.width = document.getElementById('container').clientWidth;
 
@@ -88,6 +104,7 @@ class Images extends React.Component {
     NavigationsState.removeChangeListener(this);
     KeyUpListener.removeChangeListener(this);
     ResizeListener.removeChangeListener(this);
+    SelectionStore.removeChangeListener(this);
   }
 
   handlePinningNavigation() {
@@ -179,8 +196,9 @@ class Images extends React.Component {
   }
 
   handleSelect(image, event) {
-    image.selected = !image.selected;
-    this.forceUpdate()
+    SelectionStore.handle(image);
+    
+    console.log(event.shiftKey);
   }
 
   handleDateSelect(idx) {
@@ -326,7 +344,7 @@ class Images extends React.Component {
 
       var style = image.displayWidth > 0 ? {width: image.displayWidth + 'px', height: image.displayHeight + 'px'} : {height: ThumbnailsSizeStore.getObject() + 'px'};
 
-      if (image.selected) {
+      if (SelectionStore.isSelected(image)) {
         className += ' selected';
       }
 

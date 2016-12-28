@@ -1,0 +1,38 @@
+input, button {
+  color: #373a3c;
+  background-color: #fff;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.25;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #ccc;
+  padding: .2rem .5rem;
+  margin: 0 .1rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+}
+
+button {
+  color: #373a3c;
+  background-color: #fff;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #ccc;
+  padding: .2rem 1rem;
+  margin: 0 .1rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+}
+
+button:hover {
+  background-color: #efefef;
+}

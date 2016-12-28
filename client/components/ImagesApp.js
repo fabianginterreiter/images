@@ -13,6 +13,7 @@ const Navigations = require('./Navigations');
 const Dialog = require('./Dialog');
 const SelectDialog = require('./SelectDialog');
 const SingleSelectDialog = require('./SingleSelectDialog');
+const Selection = require('./selections/Selection');
 
 class ImagesApp extends React.Component {
   constructor(props) {
@@ -37,16 +38,19 @@ class ImagesApp extends React.Component {
     }
 
     var contentClass = 'content';
-      
+    var pinned = '';      
     if (NavigationsState.getObject().pinned) {
       contentClass += ' pinned';
+      pinned = 'pinned';
     }
-    
+
+
     return (
       <div>
         <Navigations location={this.props.location} />
 
         <div className={contentClass}>
+          <Selection className={pinned} params={this.props.params}  />
           <Header params={this.props.params} />
           {this.props.children}
         </div>

@@ -32,6 +32,7 @@ ReactDOM.render(
         <Route path="tags" component={Tags} />
         <Route path="albums" component={Albums} />
         <Route path="selected" component={Images} />
+        <Route path="trash" component={Images} />
         <IndexRoute component={Images} />
       </Route>
       <Route path="profiles" component={UsersManagement} />

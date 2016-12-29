@@ -122,6 +122,12 @@ class ImagesController extends BaseController {
 
       qb.where(where);
 
+      if (this.query.trash && this.query.trash === 'true') {
+        qb.where('images.deleted', true);
+      } else {
+        qb.where('images.deleted', false);
+      }
+
       qb.orderBy('date','DESC'); 
     }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
     .then((images) => (images.toJSON())).then((images) => this.__transformImages(images))
@@ -129,7 +135,15 @@ class ImagesController extends BaseController {
   }
 
   destroy() {
-    var id = this.params.id;
+    return new Image({
+      id:this.params.id
+    }).save({
+      deleted:true
+    }, {
+      patch: true
+    }).then((result) => (result.toJSON()));
+
+    /*var id = this.params.id;
     return new Promise(function(resolve, reject) {
       new Image({'id': id}).fetch()
       .then(function(image) {
@@ -155,7 +169,7 @@ class ImagesController extends BaseController {
           });
         });
       });
-    });
+    });*/
   }
 }
 

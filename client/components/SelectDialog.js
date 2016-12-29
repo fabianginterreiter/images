@@ -102,9 +102,9 @@ class Dialog extends React.Component {
         <div className="dialog">
           <div className="title">{this.state.options.title}</div>
           <div className="body">
-            <div>
+            <div className="group">
               <input type="text" value={this.state.filter} onChange={this.handleChangeOnFilter.bind(this)} placeholder="Filter" />
-              <button disabled={this.state.match} onClick={this.handleCreate.bind(this)}>Create</button>
+              <button disabled={this.state.match} onClick={this.handleCreate.bind(this)} className='primary'>Create</button>
             </div>
             {this._renderOptions()}
           </div>

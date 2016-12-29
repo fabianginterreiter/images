@@ -25,16 +25,28 @@ class PersonsController extends BaseController {
   }
 
   get() {
-    return new Person({id:this.params.id}).fetch().then((result) => (result.toJSON()));
+    return new Person({
+      id:this.params.id
+    }).fetch().then((result) => (result.toJSON()));
   }
 
   update() {
-    return new Person({id:this.params.id}).save({name:this.body.name}, {patch: true}).then((result) => (result.toJSON()));
+    return new Person({
+      id:this.params.id
+    }).save({
+      name:this.body.name
+    }, {
+      patch: true
+    }).then((result) => (result.toJSON()));
   }
 
   destroy() {
-    return new Person({id:this.params.id}).fetch().then(function(result) {
-      return new Person({id:this.params.id}).destroy().then(function() {
+    return new Person({
+      id:this.params.id
+    }).fetch().then(function(result) {
+      return new Person({
+        id:this.params.id
+      }).destroy().then(function() {
         return result.toJSON();
       });
     }.bind(this));
@@ -83,7 +95,10 @@ class PersonsController extends BaseController {
   }
 
   deletePerson() {
-    return ImagePerson.where({image_id:this.params.id, person_id:this.params.person_id}).destroy().then(() => {
+    return ImagePerson.where({
+      image_id:this.params.id, 
+      person_id:this.params.person_id
+    }).destroy().then(() => {
       return Person.query((qb) => {
         qb.whereNotExists(function() {
           this.select('images_persons.id').from('images_persons').whereRaw('persons.id = images_persons.person_id');

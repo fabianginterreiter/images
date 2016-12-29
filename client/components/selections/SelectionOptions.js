@@ -243,7 +243,9 @@ class SelectionOptions extends React.Component {
       }
 
       case 'removeAlbum': {
-        ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), {id:this.props.params.albumId})
+        ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), {id:this.props.params.albumId}).then(() => {
+          ImagesStore.reload();
+        });
         break;
       }
     }

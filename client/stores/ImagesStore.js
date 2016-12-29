@@ -136,9 +136,7 @@ class ImagesStore extends Dispatcher {
       promises.push(this.deleteAlbum(image, album, true));
     });  
 
-    return Promise.all(promises).then(() => {
-      // TODO Delete Images from current Images.
-    });
+    return Promise.all(promises);
   }
 
   deleteAlbum(image, album, mass) {
@@ -230,6 +228,7 @@ class ImagesStore extends Dispatcher {
   }
 
   load(service) {
+    this.service = service;
     fetch(service, {
       accept: 'application/json',
       credentials: 'include'
@@ -238,6 +237,12 @@ class ImagesStore extends Dispatcher {
     }).then(function(images) {
       this.setObject(images);
     }.bind(this));
+  }
+
+  reload() {
+    if (this.service) {
+      this.load(this.service);
+    }
   }
 
   delete(image) {

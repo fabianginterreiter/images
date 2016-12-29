@@ -31,14 +31,23 @@ class Dialog extends React.Component {
       return (<span />);
     }
 
+    var icon = null;
+
+    if (this.state.options.icon) {
+      icon = (<i className={this.state.options.icon} />);
+    }
+
     return (
       <div>
         <div className="dimming" onClick={this.handleCancel.bind(this)} />
         <div className="dialog">
-          <div className="title">{this.state.options.title}</div>
+          <div className="title">
+            {icon} 
+            {this.state.options.title}
+          </div>
           <div className="body">{this.state.options.text}</div>
           <div className="bottom">
-            <button onClick={this.handleOk.bind(this)}>OK</button>
+            <button onClick={this.handleOk.bind(this)} className={this.state.options.type}>OK</button>
             <button onClick={this.handleCancel.bind(this)}>Cancel</button>
           </div>
         </div>

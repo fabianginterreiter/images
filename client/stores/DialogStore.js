@@ -5,15 +5,22 @@ class DialogStore extends Dispatcher {
     super(null);
   }
 
-  open(title, text) {
+  open(title, text, settings) {
     return new Promise((resolve, reject) => {
-      this.setObject({
+      var options = {
         title:title,
         text:text,
         resolve: resolve,
         reject: reject,
         open: true
-      });
+      };
+
+      if (settings) {
+        options.type = settings.type
+        options.icon = settings.icon;
+      }
+
+      this.setObject(options);
     });
   }
 }

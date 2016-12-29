@@ -56,8 +56,10 @@ class Persons extends React.Component {
   }
 
   handleDelete(person) {
-    DialogStore.open('Delete Person', 'Do you really want to delete the Person?')
-    .then(() => fetch('/api/persons/' + person.id, {
+    DialogStore.open('Delete Person', 'Do you really want to delete the Person?', {
+      type: 'warning',
+      icon: 'fa fa-trash'
+    }).then(() => fetch('/api/persons/' + person.id, {
       method: "DELETE",
       credentials: 'include'
     })).then(() => {

@@ -13,19 +13,20 @@ class ImagesController extends BaseController {
   create() {
     return ImageInfo(this.file.path).then(function(info) {
       var result = {
-        filename: this.file.originalname, 
-        size: this.file.size
+        filename: this.file.originalname,
+        title: this.file.originalname,
+        size: this.file.size,
+
+        width: info.width,
+        height: info.height,
+        date: info.date,
+
+        year: info.date.getFullYear(),
+        month: info.date.getMonth() + 1,
+        day: info.date.getDate(),
+
+        user_id: this.session.user
       };
-
-      result.width = info.width;
-      result.height = info.height;
-      result.date = info.date;
-
-      result.year = result.date.getFullYear();
-      result.month = result.date.getMonth() + 1;
-      result.day = result.date.getDate();
-
-      result.user_id = this.session.user;
 
       return CopyImageFile(this.file.path, result);
     }.bind(this)).then(function(result) {

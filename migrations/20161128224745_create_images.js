@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('images', function(table) {
       table.increments().primary();
       table.string('filename');
+      table.string('title');
       table.integer('width');
       table.integer('height');
       table.integer('size');

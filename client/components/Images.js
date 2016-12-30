@@ -29,60 +29,13 @@ class Images extends React.Component {
       images: [],
       size: ThumbnailsSizeStore.getObject()
     };
+
+    this.lastSelection = -1;
   }
 
   updateImages(images) {
     this.bundledImages = this._bundleImages(images);
     this.setState({images:images})
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      view: -1
-    });
-
-    var option = NavigationsStore.getOption(nextProps.location.pathname);
-
-    if (!option) {
-      if (nextProps.location.pathname === '/images/selected') {
-        if (SelectionStore.isEmpty()) {
-          history.push('/images');
-        }
-
-        ImagesStore.setObject(SelectionStore.getSelected());
-        this.setState({
-          title: 'Selected'
-        });
-        return;
-      }
-    }
-
-    if (option) {
-      var title = null;
-
-      if (option.key !== 'all') {
-        title = option.name; 
-      }
-
-      this.setState({
-        title:title
-      });
-
-      return ImagesStore.load(option.service);
-    }
-
-    this.setState({
-      title:null
-    });
-
-    let routeParams = nextProps.routeParams;
-    if (routeParams) {
-      if (routeParams.year && routeParams.month && routeParams.day) {
-        return ImagesStore.load('/api/images?year=' + routeParams.year + '&month=' + routeParams.month + '&day=' + routeParams.day);
-      }
-    }
-
-    return ImagesStore.load('/api/images');
   }
 
   componentDidMount() {
@@ -94,8 +47,6 @@ class Images extends React.Component {
     SelectionStore.addChangeListener(this, () => this.forceUpdate());
 
     this.width = document.getElementById('container').clientWidth;
-
-    this.componentWillReceiveProps(this.props);
   }
 
   componentWillUnmount() {
@@ -160,6 +111,13 @@ class Images extends React.Component {
         this.handleNext();
         break;
       }
+
+      case 65: {
+        if (e.ctrlKey) {
+          this.state.images.forEach((image) => SelectionStore.select(image));  
+        }
+        break;
+      }
     }
   }
 
@@ -195,10 +153,22 @@ class Images extends React.Component {
     });
   }
 
-  handleSelect(image, event) {
-    SelectionStore.handle(image);
-    
-    console.log(event.shiftKey);
+  handleSelect(idx, event) {
+    if (event.shiftKey && this.lastSelection >= 0) {
+      if (SelectionStore.isSelected(this.state.images[idx])) {
+        for (var index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
+          SelectionStore.unselect(this.state.images[index]);
+        }
+      } else {
+        for (var index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
+          SelectionStore.select(this.state.images[index]);
+        }
+      }
+    } else {
+      SelectionStore.handle(this.state.images[idx]);
+    }
+
+    this.lastSelection = idx;
   }
 
   handleDateSelect(idx) {
@@ -294,14 +264,6 @@ class Images extends React.Component {
     history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
 
-  _renderTitle() {
-    if (this.state.title) {
-      return (<h3>{this.state.title}</h3>);
-    } else {
-      return (<span />);
-    }
-  }
-
   render() {
     if (this.state.images.length === 0) {
       return (<div id="container">
@@ -353,7 +315,7 @@ class Images extends React.Component {
       elements.push(
         <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
           <Image image={image} style={style} />
-          <div className="select" onClick={this.handleSelect.bind(this, image)}><i className={checkBoxClass}></i></div>
+          <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass}></i></div>
           <Like image={image} />
           <div className="mark" />
         </div>);
@@ -362,7 +324,6 @@ class Images extends React.Component {
     return (
       <div id="container">
         {view}
-        {this._renderTitle()}
         <div className={'container size' + this.state.size}>
           {elements}
         </div>

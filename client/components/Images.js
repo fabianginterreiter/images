@@ -185,13 +185,17 @@ class Images extends React.Component {
         break;
       }
 
-      if (!this.state.images[index].selected) {
+      if (!SelectionStore.isSelected(this.state.images[index])) {
         hasNotSelected = true;
       }
     }
 
     for (var i = idx; i < index; i++) {
-      this.state.images[i].selected = hasNotSelected;
+      if (hasNotSelected) {
+        SelectionStore.select(this.state.images[i]);
+      } else {
+        SelectionStore.unselect(this.state.images[i]);
+      }
     }
 
     this.forceUpdate();

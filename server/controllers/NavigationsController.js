@@ -67,7 +67,7 @@ class NavigationsController extends BaseController {
         months.push({
           key: 'date' + year + date.month,
           type: 'action',
-          name: moment().month(date.month - 1).format("MMMM YYYY"),
+          name: moment().month(date.month - 1).year(year).format("MMMM YYYY"),
           service: '/api/images?year=' + year + '&month=' + date.month,
           link: '/images/dates/' + year + '/' + date.month
         })

@@ -13,7 +13,10 @@ class Favorites extends React.Component {
 
   render() {
     return (
-      <Images />
+      <div>
+        <h1>Favorites</h1>
+        <Images />
+      </div>
     );
   }
 }

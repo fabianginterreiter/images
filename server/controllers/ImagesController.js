@@ -2,7 +2,6 @@
 
 const Image = require('../model/Image');
 
-var fs = require('fs');
 var config = require('../config');
 
 var ImageInfo = require('../lib/ImageInfo');
@@ -122,6 +121,12 @@ class ImagesController extends BaseController {
 
       qb.where(where);
 
+      if (this.query.trash && this.query.trash === 'true') {
+        qb.where('images.deleted', true);
+      } else {
+        qb.where('images.deleted', false);
+      }
+
       qb.orderBy('date','DESC'); 
     }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
     .then((images) => (images.toJSON())).then((images) => this.__transformImages(images))
@@ -129,33 +134,23 @@ class ImagesController extends BaseController {
   }
 
   destroy() {
-    var id = this.params.id;
-    return new Promise(function(resolve, reject) {
-      new Image({'id': id}).fetch()
-      .then(function(image) {
-        return new Image({'id': id}).destroy().then(function() {
-          fs.unlink(config.getImagesPath() + '/' + image.get('path'), function(err) {
-            if (err) {
-              return reject(err);
-            }
+    return new Image({
+      id:this.params.id
+    }).save({
+      deleted:true
+    }, {
+      patch: true
+    }).then((result) => (result.toJSON()));
+  }
 
-            fs.unlink(config.getThumbnailPath() + '/' + image.get('path'), function(err) {
-              if (err) {
-                return reject(err);
-              }
-
-              fs.unlink(config.getPreviewPath() + '/' + image.get('path'), function(err) {
-                if (err) {
-                  return reject(err);
-                }
-
-                resolve(image.toJSON());
-              });
-            });
-          });
-        });
-      });
-    });
+  revert() {
+    return new Image({
+      id:this.params.id
+    }).save({
+      deleted:false
+    }, {
+      patch: true
+    }).then((result) => (result.toJSON()));
   }
 }
 

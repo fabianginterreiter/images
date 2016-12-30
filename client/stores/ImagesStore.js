@@ -263,6 +263,13 @@ class ImagesStore extends Dispatcher {
     });
   }
 
+  revert(image) {
+    return fetch('/api/images/' + image.id + '/revert', {
+      method: "PUT",
+      credentials: 'include'
+    }).then(() => (image.deleted = false));
+  }
+
   getIndex(image) {
     for (var index = 0; index < super.getObject().length; index++) {
       if (super.getObject()[index].id === image.id) {

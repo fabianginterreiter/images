@@ -25,6 +25,7 @@ app.use('/api/tags', require('./routes/tags'));
 app.use('/api/persons', require('./routes/persons'));
 app.use('/api/options', require('./routes/options'));
 app.use('/api/navigations', require('./routes/navigations'));
+app.use('/api/trash', require('./routes/trash'));
 
 app.use(express.static('public'));
 

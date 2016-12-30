@@ -5,6 +5,7 @@ const moment = require('moment');
 const Tag = require('../model/Tag');
 const Person = require('../model/Person');
 const Album = require('../model/Album');
+const Image = require('../model/Image');
 
 const BaseController = require('./BaseController');
 
@@ -14,7 +15,30 @@ class NavigationsController extends BaseController {
     return this.addAlbums([])
     .then((options) => this.addPersons(options))
     .then((options) => this.addTags(options))
-    .then((options) => this.addDates(options));
+    .then((options) => this.addDates(options))
+    .then((options) => this.addTrash(options));
+  }
+
+  addTrash(options) {
+    return Image.where('deleted', true).fetchAll().then((results) => {
+      if (results.length === 0) {
+        return options;
+      }
+
+      options.push({
+        type: 'divider'
+      });
+
+      options.push({
+        key: 'trash',
+        type: 'action',
+        name: 'Trash',
+        link: '/images/trash',
+        service: '/api/images?trash=true'
+      });
+
+      return options;
+    })
   }
 
   addDates(options) {

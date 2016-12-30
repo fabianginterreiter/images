@@ -58,9 +58,9 @@ class UsersManagement extends React.Component {
 
     if (this.state.open) {
       createUser = (
-        <div>
+        <div className="group">
           <input type="text" placeholder="Create" ref="name" />
-          <button onClick={this.handleCreateUser.bind(this)}>Create</button>
+          <button onClick={this.handleCreateUser.bind(this)} className="primary">Create</button>
         </div>
         );
     }

@@ -8,6 +8,10 @@ const SelectionStore = require('../stores/SelectionStore');
 const ImagesStore = require('../stores/ImagesStore');
 
 class Trash extends React.Component {
+  componentDidMount() {
+    ImagesStore.load('/api/images?trash=true');
+  }
+
   handleClear() {
     DialogStore.open('Delete Images', 'Do you really want to delete all selected images?', {
       type: 'danger'

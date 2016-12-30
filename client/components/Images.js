@@ -111,6 +111,13 @@ class Images extends React.Component {
         this.handleNext();
         break;
       }
+
+      case 65: {
+        if (e.ctrlKey) {
+          this.state.images.forEach((image) => SelectionStore.select(image));  
+        }
+        break;
+      }
     }
   }
 

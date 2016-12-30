@@ -18,25 +18,27 @@ const Albums = require('./components/Albums');
 const UsersManagement = require('./components/UsersManagement');
 const Trash = require('./components/Trash');
 
+const Dates = require('./Dates');
+
 const Init = require('./components/Init');
 
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={Init}>
       <Route path="images" components={ImagesApp}>
-        <Route path="dates/:year/:month/:day" component={Images} />
-        <Route path="dates/:year/:month" component={Images} />
-        <Route path="dates/:year" component={Images} />
-        <Route path="tags/:id" component={Images} />
-        <Route path="persons/:id" component={Images} />
-        <Route path="albums/:albumId" component={Images} />
-        <Route path="favorites" component={Images} />
+        <Route path="dates/:year/:month/:day" component={Dates} />
+        <Route path="dates/:year/:month" component={Dates} />
+        <Route path="dates/:year" component={Dates} />
+        <Route path="tags/:id" component={require('./Tags')} />
+        <Route path="persons/:id" component={require('./Persons')} />
+        <Route path="albums/:albumId" component={require('./Albums')} />
+        <Route path="favorites" component={require('./Favorites')} />
         <Route path="persons" component={Persons} />
         <Route path="tags" component={Tags} />
         <Route path="albums" component={Albums} />
-        <Route path="selected" component={Images} />
+        <Route path="selected" component={require('./Selected')} />
         <Route path="trash" component={Trash} />
-        <IndexRoute component={Images} />
+        <IndexRoute component={require('./All')} />
       </Route>
       <Route path="profiles" component={UsersManagement} />
     </Route>

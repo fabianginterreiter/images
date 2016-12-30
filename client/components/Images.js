@@ -36,55 +36,6 @@ class Images extends React.Component {
     this.setState({images:images})
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      view: -1
-    });
-
-    var option = NavigationsStore.getOption(nextProps.location.pathname);
-
-    if (!option) {
-      if (nextProps.location.pathname === '/images/selected') {
-        if (SelectionStore.isEmpty()) {
-          history.push('/images');
-        }
-
-        ImagesStore.setObject(SelectionStore.getSelected());
-        this.setState({
-          title: 'Selected'
-        });
-        return;
-      }
-    }
-
-    if (option) {
-      var title = null;
-
-      if (option.key !== 'all') {
-        title = option.name; 
-      }
-
-      this.setState({
-        title:title
-      });
-
-      return ImagesStore.load(option.service);
-    }
-
-    this.setState({
-      title:null
-    });
-
-    let routeParams = nextProps.routeParams;
-    if (routeParams) {
-      if (routeParams.year && routeParams.month && routeParams.day) {
-        return ImagesStore.load('/api/images?year=' + routeParams.year + '&month=' + routeParams.month + '&day=' + routeParams.day);
-      }
-    }
-
-    return ImagesStore.load('/api/images');
-  }
-
   componentDidMount() {
     ImagesStore.addChangeListener(this, this.updateImages.bind(this));
     ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size:size})));
@@ -94,8 +45,6 @@ class Images extends React.Component {
     SelectionStore.addChangeListener(this, () => this.forceUpdate());
 
     this.width = document.getElementById('container').clientWidth;
-
-    this.componentWillReceiveProps(this.props);
   }
 
   componentWillUnmount() {
@@ -294,14 +243,6 @@ class Images extends React.Component {
     history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
 
-  _renderTitle() {
-    if (this.state.title) {
-      return (<h3>{this.state.title}</h3>);
-    } else {
-      return (<span />);
-    }
-  }
-
   render() {
     if (this.state.images.length === 0) {
       return (<div id="container">
@@ -362,7 +303,6 @@ class Images extends React.Component {
     return (
       <div id="container">
         {view}
-        {this._renderTitle()}
         <div className={'container size' + this.state.size}>
           {elements}
         </div>

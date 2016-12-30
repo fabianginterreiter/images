@@ -1,22 +1,24 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+"use strict"
 
-var Router = require('react-router').Router;
-var Route = require('react-router').Route;
-var browserHistory = require('react-router').browserHistory;
-var Redirect = require('react-router').Redirect;
-var IndexRoute = require('react-router').IndexRoute;
-var IndexRedirect = require('react-router').IndexRedirect;
+const React = require('react');
+const ReactDOM = require('react-dom');
 
-var ImagesApp = require('./components/ImagesApp');
-var Images = require('./components/Images');
-var Persons = require('./components/Persons');
-var Tags = require('./components/Tags');
-var Albums = require('./components/Albums');
-var UsersManagement = require('./components/UsersManagement');
-var Trash = require('./components/Trash');
+const Router = require('react-router').Router;
+const Route = require('react-router').Route;
+const browserHistory = require('react-router').browserHistory;
+const Redirect = require('react-router').Redirect;
+const IndexRoute = require('react-router').IndexRoute;
+const IndexRedirect = require('react-router').IndexRedirect;
 
-var Init = require('./components/Init');
+const ImagesApp = require('./components/ImagesApp');
+const Images = require('./components/Images');
+const Persons = require('./components/Persons');
+const Tags = require('./components/Tags');
+const Albums = require('./components/Albums');
+const UsersManagement = require('./components/UsersManagement');
+const Trash = require('./components/Trash');
+
+const Init = require('./components/Init');
 
 ReactDOM.render(
   <Router history={browserHistory}>

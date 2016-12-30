@@ -20,7 +20,10 @@ class Selected extends React.Component {
 
   render() {
     return (
-      <Images />
+      <div>
+        <h1><i className="icon-check" /> Selection</h1>
+        <Images />
+      </div>
     );
   }
 }

@@ -2,10 +2,10 @@
 
 const React = require('react');
 
-const Images = require('./Images');
-const DialogStore = require('../stores/DialogStore');
-const SelectionStore = require('../stores/SelectionStore');
-const ImagesStore = require('../stores/ImagesStore');
+const Images = require('./components/Images');
+const DialogStore = require('./stores/DialogStore');
+const SelectionStore = require('./stores/SelectionStore');
+const ImagesStore = require('./stores/ImagesStore');
 
 class Trash extends React.Component {
   componentDidMount() {

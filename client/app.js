@@ -14,6 +14,7 @@ var Persons = require('./components/Persons');
 var Tags = require('./components/Tags');
 var Albums = require('./components/Albums');
 var UsersManagement = require('./components/UsersManagement');
+var Trash = require('./components/Trash');
 
 var Init = require('./components/Init');
 
@@ -32,7 +33,7 @@ ReactDOM.render(
         <Route path="tags" component={Tags} />
         <Route path="albums" component={Albums} />
         <Route path="selected" component={Images} />
-        <Route path="trash" component={Images} />
+        <Route path="trash" component={Trash} />
         <IndexRoute component={Images} />
       </Route>
       <Route path="profiles" component={UsersManagement} />

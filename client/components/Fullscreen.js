@@ -12,6 +12,7 @@ const Panel = require('./Panel');
 const DialogStore = require('../stores/DialogStore');
 const Faces = require('./Faces')
 const ResizeListener = require('../stores/ResizeListener');
+const moment = require('moment');
 
 class Fullscreen extends React.Component {
   constructor(props) {
@@ -128,7 +129,7 @@ class Fullscreen extends React.Component {
         <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
-          {this.props.image.filename} ({this.props.number}/{this.props.size})
+          {this.props.image.title} ({this.props.number}/{this.props.size})
           <div className="options">
             <Like image={this.props.image} />&nbsp;
             <i className="icon-reorder" onClick={this.toggleMenu.bind(this)} />
@@ -140,6 +141,10 @@ class Fullscreen extends React.Component {
           <div className="title">
           </div>
           <div className="body">
+            <div>Filename: {this.props.image.filename}</div>
+            <div>Resolution: {this.props.image.width}/{this.props.image.height}</div>
+            <div>Date: {moment(this.props.image.date).format('YYYY MMMM DD HH:mm:ss')}</div>
+
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <TagsList image={this.props.image} />
             <PersonsList image={this.props.image} />

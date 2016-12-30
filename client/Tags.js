@@ -16,8 +16,12 @@ class Tags extends React.Component {
   }
 
   componentDidMount() {
-    ImagesStore.load('/api/images?tag=' + this.props.params.id);
-    fetch('/api/tags/' + this.props.params.id).then((result) => result.json()).then((tag) => this.setState({tag:tag}));
+    this.componentWillReceiveProps(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    ImagesStore.load('/api/images?tag=' + newProps.params.id);
+    fetch('/api/tags/' + newProps.params.id).then((result) => result.json()).then((tag) => this.setState({tag:tag}));
   }
 
   render() {

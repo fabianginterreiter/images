@@ -16,8 +16,12 @@ class Persons extends React.Component {
   }
 
   componentDidMount() {
-    ImagesStore.load('/api/images?person=' + this.props.params.id);
-    fetch('/api/persons/' + this.props.params.id).then((result) => result.json()).then((person) => this.setState({person:person}));
+    this.componentWillReceiveProps(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    ImagesStore.load('/api/images?person=' + newProps.params.id);
+    fetch('/api/persons/' + newProps.params.id).then((result) => result.json()).then((person) => this.setState({person:person}));
   }
 
   render() {

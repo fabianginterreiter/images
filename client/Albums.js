@@ -16,8 +16,12 @@ class Albums extends React.Component {
   }
 
   componentDidMount() {
-    ImagesStore.load('/api/images?album=' + this.props.params.albumId);
-    fetch('/api/albums/' + this.props.params.albumId).then((result) => result.json()).then((album) => this.setState({album:album}));
+    this.componentWillReceiveProps(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    ImagesStore.load('/api/images?album=' + newProps.params.albumId);
+    fetch('/api/albums/' + newProps.params.albumId).then((result) => result.json()).then((album) => this.setState({album:album}));
   }
 
   render() {

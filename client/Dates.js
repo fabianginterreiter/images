@@ -9,15 +9,19 @@ const moment = require('moment');
 class Dates extends React.Component {
 
   componentDidMount() {
+    this.componentWillReceiveProps(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
     var url = '/api/images';
-    if (this.props.params.year) {
-      url += '?year=' + this.props.params.year;
+    if (newProps.params.year) {
+      url += '?year=' + newProps.params.year;
 
-      if (this.props.params.month) {
-        url += '&month=' + this.props.params.month;
+      if (newProps.params.month) {
+        url += '&month=' + newProps.params.month;
 
-        if (this.props.params.day) {
-          url += '&day=' + this.props.params.day;
+        if (newProps.params.day) {
+          url += '&day=' + newProps.params.day;
         }
       }
     }

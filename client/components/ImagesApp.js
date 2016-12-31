@@ -52,7 +52,9 @@ class ImagesApp extends React.Component {
         <div className={contentClass}>
           <Selection className={pinned} params={this.props.params}  />
           <Header params={this.props.params} />
-          {this.props.children}
+          <div className="main">
+            {this.props.children}
+          </div>
         </div>
 
         <Uploader />

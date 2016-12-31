@@ -6,6 +6,7 @@ const Link = require('react-router').Link;
 const Quickedit = require('./Quickedit');
 const DialogStore = require('../stores/DialogStore');
 const NavigationsStore = require('../stores/NavigationsStore');
+const moment = require('moment');
 
 class Dates extends React.Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Dates extends React.Component {
           <Link to={`/images/dates/${date.year}`}>{date.year} ({date.count})</Link>
           <ul>{date.months.map((month) => (
             <li key={date.year + '' + month.month}>
-              <Link to={`/images/dates/${date.year}/${month.month}`}>{month.month} ({month.count})</Link>
+              <Link to={`/images/dates/${date.year}/${month.month}`}>{moment().month(month.month-1).format('MMMM')} ({month.count})</Link>
               <ul>{month.days.map((day) => (
                 <li key={date.year + '' + month.month + '' + day.day}>
                   <Link to={`/images/dates/${date.year}/${month.month}/${day.day}`}>{day.day} ({day.count})</Link>

@@ -98,9 +98,9 @@ class NavigationsController extends BaseController {
     }).fetchAll().then((tags) => tags.toJSON()).then((tags) => {
       var result = {
         key: 'tags',
-        type: 'menu',
+        type: 'action',
         name: 'Tags',
-        settings: '/images/tags',
+        link: '/images/tags',
         options: []
       };
 
@@ -125,9 +125,9 @@ class NavigationsController extends BaseController {
     }).fetchAll().then((persons) => persons.toJSON()).then((persons) => {
       var result = {
         key: 'persons',
-        type: 'menu',
+        type: 'action',
         name: 'Persons',
-        settings: '/images/persons',
+        link: '/images/persons',
         options: []
       };
 
@@ -153,9 +153,9 @@ class NavigationsController extends BaseController {
     }).fetchAll().then((albums) => albums.toJSON()).then((albums) => {
       var result = {
         key: 'albums',
-        type: 'menu',
+        type: 'action',
         name: 'Albums',
-        settings: '/images/albums',
+        link: '/images/albums',
         options: []
       };
 

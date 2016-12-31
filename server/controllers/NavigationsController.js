@@ -82,8 +82,9 @@ class NavigationsController extends BaseController {
       if (years.length > 0) {
         options.push({
           key: 'dates',
-          type: 'menu',
+          type: 'action',
           name: 'Dates',
+          link: '/images/dates',
           options: years
         });  
       }

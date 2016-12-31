@@ -11,6 +11,7 @@ const TagsController = require('../controllers/TagsController');
 const PersonsController = require('../controllers/PersonsController');
 const AlbumsController = require('../controllers/AlbumsController');
 const FavoritesController = require('../controllers/FavoritesController');
+const DatesController = require('../controllers/DatesController');
 
 router.get('/', (req, res) => {
   new ImagesController(req).index().then(function(images) {
@@ -19,6 +20,11 @@ router.get('/', (req, res) => {
     res.status(404).send('Fehler');
   });
 });
+
+router.get('/dates', (req, res) => new DatesController(req).index().then((result) => res.send(result)).catch((e) => {
+  console.log(e);
+  res.status(404).send(e)
+}));
 
 router.get('/:id', (req, res) => {
   new ImagesController(req).get().then((image) => (res.send(image))).catch(function(e) {
@@ -66,5 +72,6 @@ router.post('/', upload.single('image'), function(req, res) {
     res.send(err);
   })
 });
+
 
 module.exports = router;

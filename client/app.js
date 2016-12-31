@@ -35,6 +35,7 @@ ReactDOM.render(
         <Route path="persons" component={Persons} />
         <Route path="tags" component={Tags} />
         <Route path="albums" component={Albums} />
+        <Route path="dates" component={require('./components/Dates')} />
         <Route path="selected" component={require('./Selected')} />
         <Route path="trash" component={require('./Trash')} />
         <IndexRoute component={require('./All')} />

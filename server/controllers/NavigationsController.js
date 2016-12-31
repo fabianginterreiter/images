@@ -55,7 +55,6 @@ class NavigationsController extends BaseController {
           years.push({
             key: 'date' + year,
             type: 'action',
-            service: '/api/images?year=' + year,
             link: '/images/dates/' + year,
             name: '' + year,
             options: months
@@ -68,7 +67,6 @@ class NavigationsController extends BaseController {
           key: 'date' + year + date.month,
           type: 'action',
           name: moment().month(date.month - 1).year(year).format("MMMM YYYY"),
-          service: '/api/images?year=' + year + '&month=' + date.month,
           link: '/images/dates/' + year + '/' + date.month
         })
       });
@@ -76,7 +74,6 @@ class NavigationsController extends BaseController {
       years.push({
         key: 'date' + year,
         type: 'action',
-        service: '/api/images?year=' + year,
         link: '/images/dates/' + year,
         name: '' + year,
         options: months
@@ -111,8 +108,7 @@ class NavigationsController extends BaseController {
         key: 'tag_' + tag.id,
         type: 'action',
         name: tag.name,
-        link: '/images/tags/' + tag.id,
-        service: '/api/images?tag=' + tag.id
+        link: '/images/tags/' + tag.id
       }));
 
       if (result.options.length > 0) {
@@ -139,8 +135,7 @@ class NavigationsController extends BaseController {
         key: 'person_' + person.id,
         type: 'action',
         name: person.name,
-        link: '/images/persons/' + person.id,
-        service: '/api/images?person=' + person.id
+        link: '/images/persons/' + person.id
       }));
 
       if (result.options.length > 0) {
@@ -168,8 +163,7 @@ class NavigationsController extends BaseController {
         key: 'album_' + album.id,
         type: 'action',
         name: album.name,
-        link: '/images/albums/' + album.id,
-        service: '/api/images?album=' + album.id
+        link: '/images/albums/' + album.id
       }));
 
       if (result.options.length > 0) {

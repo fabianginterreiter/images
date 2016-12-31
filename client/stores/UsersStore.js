@@ -1,11 +1,13 @@
-var Dispatcher = require('./Dispatcher');
+"use strict"
 
-var $ = require("jquery");
+const Dispatcher = require('./Dispatcher');
+const Ajax = require('../libs/Ajax');
+const $ = require("jquery");
 
 class UsersStore extends Dispatcher {
   constructor() {
     super([]);
-    fetch('/api/users').then((response) => (response.json())).then((users) => (this.setObject(users)));
+    Ajax.get('/api/users').then((users) => (this.setObject(users)));
   }
 };
 

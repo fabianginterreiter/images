@@ -1,4 +1,8 @@
-var Dispatcher = require('./Dispatcher');
+"use strict"
+
+const Dispatcher = require('./Dispatcher');
+
+const Ajax = require('../libs/Ajax');
 
 class NavigationsStore extends Dispatcher {
   constructor() {
@@ -8,11 +12,7 @@ class NavigationsStore extends Dispatcher {
   }
 
   load() {
-    fetch('/api/navigations', {
-      credentials: 'include'
-    }).then(function(response) {
-      return response.json();
-    }).then((result) => {
+    Ajax.get('/api/navigations').then((result) => {
       var navigations = [];
 
       navigations.push({

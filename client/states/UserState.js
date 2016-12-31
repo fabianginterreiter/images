@@ -1,4 +1,7 @@
-var State = require('../states/State');
+"use strict"
+
+const State = require('../states/State');
+const Ajax = require('../libs/Ajax');
 
 class UserState extends State {
   constructor() {
@@ -12,48 +15,15 @@ class UserState extends State {
   }
 
   load() {
-    return fetch('/api/session', {
-      method: "GET",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cache': 'no-cache'
-      },
-      credentials: 'include'
-    }).then(function(response) {
-      if (response.ok) {
-        return response.json();  
-      } else {
-        return null;
-      }
-    }).then((user) => (this.setState({user:user})));
+    return Ajax.get('/api/session').then((user) => (this.setState({user:user})));
   }
 
   setUser(user) {
-    fetch("/api/session/" + user.id,
-    {
-      method: "GET",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cache': 'no-cache'
-      },
-      credentials: 'include'
-    })
-    .then(() => (this.setState({user:user})));
+    Ajax.get("/api/session/" + user.id).then(() => (this.setState({user:user})));
   }
 
   clear() {
-    fetch('/api/session',
-    {
-      method: "DELETE",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cache': 'no-cache'
-      },
-      credentials: 'include'
-    }).then(() => (this.setState({user:null})));
+    Ajax.delete('/api/session').then(() => (this.setState({user:null})));
   }
 }
 

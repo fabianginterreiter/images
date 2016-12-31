@@ -5,7 +5,11 @@ class Ajax {
       accept: 'application/json',
       credentials: 'include'
     }).then(function(response) {
-      return response.json();
+      if (response.ok) {
+        return response.json();  
+      } else {
+        return null;
+      }
     });
   }
 

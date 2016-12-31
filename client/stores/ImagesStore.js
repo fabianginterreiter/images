@@ -10,18 +10,12 @@ class ImagesStore extends Dispatcher {
 
   like(image) {
     if (image.liked) {
-      fetch('/api/images/' + image.id + '/unlike', {
-        method: "PUT",
-        credentials: 'include'
-      }).then(() => {
+      Ajax.put('/api/images/' + image.id + '/unlike').then(() => {
         image.liked = false;
         this.dispatch();
       });
     } else {
-      fetch('/api/images/' + image.id + '/like', {
-        method: "PUT",
-        credentials: 'include'
-      }).then(() => {
+      Ajax.put('/api/images/' + image.id + '/like').then(() => {
         image.liked = true;
         this.dispatch();
       });

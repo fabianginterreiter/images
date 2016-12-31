@@ -1,6 +1,7 @@
 const Dispatcher = require('./Dispatcher');
 const NavigationsStore = require('./NavigationsStore');
 const $ = require("jquery");
+const Ajax = require('../libs/Ajax');
 
 class ImagesStore extends Dispatcher {
   constructor() {
@@ -209,13 +210,7 @@ class ImagesStore extends Dispatcher {
   }
 
   deletePerson(image, person) {
-    fetch('/api/images/' + image.id + '/persons/' + person.id, {
-      method: "DELETE",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => { 
+    Ajax.delete('/api/images/' + image.id + '/persons/' + person.idf).then(() => { 
       NavigationsStore.load();
       for (var index = 0; index < image.persons.length; index++) {
         if (image.persons[index].id === person.id) {
@@ -229,14 +224,7 @@ class ImagesStore extends Dispatcher {
 
   load(service) {
     this.service = service;
-    fetch(service, {
-      accept: 'application/json',
-      credentials: 'include'
-    }).then(function(response) {
-      return response.json();
-    }).then(function(images) {
-      this.setObject(images);
-    }.bind(this));
+    Ajax.get(service).then((images) => this.setObject(images));
   }
 
   reload() {
@@ -246,28 +234,19 @@ class ImagesStore extends Dispatcher {
   }
 
   delete(image) {
-    // console.log("Delete: " + image.id);
+    Ajax.delete('/api/images/' + image.id).then(() => {
+      var index = this.getIndex(image);
+      if (index === -1) {
+        return;
+      }
 
-    $.ajax({
-      url: '/api/images/' + image.id,
-      type: 'DELETE',
-      success: function(result) {
-        var index = this.getIndex(image);
-        if (index === -1) {
-          return;
-        }
-
-        this.getObject().splice(index, 1);
-        this.dispatch();
-      }.bind(this)
+      this.getObject().splice(index, 1);
+      this.dispatch();
     });
   }
 
   revert(image) {
-    return fetch('/api/images/' + image.id + '/revert', {
-      method: "PUT",
-      credentials: 'include'
-    }).then(() => (image.deleted = false));
+    return Ajax.put('/api/images/' + image.id + '/revert').then(() => (image.deleted = false));
   }
 
   getIndex(image) {

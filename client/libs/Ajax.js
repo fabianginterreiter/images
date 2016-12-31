@@ -20,11 +20,16 @@ class Ajax {
     });
   }
 
-  put(url) {
+  put(url, data) {
     return fetch(url, {
       method: "PUT",
-      credentials: 'include'
-    });
+      credentials: 'include',
+      body: data ? JSON.stringify(data) : null,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((result) => result.json());
   }
 }
 

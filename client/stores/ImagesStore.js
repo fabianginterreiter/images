@@ -30,14 +30,7 @@ class ImagesStore extends Dispatcher {
 
   addTag(image, tag, mass) {
     var newEntry = !tag.id;
-    return fetch('/api/images/' + image.id + '/tags', {
-      method: "PUT",
-      body: JSON.stringify(tag), 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then((result) => result.json()).then((tag) => {
+    return Ajax.put('/api/images/' + image.id + '/tags', tag).then((tag) => {
       image.tags.push(tag);
       this.dispatch();
 
@@ -84,16 +77,7 @@ class ImagesStore extends Dispatcher {
 
   addAlbum(image, album, mass) {
     var newEntry = !album.id;
-    return fetch('/api/images/' + image.id + '/albums', {
-      method: "PUT",
-      body: JSON.stringify(album), 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cache': 'no-cache'
-      },
-      credentials: 'include'
-    }).then((result) => result.json()).then((album) => {
+    return Ajax.put('/api/images/' + image.id + '/albums', album).then((album) => {
       image.albums.push(album);
       this.dispatch();
 
@@ -141,13 +125,7 @@ class ImagesStore extends Dispatcher {
   }
 
   deleteAlbum(image, album, mass) {
-    return fetch('/api/images/' + image.id + '/albums/' + album.id, {
-      method: "DELETE",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => { 
+    return Ajax.delete('/api/images/' + image.id + '/albums/' + album.id).then(() => { 
       if (!mass) {
         NavigationsStore.load();
       }
@@ -166,13 +144,7 @@ class ImagesStore extends Dispatcher {
   }
 
   deleteTag(image, tag, mass) {
-    return fetch('/api/images/' + image.id + '/tags/' + tag.id, {
-      method: "DELETE",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => { 
+    return Ajax.delete('/api/images/' + image.id + '/tags/' + tag.id).then(() => { 
       if (!mass) {
         NavigationsStore.load();
       }
@@ -192,14 +164,7 @@ class ImagesStore extends Dispatcher {
 
   addPerson(image, person) {
     var newEntry = !person.id;
-    fetch('/api/images/' + image.id + '/persons', {
-      method: "PUT",
-      body: JSON.stringify(person), 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then((result) => result.json()).then((person) => {
+    Ajax.put('/api/images/' + image.id + '/persons', person).then((person) => {
       image.persons.push(person);
       this.dispatch();
 

@@ -264,7 +264,6 @@ class Images extends React.Component {
   }
 
   loadFromDate(year, month, day) {
-    ImagesStore.load('/api/images?year=' + year + '&month=' + month + '&day=' + day);
     history.push('/images/dates/'+ year + '/' + month + '/' + day);
   }
 

@@ -5,25 +5,9 @@ const cookie = require('react-cookie');
 const Link = require('react-router').Link;
 
 class OptionsList extends React.Component {
-  componentDidMount() {
-    this.componentWillReceiveProps(this.props);
-  }
-
-  componentWillReceiveProps(newProps) {
-    newProps.values.forEach((option) => {
-      if (option.options && option.options.length > 0) {
-        if (!option.open && cookie.load('menu_' + option.key) === 'true') {
-          option.open = true;
-        }
-      }
-    });
-  }
-
   toggleMenu(event, option) {
     option.open = !option.open;
-
     cookie.save('menu_' + option.key, option.open.toString());
-
     this.forceUpdate();
   }
 
@@ -58,13 +42,18 @@ class OptionsList extends React.Component {
   }
 
   _renderOptions(elements, values, deep, open) {
-
     var style = {
       paddingLeft: 10 + deep * 20 + 'px'
     }
 
     values.map(function(option, idx) {
       var className = option.className ? option.className : '';
+
+      if (option.options && option.options.length > 0) {
+        if (!option.open && cookie.load('menu_' + option.key) === 'true') {
+          option.open = true;
+        }
+      }
 
       if (deep === 0 || this._isOptionVisible(option, open)) {
         switch (option.type) {
@@ -103,7 +92,7 @@ class OptionsList extends React.Component {
       }
 
       if (option.options && option.options.length > 0) {
-        this._renderOptions(elements, option.options, deep + 1, option.open);
+        this._renderOptions(elements, option.options, deep + 1, option.open && open);
       }
     }.bind(this));
 

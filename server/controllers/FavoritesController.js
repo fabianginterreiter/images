@@ -10,7 +10,7 @@ class FavoritesController extends BaseController {
   }
 
   unlike() {
-    return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy();
+    return Like.where({image_id:this.params.id, user_id:this.session.user}).destroy().then(() => {return {}});
   }
 }
 

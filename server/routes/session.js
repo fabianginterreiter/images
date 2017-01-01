@@ -7,7 +7,7 @@ var User = require('../model/User');
 
 router.get('/', function(req, res) {
   if (!req.session.user) {
-    return res.status(401).send('No Profile is selected');
+    return res.status(401).send({});
   }
 
   new User({id:req.session.user}).fetch().then((user) => { 
@@ -15,11 +15,11 @@ router.get('/', function(req, res) {
       res.send(user.toJSON())
     } else {
       req.session = null;
-      res.status(401).send('No Profile is selected');
+      res.status(401).send({});
     }
   }).catch(() => {
     req.session = null;
-    res.status(401).send('No Profile is selected')
+    res.status(401).send({})
   });
 });
 
@@ -30,7 +30,7 @@ router.get('/:id', function (req, res) {
 
 router.delete('/', function(req, res) {
   req.session = null;
-  res.send('OK');
+  res.send({});
 });
 
 module.exports = router;

@@ -4,6 +4,8 @@ var moment = require('moment');
 var UserState = require('../states/UserState');
 var UsersStore = require('../stores/UsersStore');
 
+const Ajax = require('../libs/Ajax');
+
 class UsersManagement extends React.Component {
   constructor(props) {
     super(props);
@@ -25,17 +27,9 @@ class UsersManagement extends React.Component {
   handleCreateUser() {
     var data = new FormData();
     data.append( "name", this.refs.name.value );
-    fetch("/api/users",
-    {
-        method: "POST",
-        body: JSON.stringify({
+    Ajax.post("/api/users", {
           name:this.refs.name.value
-        }), 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-    }).then((response) => (response.json())).then(function(user) {
+    }).then(function(user) {
       var users = UsersStore.getObject();
       users.push(user);
       UsersStore.setObject(users)

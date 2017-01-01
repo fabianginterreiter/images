@@ -6,6 +6,7 @@ const Link = require('react-router').Link;
 const Quickedit = require('./Quickedit');
 const DialogStore = require('../stores/DialogStore');
 const NavigationsStore = require('../stores/NavigationsStore');
+const Ajax = require('../libs/Ajax');
 
 class Albums extends React.Component {
   constructor(props) {
@@ -17,9 +18,7 @@ class Albums extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/albums?own=true',{
-      credentials: 'include'
-    }).then((result) => result.json()).then((albums) => this.setState({albums:albums}));
+    Ajax.get('/api/albums?own=true').then((albums) => this.setState({albums:albums}));
   }
 
   componentWillUnmount() {
@@ -43,17 +42,7 @@ class Albums extends React.Component {
   }
 
   save(album) {
-    fetch('/api/albums/' + album.id, {
-      method: "PUT",
-      credentials: 'include',
-      body: JSON.stringify(album), 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => {
-      this.forceUpdate();
-    });
+    Ajax.put('/api/albums/' + album.id, album).then(() => this.forceUpdate());
   }
 
   handleVisibility(album) {
@@ -69,10 +58,7 @@ class Albums extends React.Component {
 
   handleDelete(album) {
     DialogStore.open('Delete Person', 'Do you really want to delete the Album?')
-    .then(() => fetch('/api/albums/' + album.id, {
-      method: "DELETE",
-      credentials: 'include'
-    })).then(() => {
+    .then(() => Ajax.delete('/api/albums/' + album.id)).then(() => {
       for (var index = 0; index < this.state.albums.length; index++) {
         if (this.state.albums[index].id === album.id) {
           this.state.albums.splice(index, 1);

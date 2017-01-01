@@ -6,6 +6,7 @@ const Link = require('react-router').Link;
 const Quickedit = require('./Quickedit');
 const DialogStore = require('../stores/DialogStore');
 const NavigationsStore = require('../stores/NavigationsStore');
+const Ajax = require('../libs/Ajax');
 
 class Persons extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Persons extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/persons').then((result) => result.json()).then((persons) => this.setState({persons:persons}));
+    Ajax.get('/api/persons').then((persons) => this.setState({persons:persons}));
   }
 
   componentWillUnmount() {
@@ -37,15 +38,7 @@ class Persons extends React.Component {
 
     person.name = value;
 
-    fetch('/api/persons/' + person.id, {
-      method: "PUT",
-      credentials: 'include',
-      body: JSON.stringify(person), 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => {
+    Ajax.put('/api/persons/' + person.id, person).then(() => {
       this.forceUpdate();
     });
   }
@@ -59,10 +52,7 @@ class Persons extends React.Component {
     DialogStore.open('Delete Person', 'Do you really want to delete the Person?', {
       type: 'warning',
       icon: 'fa fa-trash'
-    }).then(() => fetch('/api/persons/' + person.id, {
-      method: "DELETE",
-      credentials: 'include'
-    })).then(() => {
+    }).then(() => Ajax.delete('/api/persons/' + person.id)).then(() => {
       for (var index = 0; index < this.state.persons.length; index++) {
         if (this.state.persons[index].id === person.id) {
           this.state.persons.splice(index, 1);

@@ -65,9 +65,6 @@ class OptionsList extends React.Component {
       if (deep === 0 || this._isOptionVisible(option, open)) {
         var settings = (<span />);
 
-        if (option.settings) {
-          settings = (<span className="badge" onClick={(event) => this.handleSettings(event, option)}><i className="icon-cog" />&nbsp;</span>);  
-        }
 
         switch (option.type) {
           case 'divider':
@@ -99,7 +96,7 @@ class OptionsList extends React.Component {
               badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
             }
 
-            elements.push(<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option.name)}{badge} {settings}</li>);
+            elements.push(<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option.name)}{badge}</li>);
         }
       }
 

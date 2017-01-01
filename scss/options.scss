@@ -10,7 +10,23 @@ ul.options {
     user-select: none;
     text-align: left;
     position: relative;
+
+    a {
+      padding: 10px 15px;
+      cursor: pointer;
+      display: block;
+    }
+
+    .badge {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding: 10px 15px;
+    }
   }
+
+
 
   >li:hover {
     background-color: $hoverBackgroundColor;
@@ -19,16 +35,14 @@ ul.options {
   >li.selected {
     background-color: $selectedBackgroundColor;
     border-right: 3px solid $selectedColor;
-    padding: 10px 15px;
+
+    a {
+      color: $selectedColor;
+    }
   }
 
   >li.disabled {
     color: #aaa;
-  }
-
-  >li.action {
-    padding: 10px 15px;
-    cursor: pointer;
   }
 
   >.divider {

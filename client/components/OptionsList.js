@@ -5,11 +5,21 @@ const cookie = require('react-cookie');
 const Link = require('react-router').Link;
 
 class OptionsList extends React.Component {
-  toggleMenu(event, option) {
-    if (event.target.className === "icon-cog") {
-      return;
-    }
+  componentDidMount() {
+    this.componentWillReceiveProps(this.props);
+  }
 
+  componentWillReceiveProps(newProps) {
+    newProps.values.forEach((option) => {
+      if (option.options && option.options.length > 0) {
+        if (!option.open && cookie.load('menu_' + option.key) === 'true') {
+          option.open = true;
+        }
+      }
+    });
+  }
+
+  toggleMenu(event, option) {
     option.open = !option.open;
 
     cookie.save('menu_' + option.key, option.open.toString());
@@ -17,15 +27,9 @@ class OptionsList extends React.Component {
     this.forceUpdate();
   }
 
-  handleSettings(event, option) {
-    if (this.props.onSettingsClick) {
-      this.props.onSettingsClick(option);
-    }
-  }
-
   handleClick(e, options) {
-    if(e.target.tagName !== 'LI' && (e.target.className === '' || e.target.className === 'selected' || e.target.className === 'icon-chevron-down'|| e.target.className === 'icon-chevron-up')) {
-      return;
+    if(e.target.className === 'badge' || e.target.parentNode.className === 'badge') {
+      return this.toggleMenu(e, options);
     }
 
     if (this.props.onClick) {
@@ -48,9 +52,9 @@ class OptionsList extends React.Component {
 
   _renderName(name) {
     if (this.props.query && this.props.query.length > 0 && name.toUpperCase().startsWith(this.props.query.toUpperCase())) {
-      return (<span><span className="selected">{name.substring(0, this.props.query.length)}</span>{name.substring(this.props.query.length)}</span>);
+      return (<a><span><span className="selected">{name.substring(0, this.props.query.length)}</span>{name.substring(this.props.query.length)}</span></a>);
     }
-    return name;
+    return (<a>{name}</a>);
   }
 
   _renderOptions(elements, values, deep, open) {
@@ -63,9 +67,6 @@ class OptionsList extends React.Component {
       var className = option.className ? option.className : '';
 
       if (deep === 0 || this._isOptionVisible(option, open)) {
-        var settings = (<span />);
-
-
         switch (option.type) {
           case 'divider':
             elements.push(<li key={'divider' + idx} className={className + ' divider'} style={style} />);
@@ -74,9 +75,9 @@ class OptionsList extends React.Component {
             var badge = (<span />);
             if (option.options && option.options.length) {
               if (option.open) {
-                badge = (<div className="badge" onClick={(event) => this.toggleMenu(event, option)}><i className="icon-chevron-down" /></div>);  
+                badge = (<div className="badge"><i className="icon-chevron-down" /></div>);  
               } else {
-                badge = (<div className="badge" onClick={(event) => this.toggleMenu(event, option)}><i className="icon-chevron-up" /></div>);  
+                badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
               }
             }
 
@@ -84,9 +85,9 @@ class OptionsList extends React.Component {
               elements.push(<li key={option.key} className={className + ' selected'} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
             }
             else if (!this.props.active || this.props.active(option)) {
-              elements.push(<li key={option.key} className={className + ' action'} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
+              elements.push(<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
             } else {
-              elements.push(<li key={option.key} className={className + ' action disabled'} style={style}>{this._renderName(option.name)}{badge}</li>)
+              elements.push(<li key={option.key} className={className + ' disabled'} style={style}>{this._renderName(option.name)}{badge}</li>)
             }
             break;
           case 'menu':
@@ -97,15 +98,12 @@ class OptionsList extends React.Component {
             }
 
             elements.push(<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option.name)}{badge}</li>);
+            break;
         }
       }
 
       if (option.options && option.options.length > 0) {
-        if (!option.open && cookie.load('menu_' + option.key) === 'true') {
-          option.open = true;
-        }
-
-        this._renderOptions(elements, option.options, deep + 1, option.open && open);
+        this._renderOptions(elements, option.options, deep + 1, option.open);
       }
     }.bind(this));
 

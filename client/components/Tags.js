@@ -6,6 +6,7 @@ const Link = require('react-router').Link;
 const Quickedit = require('./Quickedit');
 const DialogStore = require('../stores/DialogStore');
 const NavigationsStore = require('../stores/NavigationsStore');
+const Ajax = require('../libs/Ajax');
 
 class Tags extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Tags extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/tags').then((result) => result.json()).then((tags) => this.setState({tags:tags}));
+    Ajax.get('/api/tags').then((tags) => this.setState({tags:tags}));
   }
 
   componentWillUnmount() {
@@ -37,15 +38,7 @@ class Tags extends React.Component {
 
     tag.name = value;
 
-    fetch('/api/tags/' + tag.id, {
-      method: "PUT",
-      credentials: 'include',
-      body: JSON.stringify(tag),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => {
+    Ajax.put('/api/tags/' + tag.id, tag).then(() => {
       this.forceUpdate();
     });
   }
@@ -57,10 +50,7 @@ class Tags extends React.Component {
 
   handleDelete(tag) {
     DialogStore.open('Delete Tag', 'Do you really want to delete the Tags?')
-    .then((result) => fetch('/api/tags/' + tag.id, {
-        method: "DELETE",
-        credentials: 'include'
-      })).then(() => {
+    .then((result) => Ajax.delete('/api/tags/' + tag.id)).then(() => {
       for (var index = 0; index < this.state.tags.length; index++) {
         if (this.state.tags[index].id === tag.id) {
           this.state.tags.splice(index, 1);

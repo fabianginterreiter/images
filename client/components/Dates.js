@@ -7,6 +7,7 @@ const Quickedit = require('./Quickedit');
 const DialogStore = require('../stores/DialogStore');
 const NavigationsStore = require('../stores/NavigationsStore');
 const moment = require('moment');
+const Ajax = require('../libs/Ajax');
 
 class Dates extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class Dates extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/images/dates').then((result) => result.json()).then((dates) => this.setState({dates:dates}));
+    Ajax.get('/api/images/dates').then((dates) => this.setState({dates:dates}));
   }
 
   componentWillUnmount() {

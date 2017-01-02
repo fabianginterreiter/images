@@ -1,13 +1,13 @@
 "use strict"
 
 const React = require('react');
-const cookie = require('react-cookie');
+const Cookies = require('../stores/Cookies');
 const Link = require('react-router').Link;
 
 class OptionsList extends React.Component {
   toggleMenu(event, option) {
     option.open = !option.open;
-    cookie.save('menu_' + option.key, option.open.toString());
+    Cookies.set('menu_' + option.key, option.open.toString());
     this.forceUpdate();
   }
 
@@ -50,7 +50,7 @@ class OptionsList extends React.Component {
       var className = option.className ? option.className : '';
 
       if (option.options && option.options.length > 0) {
-        if (!option.open && cookie.load('menu_' + option.key) === 'true') {
+        if (!option.open && Cookies.get('menu_' + option.key) === 'true') {
           option.open = true;
         }
       }

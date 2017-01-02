@@ -41,14 +41,50 @@ class OptionsList extends React.Component {
     return (<a>{name}</a>);
   }
 
-  _renderOptions(elements, values, deep, open) {
+  _renderItem(option, idx, deep) {
+    var className = option.className ? option.className : '';
+
     var style = {
       paddingLeft: 10 + deep * 20 + 'px'
     }
 
-    values.map(function(option, idx) {
-      var className = option.className ? option.className : '';
+    switch (option.type) {
+      case 'divider':
+        return (<li key={'divider' + idx} className={className + ' divider'} style={style} />);
+      case 'action':
+        var badge = (<span />);
+        if (option.options && option.options.length) {
+          if (option.open) {
+            badge = (<div className="badge"><i className="icon-chevron-down" /></div>);  
+          } else {
+            badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
+          }
+        }
 
+        if (this.props.selected && this.props.selected(option)) {
+          return (<li key={option.key} className={className + ' selected'} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
+        } else if (!this.props.active || this.props.active(option)) {
+          return (<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
+        } else {
+          return (<li key={option.key} className={className + ' disabled'} style={style}>{this._renderName(option.name)}{badge}</li>)
+        }
+      case 'menu':
+        if (option.open) {
+          badge = (<div className="badge"><i className="icon-chevron-down" /></div>);  
+        } else {
+          badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
+        }
+
+        return (<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option.name)}{badge}</li>);
+      default:
+        return null;
+    }
+  }
+
+  _renderOptions(elements, values, deep, open) {
+    
+
+    values.map(function(option, idx) {
       if (option.options && option.options.length > 0) {
         if (!option.open && Cookies.get('menu_' + option.key) === 'true') {
           option.open = true;
@@ -56,39 +92,7 @@ class OptionsList extends React.Component {
       }
 
       if (deep === 0 || this._isOptionVisible(option, open)) {
-        switch (option.type) {
-          case 'divider':
-            elements.push(<li key={'divider' + idx} className={className + ' divider'} style={style} />);
-            break;
-          case 'action':
-            var badge = (<span />);
-            if (option.options && option.options.length) {
-              if (option.open) {
-                badge = (<div className="badge"><i className="icon-chevron-down" /></div>);  
-              } else {
-                badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
-              }
-            }
-
-            if (this.props.selected && this.props.selected(option)) {
-              elements.push(<li key={option.key} className={className + ' selected'} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
-            }
-            else if (!this.props.active || this.props.active(option)) {
-              elements.push(<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
-            } else {
-              elements.push(<li key={option.key} className={className + ' disabled'} style={style}>{this._renderName(option.name)}{badge}</li>)
-            }
-            break;
-          case 'menu':
-            if (option.open) {
-              badge = (<div className="badge"><i className="icon-chevron-down" /></div>);  
-            } else {
-              badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
-            }
-
-            elements.push(<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option.name)}{badge}</li>);
-            break;
-        }
+        elements.push(this._renderItem(option, idx, deep));
       }
 
       if (option.options && option.options.length > 0) {

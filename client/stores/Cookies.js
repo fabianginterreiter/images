@@ -4,7 +4,10 @@ class Cookies {
   constructor() {
     this.values = {};
 
-    //console.log(cookie.select(/.+/));
+    let cookies = cookie.select(/.+/);
+    for (var name in cookies) {
+      this.values[name] = cookies[name];
+    }
   }
 
   set(name, value) {
@@ -14,18 +17,7 @@ class Cookies {
   }
 
   get(name) {
-    if (this.values[name]) {
-      return this.values[name];
-    }
-
-    let value = cookie.load(name);
-
-    if (value) {
-      this.values[name] = value;
-      return value;
-    }
-
-    return null;
+    return this.values[name];
   }
 
   remove(name) {

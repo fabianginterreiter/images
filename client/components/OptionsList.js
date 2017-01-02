@@ -82,8 +82,6 @@ class OptionsList extends React.Component {
   }
 
   _renderOptions(elements, values, deep, open) {
-    
-
     values.map(function(option, idx) {
       if (option.options && option.options.length > 0) {
         if (!option.open && Cookies.get('menu_' + option.key) === 'true') {

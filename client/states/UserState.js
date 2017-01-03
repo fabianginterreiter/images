@@ -2,6 +2,7 @@
 
 const State = require('../states/State');
 const Ajax = require('../libs/Ajax');
+const Cookies = require('../stores/Cookies');
 
 class UserState extends State {
   constructor() {
@@ -23,6 +24,7 @@ class UserState extends State {
   }
 
   clear() {
+    Cookies.clear();
     Ajax.delete('/api/session').then(() => (this.setState({user:null})));
   }
 }

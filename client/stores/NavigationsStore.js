@@ -20,7 +20,7 @@ class NavigationsStore extends Dispatcher {
         type: 'action',
         name: 'All',
         service: '/api/images',
-        link: '/images'
+        link: '/images/'
       });
 
       navigations.push({

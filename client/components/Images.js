@@ -272,7 +272,7 @@ class Images extends React.Component {
       if (this.props.date && lastDate !== newDate) {
         elements.push(
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
-            <div><i className="icon-check" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>
+            <div style={{width: image.displayWidth + 'px'}}><i className="icon-check" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>
             <div className='imgBorder'>
               <Image image={image} style={style} />
               <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass}></i></div>

@@ -13,7 +13,7 @@ class All extends React.Component {
 
   render() {
     return (
-      <Images date={true} />
+      <Images date={false} />
     );
   }
 }

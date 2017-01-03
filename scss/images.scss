@@ -13,11 +13,16 @@ h1 {
   align-items: center;
   justify-content: flex-start;
 
+  .imgBorder {
+    position: relative;
+  }
+
   .item {
     margin: 1px;
     position: relative;
     overflow: hidden;
     padding: 0;
+    align-self: flex-end;
 
     .select {
       position: absolute;

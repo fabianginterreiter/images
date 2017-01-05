@@ -1,5 +1,7 @@
-const Dispatcher = require('./Dispatcher');
-var $ = require("jquery");
+"use strict"
+
+const Dispatcher = require('../Dispatcher');
+const $ = require("jquery");
 
 class KeyUpListener extends Dispatcher {
   constructor() {

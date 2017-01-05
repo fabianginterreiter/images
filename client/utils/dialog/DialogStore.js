@@ -1,6 +1,6 @@
-const Utils = require('../utils/Utils');
+const Dispatcher = require('../Dispatcher');
 
-class DialogStore extends Utils.Dispatcher {
+class DialogStore extends Dispatcher {
   constructor() {
     super(null);
   }

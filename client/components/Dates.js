@@ -3,7 +3,6 @@
 const React = require('react');
 const $ = require("jquery");
 const Link = require('react-router').Link;
-const DialogStore = require('../stores/DialogStore');
 const NavigationsStore = require('../stores/NavigationsStore');
 const moment = require('moment');
 const Ajax = require('../libs/Ajax');

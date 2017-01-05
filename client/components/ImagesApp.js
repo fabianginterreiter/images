@@ -10,10 +10,9 @@ const Header = require('./Header');
 const UsersManagement = require('./UsersManagement');
 const Navigations = require('./Navigations');
 
-const Dialog = require('./Dialog');
-const SelectDialog = require('./SelectDialog');
-const SingleSelectDialog = require('./SingleSelectDialog');
 const Selection = require('./selections/Selection');
+
+const Main = require('../utils/Utils').Main;
 
 class ImagesApp extends React.Component {
   constructor(props) {
@@ -59,9 +58,7 @@ class ImagesApp extends React.Component {
 
         <Uploader />
         <DragAndDropUpload />
-        <Dialog />
-        <SelectDialog />
-        <SingleSelectDialog />
+        <Main />
       </div>
     );
   }

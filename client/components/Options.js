@@ -7,9 +7,6 @@ const $ = require("jquery");
 const OptionsList = require('./OptionsList');
 const Dropdown = require('./Dropdown');
 const ImagesStore = require('../stores/ImagesStore');
-const DialogStore = require('../stores/DialogStore');
-const SelectDialogStore = require('../stores/SelectDialogStore');
-const SingleSelectDialogStore = require('../stores/SingleSelectDialogStore');
 const SelectionStore = require('../stores/SelectionStore');
 const ThumbnailsResizer = require('../components/ThumbnailsResizer');
 

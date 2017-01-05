@@ -9,7 +9,12 @@ const ResizeListener = require('./listener/ResizeListener');
 // Copmonents
 const Quickedit = require('./component/Quickedit');
 const AutoComplete = require('./component/AutoComplete');
-const Panel = require('./component/Panel')
+const Panel = require('./component/Panel');
+
+const Main = require('./dialog/Main');
+const DialogStore = require('./dialog/DialogStore');
+const SelectDialogStore = require('./dialog/SelectDialogStore');
+const SingleSelectDialogStore = require('./dialog/SingleSelectDialogStore');
 
 module.exports = {
   Dispatcher: Dispatcher,
@@ -21,5 +26,11 @@ module.exports = {
   // Components
   Quickedit: Quickedit,
   AutoComplete: AutoComplete,
-  Panel: Panel
+  Panel: Panel,
+
+  // Dialog
+  Main: Main,
+  DialogStore: DialogStore,
+  SelectDialogStore: SelectDialogStore,
+  SingleSelectDialogStore: SingleSelectDialogStore
 }

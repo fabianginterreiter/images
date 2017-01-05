@@ -3,7 +3,7 @@
 const React = require('react');
 
 const Images = require('./components/Images');
-const DialogStore = require('./stores/DialogStore');
+const DialogStore = require('./utils/Utils').DialogStore;
 const SelectionStore = require('./stores/SelectionStore');
 const ImagesStore = require('./stores/ImagesStore');
 

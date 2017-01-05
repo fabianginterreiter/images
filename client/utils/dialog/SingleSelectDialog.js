@@ -1,6 +1,6 @@
 var React = require('react');
 
-var SelectDialogStore = require('../stores/SelectDialogStore');
+var SingleSelectDialogStore = require('./SingleSelectDialogStore');
 
 class Dialog extends React.Component {
   constructor(props) {
@@ -14,29 +14,21 @@ class Dialog extends React.Component {
   }
 
   componentDidMount() {
-    SelectDialogStore.addChangeListener(this, (options) => (this.setState({options:options})));
+    SingleSelectDialogStore.addChangeListener(this, (options) => (this.setState({options:options})));
   }
 
   componentWillUnmount() {
-    SelectDialogStore.removeChangeListener(this);    
+    SingleSelectDialogStore.removeChangeListener(this);    
   }
 
   handleCancel() {
-    this.state.options.reject(false);
-    SelectDialogStore.setObject({});
+    this.state.options.reject(null);
+    SingleSelectDialogStore.setObject({});
   }
 
-  handleOk() {
-    this.state.options.resolve(this.state.options.options);
-    SelectDialogStore.setObject({});
-  }
-
-  handleClickOnCheckbox(option) {
-    option.marked = false;
-    option.selected = !option.selected;
-    this.setState({
-      options:this.state.options
-    });
+  handleOk(option) {
+    this.state.options.resolve(option);
+    SingleSelectDialogStore.setObject({});
   }
 
   handleChangeOnFilter(event) {
@@ -60,17 +52,8 @@ class Dialog extends React.Component {
   }
 
   handleCreate() {
-    var options = this.state.options;
-
-    options.options.push({
-      selected:true,
+    this.handleOk({
       name:this.state.filter
-    });
-
-    this.setState({
-      options:options,
-      filter:'',
-      match:false
     });
   }
 
@@ -81,14 +64,16 @@ class Dialog extends React.Component {
         return;
       }
 
-      if (!option.selected) {
-        option.selected = false;
+      if (option.selected) {
+        return options.push(<li key={option.name}>{option.name}</li>)
       }
 
-      var className = (option.marked && !option.selected) ? 'marked' : '';
-      options.push(<div key={option.name} className={className}><label><input type="checkbox" onChange={this.handleClickOnCheckbox.bind(this, option)} checked={option.selected} /> {option.name}</label></div>);
+      var className = (option.marked) ? 'marked' : ''; // we mark images where a few are
+      options.push(<li key={option.name} className={className} onClick={this.handleOk.bind(this, option)}>
+        {option.name}
+        </li>);
     });
-    return options;
+    return (<ul>{options}</ul>);
   }
 
   render() {
@@ -102,14 +87,13 @@ class Dialog extends React.Component {
         <div className="dialog">
           <div className="title">{this.state.options.title}</div>
           <div className="body">
-            <div className="group">
+            <div>
               <input type="text" value={this.state.filter} onChange={this.handleChangeOnFilter.bind(this)} placeholder="Filter" />
-              <button disabled={this.state.match} onClick={this.handleCreate.bind(this)} className='primary'>Create</button>
+              <button disabled={this.state.match} onClick={this.handleCreate.bind(this)}>Create</button>
             </div>
             {this._renderOptions()}
           </div>
           <div className="bottom">
-            <button onClick={this.handleOk.bind(this)}>OK</button>
             <button onClick={this.handleCancel.bind(this)}>Cancel</button>
           </div>
         </div>

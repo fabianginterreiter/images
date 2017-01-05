@@ -9,7 +9,7 @@ const ImagesStore = require('../stores/ImagesStore');
 const $ = require("jquery");
 const Utils = require('../utils/Utils');
 const Panel = Utils.Panel;
-const DialogStore = require('../stores/DialogStore');
+const DialogStore = require('../utils/Utils').DialogStore;
 const Faces = require('./Faces');
 const moment = require('moment');
 

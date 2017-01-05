@@ -1,8 +1,8 @@
-var Dispatcher = require('./Dispatcher');
+var Utils = require('../utils/Utils');
 
 var cookie = require('react-cookie');
 
-class ThumbnailsSizeStore extends Dispatcher {
+class ThumbnailsSizeStore extends Utils.Dispatcher {
   constructor() {
     var c = cookie.load('thumbnailsSize');
     super(c ? c : 200);

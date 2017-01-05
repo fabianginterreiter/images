@@ -1,6 +1,6 @@
-var Dispatcher = require('./Dispatcher');
+var Utils = require('../utils/Utils');
 
-class SelectDialogStore extends Dispatcher {
+class SelectDialogStore extends Utils.Dispatcher {
   constructor() {
     super(null);
   }

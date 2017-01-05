@@ -1,10 +1,10 @@
 "use strict"
 
-const Dispatcher = require('./Dispatcher');
+var Utils = require('../utils/Utils');
 const Ajax = require('../libs/Ajax');
 const $ = require("jquery");
 
-class UsersStore extends Dispatcher {
+class UsersStore extends Utils.Dispatcher {
   constructor() {
     super([]);
     Ajax.get('/api/users').then((users) => (this.setObject(users)));

@@ -1,8 +1,8 @@
-var Dispatcher = require('./Dispatcher');
+var Utils = require('../utils/Utils');
 
 var $ = require("jquery");
 
-class ViewPointStore extends Dispatcher {
+class ViewPointStore extends Utils.Dispatcher {
   constructor() {
     super(0);
 

@@ -1,10 +1,10 @@
 "use strict"
 
-const Dispatcher = require('./Dispatcher');
+const Utils = require('../utils/Utils');
 
 const Ajax = require('../libs/Ajax');
 
-class NavigationsStore extends Dispatcher {
+class NavigationsStore extends Utils.Dispatcher {
   constructor() {
     super([]);
 

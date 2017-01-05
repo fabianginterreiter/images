@@ -10,7 +10,9 @@ const ResizeListener = require('./listener/ResizeListener');
 const Quickedit = require('./component/Quickedit');
 const AutoComplete = require('./component/AutoComplete');
 const Panel = require('./component/Panel');
+const InlineProgress = require('./component/InlineProgress');
 
+// Dialog
 const Main = require('./dialog/Main');
 const DialogStore = require('./dialog/DialogStore');
 const SelectDialogStore = require('./dialog/SelectDialogStore');
@@ -27,6 +29,7 @@ module.exports = {
   Quickedit: Quickedit,
   AutoComplete: AutoComplete,
   Panel: Panel,
+  InlineProgress: InlineProgress,
 
   // Dialog
   Main: Main,

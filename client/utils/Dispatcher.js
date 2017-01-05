@@ -1,3 +1,5 @@
+"use strict"
+
 var __next_objid=0;
 
 class Dispatcher {

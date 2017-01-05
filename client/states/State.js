@@ -1,8 +1,10 @@
-var Dispatcher = require('../stores/Dispatcher');
+"use strict"
+
+const Utils = require('../utils/Utils');
 
 var cookie = require('react-cookie');
 
-class State extends Dispatcher {
+class State extends Utils.Dispatcher {
   constructor(state) {
     super(state ? state : {});
   }

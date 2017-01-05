@@ -1,7 +1,7 @@
-var Dispatcher = require('./Dispatcher');
+var Utils = require('../utils/Utils');
 var $ = require("jquery");
 
-class ResizeListener extends Dispatcher {
+class ResizeListener extends Utils.Dispatcher {
   constructor() {
     super(null);
     

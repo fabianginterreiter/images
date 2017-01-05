@@ -4,7 +4,7 @@ const ImagesStore = require('../stores/ImagesStore');
 const UploadStore = require('../stores/UploadStore');
 const React = require('react');
 const InlineProgress = require('../utils/Utils').InlineProgress;
-const Modal = require('../components/Modal');
+const Modal = require('../utils/Utils').Modal;
 
 class Uploader extends React.Component {
   constructor(props) {

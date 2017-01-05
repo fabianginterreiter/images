@@ -11,6 +11,7 @@ const Quickedit = require('./component/Quickedit');
 const AutoComplete = require('./component/AutoComplete');
 const Panel = require('./component/Panel');
 const InlineProgress = require('./component/InlineProgress');
+const Modal = require('./component/Modal');
 
 // Dialog
 const Main = require('./dialog/Main');
@@ -30,6 +31,7 @@ module.exports = {
   AutoComplete: AutoComplete,
   Panel: Panel,
   InlineProgress: InlineProgress,
+  Modal: Modal,
 
   // Dialog
   Main: Main,

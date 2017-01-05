@@ -1,4 +1,6 @@
-var React = require('react');
+"use strict"
+
+const React = require('react');
 
 class Panel extends React.Component {
   render() {

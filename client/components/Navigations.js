@@ -8,7 +8,7 @@ const NavigationsStore = require('../stores/NavigationsStore');
 const NavigationsState = require('../states/NavigationsState');
 const UserState = require('../states/UserState');
 const history = require('react-router').browserHistory;
-const Panel = require('./Panel');
+const Panel = require('../utils/Utils').Panel;
 
 class Navigations extends React.Component {
   constructor(props) {

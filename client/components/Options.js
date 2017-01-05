@@ -15,7 +15,7 @@ const ThumbnailsResizer = require('../components/ThumbnailsResizer');
 
 const location = require('react-router').location;
 
-const Panel = require('./Panel');
+const Panel = require('../utils/Utils').Panel;
 
 class Options extends React.Component {
   constructor(props) {

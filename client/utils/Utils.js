@@ -9,6 +9,7 @@ const ResizeListener = require('./listener/ResizeListener');
 // Copmonents
 const Quickedit = require('./component/Quickedit');
 const AutoComplete = require('./component/AutoComplete');
+const Panel = require('./component/Panel')
 
 module.exports = {
   Dispatcher: Dispatcher,
@@ -19,5 +20,6 @@ module.exports = {
 
   // Components
   Quickedit: Quickedit,
-  AutoComplete: AutoComplete
+  AutoComplete: AutoComplete,
+  Panel: Panel
 }

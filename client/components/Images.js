@@ -4,7 +4,6 @@ const React = require('react');
 const moment = require('moment');
 const $ = require("jquery");
 const Image = require('./Image');
-const DateDivider = require('./DateDivider');
 const Fullscreen = require('./Fullscreen');
 const Like = require('./Like');
 const Empty = require('./Empty');

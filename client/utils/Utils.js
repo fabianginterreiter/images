@@ -1,6 +1,7 @@
 "use strict"
 
 const Dispatcher = require('./Dispatcher');
+const Cookies = require('./Cookies');
 
 // Listeners
 const KeyUpListener = require('./listener/KeyUpListener');
@@ -21,6 +22,7 @@ const SingleSelectDialogStore = require('./dialog/SingleSelectDialogStore');
 
 module.exports = {
   Dispatcher: Dispatcher,
+  Cookies: Cookies,
 
   // Listeners
   KeyUpListener: KeyUpListener,

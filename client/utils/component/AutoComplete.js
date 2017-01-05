@@ -1,7 +1,7 @@
 "use strict"
 
 const React = require('react');
-const Utils = require('../utils/Utils');
+const KeyUpListener = require('../listener/KeyUpListener');
 const $ = require("jquery");
 
 class AutoComplete extends React.Component {
@@ -21,7 +21,7 @@ class AutoComplete extends React.Component {
   }
 
   componentDidMount() {
-    Utils.KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
 
     if (this.props.focus) {
       this.refs.input.focus();
@@ -29,7 +29,7 @@ class AutoComplete extends React.Component {
   }
 
   componentWillUnmount() {
-    Utils.KeyUpListener.removeChangeListener(this);
+    KeyUpListener.removeChangeListener(this);
   }
 
   handleKeyUp(event) {

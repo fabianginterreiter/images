@@ -2,7 +2,7 @@
 
 const React = require('react');
 const Link = require('react-router').Link;
-const AutoComplete = require('./AutoComplete');
+const AutoComplete = require('../utils/Utils').AutoComplete;
 const ImagesStore = require('../stores/ImagesStore');
 
 class TagsList extends React.Component {

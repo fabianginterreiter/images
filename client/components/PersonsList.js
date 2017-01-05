@@ -2,7 +2,6 @@
 
 const React = require('react');
 const Link = require('react-router').Link;
-const AutoComplete = require('./AutoComplete');
 const ImagesStore = require('../stores/ImagesStore');
 
 class PersonsList extends React.Component {

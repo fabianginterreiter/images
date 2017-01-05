@@ -3,8 +3,7 @@
 const React = require('react');
 const $ = require("jquery");
 const Link = require('react-router').Link;
-const Utils = require('../utils/Utils');
-const DialogStore = require('../stores/DialogStore');
+const KeyUpListener = require('../listener/KeyUpListener');
 
 class Persons extends React.Component {
   constructor(props) {
@@ -16,11 +15,11 @@ class Persons extends React.Component {
   }
 
   componentDidMount() {
-    Utils.KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
   }
 
   componentWillUnmount() {
-    Utils.KeyUpListener.removeChangeListener(this);
+    KeyUpListener.removeChangeListener(this);
   }
 
   handleKeyUp(event) {

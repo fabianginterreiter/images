@@ -8,6 +8,8 @@ class Cookies {
     for (var name in cookies) {
       this.values[name] = cookies[name];
     }
+
+    console.log(this.values);
   }
 
   set(name, value) {

@@ -14,8 +14,8 @@ const NavigationsState = require('../states/NavigationsState');
 const NavigationsStore = require('../stores/NavigationsStore');
 const KeyUpListener = require('../stores/KeyUpListener');
 const ResizeListener = require('../stores/ResizeListener');
-const history = require('react-router').browserHistory;
 const SelectionStore = require('../stores/SelectionStore');
+const Link = require('react-router').Link;
 
 class Images extends React.Component {
   constructor(props) {
@@ -33,13 +33,8 @@ class Images extends React.Component {
     this.lastSelection = -1;
   }
 
-  updateImages(images) {
-    this.bundledImages = this._bundleImages(images);
-    this.setState({images:images})
-  }
-
   componentDidMount() {
-    ImagesStore.addChangeListener(this, this.updateImages.bind(this));
+    ImagesStore.addChangeListener(this, (images) => this.setState({images:images}));
     ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size:size})));
     NavigationsState.addChangeListener(this, this.handlePinningNavigation.bind(this));
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
@@ -235,38 +230,6 @@ class Images extends React.Component {
     }.bind(this));
   }
 
-  _bundleImages(images) {
-    var bundles = [];
-
-    var current = [];
-
-    var date = null;
-
-    images.forEach(function(image) {
-      if (!date) {
-        date = image.year + '' + image.month + '' + image.day;
-      }
-
-      var newDate = image.year + '' + image.month + '' + image.day;
-
-      if (newDate === date) {
-        current.push(image);
-      } else {
-        bundles.push(current);
-        current = [image];
-        date = newDate;
-      }
-    });
-
-    bundles.push(current);
-
-    return bundles;
-  }
-
-  loadFromDate(year, month, day) {
-    history.push('/images/dates/'+ year + '/' + month + '/' + day);
-  }
-
   render() {
     if (this.state.images.length === 0) {
       return (<div id="container">
@@ -291,19 +254,10 @@ class Images extends React.Component {
 
     var lastDate = '';
 
-    this.bundledImages.forEach((images) => (this._calcuateDisplayWidth(images)));
+    this._calcuateDisplayWidth(this.state.images);
 
     this.state.images.forEach(function(image, idx) {
       var newDate = image.year + '' + image.month + '' + image.day;
-      if (lastDate !== newDate) {
-        var datetime = new Date(image.date);
-        elements.push(
-          <div className='date' key={newDate}>
-            <DateDivider date={datetime} onClick={this.loadFromDate.bind(this, image.year, image.month, image.day)} />
-            <div className="dateSelect" onClick={this.handleDateSelect.bind(this, idx)}><i className="icon-check"></i></div>
-          </div>);
-        lastDate = newDate;
-      }
 
       var className = 'item';
 
@@ -315,13 +269,28 @@ class Images extends React.Component {
 
       var checkBoxClass = image.selected ? "icon-check" : "icon-check-empty";
 
-      elements.push(
-        <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
-          <Image image={image} style={style} />
-          <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass}></i></div>
-          <Like image={image} />
-          <div className="mark" />
-        </div>);
+      if (this.props.date && lastDate !== newDate) {
+        elements.push(
+          <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
+            <div style={{width: image.displayWidth + 'px'}}><i className="icon-check" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>
+            <div className='imgBorder'>
+              <Image image={image} style={style} />
+              <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass}></i></div>
+              <Like image={image} />
+              <div className="mark" />
+            </div>
+          </div>); 
+
+        lastDate = newDate;
+      } else {
+        elements.push(
+          <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
+            <Image image={image} style={style} />
+            <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass}></i></div>
+            <Like image={image} />
+            <div className="mark" />
+          </div>);  
+      }
     }.bind(this));
 
     return (

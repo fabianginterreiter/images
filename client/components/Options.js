@@ -11,21 +11,24 @@ const DialogStore = require('../stores/DialogStore');
 const SelectDialogStore = require('../stores/SelectDialogStore');
 const SingleSelectDialogStore = require('../stores/SingleSelectDialogStore');
 const SelectionStore = require('../stores/SelectionStore');
+const ThumbnailsResizer = require('../components/ThumbnailsResizer');
 
 const location = require('react-router').location;
+
+const Panel = require('./Panel');
 
 class Options extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: false,
-      values: [],
-      images: []
+      visible: false
     };
   }
 
   toggle() {
+    console.log("jetzt");
+
     this.setState({
       visible: !this.state.visible
     });
@@ -37,66 +40,37 @@ class Options extends React.Component {
     });
   }
 
-  componentDidMount() {
-    ImagesStore.addChangeListener(this, (images) => (this.setState({images:images})));
- 
-    var options = [];
-
-    options.push({
-      key: 'selectAll',
-      type: 'action',
-      name: 'Select All'
-    });
-
-    options.push({
-      key: 'unselectAll',
-      type: 'action',
-      name: 'Unselect All',
-      selected: true
-    });
-
-    this.setState({
-      values: options
-    });
-  }
-
-  componentWillUnmount() {
-    ImagesStore.removeChangeListener(this);    
-  }
-
-  handleClick(option) {
-    var images = SelectionStore.getSelected();
-
-    switch (option.key) {
-      case 'selectAll': {
-        ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
-        ImagesStore.dispatch();
-        this.close();
-        break;
-      }
-
-      case 'unselectAll': {
-        ImagesStore.getObject().forEach((image) => (SelectionStore.unselect(image)));
-        ImagesStore.dispatch();
-        this.close();
-        break;
-      }
-    }
-  }
-
-  isActive(object) {
-    return !object.selected || this.selected;
+  handleSelectAll() {
+    ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
+    ImagesStore.dispatch();
+    this.close();
   }
 
   render() {
     this.selected = !SelectionStore.isEmpty();
 
     return (
-      <li onClick={this.toggle.bind(this)} className="btn">
-        <i className="icon-reorder" />
-        <Dropdown open={this.state.visible} onCancel={this.close.bind(this)}>
-          <OptionsList values={this.state.values} active={this.isActive.bind(this)} onClick={this.handleClick.bind(this)} />
-        </Dropdown>
+      <li className="btn">
+
+
+        <i className="icon-reorder" onClick={this.toggle.bind(this)} />
+
+        <Panel open={this.state.visible} clickCatcher={this.state.visible} onClickCatcherClick={this.toggle.bind(this)} side='right'>
+          <div className="title" onClick={this.toggle.bind(this)}>
+            Settings
+            <span className="badge"><i className="icon-reorder" /></span>
+          </div>
+
+          <div className="body">
+            <ul className="options">
+              <li onClick={this.handleSelectAll.bind(this)}><a>Select All</a></li>
+              <li><a>Size: <ThumbnailsResizer /></a></li>
+            </ul>
+          </div>
+
+          <div className="footer" />
+
+        </Panel>
       </li>
     );
   }

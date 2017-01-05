@@ -1,15 +1,15 @@
 "use strict"
 
 const React = require('react');
-const KeyUpListener = require('../stores/KeyUpListener');
+const Utils = require('../utils/Utils');
 
 class Modal extends React.Component {
   componentDidMount() {
-    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    Utils.KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
   }
 
   componentWillUnmount() {
-    KeyUpListener.removeChangeListener(this);    
+    Utils.KeyUpListener.removeChangeListener(this);    
   }
 
   handleKeyUp(event) {

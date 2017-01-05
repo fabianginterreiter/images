@@ -1,7 +1,7 @@
-const Utils = require('../utils/Utils');
+const Dispatcher = require('./Dispatcher');
 var $ = require("jquery");
 
-class KeyUpListener extends Utils.Dispatcher {
+class KeyUpListener extends Dispatcher {
   constructor() {
     super(null);
 

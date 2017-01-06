@@ -61,7 +61,6 @@ class Navigations extends React.Component {
 
   handleChangeUser() {
     UserState.clear();
-    NavigationsState.close();
   }
 
   render() {
@@ -88,9 +87,6 @@ class Navigations extends React.Component {
             onSettingsClick={this.handleSettingClick.bind(this)}
             selected={this.isSelected.bind(this)} 
             query={this.state.query} />
-        </div>
-        <div className="footer">
-          <div className="profile" onClick={this.handleChangeUser.bind(this)}><i className="icon-user"></i> {UserState.getUser().name}</div>
         </div>
       </Panel>);
   }

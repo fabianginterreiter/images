@@ -1,18 +1,11 @@
 "use strict"
 
 const React = require('react');
-
 const $ = require("jquery");
-
-const OptionsList = require('./OptionsList');
-const Dropdown = require('./Dropdown');
-const ImagesStore = require('../stores/ImagesStore');
-const SelectionStore = require('../stores/SelectionStore');
 const ThumbnailsResizer = require('../components/ThumbnailsResizer');
-
 const location = require('react-router').location;
-
 const Panel = require('../utils/Utils').Panel;
+const UserState = require('../states/UserState');
 
 class Options extends React.Component {
   constructor(props) {
@@ -37,19 +30,9 @@ class Options extends React.Component {
     });
   }
 
-  handleSelectAll() {
-    ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
-    ImagesStore.dispatch();
-    this.close();
-  }
-
   render() {
-    this.selected = !SelectionStore.isEmpty();
-
     return (
       <li className="btn">
-
-
         <i className="icon-reorder" onClick={this.toggle.bind(this)} />
 
         <Panel open={this.state.visible} clickCatcher={this.state.visible} onClickCatcherClick={this.toggle.bind(this)} side='right'>
@@ -60,13 +43,14 @@ class Options extends React.Component {
 
           <div className="body">
             <ul className="options">
-              <li onClick={this.handleSelectAll.bind(this)}><a>Select All</a></li>
+              
               <li><a>Size: <ThumbnailsResizer /></a></li>
             </ul>
           </div>
 
-          <div className="footer" />
-
+          <div className="footer">
+            <div className="profile" onClick={UserState.clear.bind(UserState)}><i className="icon-user"></i> {UserState.getUser().name}</div>
+          </div>
         </Panel>
       </li>
     );

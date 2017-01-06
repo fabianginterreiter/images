@@ -6,19 +6,27 @@ const ThumbnailsResizer = require('../components/ThumbnailsResizer');
 const location = require('react-router').location;
 const Panel = require('../utils/Utils').Panel;
 const UserState = require('../states/UserState');
+const ShowDateStore = require('../stores/ShowDateStore');
 
 class Options extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: false
+      visible: false,
+      showDate: ShowDateStore.getObject()
     };
   }
 
-  toggle() {
-    console.log("jetzt");
+  componentDidMount() {
+    ShowDateStore.addChangeListener(this, () => this.forceUpdate());
+  }
 
+  componentWillUnmount() {
+    ShowDateStore.removeChangeListener(this);
+  }
+
+  toggle() {
     this.setState({
       visible: !this.state.visible
     });
@@ -43,8 +51,8 @@ class Options extends React.Component {
 
           <div className="body">
             <ul className="options">
-              
               <li><a>Size: <ThumbnailsResizer /></a></li>
+              <li><a><label><input type="checkbox" checked={ShowDateStore.getObject()} onChange={ShowDateStore.change.bind(ShowDateStore)} /> Show Dates</label></a></li>
             </ul>
           </div>
 

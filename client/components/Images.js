@@ -14,6 +14,7 @@ const NavigationsStore = require('../stores/NavigationsStore');
 const Utils = require('../utils/Utils');
 const SelectionStore = require('../stores/SelectionStore');
 const Link = require('react-router').Link;
+const ShowDateStore = require('../stores/ShowDateStore');
 
 class Images extends React.Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class Images extends React.Component {
     Utils.KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     Utils.ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     SelectionStore.addChangeListener(this, () => this.forceUpdate());
+    ShowDateStore.addChangeListener(this, () => this.forceUpdate());
 
     this.width = document.getElementById('container').clientWidth;
   }
@@ -49,6 +51,7 @@ class Images extends React.Component {
     Utils.KeyUpListener.removeChangeListener(this);
     Utils.ResizeListener.removeChangeListener(this);
     SelectionStore.removeChangeListener(this);
+    ShowDateStore.removeChangeListener(this);
   }
 
   handlePinningNavigation() {
@@ -267,7 +270,7 @@ class Images extends React.Component {
 
       var checkBoxClass = image.selected ? "icon-check" : "icon-check-empty";
 
-      if (this.props.date && lastDate !== newDate) {
+      if (ShowDateStore.getObject() && lastDate !== newDate) {
         elements.push(
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
             <div style={{width: image.displayWidth + 'px'}}><i className="icon-check" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>

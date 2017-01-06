@@ -1,8 +1,8 @@
-var Dispatcher = require('./Dispatcher');
+var Utils = require('../utils/Utils');
 
 var $ = require("jquery");
 
-class UploadStore extends Dispatcher {
+class UploadStore extends Utils.Dispatcher {
   constructor() {
     super([]);
     this._active = false;

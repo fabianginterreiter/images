@@ -2,7 +2,7 @@
 
 const State = require('../states/State');
 const Ajax = require('../libs/Ajax');
-const Cookies = require('../stores/Cookies');
+const Cookies = require('../utils/Utils').Cookies;
 
 class UserState extends State {
   constructor() {

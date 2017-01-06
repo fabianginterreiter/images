@@ -6,11 +6,9 @@ const Options = require('../components/Options');
 const NavigationsState = require('../states/NavigationsState');
 const UploadStore = require('../stores/UploadStore');
 const $ = require("jquery");
-const AutoComplete = require('./AutoComplete');
+const AutoComplete = require('../utils/Utils').AutoComplete;
 const ImagesStore = require('../stores/ImagesStore');
 const Link = require('react-router').Link;
-const KeyUpListener = require('../stores/KeyUpListener');
-
 
 class Faces extends React.Component {
 

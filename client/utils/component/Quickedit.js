@@ -3,8 +3,7 @@
 const React = require('react');
 const $ = require("jquery");
 const Link = require('react-router').Link;
-const KeyUpListener = require('../stores/KeyUpListener');
-const DialogStore = require('../stores/DialogStore');
+const KeyUpListener = require('../listener/KeyUpListener');
 
 class Persons extends React.Component {
   constructor(props) {

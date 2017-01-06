@@ -1,17 +1,16 @@
 "use strict"
 
 const React = require('react');
-const OptionsList = require('./OptionsList');
+const OptionsList = require('../utils/Utils').OptionsList;
 const Like = require('./Like')
 const TagsList = require('./TagsList')
 const PersonsList = require('./PersonsList')
 const ImagesStore = require('../stores/ImagesStore');
 const $ = require("jquery");
-const KeyUpListener = require('../stores/KeyUpListener');
-const Panel = require('./Panel');
-const DialogStore = require('../stores/DialogStore');
-const Faces = require('./Faces')
-const ResizeListener = require('../stores/ResizeListener');
+const Utils = require('../utils/Utils');
+const Panel = Utils.Panel;
+const DialogStore = require('../utils/Utils').DialogStore;
+const Faces = require('./Faces');
 const moment = require('moment');
 
 class Fullscreen extends React.Component {
@@ -26,15 +25,15 @@ class Fullscreen extends React.Component {
   }
 
   componentDidMount() {
-    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
-    ResizeListener.addChangeListener(this, this.handleImageLoad.bind(this));
+    Utils.KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    Utils.ResizeListener.addChangeListener(this, this.handleImageLoad.bind(this));
     $("body").css("overflow", "hidden");
     this._show();
   }
 
   componentWillUnmount() {
-    KeyUpListener.removeChangeListener(this);
-    ResizeListener.removeChangeListener(this);     
+    Utils.KeyUpListener.removeChangeListener(this);
+    Utils.ResizeListener.removeChangeListener(this);     
     $("body").css("overflow", "auto");
     clearTimeout(this.timeout);
   }

@@ -3,8 +3,8 @@
 const React = require('react');
 const $ = require("jquery");
 const Link = require('react-router').Link;
-const Quickedit = require('./Quickedit');
-const DialogStore = require('../stores/DialogStore');
+const Quickedit = require('../utils/Utils').Quickedit;
+const DialogStore = require('../utils/Utils').DialogStore;
 const NavigationsStore = require('../stores/NavigationsStore');
 const Ajax = require('../libs/Ajax');
 

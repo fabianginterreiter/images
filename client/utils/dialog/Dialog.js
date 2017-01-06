@@ -1,6 +1,6 @@
 var React = require('react');
 
-var DialogStore = require('../stores/DialogStore');
+var DialogStore = require('./DialogStore');
 
 class Dialog extends React.Component {
   constructor(props) {

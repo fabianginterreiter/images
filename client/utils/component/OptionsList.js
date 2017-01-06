@@ -1,7 +1,7 @@
 "use strict"
 
 const React = require('react');
-const Cookies = require('../stores/Cookies');
+const Cookies = require('../Cookies');
 const Link = require('react-router').Link;
 
 class OptionsList extends React.Component {

@@ -1,7 +1,7 @@
 "use strict"
 
 const React = require('react');
-const KeyUpListener = require('../stores/KeyUpListener');
+const KeyUpListener = require('../listener/KeyUpListener');
 const $ = require("jquery");
 
 class AutoComplete extends React.Component {

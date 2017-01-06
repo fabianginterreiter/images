@@ -1,4 +1,4 @@
-var Dispatcher = require('./Dispatcher');
+const Dispatcher = require('../Dispatcher');
 
 class DialogStore extends Dispatcher {
   constructor() {

@@ -1,9 +1,9 @@
-const Dispatcher = require('./Dispatcher');
+const Utils = require('../utils/Utils');
 const NavigationsStore = require('./NavigationsStore');
 const $ = require("jquery");
 const Ajax = require('../libs/Ajax');
 
-class ImagesStore extends Dispatcher {
+class ImagesStore extends Utils.Dispatcher {
   constructor() {
     super([]);
   }

@@ -5,10 +5,8 @@ $selectedColor: #108ee9;
 $hoverBackgroundColor: #e7f4fd;
 $navigationPanelWidth: 300px;
 
+@import 'utils';
 @import 'form';
-@import 'modal';
-@import 'panel';
-@import 'autocomplete';
 @import 'settings';
 @import 'fullscreen';
 @import 'images';

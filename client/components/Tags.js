@@ -75,7 +75,7 @@ class Tags extends React.Component {
 
   render() {
     return (<div className="settings">
-      <h1>Tags</h1>
+      <h1><i className="fa fa-tags" aria-hidden="true" /> Tags</h1>
       <table>
         <thead>
           <tr>

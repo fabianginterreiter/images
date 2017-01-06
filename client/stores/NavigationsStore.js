@@ -20,7 +20,8 @@ class NavigationsStore extends Utils.Dispatcher {
         type: 'action',
         name: 'All',
         service: '/api/images',
-        link: '/images/'
+        link: '/images/',
+        fontAwesome: 'fa fa-picture-o'
       });
 
       navigations.push({
@@ -28,7 +29,8 @@ class NavigationsStore extends Utils.Dispatcher {
         type: 'action',
         name: 'Favorites',
         service: '/api/images?liked=true',
-        link: '/images/favorites'
+        link: '/images/favorites',
+        fontAwesome: 'fa fa-heart-o'
       });
 
       navigations.push({

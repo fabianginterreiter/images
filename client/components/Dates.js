@@ -25,7 +25,7 @@ class Dates extends React.Component {
 
   render() {
     return (<div className="settings">
-      <h1>Dates</h1>
+      <h1><i className="fa fa-calendar" aria-hidden="true" /> Dates</h1>
       <ul>{this.state.dates.map((date) => (
         <li key={date.year}>
           <Link to={`/images/dates/${date.year}`}>{date.year} ({date.count})</Link>

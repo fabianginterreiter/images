@@ -34,7 +34,8 @@ class NavigationsController extends BaseController {
         type: 'action',
         name: 'Trash',
         link: '/images/trash',
-        service: '/api/images?trash=true'
+        service: '/api/images?trash=true',
+        fontAwesome: 'fa fa-trash-o'
       });
 
       return options;
@@ -84,6 +85,7 @@ class NavigationsController extends BaseController {
           key: 'dates',
           type: 'action',
           name: 'Dates',
+          fontAwesome: 'fa fa-calendar',
           link: '/images/dates',
           options: years
         });  
@@ -102,6 +104,7 @@ class NavigationsController extends BaseController {
         type: 'action',
         name: 'Tags',
         link: '/images/tags',
+        fontAwesome: 'fa fa-tags',
         options: []
       };
 
@@ -129,6 +132,7 @@ class NavigationsController extends BaseController {
         type: 'action',
         name: 'Persons',
         link: '/images/persons',
+        fontAwesome: 'fa fa-users',
         options: []
       };
 
@@ -157,6 +161,7 @@ class NavigationsController extends BaseController {
         type: 'action',
         name: 'Albums',
         link: '/images/albums',
+        fontAwesome: 'fa fa-book',
         options: []
       };
 

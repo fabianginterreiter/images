@@ -27,7 +27,7 @@ class Albums extends React.Component {
   render() {
     return (
       <div>
-        <h1>{this.state.album.name}</h1>
+        <h1><i className="fa fa-book" aria-hidden="true" /> {this.state.album.name}</h1>
         <Images />
       </div>
     );

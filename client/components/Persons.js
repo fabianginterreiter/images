@@ -77,7 +77,7 @@ class Persons extends React.Component {
 
   render() {
     return (<div className="settings">
-      <h1>Persons</h1>
+      <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
       <table>
         <thead>
           <tr>

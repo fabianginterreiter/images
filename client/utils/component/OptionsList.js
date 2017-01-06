@@ -34,11 +34,18 @@ class OptionsList extends React.Component {
     return open;
   }
 
-  _renderName(name) {
-    if (this.props.query && this.props.query.length > 0 && name.toUpperCase().startsWith(this.props.query.toUpperCase())) {
-      return (<a><span><span className="selected">{name.substring(0, this.props.query.length)}</span>{name.substring(this.props.query.length)}</span></a>);
+  _renderName(option) {
+    var name = option.name;
+
+    var icon = null;
+    if (option.fontAwesome) {
+      icon = (<i className={option.fontAwesome} aria-hidden="true" />);
     }
-    return (<a>{name}</a>);
+
+    if (this.props.query && this.props.query.length > 0 && name.toUpperCase().startsWith(this.props.query.toUpperCase())) {
+      return (<a>{icon} <span><span className="selected">{name.substring(0, this.props.query.length)}</span>{name.substring(this.props.query.length)}</span></a>);
+    }
+    return (<a>{icon} {name}</a>);
   }
 
   _renderItem(option, idx, deep) {
@@ -55,27 +62,27 @@ class OptionsList extends React.Component {
         var badge = (<span />);
         if (option.options && option.options.length) {
           if (option.open) {
-            badge = (<div className="badge"><i className="icon-chevron-down" /></div>);  
+            badge = (<div className="badge"><i className="fa fa-chevron-down" /></div>);  
           } else {
-            badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
+            badge = (<div className="badge"><i className="fa fa-chevron-up" /></div>);  
           }
         }
 
         if (this.props.selected && this.props.selected(option)) {
-          return (<li key={option.key} className={className + ' selected'} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
+          return (<li key={option.key} className={className + ' selected'} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>)  
         } else if (!this.props.active || this.props.active(option)) {
-          return (<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option.name)}{badge}</li>)  
+          return (<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>)  
         } else {
-          return (<li key={option.key} className={className + ' disabled'} style={style}>{this._renderName(option.name)}{badge}</li>)
+          return (<li key={option.key} className={className + ' disabled'} style={style}>{this._renderName(option)}{badge}</li>)
         }
       case 'menu':
         if (option.open) {
-          badge = (<div className="badge"><i className="icon-chevron-down" /></div>);  
+          badge = (<div className="badge"><i className="fa fa-chevron-down" /></div>);  
         } else {
-          badge = (<div className="badge"><i className="icon-chevron-up" /></div>);  
+          badge = (<div className="badge"><i className="fa fa-chevron-up" /></div>);  
         }
 
-        return (<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option.name)}{badge}</li>);
+        return (<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option)}{badge}</li>);
       default:
         return null;
     }

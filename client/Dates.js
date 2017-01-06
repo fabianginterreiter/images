@@ -49,7 +49,7 @@ class Dates extends React.Component {
   render() {
     return (
       <div>
-        <h1>{this.renderTitle()}</h1>
+        <h1><i className="fa fa-calendar" aria-hidden="true" /> {this.renderTitle()}</h1>
         <Images />
       </div>
     );

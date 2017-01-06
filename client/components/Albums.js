@@ -83,7 +83,7 @@ class Albums extends React.Component {
 
   render() {
     return (<div className="settings">
-      <h1>Albums</h1>
+      <h1><i className="fa fa-book" aria-hidden="true" /> Albums</h1>
       <table>
         <thead>
           <tr>

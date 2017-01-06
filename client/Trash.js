@@ -41,7 +41,7 @@ class Trash extends React.Component {
   render() {
     return (
       <div>
-        <h1><i className="icon-trash"/> Trash</h1>
+        <h1><i className="fa fa-trash-o"/> Trash</h1>
         <button className="danger" onClick={this.handleClear.bind(this)}>Clear</button>
         <button className="success" onClick={this.handleRevert.bind(this)}>Revert</button>
         <Images location={this.props.location} />

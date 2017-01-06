@@ -14,7 +14,7 @@ class Favorites extends React.Component {
   render() {
     return (
       <div>
-        <h1>Favorites</h1>
+        <h1><i className="fa fa-heart-o" aria-hidden="true" /> Favorites</h1>
         <Images />
       </div>
     );

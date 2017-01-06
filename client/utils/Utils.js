@@ -14,6 +14,7 @@ const Panel = require('./component/Panel');
 const InlineProgress = require('./component/InlineProgress');
 const Modal = require('./component/Modal');
 const OptionsList = require('./component/OptionsList');
+const Dropdown = require('./component/Dropdown');
 
 // Dialog
 const Main = require('./dialog/Main');
@@ -36,6 +37,7 @@ module.exports = {
   InlineProgress: InlineProgress,
   Modal: Modal,
   OptionsList: OptionsList,
+  Dropdown: Dropdown,
 
   // Dialog
   Main: Main,

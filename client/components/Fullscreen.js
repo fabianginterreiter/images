@@ -1,7 +1,7 @@
 "use strict"
 
 const React = require('react');
-const OptionsList = require('./OptionsList');
+const OptionsList = require('../utils/Utils').OptionsList;
 const Like = require('./Like')
 const TagsList = require('./TagsList')
 const PersonsList = require('./PersonsList')

@@ -7,12 +7,13 @@ const Cookies = require('./Cookies');
 const KeyUpListener = require('./listener/KeyUpListener');
 const ResizeListener = require('./listener/ResizeListener');
 
-// Copmonents
+// Components
 const Quickedit = require('./component/Quickedit');
 const AutoComplete = require('./component/AutoComplete');
 const Panel = require('./component/Panel');
 const InlineProgress = require('./component/InlineProgress');
 const Modal = require('./component/Modal');
+const OptionsList = require('./component/OptionsList');
 
 // Dialog
 const Main = require('./dialog/Main');
@@ -34,6 +35,7 @@ module.exports = {
   Panel: Panel,
   InlineProgress: InlineProgress,
   Modal: Modal,
+  OptionsList: OptionsList,
 
   // Dialog
   Main: Main,

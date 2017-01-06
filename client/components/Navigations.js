@@ -2,7 +2,7 @@
 
 const Options = require('./Options');
 const React = require('react');
-const OptionsList = require('./OptionsList');
+const OptionsList = require('../utils/Utils').OptionsList;
 const ImagesStore = require('../stores/ImagesStore');
 const NavigationsStore = require('../stores/NavigationsStore');
 const NavigationsState = require('../states/NavigationsState');

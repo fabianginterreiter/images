@@ -264,7 +264,7 @@ class SelectionOptions extends React.Component {
 
     return (
       <li onClick={this.toggle.bind(this)} className="btn">
-        <i className="icon-reorder" />
+        <i className="fa fa-bars" />
         <Dropdown open={this.state.visible} onCancel={this.close.bind(this)}>
           <OptionsList values={this.state.values} active={this.isActive.bind(this)} onClick={this.handleClick.bind(this)} />
         </Dropdown>

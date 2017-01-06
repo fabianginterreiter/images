@@ -89,8 +89,8 @@ class Persons extends React.Component {
         <tbody>
           {this.state.persons.map((person) => (<tr key={person.id}>
             <td>{this._renderText(person)}</td>
-            <td onClick={this.handleEdit.bind(this, person)} className="option"><i className="icon-cog" /></td>
-            <td onClick={this.handleDelete.bind(this, person)} className="option"><i className="icon-trash" /></td>
+            <td onClick={this.handleEdit.bind(this, person)} className="option"><i className="fa fa-pencil-square-o" /></td>
+            <td onClick={this.handleDelete.bind(this, person)} className="option"><i className="fa fa-trash-o" /></td>
           </tr>))}
         </tbody>
       </table>

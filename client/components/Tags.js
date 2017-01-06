@@ -87,8 +87,8 @@ class Tags extends React.Component {
         <tbody>
           {this.state.tags.map((tag) => (<tr key={tag.id}>
             <td>{this._renderText(tag)}</td>
-            <td onClick={this.handleEdit.bind(this, tag)} className="option"><i className="icon-cog" /></td>
-            <td onClick={this.handleDelete.bind(this, tag)} className="option"><i className="icon-trash" /></td>
+            <td onClick={this.handleEdit.bind(this, tag)} className="option"><i className="fa fa-pencil-square-o" /></td>
+            <td onClick={this.handleDelete.bind(this, tag)} className="option"><i className="fa fa-trash-o" /></td>
           </tr>))}
         </tbody>
       </table>

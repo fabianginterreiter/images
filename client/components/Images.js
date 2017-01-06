@@ -264,19 +264,22 @@ class Images extends React.Component {
 
       var style = image.displayWidth > 0 ? {width: image.displayWidth + 'px', height: image.displayHeight + 'px'} : {height: ThumbnailsSizeStore.getObject() + 'px'};
 
+      var checkBoxClass = null;
+
       if (SelectionStore.isSelected(image)) {
         className += ' selected';
+        checkBoxClass = "fa fa-check-square";
+      } else {
+        checkBoxClass = "fa fa-check-square-o"
       }
-
-      var checkBoxClass = image.selected ? "icon-check" : "icon-check-empty";
 
       if (ShowDateStore.getObject() && lastDate !== newDate) {
         elements.push(
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
-            <div style={{width: image.displayWidth + 'px'}}><i className="icon-check" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>
+            <div style={{width: image.displayWidth + 'px'}}><i className="fa fa-check-square-o" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>
             <div className='imgBorder'>
               <Image image={image} style={style} />
-              <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass}></i></div>
+              <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass} aria-hidden="true" /></div>
               <Like image={image} />
               <div className="mark" />
             </div>
@@ -287,7 +290,7 @@ class Images extends React.Component {
         elements.push(
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
             <Image image={image} style={style} />
-            <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass}></i></div>
+            <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass} aria-hidden="true" /></div>
             <Like image={image} />
             <div className="mark" />
           </div>);  

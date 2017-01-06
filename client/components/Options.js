@@ -41,12 +41,12 @@ class Options extends React.Component {
   render() {
     return (
       <li className="btn">
-        <i className="icon-reorder" onClick={this.toggle.bind(this)} />
+        <i className="fa fa-bars" onClick={this.toggle.bind(this)} />
 
         <Panel open={this.state.visible} clickCatcher={this.state.visible} onClickCatcherClick={this.toggle.bind(this)} side='right'>
           <div className="title" onClick={this.toggle.bind(this)}>
             Settings
-            <span className="badge"><i className="icon-reorder" /></span>
+            <span className="badge"><i className="fa fa-bars" /></span>
           </div>
 
           <div className="body">
@@ -57,7 +57,7 @@ class Options extends React.Component {
           </div>
 
           <div className="footer">
-            <div className="profile" onClick={UserState.clear.bind(UserState)}><i className="icon-user"></i> {UserState.getUser().name}</div>
+            <div className="profile" onClick={UserState.clear.bind(UserState)}><i className="fa fa-user"></i> {UserState.getUser().name}</div>
           </div>
         </Panel>
       </li>

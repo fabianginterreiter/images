@@ -99,8 +99,8 @@ class Albums extends React.Component {
             <td onClick={this.handleVisibility.bind(this, album)} className="option">
               <input type="checkbox" checked={album.public} />
             </td>
-            <td onClick={this.handleEdit.bind(this, album)} className="option"><i className="icon-cog" /></td>
-            <td onClick={this.handleDelete.bind(this, album)} className="option"><i className="icon-trash" /></td>
+            <td onClick={this.handleEdit.bind(this, album)} className="option"><i className="fa fa-pencil-square-o" /></td>
+            <td onClick={this.handleDelete.bind(this, album)} className="option"><i className="fa fa-trash-o" /></td>
           </tr>))}
         </tbody>
       </table>

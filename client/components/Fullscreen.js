@@ -131,7 +131,7 @@ class Fullscreen extends React.Component {
           {this.props.image.title} ({this.props.number}/{this.props.size})
           <div className="options">
             <Like image={this.props.image} />&nbsp;
-            <i className="icon-reorder" onClick={this.toggleMenu.bind(this)} />
+            <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>
         <div className="previous" onClick={this.props.previous} />

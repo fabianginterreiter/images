@@ -7,6 +7,7 @@ const UploadStore = require('../stores/UploadStore');
 const $ = require("jquery");
 const ImagesStore = require('../stores/ImagesStore');
 const SelectionStore = require('../stores/SelectionStore');
+const Title = require('./Title');
 
 class Header extends React.Component {
   constructor(props) {
@@ -30,15 +31,15 @@ class Header extends React.Component {
     return (
       <header>
         <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
-          <i className="icon-camera-retro"></i> Images
+          <Title />
         </div>
 
         <nav>
           <ul className="right">
-            <li onClick={this.handleSelectAll.bind(this)} className="btn"><i className="icon-check" /><span className="min500"> Select All</span></li>
+            <li onClick={this.handleSelectAll.bind(this)} className="btn"><i className="fa fa-check-square-o" /><span className="min500"> Select All</span></li>
             <li onClick={this.handleClick.bind(this)} className="btn">
               <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
-              <i className="icon-upload" /><span className="min500"> Upload</span>
+              <i className="fa fa-cloud-upload" /><span className="min500"> Upload</span>
             </li>
             <Options params={this.props.params} />
           </ul>

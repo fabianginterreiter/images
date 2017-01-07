@@ -69,6 +69,7 @@ router.post('/', upload.single('image'), function(req, res) {
   new ImagesController(req).create().then(function(result) {
     res.send(result);
   }).catch(function(err) {
+    console.log(err);
     res.send(err);
   })
 });

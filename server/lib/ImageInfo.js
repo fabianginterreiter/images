@@ -18,7 +18,13 @@ module.exports = function(file) {
           return reject(err);
         }
 
-        result.date = new Date(exifData.exif.CreateDate.replace(':', '.').replace(':', '.'));
+        if (exifData.exit.CreateDate) {
+          result.date = new Date(exifData.exif.CreateDate.replace(':', '.').replace(':', '.'));  
+        } else if (exifData.image.ModifyDate) {
+          result.date = new Date(exifData.image.ModifyDate.replace(':', '.').replace(':', '.'));  
+        } else {
+          result.date = new Date();
+        }
 
         // http://www.daveperrett.com/articles/2012/07/28/exif-orientation-handling-is-a-ghetto/
         result.horizontal = !exifData.image.Orientation || exifData.image.Orientation < 5;

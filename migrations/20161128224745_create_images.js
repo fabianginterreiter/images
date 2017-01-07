@@ -13,8 +13,10 @@ exports.up = function(knex, Promise) {
       table.integer('month');
       table.integer('day');
       table.string('path');
+      table.boolean('horizontal').defaultTo(false);
       table.integer('user_id').references('users.id');
       table.boolean('deleted').defaultTo(false);
+      table.integer('version').defaultTo(1);
       table.timestamps();
     })
   ]);

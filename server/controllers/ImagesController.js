@@ -25,6 +25,8 @@ class ImagesController extends BaseController {
         month: info.date.getMonth() + 1,
         day: info.date.getDate(),
 
+        horizontal: info.horizontal,
+
         user_id: this.session.user
       };
 

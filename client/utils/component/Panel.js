@@ -6,7 +6,7 @@ class Panel extends React.Component {
   render() {
     var clickCatcher = (<span />);
 
-    if (this.props.clickCatcher) {
+    if (this.props.clickCatcher && this.props.open) {
       clickCatcher = (<div className="click" onClick={this.props.onClickCatcherClick} />);
     }
 
@@ -14,6 +14,14 @@ class Panel extends React.Component {
 
     if (this.props.open) {
       className += ' open';
+    }
+
+    if (this.props.footer) {
+      className += ' hasFooter';
+    }
+
+    if (this.props.header) {
+      className += ' hasHeader';
     }
 
     return (

@@ -136,7 +136,7 @@ class Fullscreen extends React.Component {
         </div>
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />
-        <Panel open={this.state.menu} clickCatcher={this.state.menu} side='right' onClickCatcherClick={this.toggleMenu.bind(this)}>
+        <Panel open={this.state.menu} clickCatcher={this.state.menu} side='right' onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
           <div className="title">
           </div>
           <div className="body">

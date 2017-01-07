@@ -16,8 +16,8 @@
     .body {
       overflow-x: scroll;
       position: absolute;
-      top: 38px;
-      bottom: 38px;
+      top: 0;
+      bottom: 0;
       left: 0;
       right: 0;
     }
@@ -33,6 +33,18 @@
       left: 0;
       right: 0;
       border-top: 1px solid $borderColor;
+    }
+  }
+
+  >.hasFooter {
+    >.body {
+      bottom: 38px;
+    }
+  }
+
+  >.hasHeader {
+    >.body {
+      top: 38px;
     }
   }
 

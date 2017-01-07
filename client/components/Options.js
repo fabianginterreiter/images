@@ -43,7 +43,7 @@ class Options extends React.Component {
       <li className="btn">
         <i className="fa fa-bars" onClick={this.toggle.bind(this)} />
 
-        <Panel open={this.state.visible} clickCatcher={this.state.visible} onClickCatcherClick={this.toggle.bind(this)} side='right'>
+        <Panel open={this.state.visible} clickCatcher={this.state.visible} onClickCatcherClick={this.toggle.bind(this)} side='right' header={true} footer={true}>
           <div className="title" onClick={this.toggle.bind(this)}>
             Settings
             <span className="badge"><i className="fa fa-bars" /></span>

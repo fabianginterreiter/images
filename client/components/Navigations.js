@@ -77,7 +77,7 @@ class Navigations extends React.Component {
     }
 
     return (
-      <Panel open={open} clickCatcher={clickCatcher} onClickCatcherClick={NavigationsState.close.bind(NavigationsState)} side='left'>
+      <Panel open={open} clickCatcher={clickCatcher} onClickCatcherClick={NavigationsState.close.bind(NavigationsState)} side='left' header={true}>
         <div className="title">
           <span onClick={NavigationsState.close.bind(NavigationsState)}><Title /></span>
           <input type="text" onChange={this.handleSearchChange.bind(this)} value={this.state.query} placeholder="Search" />

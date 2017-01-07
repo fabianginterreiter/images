@@ -1,0 +1,1 @@
+npm run watch & npm run watch-css & NODE_ENV=development & npm run start

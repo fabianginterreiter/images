@@ -6,6 +6,7 @@ const Images = require('./components/Images');
 const DialogStore = require('./utils/Utils').DialogStore;
 const SelectionStore = require('./stores/SelectionStore');
 const ImagesStore = require('./stores/ImagesStore');
+const ImagesNav = require('./components/ImagesNav');
 
 class Trash extends React.Component {
   componentDidMount() {
@@ -41,10 +42,17 @@ class Trash extends React.Component {
   render() {
     return (
       <div>
-        <h1><i className="fa fa-trash-o"/> Trash</h1>
-        <button className="danger" onClick={this.handleClear.bind(this)}>Clear</button>
-        <button className="success" onClick={this.handleRevert.bind(this)}>Revert</button>
-        <Images location={this.props.location} />
+        <h1>
+          <i className="fa fa-trash-o"/> Trash
+          <ImagesNav>
+            <button className="danger" onClick={this.handleClear.bind(this)}><i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span></button>
+            <button className="success" onClick={this.handleRevert.bind(this)}><i className="fa fa-undo" aria-hidden="true" /><span className="min500"> Revert</span></button>
+          </ImagesNav>
+        </h1>
+        <Images options={{
+          hideLike:true,
+          hideFullscreen:true
+        }} />
       </div>
     );
   }

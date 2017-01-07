@@ -66,11 +66,11 @@ button.danger {
     margin-right: 0;
   }
 
-  *:first-child {
+  >*:first-child {
     border-radius:.25rem 0 0 .25rem;
   }
 
-  *:last-child {
+  >*:last-child {
     border-radius:0 .25rem .25rem 0;
   }
 }

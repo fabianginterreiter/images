@@ -5,6 +5,7 @@ const React = require('react');
 const Images = require('./components/Images');
 const ImagesStore = require('./stores/ImagesStore');
 const moment = require('moment');
+const ImagesNav = require('./components/ImagesNav');
 
 class Dates extends React.Component {
 
@@ -49,7 +50,10 @@ class Dates extends React.Component {
   render() {
     return (
       <div>
-        <h1><i className="fa fa-calendar" aria-hidden="true" /> {this.renderTitle()}</h1>
+        <h1>
+          <i className="fa fa-calendar" aria-hidden="true" /> {this.renderTitle()}
+          <ImagesNav />
+        </h1>
         <Images />
       </div>
     );

@@ -6,7 +6,7 @@ const NavigationsState = require('../states/NavigationsState');
 const UploadStore = require('../stores/UploadStore');
 const $ = require("jquery");
 const Title = require('./Title');
-const SelectAll = require('./SelectAll');
+
 
 class Header extends React.Component {
   constructor(props) {
@@ -30,7 +30,6 @@ class Header extends React.Component {
 
         <nav>
           <ul className="right">
-            <SelectAll />
             <li onClick={this.handleClick.bind(this)} className="btn">
               <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
               <i className="fa fa-cloud-upload" /><span className="min500"> Upload</span>

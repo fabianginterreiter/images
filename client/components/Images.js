@@ -144,6 +144,10 @@ class Images extends React.Component {
       return;
     }
 
+    if (this.props.options && this.props.options.hideFullscreen) {
+      return;
+    }
+
     this.setState({
       view: idx
     });
@@ -231,6 +235,14 @@ class Images extends React.Component {
     }.bind(this));
   }
 
+  renderLikeButton(image) {
+    if (this.props.options && this.props.options.hideLike) {
+      return null;
+    }
+
+    return (<Like image={image} />);
+  }
+
   render() {
     if (this.state.images.length === 0) {
       return (<div id="container">
@@ -280,7 +292,7 @@ class Images extends React.Component {
             <div className='imgBorder'>
               <Image image={image} style={style} />
               <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass} aria-hidden="true" /></div>
-              <Like image={image} />
+              {this.renderLikeButton(image)}
               <div className="mark" />
             </div>
           </div>); 
@@ -291,7 +303,7 @@ class Images extends React.Component {
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
             <Image image={image} style={style} />
             <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass} aria-hidden="true" /></div>
-            <Like image={image} />
+            {this.renderLikeButton(image)}
             <div className="mark" />
           </div>);  
       }

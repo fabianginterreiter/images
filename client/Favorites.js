@@ -4,6 +4,7 @@ const React = require('react');
 
 const Images = require('./components/Images');
 const ImagesStore = require('./stores/ImagesStore');
+const ImagesNav = require('./components/ImagesNav');
 
 class Favorites extends React.Component {
 
@@ -14,7 +15,10 @@ class Favorites extends React.Component {
   render() {
     return (
       <div>
-        <h1><i className="fa fa-heart-o" aria-hidden="true" /> Favorites</h1>
+        <h1>
+          <i className="fa fa-heart-o" aria-hidden="true" /> Favorites
+          <ImagesNav />
+        </h1>
         <Images />
       </div>
     );

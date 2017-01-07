@@ -4,6 +4,7 @@ const React = require('react');
 
 const Images = require('./components/Images');
 const ImagesStore = require('./stores/ImagesStore');
+const ImagesNav = require('./components/ImagesNav');
 
 class Tags extends React.Component {
 
@@ -27,7 +28,10 @@ class Tags extends React.Component {
   render() {
     return (
       <div>
-        <h1><i className="fa fa-tag" aria-hidden="true" /> {this.state.tag.name}</h1>
+        <h1>
+          <i className="fa fa-tag" aria-hidden="true" /> {this.state.tag.name}
+          <ImagesNav />
+        </h1>
         <Images />
       </div>
     );

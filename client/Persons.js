@@ -4,6 +4,7 @@ const React = require('react');
 
 const Images = require('./components/Images');
 const ImagesStore = require('./stores/ImagesStore');
+const ImagesNav = require('./components/ImagesNav');
 
 class Persons extends React.Component {
 
@@ -27,7 +28,10 @@ class Persons extends React.Component {
   render() {
     return (
       <div>
-        <h1><i className="fa fa-user" aria-hidden="true" /> {this.state.person.name}</h1>
+        <h1>
+          <i className="fa fa-user" aria-hidden="true" /> {this.state.person.name}
+          <ImagesNav />
+        </h1>
         <Images />
       </div>
     );

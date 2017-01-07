@@ -19,6 +19,17 @@ body {
   background: white;
 }
 
+h1 {
+  nav {
+    float: right;
+    user-select: none;
+
+    button {
+      margin-top: 5px;
+    }
+  }
+}
+
 h3 {
   padding-left: 5px;
 }

@@ -18,7 +18,7 @@ class TagsList extends React.Component {
   render() {
     return (
       <div className="tags">
-        <h4>Tags</h4>
+        <h4><i className="fa fa-tag" aria-hidden="true" /> Tags</h4>
 
         <div className="input">
           <AutoComplete service='/api/tags' onSelect={this.handleAddTag.bind(this)} ignore={this.props.image.tags} placeholder='Add Tag' />

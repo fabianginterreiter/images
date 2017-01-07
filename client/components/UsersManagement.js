@@ -66,12 +66,12 @@ class UsersManagement extends React.Component {
           {
             this.state.users.map((user, idx) => (
               <div key={user.id} onClick={this.handleUserSelect.bind(this, user)}>
-                <div><i className="icon-user icon-3x" /></div>
+                <div><i className="fa fa-user fa-3x" /></div>
                 <div>{user.name}</div>
               </div>))
           }
             <div onClick={this.openCreate.bind(this)}>
-              <div><i className="icon-plus-sign-alt icon-3x" /></div>
+              <div><i className="fa fa-user-plus fa-3x" /></div>
               <div>Create</div>
             </div>
         </div>

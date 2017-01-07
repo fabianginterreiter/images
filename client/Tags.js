@@ -27,7 +27,7 @@ class Tags extends React.Component {
   render() {
     return (
       <div>
-        <h1><i className="fa fa-tags" aria-hidden="true" /> {this.state.tag.name}</h1>
+        <h1><i className="fa fa-tag" aria-hidden="true" /> {this.state.tag.name}</h1>
         <Images />
       </div>
     );

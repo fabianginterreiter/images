@@ -13,7 +13,7 @@ class PersonsList extends React.Component {
   render() {
     return (
       <div className="tags">
-        <h4>Persons</h4>
+        <h4><i className="fa fa-users" aria-hidden="true" /> Persons</h4>
         <ul>
           {
             this.props.image.persons.map((person) => (<li key={person.id}>

@@ -1,1 +1,1 @@
-npm run watch & npm run watch-css & NODE_ENV=development node server/index.js
+NODE_ENV=productive & node server/index.js

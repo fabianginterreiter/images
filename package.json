@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "./bin/watch-javascript",
-    "browserify": "./bin/build-javascript",
-    "build-css": "./bin/build-css",
+    "dev": "./bin/dev",
+    "watch": "./bin/watch",
+    "watch-javascript": "./bin/watch-javascript",
     "watch-css": "./bin/watch-css",
+    "build": "./bin/build",
+    "build-javascript": "./bin/build-javascript",
+    "build-css": "./bin/build-css",
     "test": "NODE_ENV=test mocha",
-    "build": "npm run browserify ",
     "start": "./bin/start"
   },
   "author": "",
@@ -36,20 +38,15 @@
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
-    "babelify": "^7.3.0",
-    "browserify": "^13.1.1",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
     "mocha": "^3.2.0",
     "node-sass": "^3.13.1",
-    "reactify": "^1.1.1",
+    "nodemon": "^1.11.0",
     "sinon": "^1.17.6",
     "tmp": "0.0.31",
-    "uglify-js": "^2.7.5",
-    "watchify": "^3.7.0"
-  },
-  "browserify": {
-    "transform": [
-      "reactify",
-      "babelify"
-    ]
+    "webpack": "^1.14.0"
   }
 }

@@ -1,1 +1,1 @@
-node server/index.js
+NODE_ENV=productive & node server/index.js

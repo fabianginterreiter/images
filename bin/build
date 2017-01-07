@@ -1,2 +1,2 @@
-node-sass --include-path scss scss/main.scss public/css/main.css
-webpack -d
+npm run build-css
+npm run build-javascript

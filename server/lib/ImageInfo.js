@@ -18,7 +18,7 @@ module.exports = function(file) {
           return reject(err);
         }
 
-        if (exifData.exit.CreateDate) {
+        if (exifData.exif.CreateDate) {
           result.date = new Date(exifData.exif.CreateDate.replace(':', '.').replace(':', '.'));  
         } else if (exifData.image.ModifyDate) {
           result.date = new Date(exifData.image.ModifyDate.replace(':', '.').replace(':', '.'));  

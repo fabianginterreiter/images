@@ -182,10 +182,9 @@ class ImagesStore extends Utils.Dispatcher {
   }
 
   load(service) {
-    this.setObject(null, () => {
-      this.service = service;
-      Ajax.get(service).then((images) => this.setObject(images));  
-    });
+    this.setObject(null);
+    this.service = service;
+    Ajax.get(service).then((images) => this.setObject(images));
   }
 
   reload() {

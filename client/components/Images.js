@@ -246,7 +246,7 @@ class Images extends React.Component {
   render() {
     if (!this.state.images) {
       return (<div id="container">
-        Loading
+        Loading 
       </div>);
     }
 

@@ -34,7 +34,13 @@ class Configuration {
       secret: 'key',
       secure: false,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
+      cookie: { 
+        path: '/', 
+        httpOnly: true, 
+        secure: false, 
+        maxAge: null 
+      }
     };
 
     if (this.config.redis) {

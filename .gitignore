@@ -5,3 +5,5 @@ public/bundle.js
 public/css/*.css
 public/javascript/*.js
 *.log
+
+public/javascript/*.js.map

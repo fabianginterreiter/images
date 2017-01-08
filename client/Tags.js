@@ -1,10 +1,10 @@
 "use strict"
 
-const React = require('react');
+import React from 'react';
 
-const Images = require('./components/Images');
-const ImagesStore = require('./stores/ImagesStore');
-const ImagesNav = require('./components/ImagesNav');
+import Images from './components/Images';
+import ImagesStore from './stores/ImagesStore';
+import ImagesNav from './components/ImagesNav';
 
 class Tags extends React.Component {
 

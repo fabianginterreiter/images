@@ -29,7 +29,7 @@ router.get('/:id', function (req, res) {
 });
 
 router.delete('/', function(req, res) {
-  req.session = null;
+  req.session.user = null;
   res.send({});
 });
 

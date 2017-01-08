@@ -36,8 +36,6 @@ class Configuration {
       resave: false,
       saveUninitialized: false,
       cookie: { 
-        path: '/', 
-        httpOnly: true, 
         secure: false, 
         maxAge: null 
       }

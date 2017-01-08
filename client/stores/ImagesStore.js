@@ -5,7 +5,7 @@ const Ajax = require('../libs/Ajax');
 
 class ImagesStore extends Utils.Dispatcher {
   constructor() {
-    super([]);
+    super(null);
   }
 
   like(image) {
@@ -182,8 +182,10 @@ class ImagesStore extends Utils.Dispatcher {
   }
 
   load(service) {
-    this.service = service;
-    Ajax.get(service).then((images) => this.setObject(images));
+    this.setObject(null, () => {
+      this.service = service;
+      Ajax.get(service).then((images) => this.setObject(images));  
+    });
   }
 
   reload() {

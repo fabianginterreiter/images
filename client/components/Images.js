@@ -244,6 +244,12 @@ class Images extends React.Component {
   }
 
   render() {
+    if (!this.state.images) {
+      return (<div id="container">
+        Loading
+      </div>);
+    }
+
     if (this.state.images.length === 0) {
       return (<div id="container">
         <Empty />

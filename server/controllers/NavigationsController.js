@@ -12,6 +12,10 @@ const BaseController = require('./BaseController');
 class NavigationsController extends BaseController {
 
   index() {
+    if (!this.isAuthenticated()) {
+      return Promise.resolve([]);
+    }
+    
     return this.addAlbums([])
     .then((options) => this.addPersons(options))
     .then((options) => this.addTags(options))

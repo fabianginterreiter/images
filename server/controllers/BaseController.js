@@ -9,6 +9,10 @@ class BaseController {
     this.body = req.body || {};
     this.session = req.session || {};
   }
+
+  isAuthenticated() {
+    return this.session.user && this.session.user > 0;
+  }
 }
 
 module.exports = BaseController;

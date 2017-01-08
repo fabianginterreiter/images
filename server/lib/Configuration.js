@@ -29,6 +29,22 @@ class Configuration {
     return this.config.path + '/cache/thumbnails';
   }
 
+  getSessionConfig(session) {
+    var result = {
+      secret: 'key',
+      secure: false,
+      resave: false,
+      saveUninitialized: false
+    };
+
+    if (this.config.redis) {
+      var RedisStore = require('connect-redis')(session);
+      result.store = new RedisStore();
+    }
+
+    return result;
+  }
+
   getDatabaseConfiguration() {
     if (this.config.database) {
       return this.config.database;

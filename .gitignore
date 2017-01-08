@@ -3,7 +3,8 @@ uploads/
 node_modules/
 public/bundle.js
 public/css/*.css
-public/javascript/*.js
+public/javascript/client.js
+public/javascript/client.js.map
 *.log
 
-public/javascript/*.js.map
+

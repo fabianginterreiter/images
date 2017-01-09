@@ -16,8 +16,7 @@ module.exports = {
             name: "[name]",
             context: path.resolve(__dirname, "client")
         }),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.OccurenceOrderPlugin()
     ],
     resolve: {
         root: path.resolve(__dirname, "client"),

@@ -1,10 +1,9 @@
 "use strict"
 
-const React = require('react');
-
-const Images = require('./components/Images');
-const ImagesStore = require('./stores/ImagesStore');
-const ImagesNav = require('./components/ImagesNav');
+import React from 'react'
+import Images from './components/Images'
+import ImagesStore from './stores/ImagesStore'
+import ImagesNav from './components/ImagesNav'
 
 class Albums extends React.Component {
 

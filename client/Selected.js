@@ -1,18 +1,16 @@
 "use strict"
 
-const React = require('react');
-
-const history = require('react-router').browserHistory;
-
-const Images = require('./components/Images');
-const ImagesStore = require('./stores/ImagesStore');
-const SelectionStore = require('./stores/SelectionStore');
+import React from 'react'
+import { browserHistory } from 'react-router'
+import Images from './components/Images'
+import ImagesStore from './stores/ImagesStore'
+import SelectionStore from './stores/SelectionStore'
 
 class Selected extends React.Component {
 
   componentDidMount() {
     if (SelectionStore.isEmpty()) {
-      history.push('/images');
+      browserHistory.push('/images');
     }
 
     ImagesStore.setObject(SelectionStore.getSelected());

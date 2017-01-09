@@ -1,25 +1,16 @@
 "use strict"
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-
-const Router = require('react-router').Router;
-const Route = require('react-router').Route;
-const browserHistory = require('react-router').browserHistory;
-const Redirect = require('react-router').Redirect;
-const IndexRoute = require('react-router').IndexRoute;
-const IndexRedirect = require('react-router').IndexRedirect;
-
-const ImagesApp = require('./components/ImagesApp');
-const Images = require('./components/Images');
-const Persons = require('./components/Persons');
-const Tags = require('./components/Tags');
-const Albums = require('./components/Albums');
-const UsersManagement = require('./components/UsersManagement');
-
-const Dates = require('./Dates');
-
-const Init = require('./components/Init');
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } from 'react-router'
+import ImagesApp from './components/ImagesApp'
+import Images from './components/Images'
+import Persons from './components/Persons'
+import Tags from './components/Tags'
+import Albums from './components/Albums'
+import UsersManagement from './components/UsersManagement'
+import Dates from './Dates'
+import Init from './components/Init'
 
 ReactDOM.render(
   <Router history={browserHistory}>

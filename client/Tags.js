@@ -1,10 +1,10 @@
 "use strict"
 
-import React from 'react';
+import React from 'react'
 
-import Images from './components/Images';
-import ImagesStore from './stores/ImagesStore';
-import ImagesNav from './components/ImagesNav';
+import Images from './components/Images'
+import ImagesStore from './stores/ImagesStore'
+import ImagesNav from './components/ImagesNav'
 
 class Tags extends React.Component {
 

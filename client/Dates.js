@@ -1,11 +1,10 @@
 "use strict"
 
-const React = require('react');
-
-const Images = require('./components/Images');
-const ImagesStore = require('./stores/ImagesStore');
-const moment = require('moment');
-const ImagesNav = require('./components/ImagesNav');
+import React from 'react'
+import moment from 'moment'
+import Images from './components/Images'
+import ImagesStore from './stores/ImagesStore'
+import ImagesNav from './components/ImagesNav'
 
 class Dates extends React.Component {
 

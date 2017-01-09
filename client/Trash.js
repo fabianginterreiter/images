@@ -1,12 +1,11 @@
 "use strict"
 
-const React = require('react');
-
-const Images = require('./components/Images');
-const DialogStore = require('./utils/Utils').DialogStore;
-const SelectionStore = require('./stores/SelectionStore');
-const ImagesStore = require('./stores/ImagesStore');
-const ImagesNav = require('./components/ImagesNav');
+import React from 'react'
+import Images from './components/Images'
+import ImagesStore from './stores/ImagesStore'
+import ImagesNav from './components/ImagesNav'
+import { DialogStore } from './utils/Utils'
+import SelectionStore from './stores/SelectionStore'
 
 class Trash extends React.Component {
   componentDidMount() {

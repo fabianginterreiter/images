@@ -1,2 +1,3 @@
+npm run build-dll
 npm run build-css
 npm run build-javascript

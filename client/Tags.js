@@ -12,7 +12,8 @@ class Tags extends React.Component {
     super(props);
 
     this.state = {
-      tag: {}
+      tag: {},
+      edit: false
     }
   }
 
@@ -25,12 +26,20 @@ class Tags extends React.Component {
     fetch('/api/tags/' + newProps.params.id).then((result) => result.json()).then((tag) => this.setState({tag:tag}));
   }
 
+  handleEdit() {
+    this.setState({
+      edit: true
+    });
+  }
+
   render() {
     return (
       <div>
         <h1>
           <i className="fa fa-tag" aria-hidden="true" /> {this.state.tag.name}
-          <ImagesNav />
+          <ImagesNav>
+            <button onClick={this.handleEdit.bind(this)} className="primary">Edit</button>
+          </ImagesNav>
         </h1>
         <Images />
       </div>

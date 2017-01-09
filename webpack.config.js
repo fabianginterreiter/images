@@ -10,15 +10,26 @@ var config = {
     path: BUILD_DIR,
     filename: 'client.js'
   },
+  plugins: [
+      new webpack.DllReferencePlugin({
+          context: path.join(__dirname, "client"),
+          manifest: require("./public/vendor/javascript/vendor-manifest.json")
+      }),
+  ],
   module : {
     loaders : [
       {
         test : /\.js?/,
         include : APP_DIR,
-        loader : 'babel'
+        loader : 'babel',
+        query: {
+          cacheDirectory: true,
+          presets: ["es2015", "react"]
+        }
       }
     ]
-  }
+  },
+  cache: true
 };
 
 module.exports = config;

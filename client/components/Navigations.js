@@ -4,10 +4,10 @@ import React from 'react'
 import ImagesStore from '../stores/ImagesStore'
 import NavigationsStore from '../stores/NavigationsStore'
 import NavigationsState from '../states/NavigationsState'
-import {OptionsList, Panel } from '../utils/Utils'
+import { OptionsList, Panel } from '../utils/Utils'
 import Options from './Options'
 import UserState from '../states/UserState'
-import browserHistory from 'react-router'
+import { browserHistory } from 'react-router'
 import Title from './Title'
 
 class Navigations extends React.Component {

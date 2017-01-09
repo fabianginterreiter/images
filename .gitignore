@@ -6,9 +6,3 @@ public/css/*.css
 public/javascript/client.js
 public/javascript/client.js.map
 *.log
-
-
-
-public/javascript/client.js.map
-
-*.map

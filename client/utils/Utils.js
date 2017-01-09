@@ -1,26 +1,26 @@
 "use strict"
 
-const Dispatcher = require('./Dispatcher');
-const Cookies = require('./Cookies');
+import Dispatcher from './Dispatcher'
+import Cookies from './Cookies'
 
 // Listeners
-const KeyUpListener = require('./listener/KeyUpListener');
-const ResizeListener = require('./listener/ResizeListener');
+import KeyUpListener from './listener/KeyUpListener'
+import ResizeListener from './listener/ResizeListener'
 
 // Components
-const Quickedit = require('./component/Quickedit');
-const AutoComplete = require('./component/AutoComplete');
-const Panel = require('./component/Panel');
-const InlineProgress = require('./component/InlineProgress');
-const Modal = require('./component/Modal');
-const OptionsList = require('./component/OptionsList');
-const Dropdown = require('./component/Dropdown');
+import Quickedit from './component/Quickedit'
+import AutoComplete from './component/AutoComplete'
+import Panel from './component/Panel'
+import InlineProgress from './component/InlineProgress'
+import Modal from './component/Modal'
+import OptionsList from './component/OptionsList'
+import Dropdown from './component/Dropdown'
 
 // Dialog
-const Main = require('./dialog/Main');
-const DialogStore = require('./dialog/DialogStore');
-const SelectDialogStore = require('./dialog/SelectDialogStore');
-const SingleSelectDialogStore = require('./dialog/SingleSelectDialogStore');
+import Main from './dialog/Main'
+import DialogStore from './dialog/DialogStore'
+import SelectDialogStore from './dialog/SelectDialogStore'
+import SingleSelectDialogStore from './dialog/SingleSelectDialogStore'
 
 module.exports = {
   Dispatcher: Dispatcher,

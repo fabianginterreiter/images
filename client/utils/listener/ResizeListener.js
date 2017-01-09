@@ -1,7 +1,7 @@
 "use strict"
 
-const Dispatcher = require('../Dispatcher');
-const $ = require("jquery");
+import Dispatcher from '../Dispatcher'
+import $ from 'jquery'
 
 class ResizeListener extends Dispatcher {
   constructor() {

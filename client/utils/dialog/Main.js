@@ -1,9 +1,9 @@
 "use strict"
 
-const React = require('react');
-const Dialog = require('./Dialog');
-const SelectDialog = require('./SelectDialog');
-const SingleSelectDialog = require('./SingleSelectDialog');
+import React from 'react'
+import Dialog from './Dialog'
+import SelectDialog from './SelectDialog'
+import SingleSelectDialog from './SingleSelectDialog'
 
 class Main extends React.Component {
   render() {

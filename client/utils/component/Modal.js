@@ -1,7 +1,7 @@
 "use strict"
 
-const React = require('react');
-const KeyUpListener = require('../listener/KeyUpListener');
+import React from 'react'
+import KeyUpListener from '../listener/KeyUpListener'
 
 class Modal extends React.Component {
   componentDidMount() {

@@ -1,8 +1,7 @@
 "use strict"
 
-const React = require('react');
-const Cookies = require('../Cookies');
-const Link = require('react-router').Link;
+import React from 'react'
+import Cookies from '../Cookies'
 
 class OptionsList extends React.Component {
   toggleMenu(event, option) {

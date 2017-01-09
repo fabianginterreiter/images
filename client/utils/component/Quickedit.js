@@ -1,9 +1,8 @@
 "use strict"
 
-const React = require('react');
-const $ = require("jquery");
-const Link = require('react-router').Link;
-const KeyUpListener = require('../listener/KeyUpListener');
+import React from 'react'
+import $ from 'jquery'
+import KeyUpListener from '../listener/KeyUpListener'
 
 class Persons extends React.Component {
   constructor(props) {

@@ -1,6 +1,7 @@
-var React = require('react');
+"use strict"
 
-var SelectDialogStore = require('./SelectDialogStore');
+import React from 'react'
+import SelectDialogStore from './SelectDialogStore'
 
 class Dialog extends React.Component {
   constructor(props) {

@@ -1,4 +1,6 @@
-var React = require('react');
+"use strict"
+
+import React from 'react'
 
 class Dropdown extends React.Component {
   render() {

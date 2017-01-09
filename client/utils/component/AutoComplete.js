@@ -1,8 +1,8 @@
 "use strict"
 
-const React = require('react');
-const KeyUpListener = require('../listener/KeyUpListener');
-const $ = require("jquery");
+import React from 'react'
+import KeyUpListener from '../listener/KeyUpListener'
+import $ from 'jquery'
 
 class AutoComplete extends React.Component {
   constructor(props) {

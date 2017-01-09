@@ -1,4 +1,6 @@
-const cookie = require('react-cookie');
+"use strict"
+
+import cookie from 'react-cookie'
 
 class Cookies {
   constructor() {

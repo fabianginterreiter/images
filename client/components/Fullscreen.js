@@ -1,17 +1,15 @@
 "use strict"
 
-const React = require('react');
-const OptionsList = require('../utils/Utils').OptionsList;
-const Like = require('./Like')
-const TagsList = require('./TagsList')
-const PersonsList = require('./PersonsList')
-const ImagesStore = require('../stores/ImagesStore');
-const $ = require("jquery");
-const Utils = require('../utils/Utils');
-const Panel = Utils.Panel;
-const DialogStore = require('../utils/Utils').DialogStore;
-const Faces = require('./Faces');
-const moment = require('moment');
+import React from 'react'
+import $ from 'jquery'
+import Utils from '../utils/Utils'
+import { OptionsList, DialogStore, Panel } from '../utils/Utils'
+import Like from './Like'
+import TagsList from './TagsList'
+import PersonsList from './PersonsList'
+import ImagesStore from '../stores/ImagesStore'
+import Faces from './Faces'
+import moment from 'moment'
 
 class Fullscreen extends React.Component {
   constructor(props) {

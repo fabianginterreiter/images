@@ -1,7 +1,9 @@
-const Utils = require('../utils/Utils');
-const NavigationsStore = require('./NavigationsStore');
-const $ = require("jquery");
-const Ajax = require('../libs/Ajax');
+"use strict"
+
+import Utils from '../utils/Utils';
+import NavigationsStore from './NavigationsStore'
+import $ from 'jquery'
+import Ajax from '../libs/Ajax'
 
 class ImagesStore extends Utils.Dispatcher {
   constructor() {

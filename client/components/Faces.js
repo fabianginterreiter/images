@@ -1,14 +1,10 @@
 "use strict"
 
-const React = require('react');
-const ThumbnailsResizer = require('../components/ThumbnailsResizer');
-const Options = require('../components/Options');
-const NavigationsState = require('../states/NavigationsState');
-const UploadStore = require('../stores/UploadStore');
-const $ = require("jquery");
-const AutoComplete = require('../utils/Utils').AutoComplete;
-const ImagesStore = require('../stores/ImagesStore');
-const Link = require('react-router').Link;
+import React from 'react'
+import $ from 'jquery'
+import { AutoComplete } from '../utils/Utils'
+import ImagesStore from '../stores/ImagesStore'
+import { Link } from 'react-router'
 
 class Faces extends React.Component {
 

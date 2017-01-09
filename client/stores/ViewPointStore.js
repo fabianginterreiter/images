@@ -1,6 +1,6 @@
-var Utils = require('../utils/Utils');
+"use strict"
 
-var $ = require("jquery");
+import Utils from '../utils/Utils';
 
 class ViewPointStore extends Utils.Dispatcher {
   constructor() {

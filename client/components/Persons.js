@@ -1,12 +1,11 @@
 "use strict"
 
-const React = require('react');
-const $ = require("jquery");
-const Link = require('react-router').Link;
-const Quickedit = require('../utils/Utils').Quickedit;
-const DialogStore = require('../utils/Utils').DialogStore;
-const NavigationsStore = require('../stores/NavigationsStore');
-const Ajax = require('../libs/Ajax');
+import React from 'react'
+import $ from 'jquery'
+import { Link } from 'react-router'
+import{ Quickedit, DialogStore } from '../utils/Utils'
+import NavigationsStore from '../stores/NavigationsStore'
+import Ajax from '../libs/Ajax'
 
 class Persons extends React.Component {
   constructor(props) {

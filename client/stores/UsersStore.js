@@ -1,8 +1,7 @@
 "use strict"
 
-var Utils = require('../utils/Utils');
-const Ajax = require('../libs/Ajax');
-const $ = require("jquery");
+import Utils from '../utils/Utils';
+import Ajax from '../libs/Ajax'
 
 class UsersStore extends Utils.Dispatcher {
   constructor() {

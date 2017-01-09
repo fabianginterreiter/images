@@ -1,8 +1,8 @@
 "use strict"
 
-const State = require('../states/State');
-const Ajax = require('../libs/Ajax');
-const Cookies = require('../utils/Utils').Cookies;
+import State from '../states/State'
+import Ajax from '../libs/Ajax'
+import { Cookies } from '../utils/Utils'
 
 class UserState extends State {
   constructor() {

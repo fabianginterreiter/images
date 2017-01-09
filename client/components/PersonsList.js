@@ -1,8 +1,8 @@
 "use strict"
 
-const React = require('react');
-const Link = require('react-router').Link;
-const ImagesStore = require('../stores/ImagesStore');
+import React from 'react'
+import { Link } from 'react-router'
+import ImagesStore from '../stores/ImagesStore'
 
 class PersonsList extends React.Component {
 

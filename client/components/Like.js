@@ -1,6 +1,7 @@
-var React = require('react');
+"use strict"
 
-var ImagesStore = require('../stores/ImagesStore');
+import React from 'react'
+import ImagesStore from '../stores/ImagesStore'
 
 class Like extends React.Component {
   render() {

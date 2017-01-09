@@ -1,20 +1,19 @@
 "use strict"
 
-const React = require('react');
-const moment = require('moment');
-const $ = require("jquery");
-const Image = require('./Image');
-const Fullscreen = require('./Fullscreen');
-const Like = require('./Like');
-const Empty = require('./Empty');
-const ImagesStore = require('../stores/ImagesStore');
-const ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
-const NavigationsState = require('../states/NavigationsState');
-const NavigationsStore = require('../stores/NavigationsStore');
-const Utils = require('../utils/Utils');
-const SelectionStore = require('../stores/SelectionStore');
-const Link = require('react-router').Link;
-const ShowDateStore = require('../stores/ShowDateStore');
+import React from 'react'
+import $ from 'jquery'
+import moment from 'moment'
+import Image from './Image'
+import Fullscreen from './Fullscreen'
+import Like from './Like'
+import Empty from './Empty'
+import ImagesStore from '../stores/ImagesStore'
+import ThumbnailsSizeStore from '../stores/ThumbnailsSizeStore'
+import NavigationsState from '../states/NavigationsState'
+import Utils from '../utils/Utils'
+import SelectionStore from '../stores/SelectionStore'
+import { Link } from 'react-router'
+import ShowDateStore from '../stores/ShowDateStore'
 
 class Images extends React.Component {
   constructor(props) {

@@ -1,11 +1,8 @@
 "use strict"
 
-const React = require('react');
-const $ = require("jquery");
-
-// http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
-
-const UploadStore = require('../stores/UploadStore');
+import React from 'react'
+import $ from 'jquery'
+import UploadStore from '../stores/UploadStore'
 
 class DragAndDropUpload extends React.Component {
   constructor(props) {

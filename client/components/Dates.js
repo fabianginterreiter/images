@@ -1,11 +1,11 @@
 "use strict"
 
-const React = require('react');
-const $ = require("jquery");
-const Link = require('react-router').Link;
-const NavigationsStore = require('../stores/NavigationsStore');
-const moment = require('moment');
-const Ajax = require('../libs/Ajax');
+import React from 'react'
+import $ from 'jquery'
+import { Link } from 'react-router'
+import Ajax from '../libs/Ajax'
+import NavigationsStore from '../stores/NavigationsStore'
+import moment from 'moment'
 
 class Dates extends React.Component {
   constructor(props) {

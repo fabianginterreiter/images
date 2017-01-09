@@ -1,11 +1,8 @@
 "use strict"
 
-const React = require('react');
-const ThumbnailsResizer = require('../components/ThumbnailsResizer');
-const Options = require('../components/Options');
-const NavigationsState = require('../states/NavigationsState');
-const UploadStore = require('../stores/UploadStore');
-const $ = require("jquery");
+import React from 'react'
+import $ from 'jquery'
+import UploadStore from '../stores/UploadStore'
 
 class Empty extends React.Component {
 

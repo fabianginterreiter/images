@@ -1,6 +1,7 @@
-var Utils = require('../utils/Utils');
+"use strict"
 
-var cookie = require('react-cookie');
+import Utils from '../utils/Utils'
+import cookie from 'react-cookie'
 
 class ShowDateStore extends Utils.Dispatcher {
   constructor() {

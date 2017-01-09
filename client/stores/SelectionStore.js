@@ -1,5 +1,7 @@
-const Utils = require('../utils/Utils');
-var $ = require("jquery");
+"use strict"
+
+import Utils from '../utils/Utils'
+import $ from 'jquery'
 
 class KeyUpListener extends Utils.Dispatcher {
   constructor() {

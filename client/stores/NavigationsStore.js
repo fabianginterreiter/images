@@ -1,8 +1,7 @@
 "use strict"
 
-const Utils = require('../utils/Utils');
-
-const Ajax = require('../libs/Ajax');
+import Utils from '../utils/Utils';
+import Ajax from '../libs/Ajax'
 
 class NavigationsStore extends Utils.Dispatcher {
   constructor() {

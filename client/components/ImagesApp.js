@@ -1,18 +1,16 @@
 "use strict"
 
-const React = require('react');
-const NavigationsState = require('../states/NavigationsState');
-const UserState = require('../states/UserState');
-const Uploader = require('./Uploader');
-const DragAndDropUpload = require('./DragAndDropUpload');
-const ImagesStore = require('../stores/ImagesStore');
-const Header = require('./Header');
-const UsersManagement = require('./UsersManagement');
-const Navigations = require('./Navigations');
-
-const Selection = require('./selections/Selection');
-
-const Main = require('../utils/Utils').Main;
+import React from 'react'
+import NavigationsState from '../states/NavigationsState'
+import UserState from '../states/UserState'
+import Uploader from './Uploader'
+import DragAndDropUpload from './DragAndDropUpload'
+import ImagesStore from '../stores/ImagesStore'
+import Header from './Header'
+import UsersManagement from './UsersManagement'
+import Navigations from './Navigations'
+import Selection from './selections/Selection'
+import { Main } from '../utils/Utils'
 
 class ImagesApp extends React.Component {
   constructor(props) {

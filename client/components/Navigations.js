@@ -1,15 +1,14 @@
 "use strict"
 
-const Options = require('./Options');
-const React = require('react');
-const OptionsList = require('../utils/Utils').OptionsList;
-const ImagesStore = require('../stores/ImagesStore');
-const NavigationsStore = require('../stores/NavigationsStore');
-const NavigationsState = require('../states/NavigationsState');
-const UserState = require('../states/UserState');
-const history = require('react-router').browserHistory;
-const Panel = require('../utils/Utils').Panel;
-const Title = require('./Title');
+import React from 'react'
+import ImagesStore from '../stores/ImagesStore'
+import NavigationsStore from '../stores/NavigationsStore'
+import NavigationsState from '../states/NavigationsState'
+import {OptionsList, Panel } from '../utils/Utils'
+import Options from './Options'
+import UserState from '../states/UserState'
+import browserHistory from 'react-router'
+import Title from './Title'
 
 class Navigations extends React.Component {
   constructor(props) {
@@ -40,13 +39,13 @@ class Navigations extends React.Component {
   }
 
   handleClick(option) {
-    history.push(option.link);
+    browserHistory.push(option.link);
 
     NavigationsState.close();
   }
 
   handleSettingClick(option) {
-    history.push(option.settings);
+    browserHistory.push(option.settings);
     NavigationsState.close();
   }
 

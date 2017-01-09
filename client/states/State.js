@@ -1,8 +1,6 @@
 "use strict"
 
-const Utils = require('../utils/Utils');
-
-var cookie = require('react-cookie');
+import Utils from '../utils/Utils'
 
 class State extends Utils.Dispatcher {
   constructor(state) {

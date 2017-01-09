@@ -1,9 +1,9 @@
 "use strict"
 
-const React = require('react');
-const Link = require('react-router').Link;
-const AutoComplete = require('../utils/Utils').AutoComplete;
-const ImagesStore = require('../stores/ImagesStore');
+import React from 'react'
+import { Link } from'react-router'
+import { AutoComplete } from '../utils/Utils'
+import ImagesStore from '../stores/ImagesStore'
 
 class TagsList extends React.Component {
 

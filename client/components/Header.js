@@ -1,12 +1,11 @@
 "use strict"
 
-const React = require('react');
-const Options = require('../components/Options');
-const NavigationsState = require('../states/NavigationsState');
-const UploadStore = require('../stores/UploadStore');
-const $ = require("jquery");
-const Title = require('./Title');
-
+import React from 'react'
+import $ from 'jquery'
+import Options from '../components/Options'
+import NavigationsState from '../states/NavigationsState'
+import UploadStore from '../stores/UploadStore'
+import Title from './Title'
 
 class Header extends React.Component {
   constructor(props) {

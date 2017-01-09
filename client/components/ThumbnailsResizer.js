@@ -1,6 +1,7 @@
-var React = require('react');
+"use strict"
 
-var ThumbnailsSizeStore = require('../stores/ThumbnailsSizeStore');
+import React from 'react'
+import ThumbnailsSizeStore from '../stores/ThumbnailsSizeStore'
 
 class ThumbnailsResizer extends React.Component {
   constructor(props) {

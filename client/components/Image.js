@@ -1,8 +1,8 @@
 "use strict"
 
-const React = require('react');
-const $ = require("jquery");
-const ViewPointStore = require('../stores/ViewPointStore');
+import React from 'react'
+import $ from 'jquery'
+import ViewPointStore from '../stores/ViewPointStore'
 
 class Image extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Image extends React.Component {
 
   componentDidMount() {
     return;
-    this.viewPointStoreId = ViewPointStore.addChangeListener(this.handleScroll.bind(this));
+    ViewPointStore.addChangeListener(this, this.handleScroll.bind(this));
     this.offsetTop = $(this.refs.child).offset().top - 1000;
     this.handleScroll(ViewPointStore.getObject());
   }
@@ -27,9 +27,7 @@ class Image extends React.Component {
   }
 
   componentWillUnmount() {
-    if (!this.state.visible) {
-      ViewPointStore.removeChangeListener(this.viewPointStoreId);
-    }
+    ViewPointStore.removeChangeListener(this);
   }
 
   handleScroll(view) {
@@ -37,7 +35,7 @@ class Image extends React.Component {
       this.setState({
         visible: true
       });
-      ViewPointStore.removeChangeListener(this.viewPointStoreId);
+      ViewPointStore.removeChangeListener(this);
     }
   }
 

@@ -1,12 +1,13 @@
 "use strict"
 
-const React = require('react');
-const $ = require("jquery");
-const ThumbnailsResizer = require('../components/ThumbnailsResizer');
-const location = require('react-router').location;
-const Panel = require('../utils/Utils').Panel;
-const UserState = require('../states/UserState');
-const ShowDateStore = require('../stores/ShowDateStore');
+import React from 'react'
+import $ from 'jquery'
+
+import ThumbnailsResizer from '../components/ThumbnailsResizer'
+import { location } from 'react-router'
+import { Panel } from '../utils/Utils'
+import UserState from '../states/UserState'
+import ShowDateStore from '../stores/ShowDateStore'
 
 class Options extends React.Component {
   constructor(props) {

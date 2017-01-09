@@ -1,8 +1,8 @@
 "use strict"
 
-const React = require('react');
-const UserState = require('../states/UserState');
-const history = require('react-router').browserHistory;
+import React from 'react'
+import UserState from '../states/UserState'
+import { browserHistory } from 'react-router'
 
 class Init extends React.Component {
   constructor(props) {
@@ -19,9 +19,9 @@ class Init extends React.Component {
         return;
       }
       
-      history.push('/images');
+      browserHistory.push('/images');
     } else {
-      history.push('/profiles');
+      browserHistory.push('/profiles');
     }
   }
 

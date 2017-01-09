@@ -1,6 +1,7 @@
-var State = require('../states/State');
+"use strict"
 
-var cookie = require('react-cookie');
+import State from '../states/State'
+import cookie from 'react-cookie'
 
 class NavigationsState extends State {
   constructor() {

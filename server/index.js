@@ -1,13 +1,14 @@
-var fs = require('fs-extra');
-var bodyParser = require('body-parser');
-var bookshelf = require('./model/bookshelf');
-var config = require('./config');
+"use strict"
+
+const express = require('express');
+const fs = require('fs-extra');
+const bodyParser = require('body-parser');
+const bookshelf = require('./model/bookshelf');
+const config = require('./config');
 const path = require('path');
+const session = require('express-session');
 
-var express = require('express');
-var session = require('express-session');
-
-var app = express();
+const app = express();
 
 app.use(session(config.getSessionConfig(session)));
 

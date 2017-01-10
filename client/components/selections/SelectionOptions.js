@@ -43,23 +43,6 @@ class SelectionOptions extends React.Component {
     var options = [];
 
     options.push({
-      key: 'selectAll',
-      type: 'action',
-      name: 'Select All'
-    });
-
-    options.push({
-      key: 'unselectAll',
-      type: 'action',
-      name: 'Unselect All',
-      selected: true
-    });
-
-    options.push({
-      type: 'divider'
-    });
-
-    options.push({
       key: 'selectTag',
       type: 'action',
       name: 'Set Tags',
@@ -112,20 +95,6 @@ class SelectionOptions extends React.Component {
           });
         });
 
-        break;
-      }
-
-      case 'selectAll': {
-        ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
-        ImagesStore.dispatch();
-        this.close();
-        break;
-      }
-
-      case 'unselectAll': {
-        ImagesStore.getObject().forEach((image) => (SelectionStore.unselect(image)));
-        ImagesStore.dispatch();
-        this.close();
         break;
       }
 

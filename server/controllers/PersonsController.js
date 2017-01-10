@@ -11,7 +11,7 @@ class PersonsController extends BaseController {
       qb.select('persons.*');
 
       if (this.query.q) {
-        qb.where('name', 'LIKE', this.query.q);
+        qb.where('name', 'LIKE', this.query.q.replace(/%20/g, " "));
       }
 
       qb.count('images_persons.person_id AS count')

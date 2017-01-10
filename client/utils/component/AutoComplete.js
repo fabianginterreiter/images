@@ -76,7 +76,7 @@ class AutoComplete extends React.Component {
       value: value
     });
 
-    if (value.length > 2) {
+    if (value.length > 1) {
       fetch(this.props.service + '?q=' + value + '%').then((result) => result.json()).then((result) => {
         var tags = [];
 

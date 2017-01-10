@@ -74,8 +74,8 @@ class Tags extends React.Component {
         <h1>
           <i className="fa fa-tag" aria-hidden="true" /> {this.renderTitle()}
           <ImagesNav>
-            <button onClick={this.handleEdit.bind(this)} className="primary"><i className="fa fa-pencil-square-o" /><span className="min500"> Edit</span></button>
-            <button onClick={this.handleDelete.bind(this)} className="warning"><i className="fa fa-trash-o" /><span className="min500"> Delete</span></button>
+            <a onClick={this.handleEdit.bind(this)} className="primary"><i className="fa fa-pencil-square-o" /><span className="min500"> Edit</span></a>
+            <a onClick={this.handleDelete.bind(this)} className="warning"><i className="fa fa-trash-o" /><span className="min500"> Delete</span></a>
           </ImagesNav>
         </h1>
         <Images />

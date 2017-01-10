@@ -42,12 +42,12 @@ class Options extends React.Component {
   render() {
     return (
       <li className="btn">
-        <i className="fa fa-bars" onClick={this.toggle.bind(this)} />
+        <span onClick={this.toggle.bind(this)}><i className="fa fa-cog" /><span className="min500"> Settings</span></span>
 
         <Panel open={this.state.visible} clickCatcher={this.state.visible} onClickCatcherClick={this.toggle.bind(this)} side='right' header={true} footer={true}>
           <div className="title" onClick={this.toggle.bind(this)}>
             Settings
-            <span className="badge"><i className="fa fa-bars" /></span>
+            <span className="badge"><i className="fa fa-cog" /></span>
           </div>
 
           <div className="body">

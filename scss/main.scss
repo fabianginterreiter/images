@@ -12,6 +12,9 @@ $navigationPanelWidth: 300px;
 @import 'images';
 @import 'options';
 
+html {
+}
+
 body { 
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   padding: 0;
@@ -24,8 +27,21 @@ h1 {
     float: right;
     user-select: none;
 
-    button {
+    a {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: normal;
+      cursor: pointer;
+      border: 1px solid $borderColor;
+      padding: .3rem .6rem;
       margin-top: 5px;
+      background-color: white;
+      color: #373a3c;
+    }
+
+    a:hover {
+      background-color: $hoverBackgroundColor;
+      color: #373a3c;
     }
   }
 

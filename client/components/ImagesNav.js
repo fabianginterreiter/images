@@ -18,8 +18,8 @@ class ImagesNav extends React.Component {
   render() {
     return (
       <nav className="group">
-        <button onClick={this.handleSelectAll.bind(this)}><i className="fa fa-check-square-o" /><span className="min500"> Select All</span></button>
-        <button onClick={this.handleUnselectAll.bind(this)}><i className="fa fa-square-o" /><span className="min500"> Unselect All</span></button>
+        <a onClick={this.handleSelectAll.bind(this)}><i className="fa fa-check-square-o" /><span className="min500"> Select All</span></a>
+        <a onClick={this.handleUnselectAll.bind(this)}><i className="fa fa-square-o" /><span className="min500"> Unselect All</span></a>
         {this.props.children}
       </nav>
     );

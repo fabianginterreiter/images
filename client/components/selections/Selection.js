@@ -8,6 +8,7 @@ const NavigationsState = require('../../states/NavigationsState');
 const SelectionOptions = require('./SelectionOptions');
 const history = require('react-router').browserHistory;
 const Title = require('../Title');
+const DialogStore = require('../../utils/Utils').DialogStore;
 
 class Selection extends React.Component {
   constructor(props) {
@@ -25,6 +26,15 @@ class Selection extends React.Component {
 
   handleShow() {
     history.push('/images/selected');
+  }
+
+  handleDelete() {
+    var images = SelectionStore.getSelected();
+    DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then(() => {
+      images.forEach(function(image) {
+        ImagesStore.delete(image);
+      });
+    });
   }
 
   render() {
@@ -46,6 +56,7 @@ class Selection extends React.Component {
           </ul>
           <ul className="right">
             <SelectionOptions params={this.props.params} />
+            <li className="btn" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></li>
           </ul>
         </nav>
       </div>

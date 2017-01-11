@@ -23,6 +23,7 @@ app.use('/api/persons', require('./routes/persons'));
 app.use('/api/options', require('./routes/options'));
 app.use('/api/navigations', require('./routes/navigations'));
 app.use('/api/trash', require('./routes/trash'));
+app.use('/api/search', require('./routes/search'));
 
 app.use(express.static('public'));
 

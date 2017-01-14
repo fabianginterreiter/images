@@ -6,6 +6,7 @@ import Options from '../components/Options'
 import NavigationsState from '../states/NavigationsState'
 import UploadStore from '../stores/UploadStore'
 import Title from './Title'
+import Searchbar from './Searchbar'
 
 class Header extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Header extends React.Component {
 
         <nav>
           <ul className="right">
+            <Searchbar />
             <li onClick={this.handleClick.bind(this)} className="btn">
               <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
               <i className="fa fa-cloud-upload" /><span className="min500"> Upload</span>

@@ -7,8 +7,7 @@ import ImagesStore from './stores/ImagesStore'
 class Search extends React.Component {
 
   componentDidMount() {
-    ImagesStore.load('/api/search?s=Fabian%20Tanja');
-    console.log(this.params.query.s);
+    ImagesStore.load('/api/search?s=' + this.props.location.query.s);
   }
 
   render() {

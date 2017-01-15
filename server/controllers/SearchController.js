@@ -35,7 +35,18 @@ class SearchController extends BaseController {
                     w.orWhere('tags.name', 'like', '%' + words[index] + '%');
                   }
                 })
-            })//todo: album
+            })
+            .unionAll(function() {
+              this.select('image_id')
+                .from('albums_images')
+                .join('albums', 'albums.id', 'albums_images.album_id')
+                .where(function() {
+                  let w = this.where('albums.name', 'like', '%' + words[0] + '%');
+                  for (var index = 1; index < words.length; index++) {
+                    w.orWhere('albums.name', 'like', '%' + words[index] + '%');
+                  }
+                })
+            })
         })
         .groupBy('image_id')
         .orderBy('count', 'desc')

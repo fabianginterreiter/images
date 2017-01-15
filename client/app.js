@@ -29,7 +29,8 @@ ReactDOM.render(
         <Route path="dates" component={require('./components/Dates')} />
         <Route path="selected" component={require('./Selected')} />
         <Route path="trash" component={require('./Trash')} />
-        <IndexRoute component={require('./All')} />
+        <Route path="search" component={require('./Search')} />
+        <IndexRoute component={require('./All')} /> 
       </Route>
       <Route path="profiles" component={UsersManagement} />
     </Route>

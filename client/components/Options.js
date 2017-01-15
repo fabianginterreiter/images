@@ -41,7 +41,7 @@ class Options extends React.Component {
 
   render() {
     return (
-      <li className="btn">
+      <div className="right">
         <span onClick={this.toggle.bind(this)}><i className="fa fa-cog" /><span className="min500"> Settings</span></span>
 
         <Panel open={this.state.visible} clickCatcher={this.state.visible} onClickCatcherClick={this.toggle.bind(this)} side='right' header={true} footer={true}>
@@ -61,7 +61,7 @@ class Options extends React.Component {
             <div className="profile" onClick={UserState.clear.bind(UserState)}><i className="fa fa-user"></i> {UserState.getUser().name}</div>
           </div>
         </Panel>
-      </li>
+      </div>
     );
   }
 }

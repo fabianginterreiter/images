@@ -79,7 +79,7 @@ class Navigations extends React.Component {
       <Panel open={open} clickCatcher={clickCatcher} onClickCatcherClick={NavigationsState.close.bind(NavigationsState)} side='left' header={true}>
         <div className="title">
           <span onClick={NavigationsState.close.bind(NavigationsState)}><Title /></span>
-          <input type="text" onChange={this.handleSearchChange.bind(this)} value={this.state.query} placeholder="Search" />
+          <input type="text" onChange={this.handleSearchChange.bind(this)} value={this.state.query} placeholder="Filter" />
           <div className="badge min500" onClick={NavigationsState.pin.bind(NavigationsState)}><i className={pinClass} aria-hidden="true" /></div>
         </div>
         <div style={{clear:'both'}} />

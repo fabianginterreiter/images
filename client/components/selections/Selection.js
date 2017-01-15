@@ -43,23 +43,20 @@ class Selection extends React.Component {
     }
 
     return (
-      <div className={'selection ' + this.props.className}>
+      <header className="selection">
         <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
           <Title />
         </div>
 
         <nav>
-          <ul className="left">
-            <li className="info">{SelectionStore.size()} selected</li>
-            <li className="btn" onClick={SelectionStore.clear.bind(SelectionStore)}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></li>
-            <li className="btn" onClick={this.handleShow.bind(this)}><i className="fa fa-television" aria-hidden="true" /> <span className="min500">Show</span></li>
-          </ul>
-          <ul className="right">
-            <SelectionOptions params={this.props.params} />
-            <li className="btn" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></li>
-          </ul>
+          <a>{SelectionStore.size()} selected</a>
+          <a onClick={SelectionStore.clear.bind(SelectionStore)}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></a>
+          <a onClick={this.handleShow.bind(this)}><i className="fa fa-television" aria-hidden="true" /> <span className="min500">Show</span></a>
+
+          <a className="right" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></a>
+          <SelectionOptions />
         </nav>
-      </div>
+      </header>
     );
   }
 }

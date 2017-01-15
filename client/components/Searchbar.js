@@ -85,32 +85,24 @@ class Searchbar extends React.Component {
     return (
       <div>
         <div className="click" onClick={this.handleClickcatcherClick.bind(this)} />
-        <div className="searchbar">
+        <header className="searchbar">
         
-        <nav>
-          <ul className="form">
-            <li className="info">
-              <form onSubmit={this.handleSubmit.bind(this)}>
-                <input type="text" ref="search" placeholder="Search" value={this.state.s} onChange={this.handleChange.bind(this)} />
-              </form>
-            </li>
-          </ul>
-
-          <ul className="right">
-            <li className="btn" onClick={this.handleClose.bind(this)}><i className="fa fa-times" /></li>
-          </ul>
-        </nav>
-      </div>
+          <nav>
+            <form onSubmit={this.handleSubmit.bind(this)}>
+              <input type="text" ref="search" placeholder="Search" value={this.state.s} onChange={this.handleChange.bind(this)} />
+            </form>
+            <a className="right" onClick={this.handleClose.bind(this)}><i className="fa fa-times" /></a>
+          </nav>
+      </header>
     </div>);
   }
 
   render() {
     return (
-      <li>
+      <a className="right">
         <span onClick={this.handleOpen.bind(this)}><i className="fa fa-search" /><span className="min500"> Search</span></span>
-
         {this.renderBar()}
-      </li>
+      </a>
     );
   }
 }

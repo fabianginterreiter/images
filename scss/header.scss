@@ -1,0 +1,75 @@
+header {
+  height: 40px;
+  line-height: 1;
+  user-select: none;
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+  background-color: #222;
+  color: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 100;
+
+  >.title {
+    float: left;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  nav {
+    >* {
+      margin: 0;
+      float: left;
+      list-style: none;
+      font-size: 16px;
+      line-height: 1;
+      padding: 12px;
+      cursor: pointer;
+      color: white;
+      display: inline-block;
+    }
+
+    >.right {
+      float: right;
+    }
+  }
+}
+
+header.selection {
+  z-index: 110;
+  background-color: $selectedColor;
+}
+
+header.searchbar {
+  z-index: 200;
+  background-color: $selectedColor;
+
+  nav {
+    position: relative;
+
+    form {
+      position: absolute;
+      left: 10px;
+      right: 40px;
+      top: -6px;
+      bottom: 0;
+
+      input {
+        width: 100%;
+      }
+    }  
+  }
+}
+
+.pinned {
+  header {
+    left: $navigationPanelWidth;
+    transition: 0.3s;
+
+    .title {
+      display: none;
+    }
+  }
+}

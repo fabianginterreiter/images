@@ -49,11 +49,11 @@ class Selection extends React.Component {
         </div>
 
         <nav>
-          <a>{SelectionStore.size()} selected</a>
-          <a onClick={SelectionStore.clear.bind(SelectionStore)}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></a>
-          <a onClick={this.handleShow.bind(this)}><i className="fa fa-television" aria-hidden="true" /> <span className="min500">Show</span></a>
+          <div>{SelectionStore.size()} selected</div>
+          <div onClick={SelectionStore.clear.bind(SelectionStore)}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></div>
+          <div onClick={this.handleShow.bind(this)}><i className="fa fa-television" aria-hidden="true" /> <span className="min500">Show</span></div>
 
-          <a className="right" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></a>
+          <div className="right" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></div>
           <SelectionOptions />
         </nav>
       </header>

@@ -150,7 +150,7 @@ class SelectionOptions extends React.Component {
     this.selected = !SelectionStore.isEmpty();
 
     return (
-      <a onClick={this.toggle.bind(this)} className="right">
+      <div onClick={this.toggle.bind(this)} className="right">
         <span><i className="fa fa-plus" aria-hidden="true" /><span className="min500"> Add</span></span>
         <Dropdown open={this.state.visible} onCancel={this.close.bind(this)}>
           <ul className="options">
@@ -158,7 +158,7 @@ class SelectionOptions extends React.Component {
             <li><a onClick={this.handleAlbums.bind(this)}><i className="fa fa-book" /> Add to Album</a></li>
           </ul>
         </Dropdown>
-      </a>
+      </div>
     );
   }
 }

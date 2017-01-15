@@ -40,6 +40,12 @@ header {
 header.selection {
   z-index: 110;
   background-color: $selectedColor;
+
+  >nav {
+    >div:hover {
+      color: #0a295b;
+    }
+  }
 }
 
 header.searchbar {
@@ -59,7 +65,11 @@ header.searchbar {
       input {
         width: 100%;
       }
-    }  
+    } 
+
+    *:hover {
+      color: #ddd;
+    }
   }
 }
 

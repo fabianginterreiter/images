@@ -3,6 +3,7 @@
 import State from '../states/State'
 import Ajax from '../libs/Ajax'
 import { Cookies } from '../utils/Utils'
+import NavigationsStore from '../stores/NavigationsStore'
 
 class UserState extends State {
   constructor() {
@@ -20,7 +21,10 @@ class UserState extends State {
   }
 
   setUser(user) {
-    Ajax.get("/api/session/" + user.id).then(() => (this.setState({user:user})));
+    Ajax.get("/api/session/" + user.id).then(() => {
+      this.setState({user:user})
+      NavigationsStore.load();
+    });
   }
 
   clear() {

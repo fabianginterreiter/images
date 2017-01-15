@@ -1,3 +1,17 @@
 @import 'modal';
 @import 'panel';
 @import 'autocomplete';
+
+.scrollup {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  font-size: 30px;
+  padding: 20px;
+  cursor: pointer;
+  z-index: 400;
+}
+
+.scrollup:hover {
+  color: $selectedColor;
+}

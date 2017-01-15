@@ -10,7 +10,8 @@ import Header from './Header'
 import UsersManagement from './UsersManagement'
 import Navigations from './Navigations'
 import Selection from './selections/Selection'
-import { Main } from '../utils/Utils'
+import { Main, ScrollUp } from '../utils/Utils'
+import OptionsPanel from './options/OptionsPanel'
 
 class ImagesApp extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class ImagesApp extends React.Component {
     return (
       <div>
         <Navigations location={this.props.location} />
+        <OptionsPanel />
 
         <div className={contentClass}>
           <Selection className={pinned} params={this.props.params}  />
@@ -57,6 +59,8 @@ class ImagesApp extends React.Component {
         <Uploader />
         <DragAndDropUpload />
         <Main />
+
+        <ScrollUp />
       </div>
     );
   }

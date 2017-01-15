@@ -6,6 +6,7 @@ import Cookies from './Cookies'
 // Listeners
 import KeyUpListener from './listener/KeyUpListener'
 import ResizeListener from './listener/ResizeListener'
+import ScrollListener from './listener/ScrollListener'
 
 // Components
 import Quickedit from './component/Quickedit'
@@ -15,6 +16,7 @@ import InlineProgress from './component/InlineProgress'
 import Modal from './component/Modal'
 import OptionsList from './component/OptionsList'
 import Dropdown from './component/Dropdown'
+import ScrollUp from './component/ScrollUp'
 
 // Dialog
 import Main from './dialog/Main'
@@ -29,6 +31,7 @@ module.exports = {
   // Listeners
   KeyUpListener: KeyUpListener,
   ResizeListener: ResizeListener,
+  ScrollListener: ScrollListener,
 
   // Components
   Quickedit: Quickedit,
@@ -38,6 +41,7 @@ module.exports = {
   Modal: Modal,
   OptionsList: OptionsList,
   Dropdown: Dropdown,
+  ScrollUp: ScrollUp,
 
   // Dialog
   Main: Main,

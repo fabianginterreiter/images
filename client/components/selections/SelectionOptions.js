@@ -9,6 +9,7 @@ const SelectDialogStore = require('../../utils/Utils').SelectDialogStore;
 const SingleSelectDialogStore = require('../../utils/Utils').SingleSelectDialogStore;
 const SelectionStore = require('../../stores/SelectionStore');
 const location = require('react-router').location;
+import Ajax from '../../libs/Ajax'
 
 class SelectionOptions extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class SelectionOptions extends React.Component {
       return null;
     }
 
-    fetch('/api/tags').then((result) => result.json()).then((tags) => {
+    Ajax.get('/api/tags').then((tags) => {
       SelectionStore.getSelected().forEach((image) => {
         image.tags.forEach((tag) => {
           var e = getElement(tags, tag.id);
@@ -71,15 +72,7 @@ class SelectionOptions extends React.Component {
         if (tag.id || !tag.selected) {
           return;
         }
-
-        promises.push(fetch('/api/tags', {
-          method: "POST",
-          body: JSON.stringify(tag), 
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        }).then((result) => (result.json())).then((result) => (tag.id = result.id)));
+        promises.push(Ajax.post('/api/tags', tag).then((result) => (tag.id = result.id)));
       });
 
       if (promises.length === 0) {
@@ -103,9 +96,7 @@ class SelectionOptions extends React.Component {
       return null;
     }
 
-    fetch('/api/albums',{
-      credentials: 'include'
-    }).then((result) => result.json()).then((albums) => {
+    Ajax.get('/api/albums').then((albums) => {
       SelectionStore.getSelected().forEach((image) => {
         image.albums.forEach((album) => {
           var e = getElement(albums, album.id);
@@ -128,16 +119,8 @@ class SelectionOptions extends React.Component {
       return SingleSelectDialogStore.open('Manage albums', albums);
     }).then((album) => {
       if (!album.id) {
-         return fetch('/api/albums', {
-          method: "POST",
-          body: JSON.stringify(album), 
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Cache': 'no-cache'
-          },
-          credentials: 'include'
-        }).then((result) => (result.json())).then((result) => (album.id = result.id)).then(() => {
+        return Ajax.post('/api/albums', album)
+        .then((result) => (album.id = result.id)).then(() => {
           ImagesStore.addAlbums(SelectionStore.getSelected(), album);
         });
       } else {

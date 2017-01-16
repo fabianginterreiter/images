@@ -212,10 +212,6 @@ class Images extends React.Component {
     var max = this.width / ThumbnailsSizeStore.getObject();
 
     imgs.forEach(function(image) {
-      if (!image.proportion) {
-        image.proportion = image.width / image.height;
-      }
-
       image.displayWidth = 0;
 
       sum += image.proportion;

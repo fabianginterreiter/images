@@ -4,6 +4,7 @@ const BaseController = require('./BaseController');
 const bookshelf = require('../model/bookshelf')
 const Image = require('../model/Image');
 const ImagePerson = require('../model/ImagePerson');
+const ImagesExtention = require('../lib/ImagesExtention');
 
 class SearchController extends BaseController {
   index() {
@@ -55,19 +56,10 @@ class SearchController extends BaseController {
       qb.limit(100);
     }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
     .then((result) => result.toJSON())
-    .then((images) => this.__transformImages(images));
+    .then((images) => ImagesExtention(images));
   }
 
-  __transformImage(image) {
-    image.liked = image.liked > 0;
-    image.proportion = image.width / image.height;
-    return image;
-  }
 
-  __transformImages(images) {
-    images.forEach((image) => this.__transformImage(image));
-    return images;
-  }
 }
 
 module.exports = SearchController;

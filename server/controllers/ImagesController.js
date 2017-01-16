@@ -8,6 +8,8 @@ var ImageInfo = require('../lib/ImageInfo');
 var CopyImageFile = require('../lib/CopyImageFile');
 var ResizeImage = require('../lib/ResizeImage');
 var BaseController = require('./BaseController');
+const ImageExtention = require('../lib/ImageExtention');
+const ImagesExtention = require('../lib/ImagesExtention');
 
 class ImagesController extends BaseController {
   create() {
@@ -54,18 +56,7 @@ class ImagesController extends BaseController {
       qb.where('images.id', this.params.id);
     }).fetch({withRelated: ['user', 'tags']}).then((image) => {
       return image.toJSON()
-    }).then((image) => this.__transformImage(image)).catch((e) => console.log(e));
-  }
-
-  __transformImage(image) {
-    image.liked = image.liked > 0;
-    image.proportion = image.width / image.height;
-    return image;
-  }
-
-  __transformImages(images) {
-    images.forEach((image) => this.__transformImage(image));
-    return images;
+    }).then((image) => ImageExtention(image)).catch((e) => console.log(e));
   }
 
   index() {
@@ -133,7 +124,7 @@ class ImagesController extends BaseController {
 
       qb.orderBy('date','DESC'); 
     }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
-    .then((images) => (images.toJSON())).then((images) => this.__transformImages(images))
+    .then((images) => (images.toJSON())).then((images) => ImagesExtention(images))
     .catch((e) => console.log(e));
   }
 

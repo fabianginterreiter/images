@@ -66,7 +66,7 @@ class Albums extends React.Component {
       }
       this.forceUpdate();
       NavigationsStore.load();
-    }).catch((e) => console.log(e));
+    })
   }
 
   _renderText(album) {

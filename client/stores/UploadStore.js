@@ -28,7 +28,6 @@ class UploadStore extends Utils.Dispatcher {
   }
 
   completeHandler(image) {
-    // console.log("Upload [" + super.getObject()[this._index].name + "] complete.");
     super.getObject()[this._index].complete = true;
     super.getObject()[this._index].image = image;
     super.dispatch();
@@ -55,14 +54,11 @@ class UploadStore extends Utils.Dispatcher {
       return;
     }
 
-    // console.log("Uploading: " + super.getObject()[index].name);
-
     var formData = new FormData();
     formData.append('image', super.getObject()[index].file);
 
-    //var formData = new FormData($('form')[0]);
     $.ajax({
-      url: '/api/images',  //Server script to process data
+      url: '/api/images',
       type: 'POST',
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();
@@ -71,13 +67,9 @@ class UploadStore extends Utils.Dispatcher {
         }
         return myXhr;
       }.bind(this),
-      //Ajax events
       beforeSend: this.beforeSendHandler.bind(this),
       success: this.completeHandler.bind(this),
-      //error: errorHandler,
-      // Form data
       data: formData,
-      //Options to tell jQuery not to process data or worry about content-type.
       cache: false,
       contentType: false,
       processData: false

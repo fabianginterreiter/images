@@ -43,7 +43,6 @@ class AlbumsController extends BaseController {
 
   update() {
     return new Album({id:this.params.id}).fetch().then((album) => {
-      console.log(album.get('user_id') + " # " + this.session.user);
       if (album.get('user_id') != this.session.user) {
         throw new Error('Illegal Access');
       }

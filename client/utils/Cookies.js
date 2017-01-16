@@ -10,12 +10,9 @@ class Cookies {
     for (var name in cookies) {
       this.values[name] = cookies[name];
     }
-
-    console.log(this.values);
   }
 
   set(name, value) {
-    console.log('Set [' + name + '] to: [' + value + ']');
     this.values[name] = value;
     cookie.save(name, value, { path: '/' });
   }
@@ -25,7 +22,6 @@ class Cookies {
   }
 
   remove(name) {
-    console.log("Remove Cookie: [" + name + ']');
     cookie.remove(name, { path: '/' });
     delete this.values[name];
   }

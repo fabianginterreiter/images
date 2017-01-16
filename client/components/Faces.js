@@ -29,8 +29,6 @@ class Faces extends React.Component {
 
       if (event.target.className.includes('resizer')) {
         console.log("RESIZER");
-
-
       }
 
       return;

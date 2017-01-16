@@ -28,8 +28,6 @@ class OptionsPanel extends React.Component {
   }
 
   render() {
-    console.log("render");
-
     return (
         <Panel open={OptionsStore.getObject()} clickCatcher={OptionsStore.getObject()} onClickCatcherClick={this.close.bind(this)} side='right' header={true} footer={true}>
           <div className="title" onClick={this.close.bind(this)}>

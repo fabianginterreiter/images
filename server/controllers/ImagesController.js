@@ -56,7 +56,7 @@ class ImagesController extends BaseController {
       qb.where('images.id', this.params.id);
     }).fetch({withRelated: ['user', 'tags']}).then((image) => {
       return image.toJSON()
-    }).then((image) => ImageExtention(image)).catch((e) => console.log(e));
+    }).then((image) => ImageExtention(image));
   }
 
   index() {
@@ -125,7 +125,6 @@ class ImagesController extends BaseController {
       qb.orderBy('date','DESC'); 
     }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
     .then((images) => (images.toJSON())).then((images) => ImagesExtention(images))
-    .catch((e) => console.log(e));
   }
 
   destroy() {

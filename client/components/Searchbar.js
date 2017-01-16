@@ -53,8 +53,6 @@ class Searchbar extends React.Component {
   componentDidUpdate() {
     if (this.opened) {
       this.opened = false;
-      console.log("Set Focus on Searchbar");
-
       this.refs.search.select();
     }
   }

@@ -22,7 +22,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/dates', (req, res) => new DatesController(req).index().then((result) => res.send(result)).catch((e) => {
-  console.log(e);
   res.status(404).send(e)
 }));
 
@@ -69,7 +68,6 @@ router.post('/', upload.single('image'), function(req, res) {
   new ImagesController(req).create().then(function(result) {
     res.send(result);
   }).catch(function(err) {
-    console.log(err);
     res.send(err);
   })
 });

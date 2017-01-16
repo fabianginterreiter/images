@@ -80,7 +80,7 @@ class SelectionOptions extends React.Component {
       } else {
         Promise.all(promises).then(() => ImagesStore.addTags(SelectionStore.getSelected(), tags));
       }
-    }).catch((e) => console.log(e));
+    })
   }
 
   handleAlbums() {
@@ -126,7 +126,7 @@ class SelectionOptions extends React.Component {
       } else {
         ImagesStore.addAlbums(SelectionStore.getSelected(), album);
       }
-    }).catch((e) => console.log(e));
+    })
   }
 
   render() {

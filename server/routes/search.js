@@ -4,7 +4,6 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   new SearchController(req).index().then((images) => res.send(images)).catch(function(e) {
-    console.log(e);
     res.status(404).send('Fehler');
   });
 });

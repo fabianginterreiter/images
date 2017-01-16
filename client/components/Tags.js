@@ -58,7 +58,7 @@ class Tags extends React.Component {
       }
       this.forceUpdate();
       NavigationsStore.load();
-    }).catch((e) => console.log(e));
+    })
   }
 
   _renderText(tag) {

@@ -10,7 +10,6 @@ class ShowDateStore extends Utils.Dispatcher {
   }
 
   setObject(value) {
-    console.log("Set Value to: " + value);
     super.setObject(value);
     cookie.save('showDate', value.toString());
   }

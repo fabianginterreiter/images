@@ -22,7 +22,6 @@ class Dispatcher {
 
   addChangeListener(object, callback) {
     var id = this._objectId(object);
-    //console.log('Add Listener to ' + this.constructor.name + ': ' + object.constructor.name + ' ID: ' + id);
     this._callbacks[id] = callback;
     return id;
   }
@@ -30,7 +29,6 @@ class Dispatcher {
   removeChangeListener(object) {
     var id = this._objectId(object);
     delete this._callbacks[id];
-    //console.log('Remove Listener to ' + this.constructor.name + ': ' + object.constructor.name + ' ID: ' + id);
   }
 
   dispatch() {

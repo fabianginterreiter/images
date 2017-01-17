@@ -4,6 +4,7 @@ import React from 'react'
 import Images from './components/Images'
 import ImagesStore from './stores/ImagesStore'
 import ImagesNav from './components/ImagesNav'
+import Ajax from './libs/Ajax'
 
 class Persons extends React.Component {
 
@@ -21,7 +22,7 @@ class Persons extends React.Component {
 
   componentWillReceiveProps(newProps) {
     ImagesStore.load('/api/images?person=' + newProps.params.id);
-    fetch('/api/persons/' + newProps.params.id).then((result) => result.json()).then((person) => this.setState({person:person}));
+    Ajax.get('/api/persons/' + newProps.params.id).then((person) => this.setState({person:person}));
   }
 
   render() {

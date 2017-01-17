@@ -5,6 +5,7 @@ import Images from './components/Images'
 import ImagesStore from './stores/ImagesStore'
 import ImagesNav from './components/ImagesNav'
 import SelectionStore from './stores/SelectionStore'
+import Ajax from './libs/Ajax'
 
 class Albums extends React.Component {
 
@@ -22,7 +23,7 @@ class Albums extends React.Component {
 
   componentWillReceiveProps(newProps) {
     ImagesStore.load('/api/images?album=' + newProps.params.albumId);
-    fetch('/api/albums/' + newProps.params.albumId).then((result) => result.json()).then((album) => this.setState({album:album}));
+    Ajax.get('/api/albums/' + newProps.params.albumId).then((album) => this.setState({album:album}));
   }
 
   handleRemoveFromAlbum() {

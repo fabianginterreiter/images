@@ -25,7 +25,7 @@ class Tags extends React.Component {
 
   componentWillReceiveProps(newProps) {
     ImagesStore.load('/api/images?tag=' + newProps.params.id);
-    fetch('/api/tags/' + newProps.params.id).then((result) => result.json()).then((tag) => this.setState({tag:tag}));
+    Ajax.get('/api/tags/' + newProps.params.id).then((tag) => this.setState({tag:tag}));
   }
 
   handleEdit() {

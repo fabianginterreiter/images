@@ -4,6 +4,7 @@ import State from '../states/State'
 import Ajax from '../libs/Ajax'
 import { Cookies } from '../utils/Utils'
 import NavigationsStore from '../stores/NavigationsStore'
+import OptionsStore from '../stores/OptionsStore'
 
 class UserState extends State {
   constructor() {
@@ -30,6 +31,7 @@ class UserState extends State {
   clear() {
     Cookies.clear();
     Ajax.delete('/api/session').then(() => (this.setState({user:null})));
+    OptionsStore.setObject(false);
   }
 }
 

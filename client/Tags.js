@@ -9,7 +9,6 @@ import Ajax from './libs/Ajax'
 import { browserHistory } from 'react-router'
 
 class Tags extends React.Component {
-
   constructor(props) {
     super(props);
 

@@ -10,6 +10,7 @@ const SingleSelectDialogStore = require('../../utils/Utils').SingleSelectDialogS
 const SelectionStore = require('../../stores/SelectionStore');
 const location = require('react-router').location;
 import Ajax from '../../libs/Ajax'
+import ListUtils from '../../libs/ListUtils'
 
 class SelectionOptions extends React.Component {
   constructor(props) {
@@ -35,20 +36,10 @@ class SelectionOptions extends React.Component {
   handleTags() {
     var images = SelectionStore.getSelected();
 
-    var getElement = function(list, id) {
-      for (var index = 0; index < list.length; index++) {
-        if (list[index].id === id) {
-          return list[index];
-        }
-      }
-
-      return null;
-    }
-
     Ajax.get('/api/tags').then((tags) => {
       SelectionStore.getSelected().forEach((image) => {
         image.tags.forEach((tag) => {
-          var e = getElement(tags, tag.id);
+          var e = ListUtils.find(tags, tag.id);
           if (e) {
             e.__count = e.__count ? e.__count + 1 : 1;
           }
@@ -80,26 +71,16 @@ class SelectionOptions extends React.Component {
       } else {
         Promise.all(promises).then(() => ImagesStore.addTags(SelectionStore.getSelected(), tags));
       }
-    })
+    }).catch((e) => console.log(e));
   }
 
   handleAlbums() {
     var images = SelectionStore.getSelected();
 
-    var getElement = function(list, id) {
-      for (var index = 0; index < list.length; index++) {
-        if (list[index].id === id) {
-          return list[index];
-        }
-      }
-
-      return null;
-    }
-
     Ajax.get('/api/albums').then((albums) => {
       SelectionStore.getSelected().forEach((image) => {
         image.albums.forEach((album) => {
-          var e = getElement(albums, album.id);
+          var e = ListUtils.find(albums, album.id);
           if (e) {
             e.__count = e.__count ? e.__count + 1 : 1;
           }
@@ -119,14 +100,12 @@ class SelectionOptions extends React.Component {
       return SingleSelectDialogStore.open('Manage albums', albums);
     }).then((album) => {
       if (!album.id) {
-        return Ajax.post('/api/albums', album)
-        .then((result) => (album.id = result.id)).then(() => {
-          ImagesStore.addAlbums(SelectionStore.getSelected(), album);
-        });
+        Ajax.post('/api/albums', album)
+          .then((result) => ImagesStore.addAlbums(SelectionStore.getSelected(), result));
       } else {
         ImagesStore.addAlbums(SelectionStore.getSelected(), album);
       }
-    })
+    }).catch((e) => console.log(e));
   }
 
   render() {

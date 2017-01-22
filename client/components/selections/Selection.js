@@ -49,9 +49,8 @@ class Selection extends React.Component {
         </div>
 
         <nav>
-          <div>{SelectionStore.size()} selected</div>
+          <div onClick={this.handleShow.bind(this)}><i className="fa fa-check-square-o" aria-hidden="true" /> {SelectionStore.size()} <span className="min500"> selected</span></div>
           <div onClick={SelectionStore.clear.bind(SelectionStore)}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></div>
-          <div onClick={this.handleShow.bind(this)}><i className="fa fa-television" aria-hidden="true" /> <span className="min500">Show</span></div>
 
           <div className="right" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></div>
           <SelectionOptions />

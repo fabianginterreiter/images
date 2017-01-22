@@ -4,7 +4,10 @@ const express = require('express');
 const router = express.Router();
 
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({ 
+  dest: 'uploads/',
+  limits: {fileSize: 50000000, files:1}
+})
 
 const ImagesController = require('../controllers/ImagesController');
 const TagsController = require('../controllers/TagsController');

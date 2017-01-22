@@ -12,7 +12,7 @@ const app = express();
 
 app.use(session(config.getSessionConfig(session)));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.use('/api/albums', require('./routes/albums'));
 app.use('/api/session', require('./routes/session'));

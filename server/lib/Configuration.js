@@ -1,4 +1,4 @@
-"use strict" 
+"use strict"
 
 class Configuration {
   constructor(config) {
@@ -35,13 +35,13 @@ class Configuration {
       secure: false,
       resave: false,
       saveUninitialized: false,
-      cookie: { 
-        secure: false, 
-        maxAge: null 
+      cookie: {
+        secure: false,
+        maxAge: null
       }
     };
 
-    if (this.config.redis) {
+    if (this.config.redis && process.env.NODE_ENV === 'production') {
       var RedisStore = require('connect-redis')(session);
       result.store = new RedisStore();
     }

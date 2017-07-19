@@ -122,7 +122,17 @@ class ImagesController extends BaseController {
         qb.where('images.deleted', false);
       }
 
-      qb.orderBy('date','DESC'); 
+      if (this.query.limit) {
+        qb.limit(this.query.limit);
+      } else {
+        qb.limit(100);
+      }
+
+      if (this.query.offset) {
+        qb.offset(this.query.offset);
+      }
+
+      qb.orderBy('date','DESC');
     }).fetchAll({withRelated: ['user', 'tags', 'albums', 'persons']})
     .then((images) => (images.toJSON())).then((images) => ImagesExtention(images))
   }

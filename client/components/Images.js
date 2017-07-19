@@ -39,6 +39,7 @@ class Images extends React.Component {
     Utils.ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     SelectionStore.addChangeListener(this, () => this.forceUpdate());
     ShowDateStore.addChangeListener(this, () => this.forceUpdate());
+    Utils.ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
 
     this.width = document.getElementById('container').clientWidth;
   }
@@ -49,6 +50,7 @@ class Images extends React.Component {
     NavigationsState.removeChangeListener(this);
     Utils.KeyUpListener.removeChangeListener(this);
     Utils.ResizeListener.removeChangeListener(this);
+    Utils.ScrollListener.removeChangeListener(this);
     SelectionStore.removeChangeListener(this);
     ShowDateStore.removeChangeListener(this);
   }
@@ -65,7 +67,7 @@ class Images extends React.Component {
 
       if (width !== this.width) {
         this.width = width;
-        this.forceUpdate();  
+        this.forceUpdate();
       }
     }.bind(this), 500);
   }
@@ -81,7 +83,7 @@ class Images extends React.Component {
 
       if (width !== this.width) {
         this.width = width;
-        this.forceUpdate();  
+        this.forceUpdate();
       }
     }.bind(this), 100);
   }
@@ -109,7 +111,7 @@ class Images extends React.Component {
 
       case 65: {
         if (e.ctrlKey) {
-          this.state.images.forEach((image) => SelectionStore.select(image));  
+          this.state.images.forEach((image) => SelectionStore.select(image));
         }
         break;
       }
@@ -172,14 +174,14 @@ class Images extends React.Component {
 
   handleDateSelect(idx) {
     var date = this.state.images[idx].year + '' + this.state.images[idx].month + '' + this.state.images[idx].day;
-    
+
     var hasNotSelected = false;
 
     var index = idx;
 
     for (; index < this.state.images.length; index++) {
       var newDate = this.state.images[index].year + '' + this.state.images[index].month + '' + this.state.images[index].day;
-      
+
       if (newDate !== date) {
         break;
       }
@@ -198,6 +200,10 @@ class Images extends React.Component {
     }
 
     this.forceUpdate();
+  }
+
+  handleScroll(e) {
+    console.log(document.body.scrollTop);
   }
 
   _calcuateDisplayWidth(imgs) {
@@ -241,7 +247,7 @@ class Images extends React.Component {
   render() {
     if (!this.state.images) {
       return (<div id="container">
-        Loading 
+        Loading
       </div>);
     }
 
@@ -250,15 +256,15 @@ class Images extends React.Component {
         <Empty />
       </div>);
     }
-    
+
     var view = (<span></span>);
 
     if (this.state.view >= 0) {
       view = (
-        <Fullscreen 
-          image={this.state.images[this.state.view]} 
-          next={this.handleNext.bind(this)} 
-          previous={this.handlePrevious.bind(this)} 
+        <Fullscreen
+          image={this.state.images[this.state.view]}
+          next={this.handleNext.bind(this)}
+          previous={this.handlePrevious.bind(this)}
           handleClose={this.handleFullscreenClose.bind(this)}
           number={this.state.view + 1} size={this.state.images.length} />
       );
@@ -296,7 +302,7 @@ class Images extends React.Component {
               {this.renderLikeButton(image)}
               <div className="mark" />
             </div>
-          </div>); 
+          </div>);
 
         lastDate = newDate;
       } else {
@@ -306,7 +312,7 @@ class Images extends React.Component {
             <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass} aria-hidden="true" /></div>
             {this.renderLikeButton(image)}
             <div className="mark" />
-          </div>);  
+          </div>);
       }
     }.bind(this));
 

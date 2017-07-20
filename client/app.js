@@ -17,6 +17,9 @@ import UsersManagement from './components/UsersManagement'
 import Dates from './components/Dates'
 import DateView from './components/DateView'
 import Init from './components/Init'
+import Search from './components/Search'
+import Trash from './components/Trash'
+import Selected from './components/Selected'
 
 ReactDOM.render(
   <Router history={browserHistory}>
@@ -33,9 +36,9 @@ ReactDOM.render(
         <Route path="tags" component={Tags} />
         <Route path="albums" component={Albums} />
         <Route path="dates" component={Dates} />
-        <Route path="selected" component={require('./Selected')} />
-        <Route path="trash" component={require('./Trash')} />
-        <Route path="search" component={require('./Search')} />
+        <Route path="selected" component={Selected} />
+        <Route path="trash" component={Trash} />
+        <Route path="search" component={Search} />
         <IndexRoute component={All} />
       </Route>
       <Route path="profiles" component={UsersManagement} />

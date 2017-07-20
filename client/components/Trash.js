@@ -1,11 +1,11 @@
 "use strict"
 
 import React from 'react'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import ImagesNav from './components/ImagesNav'
-import { DialogStore } from './utils/Utils'
-import SelectionStore from './stores/SelectionStore'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import ImagesNav from './ImagesNav'
+import { DialogStore } from '../utils/Utils'
+import SelectionStore from '../stores/SelectionStore'
 
 class Trash extends React.Component {
   componentDidMount() {

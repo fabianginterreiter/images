@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { browserHistory } from 'react-router'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import SelectionStore from './stores/SelectionStore'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import SelectionStore from '../stores/SelectionStore'
 
 class Selected extends React.Component {
 

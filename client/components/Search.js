@@ -1,9 +1,9 @@
 "use strict"
 
 import React from 'react'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import ImagesNav from './components/ImagesNav'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import ImagesNav from './ImagesNav'
 
 class Search extends React.Component {
 
@@ -24,7 +24,7 @@ class Search extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    ImagesStore.load('/api/search?s=' + newProps.location.query.s); 
+    ImagesStore.load('/api/search?s=' + newProps.location.query.s);
 
     this.setState({
       search: newProps.location.query.s

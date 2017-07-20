@@ -17,7 +17,7 @@ class ScrollUp extends React.Component {
   }
 
   componentWillUnmount() {
-    ScrollListener.removeChangeListener(this);    
+    ScrollListener.removeChangeListener(this);
   }
 
   handleScroll(event) {

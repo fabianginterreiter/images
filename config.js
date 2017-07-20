@@ -1,4 +1,4 @@
 module.exports = {
   path: 'data',
-  redis: true
+  redis: false
 };

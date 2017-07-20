@@ -63,7 +63,7 @@ class ImagesStore extends Utils.Dispatcher {
         } else if (!e && tag.selected) {
           promises.push(this.addTag(image, tag, true));
         }
-      });  
+      });
     });
 
     return Promise.all(promises).then(() => {
@@ -103,7 +103,7 @@ class ImagesStore extends Utils.Dispatcher {
       if (!e) {
         promises.push(this.addAlbum(image, album, true));
       }
-    });  
+    });
 
     return Promise.all(promises).then(() => {
       return NavigationsStore.load();
@@ -115,13 +115,13 @@ class ImagesStore extends Utils.Dispatcher {
 
     images.forEach((image) => {
       promises.push(this.deleteAlbum(image, album, true));
-    });  
+    });
 
     return Promise.all(promises);
   }
 
   deleteAlbum(image, album, mass) {
-    return Ajax.delete('/api/images/' + image.id + '/albums/' + album.id).then(() => { 
+    return Ajax.delete('/api/images/' + image.id + '/albums/' + album.id).then(() => {
       if (!mass) {
         NavigationsStore.load();
       }
@@ -133,14 +133,14 @@ class ImagesStore extends Utils.Dispatcher {
         }
       }
 
-      this.dispatch(); 
+      this.dispatch();
 
       return album;
     });
   }
 
   deleteTag(image, tag, mass) {
-    return Ajax.delete('/api/images/' + image.id + '/tags/' + tag.id).then(() => { 
+    return Ajax.delete('/api/images/' + image.id + '/tags/' + tag.id).then(() => {
       if (!mass) {
         NavigationsStore.load();
       }
@@ -152,7 +152,7 @@ class ImagesStore extends Utils.Dispatcher {
         }
       }
 
-      this.dispatch(); 
+      this.dispatch();
 
       return tag;
     });
@@ -171,7 +171,7 @@ class ImagesStore extends Utils.Dispatcher {
   }
 
   deletePerson(image, person) {
-    Ajax.delete('/api/images/' + image.id + '/persons/' + person.idf).then(() => { 
+    Ajax.delete('/api/images/' + image.id + '/persons/' + person.idf).then(() => {
       NavigationsStore.load();
       for (var index = 0; index < image.persons.length; index++) {
         if (image.persons[index].id === person.id) {
@@ -179,14 +179,35 @@ class ImagesStore extends Utils.Dispatcher {
           break;
         }
       }
-      this.dispatch(); 
+      this.dispatch();
     });
   }
 
   load(service) {
     this.setObject(null);
-    this.service = service;
-    Ajax.get(service).then((images) => this.setObject(images));
+    this.service = service + (service.indexOf('?') > 0 ? '&' : '?');
+    this.offset = 0;
+    this.limit = 50;
+    this.loading = 0;
+    Ajax.get(this.service + 'limit=' + this.limit + '&offset=' + this.offset).then((images) => {
+      this.loading = false;
+      this.setObject(images);
+    });
+  }
+
+  more() {
+    if (this.limit > 0 && !this.loading) {
+      this.loading = true;
+      this.offset += this.limit;
+      console.log(this.service + 'limit=' + this.limit + '&offset=' + this.offset);
+       Ajax.get(this.service + 'limit=' + this.limit + '&offset=' + this.offset).then((images) => {
+         if (images.length < this.limit) {
+           this.limit = 0;
+         }
+         this.setObject(this.getObject().concat(images));
+         this.loading = false;
+       });
+    }
   }
 
   reload() {

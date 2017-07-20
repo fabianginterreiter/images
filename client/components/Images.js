@@ -203,7 +203,9 @@ class Images extends React.Component {
   }
 
   handleScroll(e) {
-    console.log(document.body.scrollTop);
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
+      ImagesStore.more();
+    }
   }
 
   _calcuateDisplayWidth(imgs) {

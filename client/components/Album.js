@@ -1,13 +1,13 @@
 "use strict"
 
 import React from 'react'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import ImagesNav from './components/ImagesNav'
-import SelectionStore from './stores/SelectionStore'
-import Ajax from './libs/Ajax'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import ImagesNav from './ImagesNav'
+import SelectionStore from '../stores/SelectionStore'
+import Ajax from '../libs/Ajax'
 
-class Albums extends React.Component {
+class Album extends React.Component {
 
   constructor(props) {
     super(props);
@@ -30,7 +30,7 @@ class Albums extends React.Component {
     ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), {id:this.props.params.albumId}).then(() => {
       ImagesStore.reload();
     });
-  } 
+  }
 
   render() {
     return (
@@ -47,4 +47,4 @@ class Albums extends React.Component {
   }
 }
 
-module.exports = Albums;
+module.exports = Album;

@@ -1,8 +1,8 @@
 "use strict"
 
 import React from 'react'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
 
 class All extends React.Component {
 

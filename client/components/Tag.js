@@ -1,14 +1,14 @@
 "use strict"
 
 import React from 'react'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import ImagesNav from './components/ImagesNav'
-import{ Quickedit, DialogStore } from './utils/Utils'
-import Ajax from './libs/Ajax'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import ImagesNav from './ImagesNav'
+import{ Quickedit, DialogStore } from '../utils/Utils'
+import Ajax from '../libs/Ajax'
 import { browserHistory } from 'react-router'
 
-class Tags extends React.Component {
+class Tag extends React.Component {
   constructor(props) {
     super(props);
 
@@ -51,9 +51,9 @@ class Tags extends React.Component {
 
   renderTitle() {
     if (this.state.edit) {
-      return (<Quickedit 
-        value={this.state.tag.name} 
-        onChange={this.handleChange.bind(this)} 
+      return (<Quickedit
+        value={this.state.tag.name}
+        onChange={this.handleChange.bind(this)}
         onCancel={() => this.setState({edit:false})} />);
     }
 
@@ -83,4 +83,4 @@ class Tags extends React.Component {
   }
 }
 
-module.exports = Tags;
+module.exports = Tag;

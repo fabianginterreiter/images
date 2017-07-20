@@ -5,32 +5,38 @@ import ReactDOM from 'react-dom'
 import { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } from 'react-router'
 import ImagesApp from './components/ImagesApp'
 import Images from './components/Images'
+import All from './components/All'
+import Favorites from './components/Favorites'
 import Persons from './components/Persons'
 import Tags from './components/Tags'
 import Albums from './components/Albums'
+import Person from './components/Person'
+import Tag from './components/Tag'
+import Album from './components/Album'
 import UsersManagement from './components/UsersManagement'
-import Dates from './Dates'
+import Dates from './components/Dates'
+import DateView from './components/DateView'
 import Init from './components/Init'
 
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={Init}>
       <Route path="images" components={ImagesApp}>
-        <Route path="dates/:year/:month/:day" component={Dates} />
-        <Route path="dates/:year/:month" component={Dates} />
-        <Route path="dates/:year" component={Dates} />
-        <Route path="tags/:id" component={require('./Tags')} />
-        <Route path="persons/:id" component={require('./Persons')} />
-        <Route path="albums/:albumId" component={require('./Albums')} />
-        <Route path="favorites" component={require('./Favorites')} />
+        <Route path="dates/:year/:month/:day" component={DateView} />
+        <Route path="dates/:year/:month" component={DateView} />
+        <Route path="dates/:year" component={DateView} />
+        <Route path="tags/:id" component={Tag} />
+        <Route path="persons/:id" component={Person} />
+        <Route path="albums/:albumId" component={Album} />
+        <Route path="favorites" component={Favorites} />
         <Route path="persons" component={Persons} />
         <Route path="tags" component={Tags} />
         <Route path="albums" component={Albums} />
-        <Route path="dates" component={require('./components/Dates')} />
+        <Route path="dates" component={Dates} />
         <Route path="selected" component={require('./Selected')} />
         <Route path="trash" component={require('./Trash')} />
         <Route path="search" component={require('./Search')} />
-        <IndexRoute component={require('./All')} /> 
+        <IndexRoute component={All} />
       </Route>
       <Route path="profiles" component={UsersManagement} />
     </Route>

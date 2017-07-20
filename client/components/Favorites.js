@@ -1,9 +1,9 @@
 "use strict"
 
 import React from 'react'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import ImagesNav from './components/ImagesNav'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import ImagesNav from './ImagesNav'
 
 class Favorites extends React.Component {
 

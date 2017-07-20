@@ -1,12 +1,12 @@
 "use strict"
 
 import React from 'react'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import ImagesNav from './components/ImagesNav'
-import Ajax from './libs/Ajax'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import ImagesNav from './ImagesNav'
+import Ajax from '../libs/Ajax'
 
-class Persons extends React.Component {
+class Person extends React.Component {
 
   constructor(props) {
     super(props);
@@ -38,4 +38,4 @@ class Persons extends React.Component {
   }
 }
 
-module.exports = Persons;
+module.exports = Person;

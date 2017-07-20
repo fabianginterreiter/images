@@ -2,11 +2,11 @@
 
 import React from 'react'
 import moment from 'moment'
-import Images from './components/Images'
-import ImagesStore from './stores/ImagesStore'
-import ImagesNav from './components/ImagesNav'
+import Images from './Images'
+import ImagesStore from '../stores/ImagesStore'
+import ImagesNav from './ImagesNav'
 
-class Dates extends React.Component {
+class DateView extends React.Component {
 
   componentDidMount() {
     this.componentWillReceiveProps(this.props);
@@ -42,7 +42,7 @@ class Dates extends React.Component {
 
       return date.format('MMMM YYYY');
     }
-    
+
     return date.format('YYYY');
   }
 
@@ -59,4 +59,4 @@ class Dates extends React.Component {
   }
 }
 
-module.exports = Dates;
+module.exports = DateView;

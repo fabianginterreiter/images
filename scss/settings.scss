@@ -47,6 +47,11 @@ a:hover {
     }
 
     tr {
+      th {
+        white-space:nowrap;
+        user-select: none;
+      }
+
       td, th {
         border: 1px solid $borderColor;
         padding: 7px;
@@ -55,7 +60,6 @@ a:hover {
       .option {
         width: 40px;
         text-align: center;
-        cursor: pointer;
       }
     }
 

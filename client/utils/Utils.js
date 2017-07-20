@@ -17,6 +17,7 @@ import Modal from './component/Modal'
 import OptionsList from './component/OptionsList'
 import Dropdown from './component/Dropdown'
 import ScrollUp from './component/ScrollUp'
+import ExtendedTable from './component/ExtendedTable'
 
 // Dialog
 import Main from './dialog/Main'
@@ -42,6 +43,7 @@ module.exports = {
   OptionsList: OptionsList,
   Dropdown: Dropdown,
   ScrollUp: ScrollUp,
+  ExtendedTable: ExtendedTable,
 
   // Dialog
   Main: Main,

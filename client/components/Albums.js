@@ -5,7 +5,7 @@ import $ from 'jquery'
 import { Link } from 'react-router'
 import Ajax from '../libs/Ajax'
 import NavigationsStore from '../stores/NavigationsStore'
-import { Quickedit, DialogStore } from '../utils/Utils'
+import { Quickedit, DialogStore, ExtendedTable } from '../utils/Utils'
 
 class Albums extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class Albums extends React.Component {
 
     if (album.name === value) {
       return this.forceUpdate();
-    }    
+    }
 
     album.name = value;
 
@@ -71,38 +71,53 @@ class Albums extends React.Component {
 
   _renderText(album) {
     if (album.edit) {
-      return (<Quickedit 
-        value={album.name} 
-        onChange={(value) => this.handleChange(album, value)} 
+      return (<Quickedit
+        value={album.name}
+        onChange={(value) => this.handleChange(album, value)}
         onCancel={() => this.handleCancel(album)} />);
     }
 
-    return (<Link to={`/images/albums/${album.id}`}>{album.name} ({album.count})</Link>);
+    return (<Link to={`/images/albums/${album.id}`}>{album.name}</Link>);
+  }
+
+  _renderRow(album) {
+    return (<tr key={album.id}>
+      <td>{this._renderText(album)}</td>
+      <td>{album.count}</td>
+      <td onClick={this.handleVisibility.bind(this, album)} className="option">
+        <input type="checkbox" checked={album.public} />
+      </td>
+      <td onClick={this.handleEdit.bind(this, album)} className="option"><i className="fa fa-pencil-square-o" /></td>
+      <td onClick={this.handleDelete.bind(this, album)} className="option"><i className="fa fa-trash-o" /></td>
+    </tr>);
+  }
+
+  order(name, asc) {
+    var albums = this.state.albums.sort((a,b) => {
+      if (a[name] < b[name]) {
+        return asc ? -1 : 1;
+      } else if (a[name] > b[name]) {
+        return asc ? 1 : -1;
+      }
+      return 0;
+    });
+
+    this.setState({
+      albums:albums
+    });
+
   }
 
   render() {
     return (<div className="settings">
       <h1><i className="fa fa-book" aria-hidden="true" /> Albums</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th className="option">Public</th>
-            <th className="option">Edit</th>
-            <th className="option">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.albums.map((album) => (<tr key={album.id}>
-            <td>{this._renderText(album)}</td>
-            <td onClick={this.handleVisibility.bind(this, album)} className="option">
-              <input type="checkbox" checked={album.public} />
-            </td>
-            <td onClick={this.handleEdit.bind(this, album)} className="option"><i className="fa fa-pencil-square-o" /></td>
-            <td onClick={this.handleDelete.bind(this, album)} className="option"><i className="fa fa-trash-o" /></td>
-          </tr>))}
-        </tbody>
-      </table>
+
+      <ExtendedTable columns={[
+        {title:'Name', name: 'name'},
+        {title:'Images', name: 'count', className:'option'},
+        {title:'Public', className:'option'},
+        {title:'Edit', className:'option'},
+        {title:'Delete', className:'option'}]} data={this.state.albums} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={'name'} asc={true} />
     </div>);
   }
 }

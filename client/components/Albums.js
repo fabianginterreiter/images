@@ -105,7 +105,6 @@ class Albums extends React.Component {
     this.setState({
       albums:albums
     });
-
   }
 
   render() {

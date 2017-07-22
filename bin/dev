@@ -1,1 +1,1 @@
-npm run watch & NODE_ENV=development nodemon server/index.js
+npm run watch & NODE_ENV=development nodemon --ignore client/ --ignore public --ignore scss/ server/index.js

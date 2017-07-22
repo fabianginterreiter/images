@@ -52,6 +52,10 @@ a:hover {
         user-select: none;
       }
 
+      th.sort {
+        cursor: pointer;
+      }
+
       td, th {
         border: 1px solid $borderColor;
         padding: 7px;

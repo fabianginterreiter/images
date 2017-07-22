@@ -29,13 +29,13 @@ class ExtendedTable extends React.Component {
 
         if (this.state.name === column.name) {
           if (this.state.asc) {
-            elements.push(<th key={column.title} className={column.className} onClick={this.handleClick.bind(this, column.name)}>{column.title} <i className="fa fa-chevron-up" aria-hidden="true" /></th>);
+            elements.push(<th key={column.title} className={'sort ' + column.className} onClick={this.handleClick.bind(this, column.name)}>{column.title} <i className="fa fa-chevron-up" aria-hidden="true" /></th>);
           } else {
-            elements.push(<th key={column.title} className={column.className} onClick={this.handleClick.bind(this, column.name)}>{column.title} <i className="fa fa-chevron-down" aria-hidden="true" /></th>);
+            elements.push(<th key={column.title} className={'sort ' + column.className} onClick={this.handleClick.bind(this, column.name)}>{column.title} <i className="fa fa-chevron-down" aria-hidden="true" /></th>);
           }
 
         } else {
-          elements.push(<th key={column.title} className={column.className} onClick={this.handleClick.bind(this, column.name)}>{column.title} <i className="fa fa-angle-up" aria-hidden="true" /></th>);
+          elements.push(<th key={column.title} className={'sort ' + column.className} onClick={this.handleClick.bind(this, column.name)}>{column.title} <i className="fa fa-angle-up" aria-hidden="true" /></th>);
         }
 
       } else {

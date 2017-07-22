@@ -5,7 +5,7 @@ import $ from 'jquery'
 import { Link } from 'react-router'
 import Ajax from '../libs/Ajax'
 import NavigationsStore from '../stores/NavigationsStore'
-import { Quickedit, DialogStore, ExtendedTable } from '../utils/Utils'
+import { Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
 
 class Albums extends React.Component {
   constructor(props) {
@@ -93,18 +93,9 @@ class Albums extends React.Component {
   }
 
   order(name, asc) {
-    var albums = this.state.albums.sort((a,b) => {
-      if (a[name] < b[name]) {
-        return asc ? -1 : 1;
-      } else if (a[name] > b[name]) {
-        return asc ? 1 : -1;
-      }
-      return 0;
-    });
-
-    this.setState({
+    sort(this.state.albums, name, asc).then((albums) => this.setState({
       albums:albums
-    });
+    }));
   }
 
   render() {

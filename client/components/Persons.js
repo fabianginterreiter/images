@@ -3,7 +3,7 @@
 import React from 'react'
 import $ from 'jquery'
 import { Link } from 'react-router'
-import{ Quickedit, DialogStore, ExtendedTable } from '../utils/Utils'
+import{ Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
 import NavigationsStore from '../stores/NavigationsStore'
 import Ajax from '../libs/Ajax'
 
@@ -84,18 +84,9 @@ class Persons extends React.Component {
   }
 
   order(name, asc) {
-    var persons = this.state.persons.sort((a,b) => {
-      if (a[name] < b[name]) {
-        return asc ? -1 : 1;
-      } else if (a[name] > b[name]) {
-        return asc ? 1 : -1;
-      }
-      return 0;
-    });
-
-    this.setState({
+    sort(this.state.persons, name, asc).then((persons) => this.setState({
       persons:persons
-    });
+    }));
   }
 
   render() {

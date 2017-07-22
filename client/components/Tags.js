@@ -3,7 +3,7 @@
 import React from 'react'
 import $ from 'jquery'
 import { Link } from 'react-router'
-import{ Quickedit, DialogStore, ExtendedTable } from '../utils/Utils'
+import{ Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
 import NavigationsStore from '../stores/NavigationsStore'
 import Ajax from '../libs/Ajax'
 
@@ -82,18 +82,9 @@ class Tags extends React.Component {
   }
 
   order(name, asc) {
-    var tags = this.state.tags.sort((a,b) => {
-      if (a[name] < b[name]) {
-        return asc ? -1 : 1;
-      } else if (a[name] > b[name]) {
-        return asc ? 1 : -1;
-      }
-      return 0;
-    });
-
-    this.setState({
+    sort(this.state.tags, name, asc).then((tags) => this.setState({
       tags:tags
-    });
+    }));
   }
 
   render() {

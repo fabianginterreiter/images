@@ -8,6 +8,7 @@ import Like from './Like'
 import TagsList from './TagsList'
 import PersonsList from './PersonsList'
 import ImagesStore from '../stores/ImagesStore'
+import SelectionStore from '../stores/SelectionStore'
 import Faces from './Faces'
 import moment from 'moment'
 
@@ -31,7 +32,7 @@ class Fullscreen extends React.Component {
 
   componentWillUnmount() {
     Utils.KeyUpListener.removeChangeListener(this);
-    Utils.ResizeListener.removeChangeListener(this);     
+    Utils.ResizeListener.removeChangeListener(this);
     $("body").css("overflow", "auto");
     clearTimeout(this.timeout);
   }
@@ -45,6 +46,12 @@ class Fullscreen extends React.Component {
       case 32: {
         this._show();
         ImagesStore.like(this.props.image);
+        break;
+      }
+
+      case 66: {
+        this._show();
+        SelectionStore.handle(this.props.image);
         break;
       }
     }
@@ -120,6 +127,13 @@ class Fullscreen extends React.Component {
         name: 'Delete'
       }];
 
+      var checkBoxClass = null;
+      if (SelectionStore.isSelected(this.props.image)) {
+        checkBoxClass = "fa fa-check-square-o";
+      } else {
+        checkBoxClass = "fa fa-square-o"
+      }
+
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
         <img ref="image" src={'/images/' + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
@@ -129,6 +143,7 @@ class Fullscreen extends React.Component {
           {this.props.image.title} ({this.props.number}/{this.props.size})
           <div className="options">
             <Like image={this.props.image} />&nbsp;
+            <i className={checkBoxClass} onClick={() => SelectionStore.handle(this.props.image)} />
             <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>

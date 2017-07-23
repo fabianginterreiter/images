@@ -9,7 +9,7 @@ const Ajax = require('../libs/Ajax');
 class UsersManagement extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       users: UsersStore.getObject(),
       open: false
@@ -24,7 +24,9 @@ class UsersManagement extends React.Component {
     UsersStore.removeChangeListener(this);
   }
 
-  handleCreateUser() {
+  handleCreateUser(e) {
+    e.preventDefault();
+
     var data = new FormData();
     data.append( "name", this.refs.name.value );
     Ajax.post("/api/users", {
@@ -53,8 +55,10 @@ class UsersManagement extends React.Component {
     if (this.state.open) {
       createUser = (
         <div className="group">
-          <input type="text" placeholder="Create" ref="name" />
-          <button onClick={this.handleCreateUser.bind(this)} className="primary">Create</button>
+          <form onSubmit={this.handleCreateUser.bind(this)}>
+            <input type="text" placeholder="Create" ref="name" autoFocus />
+            <button onClick={this.handleCreateUser.bind(this)} className="primary">Create</button>
+          </form>
         </div>
         );
     }

@@ -3,7 +3,7 @@
 import React from 'react'
 import $ from 'jquery'
 import { Link } from 'react-router'
-import{ Quickedit, DialogStore } from '../utils/Utils'
+import{ Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
 import NavigationsStore from '../stores/NavigationsStore'
 import Ajax from '../libs/Ajax'
 
@@ -33,7 +33,7 @@ class Persons extends React.Component {
 
     if (person.name === value) {
       return this.forceUpdate();
-    }    
+    }
 
     person.name = value;
 
@@ -65,34 +65,40 @@ class Persons extends React.Component {
 
   _renderText(person) {
     if (person.edit) {
-      return (<Quickedit 
-        value={person.name} 
-        onChange={(value) => this.handleChange(person, value)} 
+      return (<Quickedit
+        value={person.name}
+        onChange={(value) => this.handleChange(person, value)}
         onCancel={() => this.handleCancel(person)} />);
     }
 
-    return (<Link to={`/images/persons/${person.id}`}>{person.name} ({person.count})</Link>);
+    return (<Link to={`/images/persons/${person.id}`}>{person.name}</Link>);
+  }
+
+  _renderRow(person) {
+    return (<tr key={person.id}>
+      <td>{this._renderText(person)}</td>
+      <td>{person.count}</td>
+      <td onClick={this.handleEdit.bind(this, person)} className="option"><i className="fa fa-pencil-square-o" /></td>
+      <td onClick={this.handleDelete.bind(this, person)} className="option"><i className="fa fa-trash-o" /></td>
+    </tr>);
+  }
+
+  order(name, asc) {
+    sort(this.state.persons, name, asc).then((persons) => this.setState({
+      persons:persons
+    }));
   }
 
   render() {
     return (<div className="settings">
       <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th className="option">Edit</th>
-            <th className="option">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.persons.map((person) => (<tr key={person.id}>
-            <td>{this._renderText(person)}</td>
-            <td onClick={this.handleEdit.bind(this, person)} className="option"><i className="fa fa-pencil-square-o" /></td>
-            <td onClick={this.handleDelete.bind(this, person)} className="option"><i className="fa fa-trash-o" /></td>
-          </tr>))}
-        </tbody>
-      </table>
+
+      <ExtendedTable columns={[
+        {title:'Name', name: 'name'},
+        {title:'Images', name: 'count', className:'option'},
+        {title:'Edit', className:'option'},
+        {title:'Delete', className:'option'}]} data={this.state.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={'name'} asc={true} />
+
     </div>);
   }
 }

@@ -13,15 +13,14 @@ a:hover {
 }
 
 .settings {
-  width: 600px;
-  max-width: 90%;
   overflow: auto;
   margin: 0 auto;
 
   table {
     border-spacing: 0;
     border-radius: 3px;
-    width: 100%;
+    margin: 0 auto;
+    width: 90%;
 
     tr:nth-child(even) {background: #f1f1f1}
     tr:nth-child(odd) {background: #FFF}
@@ -47,6 +46,15 @@ a:hover {
     }
 
     tr {
+      th {
+        white-space:nowrap;
+        user-select: none;
+      }
+
+      th.sort {
+        cursor: pointer;
+      }
+
       td, th {
         border: 1px solid $borderColor;
         padding: 7px;
@@ -55,7 +63,6 @@ a:hover {
       .option {
         width: 40px;
         text-align: center;
-        cursor: pointer;
       }
     }
 

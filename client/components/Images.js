@@ -128,6 +128,10 @@ class Images extends React.Component {
     if (this.state.view < this.state.images.length - 1) {
       this.setState({
         view: this.state.view + 1
+      }, () => {
+        if (this.state.view === this.state.images.length - 5) {
+          ImagesStore.more();
+        }
       });
     }
   }

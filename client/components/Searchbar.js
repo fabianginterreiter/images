@@ -22,7 +22,7 @@ class Searchbar extends React.Component {
   }
 
   componentWillUnmount() {
-    KeyUpListener.removeChangeListener(this);    
+    KeyUpListener.removeChangeListener(this);
   }
 
   handleKeyUp(event) {
@@ -78,18 +78,18 @@ class Searchbar extends React.Component {
   renderBar() {
     if (!this.state.open) {
       return null;
-    } 
+    }
 
     return (
       <div>
         <div className="click" onClick={this.handleClickcatcherClick.bind(this)} />
         <header className="searchbar">
-        
+
           <nav>
             <form onSubmit={this.handleSubmit.bind(this)}>
               <input type="text" ref="search" placeholder="Search" value={this.state.s} onChange={this.handleChange.bind(this)} />
             </form>
-            <a className="right" onClick={this.handleClose.bind(this)}><i className="fa fa-times" /></a>
+            <span className="right" onClick={this.handleClose.bind(this)}><i className="fa fa-times" /></span>
           </nav>
       </header>
     </div>);

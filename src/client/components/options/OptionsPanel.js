@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 
 import ThumbnailsResizer from '../ThumbnailsResizer'
 import { location } from 'react-router'
@@ -20,7 +20,7 @@ class OptionsPanel extends React.Component {
   }
 
   componentWillUnmount() {
-    OptionsStore.removeChangeListener(this);    
+    OptionsStore.removeChangeListener(this);
   }
 
   close() {
@@ -50,4 +50,4 @@ class OptionsPanel extends React.Component {
   }
 }
 
-module.exports = OptionsPanel;
+export default OptionsPanel;

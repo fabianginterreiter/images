@@ -19,7 +19,7 @@ class Dialog extends React.Component {
   }
 
   componentWillUnmount() {
-    SingleSelectDialogStore.removeChangeListener(this);    
+    SingleSelectDialogStore.removeChangeListener(this);
   }
 
   handleCancel() {
@@ -103,4 +103,4 @@ class Dialog extends React.Component {
   }
 }
 
-module.exports = Dialog;
+export default Dialog;

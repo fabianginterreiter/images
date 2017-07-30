@@ -1,9 +1,9 @@
 "use strict"
 
-import Utils from '../utils/Utils'
-import $ from 'jquery'
+import {Dispatcher} from '../utils/Utils';
+import * as $ from 'jquery';
 
-class KeyUpListener extends Utils.Dispatcher {
+class KeyUpListener extends Dispatcher {
   constructor() {
     super({});
   }
@@ -60,4 +60,4 @@ class KeyUpListener extends Utils.Dispatcher {
 
 }
 
-module.exports = new KeyUpListener();
+export default new KeyUpListener();

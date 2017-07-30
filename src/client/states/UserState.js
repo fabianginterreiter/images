@@ -35,4 +35,4 @@ class UserState extends State {
   }
 }
 
-module.exports = new UserState();
+export default new UserState();

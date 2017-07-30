@@ -1,11 +1,11 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import { Link } from 'react-router'
 import Ajax from '../libs/Ajax'
 import NavigationsStore from '../stores/NavigationsStore'
-import moment from 'moment'
+import * as moment from 'moment'
 
 class Dates extends React.Component {
   constructor(props) {
@@ -45,4 +45,4 @@ class Dates extends React.Component {
   }
 }
 
-module.exports = Dates;
+export default Dates;

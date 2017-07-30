@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import UploadStore from '../stores/UploadStore'
 import Title from './Title'
 import Searchbar from './Searchbar'
@@ -47,4 +47,4 @@ class Header extends React.Component {
   }
 }
 
-module.exports = Header;
+export default Header;

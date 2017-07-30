@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import UserState from '../states/UserState'
 import { browserHistory } from 'react-router'
 
@@ -18,7 +18,7 @@ class Init extends React.Component {
       if (this.props.location.pathname.startsWith('/images')) {
         return;
       }
-      
+
       browserHistory.push('/images');
     } else {
       browserHistory.push('/profiles');
@@ -54,4 +54,4 @@ class Init extends React.Component {
   }
 }
 
-module.exports = Init;
+export default Init;

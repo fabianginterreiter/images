@@ -1,9 +1,9 @@
 "use strict"
 
-import Utils from '../utils/Utils';
+import {Dispatcher} from '../utils/Utils';
 import Ajax from '../libs/Ajax'
 
-class NavigationsStore extends Utils.Dispatcher {
+class NavigationsStore extends Dispatcher {
   constructor() {
     super([]);
 
@@ -68,4 +68,4 @@ class NavigationsStore extends Utils.Dispatcher {
 
 }
 
-module.exports = new NavigationsStore();
+export default new NavigationsStore();

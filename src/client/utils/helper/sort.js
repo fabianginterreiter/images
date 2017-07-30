@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = function(list, name, asc) {
+export default function(list, name, asc) {
   return new Promise(function(resolve, reject) {
     var result = list.sort((a,b) => {
       if (a[name] < b[name]) {

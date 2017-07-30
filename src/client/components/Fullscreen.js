@@ -1,16 +1,15 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
-import Utils from '../utils/Utils'
-import { OptionsList, DialogStore, Panel } from '../utils/Utils'
+import * as React from 'react'
+import * as $ from 'jquery'
+import { OptionsList, DialogStore, Panel, KeyUpListener, ResizeListener } from '../utils/Utils'
 import Like from './Like'
 import TagsList from './TagsList'
 import PersonsList from './PersonsList'
 import ImagesStore from '../stores/ImagesStore'
 import SelectionStore from '../stores/SelectionStore'
 import Faces from './Faces'
-import moment from 'moment'
+import * as moment from 'moment'
 
 class Fullscreen extends React.Component {
   constructor(props) {
@@ -24,15 +23,15 @@ class Fullscreen extends React.Component {
   }
 
   componentDidMount() {
-    Utils.KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
-    Utils.ResizeListener.addChangeListener(this, this.handleImageLoad.bind(this));
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    ResizeListener.addChangeListener(this, this.handleImageLoad.bind(this));
     $("body").css("overflow", "hidden");
     this._show();
   }
 
   componentWillUnmount() {
-    Utils.KeyUpListener.removeChangeListener(this);
-    Utils.ResizeListener.removeChangeListener(this);
+    KeyUpListener.removeChangeListener(this);
+    ResizeListener.removeChangeListener(this);
     $("body").css("overflow", "auto");
     clearTimeout(this.timeout);
   }
@@ -167,4 +166,4 @@ class Fullscreen extends React.Component {
   }
 }
 
-module.exports = Fullscreen;
+export default Fullscreen;

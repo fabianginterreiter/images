@@ -12,4 +12,4 @@ class KeyUpListener extends Dispatcher {
 
 }
 
-module.exports = new KeyUpListener();
+export default new KeyUpListener();

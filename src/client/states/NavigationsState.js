@@ -35,4 +35,4 @@ class NavigationsState extends State {
   }
 }
 
-module.exports = new NavigationsState();
+export default new NavigationsState();

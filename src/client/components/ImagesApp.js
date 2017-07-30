@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import NavigationsState from '../states/NavigationsState'
 import UserState from '../states/UserState'
 import Uploader from './Uploader'
@@ -36,7 +36,7 @@ class ImagesApp extends React.Component {
     }
 
     var contentClass = 'content';
-    var pinned = '';      
+    var pinned = '';
     if (NavigationsState.getObject().pinned) {
       contentClass += ' pinned';
       pinned = 'pinned';
@@ -66,4 +66,4 @@ class ImagesApp extends React.Component {
   }
 };
 
-module.exports = ImagesApp;
+export default ImagesApp;

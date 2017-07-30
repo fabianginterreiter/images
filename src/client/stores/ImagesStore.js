@@ -1,11 +1,11 @@
 "use strict"
 
-import Utils from '../utils/Utils';
+import {Dispatcher} from '../utils/Utils';
 import NavigationsStore from './NavigationsStore'
 import $ from 'jquery'
 import Ajax from '../libs/Ajax'
 
-class ImagesStore extends Utils.Dispatcher {
+class ImagesStore extends Dispatcher {
   constructor() {
     super(null);
   }
@@ -243,4 +243,4 @@ class ImagesStore extends Utils.Dispatcher {
   }
 }
 
-module.exports = new ImagesStore();
+export default new ImagesStore();

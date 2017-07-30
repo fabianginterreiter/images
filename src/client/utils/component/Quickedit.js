@@ -58,4 +58,4 @@ class Persons extends React.Component {
   }
 }
 
-module.exports = Persons;
+export default Persons;

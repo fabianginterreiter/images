@@ -56,4 +56,4 @@ class ExtendedTable extends React.Component {
   }
 }
 
-module.exports = ExtendedTable;
+export default ExtendedTable;

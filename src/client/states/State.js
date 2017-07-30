@@ -1,8 +1,8 @@
 "use strict"
 
-import Utils from '../utils/Utils'
+import {Dispatcher} from '../utils/Utils';
 
-class State extends Utils.Dispatcher {
+class State extends Dispatcher {
   constructor(state) {
     super(state ? state : {});
   }
@@ -16,4 +16,4 @@ class State extends Utils.Dispatcher {
   }
 }
 
-module.exports = State;
+export default State;

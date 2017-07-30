@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import Images from './Images'
 import ImagesStore from '../stores/ImagesStore'
 import ImagesNav from './ImagesNav'
@@ -47,4 +47,4 @@ class Album extends React.Component {
   }
 }
 
-module.exports = Album;
+export default Album;

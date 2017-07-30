@@ -1,9 +1,9 @@
 "use strict"
 
-import Utils from '../utils/Utils';
+import {Dispatcher} from '../utils/Utils';
 import $ from 'jquery'
 
-class UploadStore extends Utils.Dispatcher {
+class UploadStore extends Dispatcher {
   constructor() {
     super([]);
     this._active = false;
@@ -85,7 +85,7 @@ class UploadStore extends Utils.Dispatcher {
 
       super.getObject()[this._index].process = Percentage;
       super.dispatch();
-    }  
+    }
   }
 
   upload() {
@@ -100,4 +100,4 @@ class UploadStore extends Utils.Dispatcher {
   }
 }
 
-module.exports = new UploadStore();
+export default new UploadStore();

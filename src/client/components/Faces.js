@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import { AutoComplete } from '../utils/Utils'
 import ImagesStore from '../stores/ImagesStore'
 import { Link } from 'react-router'
@@ -124,7 +124,7 @@ class Faces extends React.Component {
 
   _renderCreate() {
     if (!this.state.create) {
-      
+
       return (<span />);
     }
 
@@ -220,4 +220,4 @@ class Faces extends React.Component {
   }
 }
 
-module.exports = Faces;
+export default Faces;

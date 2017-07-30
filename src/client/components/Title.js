@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 
 
 class Title extends React.Component {
@@ -11,4 +11,4 @@ class Title extends React.Component {
   }
 }
 
-module.exports = Title;
+export default Title;

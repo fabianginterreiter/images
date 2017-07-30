@@ -1,14 +1,14 @@
 "use strict"
 
-const React = require('react');
+import * as React from 'react';
 
-const SelectionStore = require('../../stores/SelectionStore');
-const ImagesStore = require('../../stores/ImagesStore');
-const NavigationsState = require('../../states/NavigationsState');
-const SelectionOptions = require('./SelectionOptions');
-const history = require('react-router').browserHistory;
-const Title = require('../Title');
-const DialogStore = require('../../utils/Utils').DialogStore;
+import SelectionStore from '../../stores/SelectionStore';
+import ImagesStore from '../../stores/ImagesStore';
+import NavigationsState from '../../states/NavigationsState';
+import SelectionOptions from './SelectionOptions';
+import { browserHistory } from 'react-router';
+import Title from '../Title';
+import { DialogStore } from '../../utils/Utils';
 
 class Selection extends React.Component {
   constructor(props) {
@@ -21,11 +21,11 @@ class Selection extends React.Component {
   }
 
   componentWillUnmount() {
-    SelectionStore.removeChangeListener(this);    
+    SelectionStore.removeChangeListener(this);
   }
 
   handleShow() {
-    history.push('/images/selected');
+    browserHistory.push('/images/selected');
   }
 
   handleDelete() {
@@ -60,4 +60,4 @@ class Selection extends React.Component {
   }
 }
 
-module.exports = Selection;
+export default Selection;

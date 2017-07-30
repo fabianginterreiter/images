@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import { Link } from 'react-router'
 import ImagesStore from '../stores/ImagesStore'
 
@@ -27,4 +27,4 @@ class PersonsList extends React.Component {
   }
 }
 
-module.exports = PersonsList;
+export default PersonsList;

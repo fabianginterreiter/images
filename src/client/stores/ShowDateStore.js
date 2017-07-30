@@ -1,9 +1,9 @@
 "use strict"
 
-import Utils from '../utils/Utils'
+import {Dispatcher} from '../utils/Utils';
 import cookie from 'react-cookie'
 
-class ShowDateStore extends Utils.Dispatcher {
+class ShowDateStore extends Dispatcher {
   constructor() {
     var c = cookie.load('showDate');
     super(c === 'true');
@@ -19,4 +19,4 @@ class ShowDateStore extends Utils.Dispatcher {
   }
 }
 
-module.exports = new ShowDateStore();
+export default new ShowDateStore();

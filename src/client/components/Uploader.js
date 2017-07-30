@@ -1,10 +1,9 @@
 "use strict"
 
-const ImagesStore = require('../stores/ImagesStore');
-const UploadStore = require('../stores/UploadStore');
-const React = require('react');
-const InlineProgress = require('../utils/Utils').InlineProgress;
-const Modal = require('../utils/Utils').Modal;
+import ImagesStore from '../stores/ImagesStore';
+import UploadStore from '../stores/UploadStore';
+import * as React from 'react';
+import { Modal, InlineProgress } from '../utils/Utils';
 
 class Uploader extends React.Component {
   constructor(props) {
@@ -60,7 +59,7 @@ class Uploader extends React.Component {
         buttons.push(<button key='ShowButton' onClick={this.handleOpen.bind(this)}>Show</button>)
         buttons.push(<button key='CloseButton' onClick={this.handleCancel.bind(this)}>Close</button>)
       } else {
-        buttons.push(<button key='CancelUploading' onClick={this.handleCancel.bind(this)}>Cancel</button>)  
+        buttons.push(<button key='CancelUploading' onClick={this.handleCancel.bind(this)}>Cancel</button>)
       }
     }
 
@@ -76,7 +75,7 @@ class Uploader extends React.Component {
 
     this.state.files.forEach(function(file) {
       if (file.error) {
-        files.push(<li key={file.name}>{file.name} <span className="error">✘</span></li>);  
+        files.push(<li key={file.name}>{file.name} <span className="error">✘</span></li>);
       } else if (file.complete) {
         files.push(<li key={file.name}>{file.name} <span className="success">✔</span></li>);
       } else if (file.started) {
@@ -98,4 +97,4 @@ class Uploader extends React.Component {
   }
 }
 
-module.exports = Uploader;
+export default Uploader;

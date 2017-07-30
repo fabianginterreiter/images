@@ -20,4 +20,4 @@ class SelectDialogStore extends Dispatcher {
   }
 }
 
-module.exports = new SelectDialogStore();
+export default new SelectDialogStore();

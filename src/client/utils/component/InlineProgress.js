@@ -12,4 +12,4 @@ class InlineProgress extends React.Component {
   }
 }
 
-module.exports = InlineProgress;
+export default InlineProgress;

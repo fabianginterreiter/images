@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import ImagesStore from '../stores/ImagesStore'
 import SelectionStore from '../stores/SelectionStore'
 
@@ -12,7 +12,7 @@ class ImagesNav extends React.Component {
 
   handleUnselectAll() {
     ImagesStore.getObject().forEach((image) => (SelectionStore.unselect(image)));
-    ImagesStore.dispatch(); 
+    ImagesStore.dispatch();
   }
 
   render() {
@@ -26,4 +26,4 @@ class ImagesNav extends React.Component {
   }
 }
 
-module.exports = ImagesNav;
+export default ImagesNav;

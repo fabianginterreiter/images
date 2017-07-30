@@ -1,8 +1,8 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
-import moment from 'moment'
+import * as React from 'react'
+import * as $ from 'jquery'
+import * as moment from 'moment'
 import Image from './Image'
 import Fullscreen from './Fullscreen'
 import Like from './Like'
@@ -10,10 +10,10 @@ import Empty from './Empty'
 import ImagesStore from '../stores/ImagesStore'
 import ThumbnailsSizeStore from '../stores/ThumbnailsSizeStore'
 import NavigationsState from '../states/NavigationsState'
-import Utils from '../utils/Utils'
 import SelectionStore from '../stores/SelectionStore'
 import { Link } from 'react-router'
 import ShowDateStore from '../stores/ShowDateStore'
+import {KeyUpListener, ResizeListener, ScrollListener} from '../utils/Utils';
 
 class Images extends React.Component {
   constructor(props) {
@@ -35,11 +35,11 @@ class Images extends React.Component {
     ImagesStore.addChangeListener(this, (images) => this.setState({images:images}));
     ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size:size})));
     NavigationsState.addChangeListener(this, this.handlePinningNavigation.bind(this));
-    Utils.KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
-    Utils.ResizeListener.addChangeListener(this, this.handleResize.bind(this));
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+    ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     SelectionStore.addChangeListener(this, () => this.forceUpdate());
     ShowDateStore.addChangeListener(this, () => this.forceUpdate());
-    Utils.ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
+    ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
 
     this.width = document.getElementById('container').clientWidth;
   }
@@ -48,9 +48,9 @@ class Images extends React.Component {
     ImagesStore.removeChangeListener(this);
     ThumbnailsSizeStore.removeChangeListener(this);
     NavigationsState.removeChangeListener(this);
-    Utils.KeyUpListener.removeChangeListener(this);
-    Utils.ResizeListener.removeChangeListener(this);
-    Utils.ScrollListener.removeChangeListener(this);
+    KeyUpListener.removeChangeListener(this);
+    ResizeListener.removeChangeListener(this);
+    ScrollListener.removeChangeListener(this);
     SelectionStore.removeChangeListener(this);
     ShowDateStore.removeChangeListener(this);
   }
@@ -333,4 +333,4 @@ class Images extends React.Component {
   }
 }
 
-module.exports = Images;
+export default Images;

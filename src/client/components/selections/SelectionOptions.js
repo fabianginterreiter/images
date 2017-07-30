@@ -125,4 +125,4 @@ class SelectionOptions extends React.Component {
   }
 }
 
-module.exports = SelectionOptions;
+export default SelectionOptions;

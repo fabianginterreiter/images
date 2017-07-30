@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import UploadStore from '../stores/UploadStore'
 
 class DragAndDropUpload extends React.Component {
@@ -38,11 +38,11 @@ class DragAndDropUpload extends React.Component {
       return (
         <span>
         </span>
-      );  
+      );
     } else {
       return (<div className="drag" onDragOver={this.preventDefault} onDrop={this.handleDrop.bind(this)} />);
     }
   }
 }
 
-module.exports = DragAndDropUpload;
+export default DragAndDropUpload;

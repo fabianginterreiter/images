@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import Images from './Images'
 import ImagesStore from '../stores/ImagesStore'
 import ImagesNav from './ImagesNav'
@@ -24,4 +24,4 @@ class Favorites extends React.Component {
   }
 }
 
-module.exports = Favorites;
+export default Favorites;

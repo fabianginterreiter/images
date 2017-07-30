@@ -53,4 +53,4 @@ class Ajax {
   }
 }
 
-module.exports = new Ajax();
+export default new Ajax();

@@ -34,20 +34,22 @@ app.use('/api/navigations', navigations);
 app.use('/api/trash', trash);
 app.use('/api/search', search);
 
-app.use(express.static('public'));
+app.use(express.static(path.resolve(__dirname, './public')));
 
 app.use('/thumbs', express.static(config.getThumbnailPath()));
 app.use('/images', express.static(config.getPreviewPath()));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, './public', 'index.html'));
 });
 
 fs.ensureDir(config.getPath(), (err) => {
   if (err) {
     return 'ERROR';
   }
-  bookshelf.knex.migrate.latest().then((err2) => {
+  bookshelf.knex.migrate.latest({
+    directory: __dirname+"/migrations"
+  }).then((err2) => {
     app.listen(3000, () => {
       // console.log('Example app listening on port 3000!');
     });

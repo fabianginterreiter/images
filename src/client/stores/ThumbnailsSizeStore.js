@@ -1,9 +1,9 @@
 "use strict"
 
-import Utils from '../utils/Utils'
+import {Dispatcher} from '../utils/Utils';
 import cookie from 'react-cookie'
 
-class ThumbnailsSizeStore extends Utils.Dispatcher {
+class ThumbnailsSizeStore extends Dispatcher {
   constructor() {
     var c = cookie.load('thumbnailsSize');
     super(c ? c : 200);
@@ -15,4 +15,4 @@ class ThumbnailsSizeStore extends Utils.Dispatcher {
   }
 }
 
-module.exports = new ThumbnailsSizeStore();
+export default new ThumbnailsSizeStore();

@@ -12,4 +12,4 @@ class ScrollListener extends Dispatcher {
 
 }
 
-module.exports = new ScrollListener();
+export default new ScrollListener();

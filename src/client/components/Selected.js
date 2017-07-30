@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import { browserHistory } from 'react-router'
 import Images from './Images'
 import ImagesStore from '../stores/ImagesStore'
@@ -26,4 +26,4 @@ class Selected extends React.Component {
   }
 }
 
-module.exports = Selected;
+export default Selected;

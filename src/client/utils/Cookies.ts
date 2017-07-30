@@ -1,8 +1,8 @@
-"use strict"
-
-import cookie from 'react-cookie'
+import * as cookie from 'react-cookie'
 
 class Cookies {
+  private values: object;
+
   constructor() {
     this.values = {};
 
@@ -35,4 +35,4 @@ class Cookies {
   }
 }
 
-module.exports = new Cookies();
+export default new Cookies();

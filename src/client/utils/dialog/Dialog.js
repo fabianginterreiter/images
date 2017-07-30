@@ -14,7 +14,7 @@ class Dialog extends React.Component {
   }
 
   componentWillUnmount() {
-    DialogStore.removeChangeListener(this);    
+    DialogStore.removeChangeListener(this);
   }
 
   handleCancel() {
@@ -43,7 +43,7 @@ class Dialog extends React.Component {
         <div className="dimming" onClick={this.handleCancel.bind(this)} />
         <div className="dialog">
           <div className="title">
-            {icon} 
+            {icon}
             {this.state.options.title}
           </div>
           <div className="body">{this.state.options.text}</div>
@@ -57,4 +57,4 @@ class Dialog extends React.Component {
   }
 }
 
-module.exports = Dialog;
+export default Dialog;

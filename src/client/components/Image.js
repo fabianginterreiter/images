@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import ViewPointStore from '../stores/ViewPointStore'
 
 class Image extends React.Component {
@@ -49,4 +49,4 @@ class Image extends React.Component {
   }
 }
 
-module.exports = Image;
+export default Image;

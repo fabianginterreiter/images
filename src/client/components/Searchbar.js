@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import { browserHistory } from 'react-router'
 import NavigationsState from '../states/NavigationsState'
 import Title from './Title'
@@ -105,4 +105,4 @@ class Searchbar extends React.Component {
   }
 }
 
-module.exports = Searchbar;
+export default Searchbar;

@@ -53,4 +53,4 @@ class ScrollUp extends React.Component {
   }
 }
 
-module.exports = ScrollUp;
+export default ScrollUp;

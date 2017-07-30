@@ -1,8 +1,8 @@
 "use strict"
 
-import Utils from '../utils/Utils';
+import {Dispatcher} from '../utils/Utils';
 
-class ViewPointStore extends Utils.Dispatcher {
+class ViewPointStore extends Dispatcher {
   constructor() {
     super(0);
 
@@ -14,4 +14,4 @@ class ViewPointStore extends Utils.Dispatcher {
   }
 };
 
-module.exports = new ViewPointStore();
+export default new ViewPointStore();

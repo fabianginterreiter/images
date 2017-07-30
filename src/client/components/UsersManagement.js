@@ -1,10 +1,10 @@
-var React = require('react');
-var moment = require('moment');
+import * as React from 'react';
+import * as moment from 'moment';
 
-var UserState = require('../states/UserState');
-var UsersStore = require('../stores/UsersStore');
+import UserState from '../states/UserState';
+import UsersStore from '../stores/UsersStore';
 
-const Ajax = require('../libs/Ajax');
+import Ajax from '../libs/Ajax';
 
 class UsersManagement extends React.Component {
   constructor(props) {
@@ -86,4 +86,4 @@ class UsersManagement extends React.Component {
   }
 }
 
-module.exports = UsersManagement;
+export default UsersManagement;

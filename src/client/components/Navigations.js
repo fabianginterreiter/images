@@ -1,6 +1,6 @@
 "use strict"
 
-import React from 'react'
+import * as React from 'react'
 import ImagesStore from '../stores/ImagesStore'
 import NavigationsStore from '../stores/NavigationsStore'
 import NavigationsState from '../states/NavigationsState'
@@ -25,7 +25,7 @@ class Navigations extends React.Component {
           query: ''
         });
       } else {
-        this.forceUpdate();  
+        this.forceUpdate();
       }
     }.bind(this));
 
@@ -83,14 +83,14 @@ class Navigations extends React.Component {
         </div>
         <div style={{clear:'both'}} />
         <div className="body">
-          <OptionsList values={this.state.values} 
-            onClick={this.handleClick.bind(this)} 
+          <OptionsList values={this.state.values}
+            onClick={this.handleClick.bind(this)}
             onSettingsClick={this.handleSettingClick.bind(this)}
-            selected={this.isSelected.bind(this)} 
+            selected={this.isSelected.bind(this)}
             query={this.state.query} />
         </div>
       </Panel>);
   }
 }
 
-module.exports = Navigations;
+export default Navigations;

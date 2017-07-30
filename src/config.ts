@@ -8,7 +8,7 @@ interface ConfigurationsObject {
 }
 
 const settings = {
-    path: 'data',
+    path: '../data',
     redis: true
 };
 

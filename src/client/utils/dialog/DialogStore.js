@@ -27,4 +27,4 @@ class DialogStore extends Dispatcher {
   }
 }
 
-module.exports = new DialogStore();
+export default new DialogStore();

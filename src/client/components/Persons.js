@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import { Link } from 'react-router'
 import{ Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
 import NavigationsStore from '../stores/NavigationsStore'
@@ -103,4 +103,4 @@ class Persons extends React.Component {
   }
 }
 
-module.exports = Persons;
+export default Persons;

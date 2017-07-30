@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import { Link } from 'react-router'
 import Ajax from '../libs/Ajax'
 import NavigationsStore from '../stores/NavigationsStore'
@@ -112,4 +112,4 @@ class Albums extends React.Component {
   }
 }
 
-module.exports = Albums;
+export default Albums;

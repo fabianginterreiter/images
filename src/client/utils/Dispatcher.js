@@ -70,9 +70,9 @@ class Dispatcher {
 
   release(object) {
     if (this._takeover === object.__obj_id) {
-      this._takeover = null;  
+      this._takeover = null;
     }
   }
 }
 
-module.exports = Dispatcher;
+export default Dispatcher;

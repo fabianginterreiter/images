@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import UploadStore from '../stores/UploadStore'
 
 class Empty extends React.Component {
@@ -24,4 +24,4 @@ class Empty extends React.Component {
   }
 }
 
-module.exports = Empty;
+export default Empty;

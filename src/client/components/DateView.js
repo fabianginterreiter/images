@@ -1,7 +1,7 @@
 "use strict"
 
-import React from 'react'
-import moment from 'moment'
+import * as React from 'react'
+import * as moment from 'moment'
 import Images from './Images'
 import ImagesStore from '../stores/ImagesStore'
 import ImagesNav from './ImagesNav'
@@ -59,4 +59,4 @@ class DateView extends React.Component {
   }
 }
 
-module.exports = DateView;
+export default DateView;

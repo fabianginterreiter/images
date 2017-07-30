@@ -28,32 +28,30 @@ import SingleSelectDialogStore from './dialog/SingleSelectDialogStore'
 // Helper
 import sort from './helper/sort'
 
-module.exports = {
-  Dispatcher: Dispatcher,
-  Cookies: Cookies,
+export { Dispatcher,
+  Cookies,
 
   // Listeners
-  KeyUpListener: KeyUpListener,
-  ResizeListener: ResizeListener,
-  ScrollListener: ScrollListener,
+  KeyUpListener,
+  ResizeListener,
+  ScrollListener,
 
   // Components
-  Quickedit: Quickedit,
-  AutoComplete: AutoComplete,
-  Panel: Panel,
-  InlineProgress: InlineProgress,
-  Modal: Modal,
-  OptionsList: OptionsList,
-  Dropdown: Dropdown,
-  ScrollUp: ScrollUp,
-  ExtendedTable: ExtendedTable,
+  Quickedit,
+  AutoComplete,
+  Panel,
+  InlineProgress,
+  Modal,
+  OptionsList,
+  Dropdown,
+  ScrollUp,
+  ExtendedTable,
 
   // Dialog
-  Main: Main,
-  DialogStore: DialogStore,
-  SelectDialogStore: SelectDialogStore,
-  SingleSelectDialogStore: SingleSelectDialogStore,
+  Main,
+  DialogStore,
+  SelectDialogStore,
+  SingleSelectDialogStore,
 
   // helper
-  sort:  sort
-}
+  sort } 

@@ -82,7 +82,7 @@ class AutoComplete extends React.Component {
 
         result.forEach((tag) => {
           if (!this.contains(this.props.ignore, tag)) {
-            tags.push(tag);  
+            tags.push(tag);
           }
         });
 
@@ -107,7 +107,7 @@ class AutoComplete extends React.Component {
       } else {
         this.props.onSelect({
           name: this.state.value
-        });  
+        });
       }
 
       this.setState({
@@ -170,7 +170,7 @@ class AutoComplete extends React.Component {
     if (!this.state.focus || this.state.tags.length === 0) {
       return (<span />);
     }
-    
+
     var style = {
       top: $(this.refs.box).height()
     }
@@ -179,7 +179,7 @@ class AutoComplete extends React.Component {
       <ul style={style}>
         {
           this.state.tags.map((tag) => (
-            <li key={tag.id} 
+            <li key={tag.id}
               onClick={this.handleSelect.bind(this, tag)}
               className={this.getMenuClassName(tag)}>{tag.name}</li>
           ), this)
@@ -201,13 +201,13 @@ class AutoComplete extends React.Component {
     return (
       <div className="autocomplete" ref="box">
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <input className={className} 
+          <input className={className}
             type="text"
             ref="input"
-            value={this.state.value} 
-            onChange={this.handleChange.bind(this)} 
-            onFocus={this.handleFocus.bind(this)} 
-            onBlur={this.handleBlur.bind(this)} 
+            value={this.state.value}
+            onChange={this.handleChange.bind(this)}
+            onFocus={this.handleFocus.bind(this)}
+            onBlur={this.handleBlur.bind(this)}
             placeholder={this.props.placeholder} />
             {this.__renderTags()}
         </form>
@@ -216,4 +216,4 @@ class AutoComplete extends React.Component {
   }
 }
 
-module.exports = AutoComplete;
+export default AutoComplete;

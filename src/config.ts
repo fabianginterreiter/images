@@ -1,10 +1,10 @@
-import {ConfigurationObject, DatabaseConfiguration} from './types/configuration';
+import {IConfigurationObject, IDatabaseConfiguration} from './types/configuration';
 import Configuration from './lib/Configuration';
 
-interface ConfigurationsObject {
-  development: ConfigurationObject
-  production: ConfigurationObject
-  test: ConfigurationObject
+interface IConfigurationsObject {
+  development: IConfigurationObject
+  production: IConfigurationObject
+  test: IConfigurationObject
 }
 
 const settings = {
@@ -14,7 +14,7 @@ const settings = {
 
 const development = 'development';
 
-const configurations: ConfigurationsObject = {
+const configurations: IConfigurationsObject = {
   development: {
     database: null,
     path: 'data',

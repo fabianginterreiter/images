@@ -1,23 +1,23 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as ReactRouter from "react-router";
+import Album from "./components/Album";
 import Albums from "./components/Albums";
 import { All } from "./components/All";
+import Dates from "./components/Dates";
+import DateView from "./components/DateView";
 import Favorites from "./components/Favorites";
 import Images from "./components/Images";
 import ImagesApp from "./components/ImagesApp";
-import Persons from "./components/Persons";
-import Tags from "./components/Tags";
-import Person from "./components/Person";
-import Tag from "./components/Tag";
-import Album from "./components/Album";
-import UsersManagement from "./components/UsersManagement";
-import Dates from "./components/Dates";
-import DateView from "./components/DateView";
 import Init from "./components/Init";
+import Person from "./components/Person";
+import Persons from "./components/Persons";
 import Search from "./components/Search";
-import Trash from "./components/Trash";
 import Selected from "./components/Selected";
+import Tag from "./components/Tag";
+import Tags from "./components/Tags";
+import Trash from "./components/Trash";
+import UsersManagement from "./components/UsersManagement";
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 

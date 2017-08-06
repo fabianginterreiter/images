@@ -1,1 +1,1 @@
-tslint src/**/*.ts{,x}
+tslint --fix src/**/*.ts{,x}

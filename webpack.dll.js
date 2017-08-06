@@ -1,25 +1,31 @@
-var path = require("path");
-var webpack = require("webpack");
-
 module.exports = {
-    entry: {
-        vendor: [path.join(__dirname, "client", "vendors.js")]
-    },
+    entry: __dirname + '/src/client/vendors.js',
     output: {
-        path: path.join(__dirname, "public", "vendor", "javascript"),
-        filename: "dll.[name].js",
-        library: "[name]"
+        filename: "dll.vendors.js",
+        path: __dirname + "/dist/public/vendor/javascript"
     },
-    plugins: [
-        new webpack.DllPlugin({
-            path: path.join(__dirname, "public", "vendor", "javascript", "[name]-manifest.json"),
-            name: "[name]",
-            context: path.resolve(__dirname, "client")
-        }),
-        new webpack.optimize.OccurenceOrderPlugin()
-    ],
+
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: "source-map",
+
     resolve: {
-        root: path.resolve(__dirname, "client"),
-        modulesDirectories: ["node_modules"]
+        // Add '.ts' and '.tsx' as resolvable extensions.
+        extensions: [".js"]
+    },
+
+    module: {
+        rules: [
+            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+
+            {
+                test: /\.(js)$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            }
+        ]
     }
 };

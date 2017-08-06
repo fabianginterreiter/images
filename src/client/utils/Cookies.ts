@@ -1,4 +1,4 @@
-import * as cookie from 'react-cookie'
+import * as cookie from "react-cookie"
 
 class Cookies {
   private values: object;

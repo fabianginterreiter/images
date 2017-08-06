@@ -1,33 +1,34 @@
 import * as express from "express";
-import * as AlbumsController from "../controllers/AlbumsController";
+import AlbumsController from "../controllers/AlbumsController";
+import {IRequest} from "../types/request"
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  new AlbumsController(req).index().then((tags) => (res.send(tags))).catch((e) => {
+router.get("/", (req: IRequest, res: express.Response) => {
+  new AlbumsController(req).index().then(tags => (res.send(tags))).catch((e) => {
     res.status(404).send("Fehler");
   });
 });
 
-router.get("/:id", (req, res) => {
-  new AlbumsController(req).get().then((tag) => (res.send(tag))).catch((e) => {
+router.get("/:id", (req: IRequest, res) => {
+  new AlbumsController(req).get().then(tag => (res.send(tag))).catch((e) => {
     res.status(404).send("Fehler");
   });
 });
 
-router.put("/:id", (req, res) => {
-  new AlbumsController(req).update().then((tag) => (res.send(tag))).catch((e) => {
+router.put("/:id", (req: IRequest, res) => {
+  new AlbumsController(req).update().then(tag => (res.send(tag))).catch((e) => {
     res.status(404).send("Fehler");
   });
 });
 
-router.delete("/:id", (req, res) => {
-  new AlbumsController(req).destroy().then((tag) => (res.send(tag))).catch((e) => {
+router.delete("/:id", (req: IRequest, res) => {
+  new AlbumsController(req).destroy().then(tag => (res.send(tag))).catch((e) => {
     res.status(404).send("Fehler");
   });
 });
 
-router.post("/", (req, res) => {
+router.post("/", (req: IRequest, res) => {
   new AlbumsController(req).create().then((tag) => {
     res.send(tag);
   }).catch((err) => {

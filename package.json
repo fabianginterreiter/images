@@ -5,25 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "./bin/dev",
-
     "watch": "./bin/watch",
     "watch:css": "./bin/watch-css",
     "watch:client": "./bin/watch-javascript",
     "watch:server": "tsc -w",
-
     "build": "./bin/build",
     "build:static": "node bin/copyStaticAssets.js",
     "build:css": "./bin/build-css",
     "build:server": "tsc",
     "build:dll": "webpack --config=webpack.dll.js",
     "build:client": "./bin/build-javascript",
-
     "lint": "./bin/lint",
-
     "start": "./dist/index.js",
-
     "clean": "node bin/clean.js",
-
     "test": "NODE_ENV=test mocha"
   },
   "author": "",
@@ -53,7 +47,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.0.36",
-    "@types/express-session": "^1.15.1",
+    "@types/express-session": "^1.15.2",
     "@types/node": "^8.0.17",
     "awesome-typescript-loader": "^3.2.2",
     "babel-core": "^6.21.0",

@@ -1,4 +1,4 @@
-import {ConfigurationObject, DatabaseConfiguration} from '../types/configuration';
+import {ConfigurationObject, DatabaseConfiguration} from "../types/configuration";
 
 export default class Configuration {
   private config: ConfigurationObject;
@@ -16,19 +16,19 @@ export default class Configuration {
   }
 
   public getImagesPath() {
-    return this.config.path + '/images';
+    return this.config.path + "/images";
   }
 
   public getCachePath() {
-    return this.config.path + '/cache';
+    return this.config.path + "/cache";
   }
 
   public getPreviewPath() {
-    return this.config.path + '/cache/preview';
+    return this.config.path + "/cache/preview";
   }
 
   public getThumbnailPath() {
-    return this.config.path + '/cache/thumbnails';
+    return this.config.path + "/cache/thumbnails";
   }
 
   public getSessionConfig(session) {
@@ -39,13 +39,13 @@ export default class Configuration {
       },
       resave: false,
       saveUninitialized: false,
-      secret: 'key',
+      secret: "key",
       secure: false,
       store: null
     };
 
-    if (this.config.redis && process.env.NODE_ENV === 'production') {
-      const RedisStore = require('connect-redis')(session);
+    if (this.config.redis && process.env.NODE_ENV === "production") {
+      const RedisStore = require("connect-redis")(session);
       result.store = new RedisStore();
     }
 
@@ -57,9 +57,9 @@ export default class Configuration {
       return this.config.database;
     } else {
       return {
-        client: 'sqlite3',
+        client: "sqlite3",
         connection: {
-          filename: this.config.path + '/data.sqlite3'
+          filename: this.config.path + "/data.sqlite3"
         },
         useNullAsDefault: true
       };

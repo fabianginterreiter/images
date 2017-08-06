@@ -1,15 +1,15 @@
 export interface DatabaseConnectionConfiguration {
-  filename:string;
+  filename: string;
 }
 
 export interface DatabaseConfiguration {
-  client:string;
-  useNullAsDefault:boolean;
+  client: string;
+  useNullAsDefault: boolean;
   connection: DatabaseConnectionConfiguration;
 }
 
 export interface ConfigurationObject {
-  path:string;
-  redis:boolean;
-  database:DatabaseConfiguration;
+  path: string;
+  redis: boolean;
+  database: DatabaseConfiguration;
 }

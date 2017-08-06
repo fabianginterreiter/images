@@ -1,23 +1,23 @@
-import * as React from "react"
-import * as ReactDOM from "react-dom"
-import * as ReactRouter from "react-router"
-import ImagesApp from "./components/ImagesApp"
-import Images from "./components/Images"
-import { All } from "./components/All"
-import Favorites from "./components/Favorites"
-import Persons from "./components/Persons"
-import Tags from "./components/Tags"
-import Albums from "./components/Albums"
-import Person from "./components/Person"
-import Tag from "./components/Tag"
-import Album from "./components/Album"
-import UsersManagement from "./components/UsersManagement"
-import Dates from "./components/Dates"
-import DateView from "./components/DateView"
-import Init from "./components/Init"
-import Search from "./components/Search"
-import Trash from "./components/Trash"
-import Selected from "./components/Selected"
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import * as ReactRouter from "react-router";
+import Albums from "./components/Albums";
+import { All } from "./components/All";
+import Favorites from "./components/Favorites";
+import Images from "./components/Images";
+import ImagesApp from "./components/ImagesApp";
+import Persons from "./components/Persons";
+import Tags from "./components/Tags";
+import Person from "./components/Person";
+import Tag from "./components/Tag";
+import Album from "./components/Album";
+import UsersManagement from "./components/UsersManagement";
+import Dates from "./components/Dates";
+import DateView from "./components/DateView";
+import Init from "./components/Init";
+import Search from "./components/Search";
+import Trash from "./components/Trash";
+import Selected from "./components/Selected";
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 

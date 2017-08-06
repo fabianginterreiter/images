@@ -8,16 +8,16 @@ export default class BaseController {
   protected body: any;
   protected session: Express.Session;
 
-  constructor(req: express.Request) {
+  public constructor(req: express.Request) {
     this.params = req.params || [];
     this.file = req.file || null;
     this.files = req.files || [];
     this.query = req.query || [];
     this.body = req.body || {};
-    this.session = req.session || <Express.Session>{};
+    this.session = req.session || {} as Express.Session;
   }
 
-  isAuthenticated() {
+  public isAuthenticated() {
     return this.session.user && this.session.user > 0;
   }
 }

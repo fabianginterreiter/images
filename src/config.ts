@@ -1,23 +1,23 @@
-import {IConfigurationObject, IDatabaseConfiguration} from './types/configuration';
-import Configuration from './lib/Configuration';
+import Configuration from "./lib/Configuration";
+import {ConfigurationObject, DatabaseConfiguration} from "./types/configuration";
 
-interface IConfigurationsObject {
-  development: IConfigurationObject
-  production: IConfigurationObject
-  test: IConfigurationObject
+interface ConfigurationsObject {
+  development: ConfigurationObject;
+  production: ConfigurationObject;
+  test: ConfigurationObject;
 }
 
 const settings = {
-    path: '../data',
+    path: "../data",
     redis: true
 };
 
-const development = 'development';
+const development = "development";
 
-const configurations: IConfigurationsObject = {
+const configurations: ConfigurationsObject = {
   development: {
     database: null,
-    path: 'data',
+    path: "data",
     redis: false
   },
   production: {
@@ -27,11 +27,11 @@ const configurations: IConfigurationsObject = {
   },
   test: {
     database: {
-      client: 'sqlite3',
-      useNullAsDefault: false,
+      client: "sqlite3",
       connection: {
-        filename: ':memory:'
-      }
+        filename: ":memory:"
+      },
+      useNullAsDefault: false
     },
     path: null,
     redis: false

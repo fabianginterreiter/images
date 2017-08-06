@@ -8,7 +8,9 @@
     ],
     "jsRules": {},
     "rules": {
-      "trailing-comma": [false]
+      "trailing-comma": [false],
+      "interface-name": [true, "never-prefix"],
+      "no-namespace": [true, "allow-declarations"]
     },
     "rulesDirectory": []
 }

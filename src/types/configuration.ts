@@ -1,15 +1,15 @@
-export interface IDatabaseConnectionConfiguration {
+export interface DatabaseConnectionConfiguration {
   filename: string;
 }
 
-export interface IDatabaseConfiguration {
+export interface DatabaseConfiguration {
   client: string;
   useNullAsDefault: boolean;
-  connection: IDatabaseConnectionConfiguration;
+  connection: DatabaseConnectionConfiguration;
 }
 
-export interface IConfigurationObject {
+export interface ConfigurationObject {
   path: string;
   redis: boolean;
-  database: IDatabaseConfiguration;
+  database: DatabaseConfiguration;
 }

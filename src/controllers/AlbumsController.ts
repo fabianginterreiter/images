@@ -40,7 +40,7 @@ export default class AlbumsController extends BaseController {
 
   public update() {
     return new Album({id: this.params.id}).fetch().then((album) => {
-      if (album.get("user_id") != this.session.user) {
+      if (album.get("user_id") !== this.session.user) {
         throw new Error("Illegal Access");
       }
 
@@ -71,11 +71,11 @@ export default class AlbumsController extends BaseController {
       return new Album({
         name: album.name,
         user_id: this.session.user
-      }).save().then((album) => {
+      }).save().then((result) => {
         return new AlbumImage({
-          album_id: album.get("id"),
+          album_id: result.get("id"),
           image_id: this.params.id
-        }).save().then(() => album.toJSON());
+        }).save().then(() => result.toJSON());
       });
     }
   }

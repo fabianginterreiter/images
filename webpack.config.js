@@ -37,10 +37,10 @@ module.exports = {
     // This is important because it allows us to avoid bundling all of our
     // dependencies, which allows browsers to cache those libraries between builds.
     externals: {
-        "react": "react",
-        "react-dom": "react-dom",
-        "react-router": "react-router",
-        "jquery": "jquery",
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "react-router": "ReactRouter",
+        "jquery": "$",
         "moment": "moment"
     },
 };

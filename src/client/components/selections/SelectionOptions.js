@@ -1,14 +1,13 @@
 "use strict"
 
-const React = require('react');
-const $ = require("jquery");
-const OptionsList = require('../../utils/Utils').OptionsList;
-const Dropdown = require('../../utils/Utils').Dropdown;
-const ImagesStore = require('../../stores/ImagesStore');
-const SelectDialogStore = require('../../utils/Utils').SelectDialogStore;
-const SingleSelectDialogStore = require('../../utils/Utils').SingleSelectDialogStore;
-const SelectionStore = require('../../stores/SelectionStore');
-const location = require('react-router').location;
+import * as React from 'react'
+import * as $ from "jquery"
+import { location } from 'react-router'
+import { OptionsList, Dropdown, SelectDialogStore, SingleSelectDialogStore } from '../../utils/Utils'
+
+import ImagesStore from '../../stores/ImagesStore'
+import SelectionStore from '../../stores/SelectionStore'
+
 import Ajax from '../../libs/Ajax'
 import ListUtils from '../../libs/ListUtils'
 

@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } from "react-router"
+import * as ReactRouter from "react-router"
 import ImagesApp from "./components/ImagesApp"
 import Images from "./components/Images"
 import All from "./components/All"
@@ -18,6 +18,8 @@ import Init from "./components/Init"
 import Search from "./components/Search"
 import Trash from "./components/Trash"
 import Selected from "./components/Selected"
+
+const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 
 ReactDOM.render(
   <Router history={browserHistory}>

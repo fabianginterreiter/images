@@ -15,7 +15,7 @@ export default class AlbumsController extends BaseController {
   }
 
   public index() {
-    return Album.query((qb) => {
+    return new Album().query((qb) => {
       qb.select("albums.*");
 
       if (this.query.q) {
@@ -81,6 +81,6 @@ export default class AlbumsController extends BaseController {
   }
 
   public deleteAlbum() {
-    return AlbumImage.where({image_id: this.params.id, album_id: this.params.album_id}).destroy();
+    return new AlbumImage().where({image_id: this.params.id, album_id: this.params.album_id}).destroy();
   }
 }

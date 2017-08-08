@@ -1,9 +1,9 @@
-import {IConfigurationObject, IDatabaseConfiguration} from "../types/configuration";
+import {ConfigurationObject, DatabaseConfiguration} from "../types/configuration";
 
 export default class Configuration {
-  private config: IConfigurationObject;
+  private config: ConfigurationObject;
 
-  public constructor(config: IConfigurationObject) {
+  public constructor(config: ConfigurationObject) {
     this.config = config;
   }
 
@@ -52,7 +52,7 @@ export default class Configuration {
     return result;
   }
 
-  public getDatabaseConfiguration(): IDatabaseConfiguration {
+  public getDatabaseConfiguration(): DatabaseConfiguration {
     if (this.config.database) {
       return this.config.database;
     } else {

@@ -4,17 +4,17 @@ import * as session from "express-session";
 import * as fs from "fs-extra";
 import * as path from "path";
 import config from "./config";
-import * as bookshelf from "./model/bookshelf";
+import bookshelf from "./model/bookshelf";
 import albums from "./routes/albums";
-import * as images from "./routes/images";
-import * as navigations from "./routes/navigations";
-import * as options from "./routes/options";
-import * as persons from "./routes/persons";
-import * as search from "./routes/search";
-import * as sessionroute from "./routes/session";
-import * as tags from "./routes/tags";
-import * as trash from "./routes/trash";
-import * as users from "./routes/users";
+import images from "./routes/images";
+import navigations from "./routes/navigations";
+import options from "./routes/options";
+import persons from "./routes/persons";
+import search from "./routes/search";
+import sessionroute from "./routes/session";
+import tags from "./routes/tags";
+import trash from "./routes/trash";
+import users from "./routes/users";
 
 const app = express();
 

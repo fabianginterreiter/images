@@ -17,7 +17,7 @@ export default class BaseController {
     this.session = req.session || {} as Express.Session;
   }
 
-  public isAuthenticated() {
+  protected isAuthenticated() {
     return this.session.user && this.session.user > 0;
   }
 }

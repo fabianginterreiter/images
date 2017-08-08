@@ -9,19 +9,20 @@ import BaseController from "./BaseController";
 export default class NavigationsController extends BaseController {
 
   public index() {
+    if (!this.isAuthenticated()) {
+      return this.createResult();
+    }
 
-    return new Promise((resolve, reject) => {
-      if (!this.isAuthenticated()) {
-        resolve([]);
-      }
-
-      this.addAlbums([])
+    return this.createResult()
+      .then((options) => this.addAlbums([]))
       .then((options) => this.addPersons(options))
       .then((options) => this.addTags(options))
       .then((options) => this.addDates(options))
-      .then((options) => this.addTrash(options))
-      .then((options) => resolve(options));
-    });
+      .then((options) => this.addTrash(options));
+  }
+
+  private createResult() {
+    return Promise.resolve([]);
   }
 
   private addTrash(options) {
@@ -160,7 +161,7 @@ export default class NavigationsController extends BaseController {
 
   private addAlbums(options) {
     return new Album().query((qb) => {
-      qb.where("user_id", this.session.user).orWhere("public", ">", 0);
+      qb.where("user_id", this.session.user).orWhere("public", true);
       qb.orderBy("name", "asc");
     }).fetchAll().then((albums) => albums.toJSON()).then((albums) => {
       const result = {

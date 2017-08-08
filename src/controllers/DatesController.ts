@@ -41,8 +41,8 @@ export default class DatesController extends BaseController {
       let currentMonth: Month;
 
       result.forEach((date) => {
-        if (date.get("month") !== currentMonth.month) {
-          if (currentMonth.month) {
+        if (!currentMonth || date.get("month") !== currentMonth.month) {
+          if (currentMonth) {
             currentYear.months.push(currentMonth);
           }
 
@@ -53,8 +53,8 @@ export default class DatesController extends BaseController {
           };
         }
 
-        if (date.get("year") !== currentYear.year) {
-          if (currentYear.year) {
+        if (!currentYear || date.get("year") !== currentYear.year) {
+          if (currentYear) {
             years.push(currentYear);
           }
 
@@ -78,6 +78,6 @@ export default class DatesController extends BaseController {
       years.push(currentYear);
 
       return years;
-    }));
+    })).catch(console.log);
   }
 }

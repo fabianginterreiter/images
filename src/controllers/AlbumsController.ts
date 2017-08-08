@@ -40,7 +40,7 @@ export default class AlbumsController extends BaseController {
 
   public update() {
     return new Album({id: this.params.id}).fetch().then((album) => {
-      if (album.get("user_id") !== this.session.user) {
+      if (album.get("user_id").toString() !== this.session.user.toString()) {
         throw new Error("Illegal Access");
       }
 

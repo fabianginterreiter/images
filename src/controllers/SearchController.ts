@@ -1,4 +1,4 @@
-import * as ImagesExtention from "../lib/ImagesExtention";
+import ImagesExtention from "../lib/ImagesExtention";
 import bookshelf from "../model/bookshelf";
 import Image from "../model/Image";
 import ImagePerson from "../model/ImagePerson";

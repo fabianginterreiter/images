@@ -1,9 +1,9 @@
 import config from "../config";
-import * as CopyImageFile from "../lib/CopyImageFile";
-import * as ImageExtention from "../lib/ImageExtention";
+import CopyImageFile from "../lib/CopyImageFile";
+import ImageExtention from "../lib/ImageExtention";
 import * as ImageInfo from "../lib/ImageInfo";
-import * as ImagesExtention from "../lib/ImagesExtention";
-import * as ResizeImage from "../lib/ResizeImage";
+import ImagesExtention from "../lib/ImagesExtention";
+import ResizeImage from "../lib/ResizeImage";
 import Image from "../model/Image";
 import User from "../model/User";
 import BaseController from "./BaseController";
@@ -36,7 +36,8 @@ export default class ImagesController extends BaseController {
       return ResizeImage(result, config.getPreviewPath(), 2000, 2000);
     }).then((result) => {
       return new Image(result).save();
-    }).then((result) => (result.toJSON()));
+    }).then((result) => (result.toJSON()))
+    .catch(console.log);
   }
 
   public get() {

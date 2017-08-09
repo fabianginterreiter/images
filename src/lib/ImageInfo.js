@@ -19,9 +19,9 @@ module.exports = function(file) {
         }
 
         if (exifData.exif.CreateDate) {
-          result.date = new Date(exifData.exif.CreateDate.replace(':', '.').replace(':', '.'));  
+          result.date = new Date(exifData.exif.CreateDate.replace(':', '.').replace(':', '.'));
         } else if (exifData.image.ModifyDate) {
-          result.date = new Date(exifData.image.ModifyDate.replace(':', '.').replace(':', '.'));  
+          result.date = new Date(exifData.image.ModifyDate.replace(':', '.').replace(':', '.'));
         } else {
           result.date = new Date();
         }

@@ -1,0 +1,1 @@
+tslint --fix src/**/*.ts{,x}

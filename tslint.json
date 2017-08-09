@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+      "allowJs": false
+    },
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+      "trailing-comma": [false],
+      "interface-name": [true, "never-prefix"],
+      "no-namespace": [true, "allow-declarations"]
+    },
+    "rulesDirectory": []
+}

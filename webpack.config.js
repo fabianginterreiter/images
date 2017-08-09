@@ -1,35 +1,46 @@
-var webpack = require('webpack');
-var path = require('path');
+module.exports = {
+    entry: __dirname + '/src/client/app.tsx',
+    output: {
+        filename: "bundle.js",
+        path: __dirname + "/dist/public/javascript"
+    },
 
-var BUILD_DIR = path.resolve(__dirname, 'public/javascript');
-var APP_DIR = path.resolve(__dirname, 'client');
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: "source-map",
 
-var config = {
-  entry: APP_DIR + '/app.js',
-  output: {
-    path: BUILD_DIR,
-    filename: 'client.js'
-  },
-  plugins: [
-      new webpack.DllReferencePlugin({
-          context: path.join(__dirname, "client"),
-          manifest: require("./public/vendor/javascript/vendor-manifest.json")
-      }),
-  ],
-  module : {
-    loaders : [
-      {
-        test : /\.js?/,
-        include : APP_DIR,
-        loader : 'babel',
-        query: {
-          cacheDirectory: true,
-          presets: ["es2015", "react"]
-        }
-      }
-    ]
-  },
-  cache: true
+    resolve: {
+        // Add '.ts' and '.tsx' as resolvable extensions.
+        extensions: [".ts", ".tsx", ".js", ".json"]
+    },
+
+    module: {
+        rules: [
+            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+
+            {
+                test: /\.(js|jsx|tsx)$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: {
+                    presets:['react']
+                }
+            }
+        ]
+    },
+
+    // When importing a module whose path matches one of the following, just
+    // assume a corresponding global variable exists and use that instead.
+    // This is important because it allows us to avoid bundling all of our
+    // dependencies, which allows browsers to cache those libraries between builds.
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "react-router": "ReactRouter",
+        "jquery": "$",
+        "moment": "moment"
+    },
 };
-
-module.exports = config;

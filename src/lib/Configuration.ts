@@ -62,6 +62,7 @@ export default class Configuration {
           filename: this.config.path + "/data.sqlite3"
         },
         useNullAsDefault: true
+        // debug: true
       };
     }
   }

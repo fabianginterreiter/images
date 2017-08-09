@@ -1,15 +1,7 @@
 import * as bookshelf from "bookshelf";
 import * as knex from "knex";
+import config from "../config"
 
-const knex2: knex = knex({
-  client: "sqlite3",
-  connection: {
-    filename: "./data/data.sqlite3"
-  },
-  // debug: true,
-  useNullAsDefault: true
-}); // require("../config").getDatabaseConfiguration()
-
-const bookshelf2: bookshelf = bookshelf(knex2);
+const bookshelf2: bookshelf = bookshelf(knex(config.getDatabaseConfiguration()));
 bookshelf2.plugin("registry");
 export default bookshelf2;

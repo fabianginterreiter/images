@@ -1,19 +1,32 @@
-"use strict"
+import * as React from "react"
+import Images from "./Images"
+import ImagesStore from "../stores/ImagesStore"
+import ImagesNav from "./ImagesNav"
+import SelectionStore from "../stores/SelectionStore"
+import Ajax from "../libs/Ajax"
+import * as types from "../types/types"
 
-import * as React from 'react'
-import Images from './Images'
-import ImagesStore from '../stores/ImagesStore'
-import ImagesNav from './ImagesNav'
-import SelectionStore from '../stores/SelectionStore'
-import Ajax from '../libs/Ajax'
+interface AlbumParamProps {
+  readonly albumId: number;
+}
 
-class Album extends React.Component {
+interface AlbumProps {
+  readonly params: AlbumParamProps;
+}
+
+interface AlbumState {
+  readonly album: types.Album;
+}
+
+export default class Album extends React.Component<AlbumProps, AlbumState> {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      album: {}
+      album: {
+        name: undefined
+      }
     }
   }
 
@@ -22,8 +35,8 @@ class Album extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    ImagesStore.load('/api/images?album=' + newProps.params.albumId);
-    Ajax.get('/api/albums/' + newProps.params.albumId).then((album) => this.setState({album:album}));
+    ImagesStore.load("/api/images?album=" + newProps.params.albumId);
+    Ajax.get("/api/albums/" + newProps.params.albumId).then((album) => this.setState({album:album}));
   }
 
   handleRemoveFromAlbum() {
@@ -46,5 +59,3 @@ class Album extends React.Component {
     );
   }
 }
-
-export default Album;

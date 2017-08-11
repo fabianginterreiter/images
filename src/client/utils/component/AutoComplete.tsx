@@ -2,8 +2,31 @@ import * as React from 'react'
 import KeyUpListener from '../listener/KeyUpListener'
 import * as $ from 'jquery'
 
-class AutoComplete extends React.Component {
-  constructor(props) {
+interface AutoCompleteProps {
+  focus: boolean;
+  service: string;
+  placeholder: string;
+  ignore: Element[];
+  onBlur(event):void;
+  onSelect(object: Element):void;
+}
+
+interface Element {
+  id?: number;
+  name: string;
+}
+
+interface AutoCompleteState {
+  index: number;
+  value: string;
+  tags: Element[];
+  focus: boolean;
+}
+
+export default class AutoComplete extends React.Component<AutoCompleteProps, AutoCompleteState> {
+  private marked: Element;
+
+  constructor(props: AutoCompleteProps) {
     super(props);
     this.state = {
       value: '',
@@ -22,7 +45,7 @@ class AutoComplete extends React.Component {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
 
     if (this.props.focus) {
-      this.refs.input.focus();
+      (this.refs.input as HTMLInputElement).focus();
     }
   }
 
@@ -33,7 +56,7 @@ class AutoComplete extends React.Component {
   handleKeyUp(event) {
     switch (event.keyCode) {
       case 27: {
-        this.refs.input.blur();
+        (this.refs.input as HTMLInputElement).blur();
         break;
       }
       case 38: {
@@ -110,7 +133,7 @@ class AutoComplete extends React.Component {
 
       this.setState({
         value: '',
-        tags: '',
+        tags: [],
         index: -1
       });
     }
@@ -213,5 +236,3 @@ class AutoComplete extends React.Component {
     );
   }
 }
-
-export default AutoComplete;

@@ -1,10 +1,16 @@
-"use strict"
-
 import * as React from 'react'
 import * as $ from 'jquery'
 import UploadStore from '../stores/UploadStore'
 
-class DragAndDropUpload extends React.Component {
+interface DragAndDropUploadProps {
+
+}
+
+interface DragAndDropUploadState {
+  over: boolean;
+}
+
+export default class DragAndDropUpload extends React.Component<DragAndDropUploadProps, DragAndDropUploadState> {
   constructor(props) {
     super(props);
 
@@ -44,5 +50,3 @@ class DragAndDropUpload extends React.Component {
     }
   }
 }
-
-export default DragAndDropUpload;

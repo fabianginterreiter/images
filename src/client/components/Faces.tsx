@@ -1,14 +1,44 @@
-"use strict"
+import * as React from "react"
+import * as $ from "jquery"
+import { AutoComplete } from "../utils/Utils"
+import ImagesStore from "../stores/ImagesStore"
+import { Link } from "react-router"
+import { Image, Person } from "../types/types";
 
-import * as React from 'react'
-import * as $ from 'jquery'
-import { AutoComplete } from '../utils/Utils'
-import ImagesStore from '../stores/ImagesStore'
-import { Link } from 'react-router'
 
-class Faces extends React.Component {
+interface FacesProps {
+  image: Image;
+  style: {
+    height: number;
+    width: number;
+  };
+  show: boolean;
+}
 
-  constructor(props) {
+interface FacesState {
+  selection: {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  };
+  create: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  };
+  startX?: number;
+  startY?: number;
+}
+
+export default class Faces extends React.Component<FacesProps, FacesState> {
+
+  private offsetLeft: number;
+  private offsetTop: number;
+  private startTime: number;
+
+  constructor(props: FacesProps) {
     super(props);
 
     this.state = {
@@ -27,7 +57,7 @@ class Faces extends React.Component {
   handleMouseDown(event) {
     if (this.state.selection || this.state.create) {
 
-      if (event.target.className.includes('resizer')) {
+      if (event.target.className.includes("resizer")) {
         console.log("RESIZER");
       }
 
@@ -56,7 +86,7 @@ class Faces extends React.Component {
 
   handleMouseMove(event) {
     if (!this.state.selection) {
-      if (event.target.className.includes('resizer')) {
+      if (event.target.className.includes("resizer")) {
         console.log("RESIZER");
       }
 
@@ -86,7 +116,7 @@ class Faces extends React.Component {
     event.preventDefault();
 
     if (!this.state.selection) {
-      if (event.target.className.includes('resizer')) {
+      if (event.target.className.includes("resizer")) {
         console.log("RESIZER");
       }
 
@@ -129,8 +159,8 @@ class Faces extends React.Component {
     }
 
     let style = {
-      top: (this.state.create.top + this.state.create.height + 10) + 'px',
-      left: this.state.create.left + 'px'
+      top: (this.state.create.top + this.state.create.height + 10) + "px",
+      left: this.state.create.left + "px"
     };
 
     return (
@@ -143,7 +173,9 @@ class Faces extends React.Component {
           <div className="resizer right" />
         </div>
         <div className="field" style={style}>
-           <AutoComplete service='/api/persons' onSelect={this.handleAddPerson.bind(this)} ignore={this.props.image.tags} placeholder='Add Person' onBlur={this.handleCancelCreation.bind(this)} focus={true} />
+           <AutoComplete service="/api/persons" onSelect={this.handleAddPerson.bind(this)}
+           ignore={this.props.image.persons} placeholder="Add Person"
+           onBlur={this.handleCancelCreation.bind(this)} focus={true} />
         </div>
       </div>);
   }
@@ -163,17 +195,17 @@ class Faces extends React.Component {
     return persons;
   }
 
-  _renderPerson(person) {
+  _renderPerson(person: Person) {
     var style = {
-      top: person._pivot_top + '%',
-      left: person._pivot_left + '%',
-      width: person._pivot_width + '%',
-      height: person._pivot_height + '%'
+      top: person._pivot_top + "%",
+      left: person._pivot_left + "%",
+      width: person._pivot_width + "%",
+      height: person._pivot_height + "%"
     }
 
     let style2 = {
-      top: (this.props.style.height * (((person._pivot_top) + (person._pivot_height))/100) + 10) + 'px',
-      left: (person._pivot_left) + '%',
+      top: (this.props.style.height * (((person._pivot_top) + (person._pivot_height))/100) + 10) + "px",
+      left: (person._pivot_left) + "%",
     };
 
     return (<div key={person.id} className="face">
@@ -208,7 +240,7 @@ class Faces extends React.Component {
   }
 
   render() {
-    var className = 'faces' + (this.props.show || this.state.create || this.state.selection ? ' show' : '');
+    var className = "faces" + (this.props.show || this.state.create || this.state.selection ? " show" : "");
 
     return (
       <div className={className} style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
@@ -219,5 +251,3 @@ class Faces extends React.Component {
     );
   }
 }
-
-export default Faces;

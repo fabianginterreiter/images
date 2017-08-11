@@ -1,18 +1,28 @@
-"use strict"
-
 import * as React from 'react'
 import * as moment from 'moment'
 import Images from './Images'
 import ImagesStore from '../stores/ImagesStore'
 import ImagesNav from './ImagesNav'
 
-class DateView extends React.Component {
+interface DateViewProps {
+  params: {
+    year?: number;
+    month?: number;
+    day?: number;
+  }
+}
+
+interface DateViewState {
+
+}
+
+export default class DateView extends React.Component<DateViewProps, DateViewState> {
 
   componentDidMount() {
     this.componentWillReceiveProps(this.props);
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: DateViewProps) {
     var url = '/api/images';
     if (newProps.params.year) {
       url += '?year=' + newProps.params.year;
@@ -58,5 +68,3 @@ class DateView extends React.Component {
     );
   }
 }
-
-export default DateView;

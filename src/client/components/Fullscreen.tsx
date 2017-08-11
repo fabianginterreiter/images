@@ -1,24 +1,44 @@
-"use strict"
+import * as React from "react"
+import * as $ from "jquery"
+import { OptionsList, DialogStore, Panel, KeyUpListener, ResizeListener } from "../utils/Utils"
+import Like from "./Like"
+import TagsList from "./TagsList"
+import PersonsList from "./PersonsList"
+import ImagesStore from "../stores/ImagesStore"
+import SelectionStore from "../stores/SelectionStore"
+import Faces from "./Faces"
+import * as moment from "moment"
+import {Image} from "../types/types"
 
-import * as React from 'react'
-import * as $ from 'jquery'
-import { OptionsList, DialogStore, Panel, KeyUpListener, ResizeListener } from '../utils/Utils'
-import Like from './Like'
-import TagsList from './TagsList'
-import PersonsList from './PersonsList'
-import ImagesStore from '../stores/ImagesStore'
-import SelectionStore from '../stores/SelectionStore'
-import Faces from './Faces'
-import * as moment from 'moment'
+interface FullscreenProps {
+  image: Image;
+  previous():void;
+  next():void;
+  size: number;
+  number: number;
+  handleClose():void;
+}
 
-class Fullscreen extends React.Component {
+interface FullscreenState {
+  show: boolean;
+  menu: boolean;
+  style: {
+    width: number;
+    height: number;
+    left: number;
+  }
+}
+
+export default class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
+  private timeout;
+
   constructor(props) {
     super(props);
 
     this.state = {
       show: false,
       menu: false,
-      style: {}
+      style: undefined
     };
   }
 
@@ -37,7 +57,7 @@ class Fullscreen extends React.Component {
   }
 
   handleKeyUp(e) {
-    if (document.activeElement.tagName === 'INPUT') {
+    if (document.activeElement.tagName === "INPUT") {
       return;
     }
 
@@ -80,8 +100,8 @@ class Fullscreen extends React.Component {
 
   handleClick(option) {
     switch (option.key) {
-      case 'delete': {
-        DialogStore.open('Delete Image', 'Do you really want to delete the image?')
+      case "delete": {
+        DialogStore.open("Delete Image", "Do you really want to delete the image?")
         .then(() => ImagesStore.delete(this.props.image));
         break;
       }
@@ -103,7 +123,7 @@ class Fullscreen extends React.Component {
   }
 
   handleImageLoad() {
-    let img = this.refs.image;
+    const img = this.refs.image as HTMLImageElement;
     this.setState({
       style: {
         width: img.width,
@@ -111,19 +131,19 @@ class Fullscreen extends React.Component {
         left: img.offsetLeft
       }
     });
-  };
+  }
 
   render() {
-    var titleClass = 'title';
+    var titleClass = "title";
 
     if (this.state.show) {
-      titleClass += ' show';
+      titleClass += " show";
     }
 
     var options = [{
-        key: 'delete',
-        type: 'action',
-        name: 'Delete'
+        key: "delete",
+        type: "action",
+        name: "Delete"
       }];
 
       var checkBoxClass = null;
@@ -135,7 +155,7 @@ class Fullscreen extends React.Component {
 
     return (
       <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
-        <img ref="image" src={'/images/' + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
+        <img ref="image" src={"/images/" + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
         <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
@@ -148,13 +168,13 @@ class Fullscreen extends React.Component {
         </div>
         <div className="previous" onClick={this.props.previous} />
         <div className="next" onClick={this.props.next} />
-        <Panel open={this.state.menu} clickCatcher={this.state.menu} side='right' onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
+        <Panel open={this.state.menu} clickCatcher={this.state.menu} side="right" onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
           <div className="title">
           </div>
           <div className="body">
             <div>Filename: {this.props.image.filename}</div>
             <div>Resolution: {this.props.image.width}/{this.props.image.height}</div>
-            <div>Date: {moment(this.props.image.date).format('YYYY MMMM DD HH:mm:ss')}</div>
+            <div>Date: {moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</div>
 
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <TagsList image={this.props.image} />
@@ -165,5 +185,3 @@ class Fullscreen extends React.Component {
     );
   }
 }
-
-export default Fullscreen;

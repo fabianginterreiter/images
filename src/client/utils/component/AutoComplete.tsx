@@ -3,11 +3,11 @@ import KeyUpListener from '../listener/KeyUpListener'
 import * as $ from 'jquery'
 
 interface AutoCompleteProps {
-  focus: boolean;
+  focus?: boolean;
   service: string;
   placeholder: string;
   ignore: Element[];
-  onBlur(event):void;
+  onBlur?(event):void;
   onSelect(object: Element):void;
 }
 

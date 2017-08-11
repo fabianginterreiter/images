@@ -1,11 +1,18 @@
-"use strict"
+import * as React from "react"
+import { Link } from"react-router"
+import { AutoComplete } from "../utils/Utils"
+import ImagesStore from "../stores/ImagesStore"
+import {Image} from "../types/types"
 
-import * as React from 'react'
-import { Link } from'react-router'
-import { AutoComplete } from '../utils/Utils'
-import ImagesStore from '../stores/ImagesStore'
+interface TagsListProps {
+  image: Image;
+}
 
-class TagsList extends React.Component {
+interface TagsListState {
+
+}
+
+export default class TagsList extends React.Component<TagsListProps, TagsListState> {
 
   handleAddTag(tag) {
     ImagesStore.addTag(this.props.image, tag);
@@ -21,7 +28,7 @@ class TagsList extends React.Component {
         <h4><i className="fa fa-tag" aria-hidden="true" /> Tags</h4>
 
         <div className="input">
-          <AutoComplete service='/api/tags' onSelect={this.handleAddTag.bind(this)} ignore={this.props.image.tags} placeholder='Add Tag' />
+          <AutoComplete service="/api/tags" onSelect={this.handleAddTag.bind(this)} ignore={this.props.image.tags} placeholder="Add Tag" />
         </div>
 
         <ul>
@@ -36,5 +43,3 @@ class TagsList extends React.Component {
     );
   }
 }
-
-export default TagsList;

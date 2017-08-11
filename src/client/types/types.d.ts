@@ -1,7 +1,12 @@
 export interface Image {
-  readonly liked: boolean
+  readonly id: number;
+
+  liked: boolean
 }
 
 export interface Album {
+  readonly id: number;
   name: string;
+
+  edit?: boolean;
 }

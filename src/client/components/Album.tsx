@@ -24,9 +24,7 @@ export default class Album extends React.Component<AlbumProps, AlbumState> {
     super(props);
 
     this.state = {
-      album: {
-        name: undefined
-      }
+      album: undefined
     }
   }
 
@@ -46,6 +44,10 @@ export default class Album extends React.Component<AlbumProps, AlbumState> {
   }
 
   render() {
+    if (!this.state.album) {
+      return <span />
+    }
+
     return (
       <div>
         <h1>

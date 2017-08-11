@@ -1,14 +1,21 @@
-"use strict"
+import * as React from "react"
+import * as $ from "jquery"
+import { Link } from "react-router"
+import Ajax from "../libs/Ajax"
+import NavigationsStore from "../stores/NavigationsStore"
+import { Quickedit, DialogStore, ExtendedTable, sort } from "../utils/Utils"
+import {Album} from "../types/types"
 
-import * as React from 'react'
-import * as $ from 'jquery'
-import { Link } from 'react-router'
-import Ajax from '../libs/Ajax'
-import NavigationsStore from '../stores/NavigationsStore'
-import { Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
+interface AlbumsProps {
 
-class Albums extends React.Component {
-  constructor(props) {
+}
+
+interface AlbumsState {
+  albums: Album[]
+}
+
+export default class Albums extends React.Component<AlbumsProps, AlbumsState> {
+  constructor(props: AlbumsProps) {
     super(props);
 
     this.state = {
@@ -17,7 +24,7 @@ class Albums extends React.Component {
   }
 
   componentDidMount() {
-    Ajax.get('/api/albums?own=true').then((albums) => this.setState({albums:albums}));
+    Ajax.get("/api/albums?own=true").then((albums) => this.setState({albums:albums}));
   }
 
   componentWillUnmount() {
@@ -41,7 +48,7 @@ class Albums extends React.Component {
   }
 
   save(album) {
-    Ajax.put('/api/albums/' + album.id, album).then(() => this.forceUpdate());
+    Ajax.put("/api/albums/" + album.id, album).then(() => this.forceUpdate());
   }
 
   handleVisibility(album) {
@@ -56,8 +63,8 @@ class Albums extends React.Component {
   }
 
   handleDelete(album) {
-    DialogStore.open('Delete Person', 'Do you really want to delete the Album?')
-    .then(() => Ajax.delete('/api/albums/' + album.id)).then(() => {
+    DialogStore.open("Delete Person", "Do you really want to delete the Album?")
+    .then(() => Ajax.delete("/api/albums/" + album.id)).then(() => {
       for (var index = 0; index < this.state.albums.length; index++) {
         if (this.state.albums[index].id === album.id) {
           this.state.albums.splice(index, 1);
@@ -69,7 +76,7 @@ class Albums extends React.Component {
     })
   }
 
-  _renderText(album) {
+  _renderText(album: Album) {
     if (album.edit) {
       return (<Quickedit
         value={album.name}
@@ -103,13 +110,11 @@ class Albums extends React.Component {
       <h1><i className="fa fa-book" aria-hidden="true" /> Albums</h1>
 
       <ExtendedTable columns={[
-        {title:'Name', name: 'name'},
-        {title:'Images', name: 'count', className:'option'},
-        {title:'Public', className:'option'},
-        {title:'Edit', className:'option'},
-        {title:'Delete', className:'option'}]} data={this.state.albums} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={'name'} asc={true} />
+        {title:"Name", name: "name"},
+        {title:"Images", name: "count", className:"option"},
+        {title:"Public", className:"option"},
+        {title:"Edit", className:"option"},
+        {title:"Delete", className:"option"}]} data={this.state.albums} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
     </div>);
   }
 }
-
-export default Albums;

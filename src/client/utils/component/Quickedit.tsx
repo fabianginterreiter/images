@@ -1,9 +1,19 @@
-import * as React from 'react'
-import * as $ from 'jquery'
-import KeyUpListener from '../listener/KeyUpListener'
+import * as React from "react"
+import * as $ from "jquery"
+import KeyUpListener from "../listener/KeyUpListener"
 
-class Persons extends React.Component {
-  constructor(props) {
+interface QuickeditProps {
+  value: string;
+  onCancel():void;
+  onChange(value:string):void;
+}
+
+interface QuickeditState {
+  value: string;
+}
+
+export default class Quickedit extends React.Component<QuickeditProps, QuickeditState> {
+  constructor(props: QuickeditProps) {
     super(props);
 
     this.state = {
@@ -55,5 +65,3 @@ class Persons extends React.Component {
     </form>);
   }
 }
-
-export default Persons;

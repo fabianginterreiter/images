@@ -2,9 +2,13 @@ import * as React from "react"
 import Images from "./Images"
 import ImagesStore from "../stores/ImagesStore"
 
-export interface AllProps { }
+interface AllProps {
+}
 
-export class All extends React.Component<AllProps, undefined> {
+interface AllState {
+}
+
+export class All extends React.Component<AllProps, AllState> {
 
   componentDidMount() {
     ImagesStore.load("/api/images");

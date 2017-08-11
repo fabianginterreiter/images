@@ -1,7 +1,5 @@
-"use strict"
-
-import React from 'react'
-import $ from 'jquery'
+import * as React from 'react'
+import * as $ from 'jquery'
 import KeyUpListener from '../listener/KeyUpListener'
 
 class Persons extends React.Component {

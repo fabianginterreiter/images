@@ -1,6 +1,4 @@
-"use strict"
-
-import React from 'react'
+import * as React from 'react'
 import Cookies from '../Cookies'
 
 class OptionsList extends React.Component {

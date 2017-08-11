@@ -1,5 +1,5 @@
 export interface Image {
-  liked: boolean
+  readonly liked: boolean
 }
 
 export interface Album {

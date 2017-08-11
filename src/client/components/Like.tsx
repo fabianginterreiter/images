@@ -3,10 +3,10 @@ import ImagesStore from "../stores/ImagesStore"
 import { Image } from "../types/types"
 
 interface LikeProps {
-  readonly image: Image;
+  image: Image;
 }
 
-export default class Like extends React.Component<LikeProps, undefined> {
+export default class Like extends React.Component<LikeProps, {}> {
   render() {
     const className = this.props.image.liked ? "fa fa-heart" : "fa fa-heart-o";
 

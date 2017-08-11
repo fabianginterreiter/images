@@ -1,7 +1,5 @@
-"use strict"
-
 import Dispatcher from '../Dispatcher'
-import $ from 'jquery'
+import * as $ from 'jquery'
 
 class KeyUpListener extends Dispatcher {
   constructor() {

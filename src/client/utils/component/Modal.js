@@ -1,6 +1,4 @@
-"use strict"
-
-import React from 'react'
+import * as React from 'react'
 import KeyUpListener from '../listener/KeyUpListener'
 
 class Modal extends React.Component {

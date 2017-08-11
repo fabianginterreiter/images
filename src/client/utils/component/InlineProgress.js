@@ -1,6 +1,4 @@
-"use strict"
-
-import React from 'react'
+import * as React from 'react'
 
 class InlineProgress extends React.Component {
   render() {

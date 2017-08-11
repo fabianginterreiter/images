@@ -1,5 +1,3 @@
-"use strict"
-
 import Dispatcher from '../Dispatcher'
 
 class DialogStore extends Dispatcher {

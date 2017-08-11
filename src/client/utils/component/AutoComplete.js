@@ -1,8 +1,6 @@
-"use strict"
-
-import React from 'react'
+import * as React from 'react'
 import KeyUpListener from '../listener/KeyUpListener'
-import $ from 'jquery'
+import * as $ from 'jquery'
 
 class AutoComplete extends React.Component {
   constructor(props) {

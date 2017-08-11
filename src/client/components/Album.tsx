@@ -7,20 +7,20 @@ import Ajax from "../libs/Ajax"
 import * as types from "../types/types"
 
 interface AlbumParamProps {
-  readonly albumId: number;
+  albumId: number;
 }
 
-interface AlbumProps {
-  readonly params: AlbumParamProps;
+interface AlbumProps extends React.Props<any> {
+  params: AlbumParamProps;
 }
 
 interface AlbumState {
-  readonly album: types.Album;
+  album: types.Album;
 }
 
 export default class Album extends React.Component<AlbumProps, AlbumState> {
 
-  constructor(props) {
+  constructor(props: AlbumProps) {
     super(props);
 
     this.state = {

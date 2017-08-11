@@ -1,6 +1,4 @@
-"use strict"
-
-import React from 'react'
+import * as React from 'react'
 import Dialog from './Dialog'
 import SelectDialog from './SelectDialog'
 import SingleSelectDialog from './SingleSelectDialog'

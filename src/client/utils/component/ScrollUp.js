@@ -1,6 +1,4 @@
-"use strict"
-
-import React from 'react'
+import * as React from 'react'
 import ScrollListener from '../listener/ScrollListener'
 
 class ScrollUp extends React.Component {

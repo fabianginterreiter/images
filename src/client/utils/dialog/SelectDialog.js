@@ -1,6 +1,4 @@
-"use strict"
-
-import React from 'react'
+import * as React from 'react'
 import SelectDialogStore from './SelectDialogStore'
 
 class Dialog extends React.Component {

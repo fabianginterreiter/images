@@ -10,7 +10,7 @@ interface AlbumParamProps {
   albumId: number;
 }
 
-interface AlbumProps extends React.Props<any> {
+interface AlbumProps {
   params: AlbumParamProps;
 }
 

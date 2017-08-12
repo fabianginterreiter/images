@@ -1,21 +1,21 @@
-"use strict"
+import * as React from "react";
+import SelectionStore from "../../stores/SelectionStore";
+import ImagesStore from "../../stores/ImagesStore";
+import NavigationsState from "../../states/NavigationsState";
+import SelectionOptions from "./SelectionOptions";
+import { browserHistory } from "react-router";
+import Title from "../Title";
+import { DialogStore } from "../../utils/Utils";
 
-import * as React from 'react';
+interface SelectionProps {
 
-import SelectionStore from '../../stores/SelectionStore';
-import ImagesStore from '../../stores/ImagesStore';
-import NavigationsState from '../../states/NavigationsState';
-import SelectionOptions from './SelectionOptions';
-import { browserHistory } from 'react-router';
-import Title from '../Title';
-import { DialogStore } from '../../utils/Utils';
+}
 
-class Selection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {selection:{}};
-  }
+interface SelectionState {
 
+}
+
+export default class Selection extends React.Component<SelectionProps, SelectionState> {
   componentDidMount() {
     SelectionStore.addChangeListener(this, (selection) => (this.setState({selection:selection})));
   }
@@ -25,12 +25,12 @@ class Selection extends React.Component {
   }
 
   handleShow() {
-    browserHistory.push('/images/selected');
+    browserHistory.push("/images/selected");
   }
 
   handleDelete() {
     var images = SelectionStore.getSelected();
-    DialogStore.open('Delete Images', 'Do you really want to delete all selected images?').then(() => {
+    DialogStore.open("Delete Images", "Do you really want to delete all selected images?").then(() => {
       images.forEach(function(image) {
         ImagesStore.delete(image);
       });
@@ -59,5 +59,3 @@ class Selection extends React.Component {
     );
   }
 }
-
-export default Selection;

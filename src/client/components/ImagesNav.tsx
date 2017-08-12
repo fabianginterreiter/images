@@ -1,10 +1,8 @@
-"use strict"
-
 import * as React from 'react'
 import ImagesStore from '../stores/ImagesStore'
 import SelectionStore from '../stores/SelectionStore'
 
-class ImagesNav extends React.Component {
+export default class ImagesNav extends React.Component<{}, {}> {
   handleSelectAll() {
     ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
     ImagesStore.dispatch();
@@ -25,5 +23,3 @@ class ImagesNav extends React.Component {
     );
   }
 }
-
-export default ImagesNav;

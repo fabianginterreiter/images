@@ -1,22 +1,40 @@
-"use strict"
+import * as React from "react"
+import * as $ from "jquery"
+import * as moment from "moment"
+import Image from "./Image"
+import Fullscreen from "./Fullscreen"
+import Like from "./Like"
+import Empty from "./Empty"
+import ImagesStore from "../stores/ImagesStore"
+import ThumbnailsSizeStore from "../stores/ThumbnailsSizeStore"
+import NavigationsState from "../states/NavigationsState"
+import SelectionStore from "../stores/SelectionStore"
+import { Link } from "react-router"
+import ShowDateStore from "../stores/ShowDateStore"
+import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
+import * as types from "../types/types";
 
-import * as React from 'react'
-import * as $ from 'jquery'
-import * as moment from 'moment'
-import Image from './Image'
-import Fullscreen from './Fullscreen'
-import Like from './Like'
-import Empty from './Empty'
-import ImagesStore from '../stores/ImagesStore'
-import ThumbnailsSizeStore from '../stores/ThumbnailsSizeStore'
-import NavigationsState from '../states/NavigationsState'
-import SelectionStore from '../stores/SelectionStore'
-import { Link } from 'react-router'
-import ShowDateStore from '../stores/ShowDateStore'
-import {KeyUpListener, ResizeListener, ScrollListener} from '../utils/Utils';
+interface ImagesProps {
+  options?: {
+    hideFullscreen: boolean;
+    hideLike: boolean;
+  }
+}
 
-class Images extends React.Component {
-  constructor(props) {
+interface ImagesState {
+  images: types.Image[];
+  view: number;
+  width: number;
+  size: number;
+}
+
+export default class Images extends React.Component<ImagesProps, ImagesState> {
+  private bundledImages;
+  private lastSelection: number;
+  private width: number;
+  private resizeTimer;
+
+  constructor(props: ImagesProps) {
     super(props);
 
     this.bundledImages = [];
@@ -41,7 +59,7 @@ class Images extends React.Component {
     ShowDateStore.addChangeListener(this, () => this.forceUpdate());
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
 
-    this.width = document.getElementById('container').clientWidth;
+    this.width = document.getElementById("container").clientWidth;
   }
 
   componentWillUnmount() {
@@ -55,10 +73,10 @@ class Images extends React.Component {
     ShowDateStore.removeChangeListener(this);
   }
 
-  handlePinningNavigation() {
+  private handlePinningNavigation() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(function() {
-      var container = document.getElementById('container');
+      var container = document.getElementById("container");
       if (!container) {
         return;
       }
@@ -72,10 +90,10 @@ class Images extends React.Component {
     }.bind(this), 500);
   }
 
-  handleResize() {
+  private handleResize() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(function() {
-      var container = document.getElementById('container');
+      var container = document.getElementById("container");
       if (!container) {
         return;
       }
@@ -88,8 +106,8 @@ class Images extends React.Component {
     }.bind(this), 100);
   }
 
-  handleKeyUp(e) {
-    if (document.activeElement.tagName === 'INPUT') {
+  private handleKeyUp(e) {
+    if (document.activeElement.tagName === "INPUT") {
       return;
     }
 
@@ -118,13 +136,13 @@ class Images extends React.Component {
     }
   }
 
-  handleFullscreenClose() {
+  private handleFullscreenClose() {
     this.setState({
       view: -1
     });
   }
 
-  handleNext() {
+  private handleNext() {
     if (this.state.view < this.state.images.length - 1) {
       this.setState({
         view: this.state.view + 1
@@ -136,7 +154,7 @@ class Images extends React.Component {
     }
   }
 
-  handlePrevious() {
+  private handlePrevious() {
     if (this.state.view > 0) {
       this.setState({
         view: this.state.view - 1
@@ -144,8 +162,8 @@ class Images extends React.Component {
     }
   }
 
-  handleClick(idx, event) {
-    if ('mark' !== event.target.className) {
+  private handleClick(idx, event) {
+    if ("mark" !== event.target.className) {
       return;
     }
 
@@ -158,7 +176,7 @@ class Images extends React.Component {
     });
   }
 
-  handleSelect(idx, event) {
+  private handleSelect(idx, event) {
     if (event.shiftKey && this.lastSelection >= 0) {
       if (SelectionStore.isSelected(this.state.images[idx])) {
         for (var index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
@@ -176,15 +194,15 @@ class Images extends React.Component {
     this.lastSelection = idx;
   }
 
-  handleDateSelect(idx) {
-    var date = this.state.images[idx].year + '' + this.state.images[idx].month + '' + this.state.images[idx].day;
+  private handleDateSelect(idx) {
+    var date = this.state.images[idx].year + "" + this.state.images[idx].month + "" + this.state.images[idx].day;
 
     var hasNotSelected = false;
 
     var index = idx;
 
     for (; index < this.state.images.length; index++) {
-      var newDate = this.state.images[index].year + '' + this.state.images[index].month + '' + this.state.images[index].day;
+      var newDate = this.state.images[index].year + "" + this.state.images[index].month + "" + this.state.images[index].day;
 
       if (newDate !== date) {
         break;
@@ -206,13 +224,13 @@ class Images extends React.Component {
     this.forceUpdate();
   }
 
-  handleScroll(e) {
+  private handleScroll(e) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
       ImagesStore.more();
     }
   }
 
-  _calcuateDisplayWidth(imgs) {
+  private _calcuateDisplayWidth(imgs: types.Image[]) {
     var date = null;
     var sum = 0;
     var images = [];
@@ -242,7 +260,7 @@ class Images extends React.Component {
     }.bind(this));
   }
 
-  renderLikeButton(image) {
+  private renderLikeButton(image: types.Image) {
     if (this.props.options && this.props.options.hideLike) {
       return null;
     }
@@ -278,21 +296,21 @@ class Images extends React.Component {
 
     var elements = [];
 
-    var lastDate = '';
+    var lastDate = "";
 
     this._calcuateDisplayWidth(this.state.images);
 
-    this.state.images.forEach(function(image, idx) {
-      var newDate = image.year + '' + image.month + '' + image.day;
+    this.state.images.forEach((image, idx) => {
+      var newDate = image.year + "" + image.month + "" + image.day;
 
-      var className = 'item';
+      var className = "item";
 
-      var style = image.displayWidth > 0 ? {width: image.displayWidth + 'px', height: image.displayHeight + 'px'} : {height: ThumbnailsSizeStore.getObject() + 'px'};
+      var style = image.displayWidth > 0 ? {width: image.displayWidth + "px", height: image.displayHeight + "px"} : {height: ThumbnailsSizeStore.getObject() + "px"};
 
       var checkBoxClass = null;
 
       if (SelectionStore.isSelected(image)) {
-        className += ' selected';
+        className += " selected";
         checkBoxClass = "fa fa-check-square";
       } else {
         checkBoxClass = "fa fa-check-square-o"
@@ -301,8 +319,8 @@ class Images extends React.Component {
       if (ShowDateStore.getObject() && lastDate !== newDate) {
         elements.push(
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
-            <div style={{width: image.displayWidth + 'px'}}><i className="fa fa-check-square-o" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>
-            <div className='imgBorder'>
+            <div style={{width: image.displayWidth + "px"}}><i className="fa fa-check-square-o" onClick={this.handleDateSelect.bind(this, idx)} /> <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link> </div>
+            <div className="imgBorder">
               <Image image={image} style={style} />
               <div className="select" onClick={this.handleSelect.bind(this, idx)}><i className={checkBoxClass} aria-hidden="true" /></div>
               {this.renderLikeButton(image)}
@@ -320,17 +338,15 @@ class Images extends React.Component {
             <div className="mark" />
           </div>);
       }
-    }.bind(this));
+    });
 
     return (
       <div id="container">
         {view}
-        <div className={'container size' + this.state.size}>
+        <div className={"container size" + this.state.size}>
           {elements}
         </div>
       </div>
     )
   }
 }
-
-export default Images;

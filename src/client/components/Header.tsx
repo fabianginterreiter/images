@@ -6,7 +6,7 @@ import Searchbar from "./Searchbar"
 import NavigationsState from "../states/NavigationsState"
 import OptionsStore from "../stores/OptionsStore"
 
-export default class Header extends React.Component {
+export default class Header extends React.Component<{},{}> {
   constructor(props) {
     super(props);
   }

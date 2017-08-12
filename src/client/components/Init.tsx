@@ -1,10 +1,18 @@
-"use strict"
-
 import * as React from 'react'
 import UserState from '../states/UserState'
 import { browserHistory } from 'react-router'
 
-class Init extends React.Component {
+interface InitProps {
+  location: {
+    pathname: string;
+  }
+}
+
+interface InitState {
+  initializing: boolean;
+}
+
+export default class Init extends React.Component<InitProps, InitState> {
   constructor(props) {
     super(props);
 
@@ -53,5 +61,3 @@ class Init extends React.Component {
     );
   }
 }
-
-export default Init;

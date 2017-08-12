@@ -28,6 +28,13 @@ export interface Image {
   width: number;
   height: number;
   date: Date;
+
+  year: number;
+  month: number;
+  day: number;
+
+  displayWidth: number;
+  displayHeight: number;
 }
 
 export interface Album {
@@ -35,4 +42,9 @@ export interface Album {
   name: string;
 
   edit?: boolean;
+}
+
+export interface User {
+  readonly id: number;
+  name: string;
 }

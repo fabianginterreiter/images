@@ -1,12 +1,20 @@
-import * as React from 'react';
-import * as moment from 'moment';
+import * as React from "react";
+import * as moment from "moment";
+import UserState from "../states/UserState";
+import UsersStore from "../stores/UsersStore";
+import Ajax from "../libs/Ajax";
+import {User} from "../types/types";
 
-import UserState from '../states/UserState';
-import UsersStore from '../stores/UsersStore';
+interface UsersManagementProps {
 
-import Ajax from '../libs/Ajax';
+}
 
-class UsersManagement extends React.Component {
+interface UsersManagementState {
+  open: boolean;
+  users: User[];
+}
+
+export default class UsersManagement extends React.Component<UsersManagementProps, UsersManagementState> {
   constructor(props) {
     super(props);
 
@@ -28,9 +36,9 @@ class UsersManagement extends React.Component {
     e.preventDefault();
 
     var data = new FormData();
-    data.append( "name", this.refs.name.value );
+    data.append( "name", (this.refs.name as HTMLFormElement).value );
     Ajax.post("/api/users", {
-          name:this.refs.name.value
+          name: (this.refs.name as HTMLFormElement).value
     }).then(function(user) {
       var users = UsersStore.getObject();
       users.push(user);
@@ -85,5 +93,3 @@ class UsersManagement extends React.Component {
     );
   }
 }
-
-export default UsersManagement;

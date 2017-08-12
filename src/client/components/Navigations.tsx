@@ -1,20 +1,29 @@
-"use strict"
+import * as React from "react"
+import ImagesStore from "../stores/ImagesStore"
+import NavigationsStore from "../stores/NavigationsStore"
+import NavigationsState from "../states/NavigationsState"
+import { OptionsList, Panel } from "../utils/Utils"
+import UserState from "../states/UserState"
+import { browserHistory } from "react-router"
+import Title from "./Title"
+import { Option } from "../utils/component/OptionsList";
+interface NavigationsProps {
+  location: {
+    pathname: string;
+  }
+}
 
-import * as React from 'react'
-import ImagesStore from '../stores/ImagesStore'
-import NavigationsStore from '../stores/NavigationsStore'
-import NavigationsState from '../states/NavigationsState'
-import { OptionsList, Panel } from '../utils/Utils'
-import UserState from '../states/UserState'
-import { browserHistory } from 'react-router'
-import Title from './Title'
+interface NavigationsState {
+  query: string;
+  values: Option[];
+}
 
-class Navigations extends React.Component {
+export default class Navigations extends React.Component<NavigationsProps, NavigationsState> {
   constructor(props) {
     super(props);
     this.state = {
       values: NavigationsStore.getObject(),
-      query: ''
+      query: ""
     }
   }
 
@@ -22,7 +31,7 @@ class Navigations extends React.Component {
     NavigationsState.addChangeListener(this, function() {
       if (NavigationsState.getObject().open) {
         this.setState({
-          query: ''
+          query: ""
         });
       } else {
         this.forceUpdate();
@@ -37,28 +46,23 @@ class Navigations extends React.Component {
     NavigationsStore.removeChangeListener(this);
   }
 
-  handleClick(option) {
+  private handleClick(option) {
     browserHistory.push(option.link);
 
     NavigationsState.close();
   }
 
-  handleSettingClick(option) {
-    browserHistory.push(option.settings);
-    NavigationsState.close();
-  }
-
-  handleSearchChange(event) {
+  private handleSearchChange(event) {
     this.setState({
       query: event.target.value
     });
   }
 
-  isSelected(option) {
+  private isSelected(option) {
     return this.props.location.pathname === option.link;
   }
 
-  handleChangeUser() {
+  private handleChangeUser() {
     UserState.clear();
   }
 
@@ -75,22 +79,19 @@ class Navigations extends React.Component {
     }
 
     return (
-      <Panel open={open} clickCatcher={clickCatcher} onClickCatcherClick={NavigationsState.close.bind(NavigationsState)} side='left' header={true}>
+      <Panel open={open} clickCatcher={clickCatcher} onClickCatcherClick={NavigationsState.close.bind(NavigationsState)} side="left" header={true}>
         <div className="title">
           <span onClick={NavigationsState.close.bind(NavigationsState)}><Title /></span>
           <input type="text" onChange={this.handleSearchChange.bind(this)} value={this.state.query} placeholder="Filter" />
           <div className="badge min500" onClick={NavigationsState.pin.bind(NavigationsState)}><i className={pinClass} aria-hidden="true" /></div>
         </div>
-        <div style={{clear:'both'}} />
+        <div style={{clear:"both"}} />
         <div className="body">
           <OptionsList values={this.state.values}
             onClick={this.handleClick.bind(this)}
-            onSettingsClick={this.handleSettingClick.bind(this)}
             selected={this.isSelected.bind(this)}
             query={this.state.query} />
         </div>
       </Panel>);
   }
 }
-
-export default Navigations;

@@ -1,11 +1,17 @@
-"use strict"
+import * as React from "react"
+import { Link } from "react-router"
+import ImagesStore from "../stores/ImagesStore"
+import {Image} from "../types/types"
 
-import * as React from 'react'
-import { Link } from 'react-router'
-import ImagesStore from '../stores/ImagesStore'
+interface PersonsListProps {
+  image: Image;
+}
 
-class PersonsList extends React.Component {
+interface PersonsListState {
 
+}
+
+export default class PersonsList extends React.Component<PersonsListProps, PersonsListState> {
   handleDeletePerson(person) {
     ImagesStore.deletePerson(this.props.image, person);
   }
@@ -26,5 +32,3 @@ class PersonsList extends React.Component {
     );
   }
 }
-
-export default PersonsList;

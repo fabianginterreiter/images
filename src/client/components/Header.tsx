@@ -1,14 +1,12 @@
-"use strict"
+import * as React from "react"
+import * as $ from "jquery"
+import UploadStore from "../stores/UploadStore"
+import Title from "./Title"
+import Searchbar from "./Searchbar"
+import NavigationsState from "../states/NavigationsState"
+import OptionsStore from "../stores/OptionsStore"
 
-import * as React from 'react'
-import * as $ from 'jquery'
-import UploadStore from '../stores/UploadStore'
-import Title from './Title'
-import Searchbar from './Searchbar'
-import NavigationsState from '../states/NavigationsState'
-import OptionsStore from '../stores/OptionsStore'
-
-class Header extends React.Component {
+export default class Header extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -37,7 +35,7 @@ class Header extends React.Component {
             <span><i className="fa fa-cog" /><span className="min500"> Settings</span></span>
           </a>
           <a className="right" onClick={this.handleClick.bind(this)}>
-            <input type="file" name="images" multiple="multiple" id="fileSelect" style={{display:'none'}} onChange={this.handleFileSelect.bind(this)} />
+            <input type="file" name="images" multiple={true} id="fileSelect" style={{display:"none"}} onChange={this.handleFileSelect.bind(this)} />
             <i className="fa fa-cloud-upload" /><span className="min500"> Upload</span>
           </a>
           <Searchbar />
@@ -46,5 +44,3 @@ class Header extends React.Component {
     );
   }
 }
-
-export default Header;

@@ -1,15 +1,37 @@
-import * as React from 'react'
-import Cookies from '../Cookies'
+import * as React from "react"
+import Cookies from "../Cookies"
 
-class OptionsList extends React.Component {
+export interface Option {
+  key: string;
+  name: string;
+  fontAwesome?: string;
+  options?: Option[];
+  open?: boolean;
+  className?: string;
+  type: string;
+}
+
+interface OptionsListProps {
+  query?: String;
+  onClick(option):void;
+  selected?(option):void;
+  active?(option):boolean;
+  values: Option[];
+}
+
+interface OptionsListState {
+
+}
+
+export default class OptionsList extends React.Component<OptionsListProps, OptionsListState> {
   toggleMenu(event, option) {
     option.open = !option.open;
-    Cookies.set('menu_' + option.key, option.open.toString());
+    Cookies.set("menu_" + option.key, option.open.toString());
     this.forceUpdate();
   }
 
   handleClick(e, options) {
-    if(e.target.className === 'badge' || e.target.parentNode.className === 'badge') {
+    if(e.target.className === "badge" || e.target.parentNode.className === "badge") {
       return this.toggleMenu(e, options);
     }
 
@@ -31,7 +53,7 @@ class OptionsList extends React.Component {
     return open;
   }
 
-  _renderName(option) {
+  _renderName(option: Option) {
     var name = option.name;
 
     var icon = null;
@@ -45,17 +67,17 @@ class OptionsList extends React.Component {
     return (<a>{icon} {name}</a>);
   }
 
-  _renderItem(option, idx, deep) {
-    var className = option.className ? option.className : '';
+  _renderItem(option: Option, idx, deep) {
+    var className = option.className ? option.className : "";
 
     var style = {
-      paddingLeft: 10 + deep * 20 + 'px'
+      paddingLeft: 10 + deep * 20 + "px"
     }
 
     switch (option.type) {
-      case 'divider':
-        return (<li key={'divider' + idx} className={className + ' divider'} style={style} />);
-      case 'action':
+      case "divider":
+        return (<li key={"divider" + idx} className={className + " divider"} style={style} />);
+      case "action":
         var badge = (<span />);
         if (option.options && option.options.length) {
           if (option.open) {
@@ -66,29 +88,29 @@ class OptionsList extends React.Component {
         }
 
         if (this.props.selected && this.props.selected(option)) {
-          return (<li key={option.key} className={className + ' selected'} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>)
+          return (<li key={option.key} className={className + " selected"} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>)
         } else if (!this.props.active || this.props.active(option)) {
           return (<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>)
         } else {
-          return (<li key={option.key} className={className + ' disabled'} style={style}>{this._renderName(option)}{badge}</li>)
+          return (<li key={option.key} className={className + " disabled"} style={style}>{this._renderName(option)}{badge}</li>)
         }
-      case 'menu':
+      case "menu":
         if (option.open) {
           badge = (<div className="badge"><i className="fa fa-chevron-down" /></div>);
         } else {
           badge = (<div className="badge"><i className="fa fa-chevron-up" /></div>);
         }
 
-        return (<li key={option.key} className={className + ' action'} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option)}{badge}</li>);
+        return (<li key={option.key} className={className + " action"} onClick={(event) => this.toggleMenu(event, option)} style={style}>{this._renderName(option)}{badge}</li>);
       default:
         return null;
     }
   }
 
-  _renderOptions(elements, values, deep, open) {
-    values.map(function(option, idx) {
+  _renderOptions(elements, values: Option[], deep, open) {
+    values.map((option, idx) => {
       if (option.options && option.options.length > 0) {
-        if (!option.open && Cookies.get('menu_' + option.key) === 'true') {
+        if (!option.open && Cookies.get("menu_" + option.key) === "true") {
           option.open = true;
         }
       }
@@ -100,7 +122,7 @@ class OptionsList extends React.Component {
       if (option.options && option.options.length > 0) {
         this._renderOptions(elements, option.options, deep + 1, option.open && open);
       }
-    }.bind(this));
+    });
 
     return elements;
   }
@@ -115,5 +137,3 @@ class OptionsList extends React.Component {
     );
   }
 }
-
-export default OptionsList;

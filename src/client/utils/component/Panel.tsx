@@ -1,6 +1,19 @@
 import * as React from 'react'
 
-class Panel extends React.Component {
+interface PanelProps {
+  clickCatcher: boolean;
+  open: boolean;
+  onClickCatcherClick():void;
+  side: string;
+  footer?: boolean;
+  header?: boolean;
+}
+
+interface PanelState {
+
+}
+
+export default class Panel extends React.Component<PanelProps, PanelState> {
   render() {
     var clickCatcher = (<span />);
 
@@ -32,5 +45,3 @@ class Panel extends React.Component {
     );
   }
 }
-
-export default Panel;

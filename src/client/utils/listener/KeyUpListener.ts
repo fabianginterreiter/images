@@ -1,7 +1,7 @@
-import Dispatcher from '../Dispatcher'
-import * as $ from 'jquery'
+import Dispatcher from "../Dispatcher"
+import * as $ from "jquery"
 
-class KeyUpListener extends Dispatcher {
+class KeyUpListener extends Dispatcher<Event> {
   constructor() {
     super(null);
 

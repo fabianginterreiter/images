@@ -1,17 +1,18 @@
-"use strict"
-
 import * as React from 'react'
 import * as $ from "jquery"
 import { location } from 'react-router'
 import { OptionsList, Dropdown, SelectDialogStore, SingleSelectDialogStore } from '../../utils/Utils'
-
 import ImagesStore from '../../stores/ImagesStore'
 import SelectionStore from '../../stores/SelectionStore'
-
 import Ajax from '../../libs/Ajax'
-import ListUtils from '../../libs/ListUtils'
+import * as ListUtils from '../../libs/ListUtils'
+import {Tag, Album, Person, Image} from "../../types/types";
 
-class SelectionOptions extends React.Component {
+interface SelectionOptionsState {
+  visible: boolean;
+}
+
+export default class SelectionOptions extends React.Component<{}, SelectionOptionsState> {
   constructor(props) {
     super(props);
 
@@ -38,7 +39,7 @@ class SelectionOptions extends React.Component {
     Ajax.get('/api/tags').then((tags) => {
       SelectionStore.getSelected().forEach((image) => {
         image.tags.forEach((tag) => {
-          var e = ListUtils.find(tags, tag.id);
+          var e = ListUtils.find(image.tags, tag.id) as Tag;
           if (e) {
             e.__count = e.__count ? e.__count + 1 : 1;
           }
@@ -79,7 +80,7 @@ class SelectionOptions extends React.Component {
     Ajax.get('/api/albums').then((albums) => {
       SelectionStore.getSelected().forEach((image) => {
         image.albums.forEach((album) => {
-          var e = ListUtils.find(albums, album.id);
+          var e = ListUtils.find(albums, album.id) as Album;
           if (e) {
             e.__count = e.__count ? e.__count + 1 : 1;
           }
@@ -108,8 +109,6 @@ class SelectionOptions extends React.Component {
   }
 
   render() {
-    this.selected = !SelectionStore.isEmpty();
-
     return (
       <div onClick={this.toggle.bind(this)} className="right">
         <span><i className="fa fa-plus" aria-hidden="true" /><span className="min500"> Add</span></span>
@@ -123,5 +122,3 @@ class SelectionOptions extends React.Component {
     );
   }
 }
-
-export default SelectionOptions;

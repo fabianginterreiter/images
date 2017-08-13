@@ -53,7 +53,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     KeyUpListener.removeChangeListener(this);
   }
 
-  handleKeyUp(event) {
+  private handleKeyUp(event: KeyboardEvent) {
     switch (event.keyCode) {
       case 27: {
         (this.refs.input as HTMLInputElement).blur();
@@ -82,7 +82,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     }
   }
 
-  contains(tags, tag) {
+  private contains(tags, tag) {
     for (var index = 0; index < tags.length; index++) {
       if (tags[index].name === tag.name) {
         return true;
@@ -91,7 +91,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     return false;
   }
 
-  handleChange(event) {
+  private handleChange(event) {
     let value = event.target.value;
     this.setState({
       value: value
@@ -120,7 +120,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     }
   }
 
-  handleSubmit(e) {
+  private handleSubmit(e) {
     e.preventDefault();
     if (this.props.onSelect) {
       if (this.marked) {
@@ -139,21 +139,21 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     }
   }
 
-  handleSelect(tag) {
+  private handleSelect(tag) {
     if (this.props.onSelect) {
       this.props.onSelect(tag);
     }
   }
 
-  handleFocus() {
+  private handleFocus(): void {
     KeyUpListener.take(this);
 
     this.setState({
       focus: true
-    })
+    });
   }
 
-  handleBlur(event) {
+  private handleBlur(event): void {
     KeyUpListener.release(this);
 
     setTimeout(() => {
@@ -169,7 +169,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     }, 100);
   }
 
-  getMenuClassName(tag) {
+  private getMenuClassName(tag) {
     if (this.marked) {
       return;
     }
@@ -187,7 +187,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     }
   }
 
-  __renderTags() {
+  private __renderTags() {
     if (!this.state.focus || this.state.tags.length === 0) {
       return (<span />);
     }

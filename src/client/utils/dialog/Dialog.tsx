@@ -1,10 +1,15 @@
 import * as React from 'react'
 import DialogStore from './DialogStore'
+import {DialogStoreOption} from './DialogStore'
 
-class Dialog extends React.Component {
+interface DialgoState {
+  options: DialogStoreOption;
+}
+
+class Dialog extends React.Component<{}, DialgoState> {
   constructor(props) {
     super(props);
-    this.state = {options:{}};
+    this.state = {options:undefined};
   }
 
   componentDidMount() {
@@ -17,16 +22,16 @@ class Dialog extends React.Component {
 
   handleCancel() {
     this.state.options.reject(false);
-    DialogStore.setObject({});
+    DialogStore.setObject(undefined);
   }
 
   handleOk() {
     this.state.options.resolve(true);
-    DialogStore.setObject({});
+    DialogStore.setObject(undefined);
   }
 
   render() {
-    if (!this.state.options.open) {
+    if (!this.state.options || !this.state.options.open) {
       return (<span />);
     }
 

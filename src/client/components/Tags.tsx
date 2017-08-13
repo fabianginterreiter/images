@@ -1,13 +1,20 @@
-"use strict"
+import * as React from "react";
+import * as $ from "jquery";
+import { Link } from "react-router";
+import{ Quickedit, DialogStore, ExtendedTable, sort } from "../utils/Utils";
+import NavigationsStore from "../stores/NavigationsStore";
+import Ajax from "../libs/Ajax";
+import {Tag} from "../types/types";
 
-import * as React from 'react'
-import * as $ from 'jquery'
-import { Link } from 'react-router'
-import{ Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
-import NavigationsStore from '../stores/NavigationsStore'
-import Ajax from '../libs/Ajax'
+interface TagsComponentProps {
 
-class Tags extends React.Component {
+}
+
+interface TagsComponentState {
+  tags: Tag[];
+}
+
+export default class Tags extends React.Component<TagsComponentProps, TagsComponentState> {
   constructor(props) {
     super(props);
 
@@ -17,7 +24,7 @@ class Tags extends React.Component {
   }
 
   componentDidMount() {
-    Ajax.get('/api/tags').then((tags) => this.setState({tags:tags}));
+    Ajax.get("/api/tags").then((tags) => this.setState({tags:tags}));
   }
 
   componentWillUnmount() {
@@ -37,19 +44,19 @@ class Tags extends React.Component {
 
     tag.name = value;
 
-    Ajax.put('/api/tags/' + tag.id, tag).then(() => {
+    Ajax.put("/api/tags/" + tag.id, tag).then(() => {
       this.forceUpdate();
     });
   }
 
-  handleCancel(tag) {
+  handleCancel(tag: Tag) {
     tag.edit = false;
     this.forceUpdate();
   }
 
   handleDelete(tag) {
-    DialogStore.open('Delete Tag', 'Do you really want to delete the Tags?')
-    .then((result) => Ajax.delete('/api/tags/' + tag.id)).then(() => {
+    DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
+    .then((result) => Ajax.delete("/api/tags/" + tag.id)).then(() => {
       for (var index = 0; index < this.state.tags.length; index++) {
         if (this.state.tags[index].id === tag.id) {
           this.state.tags.splice(index, 1);
@@ -92,13 +99,11 @@ class Tags extends React.Component {
       <h1><i className="fa fa-tags" aria-hidden="true" /> Tags</h1>
 
       <ExtendedTable columns={[
-        {title:'Name', name: 'name'},
-        {title:'Images', name: 'count', className:'option'},
-        {title:'Edit', className:'option'},
-        {title:'Delete', className:'option'}]} data={this.state.tags} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={'name'} asc={true} />
+        {title:"Name", name: "name"},
+        {title:"Images", name: "count", className:"option"},
+        {title:"Edit", className:"option"},
+        {title:"Delete", className:"option"}]} data={this.state.tags} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
 
     </div>);
   }
 }
-
-export default Tags;

@@ -1,17 +1,27 @@
-"use strict"
-
 import ImagesStore from '../stores/ImagesStore';
 import UploadStore from '../stores/UploadStore';
 import * as React from 'react';
 import { Modal, InlineProgress } from '../utils/Utils';
+import {ExtendedFile} from "../types/types";
 
-class Uploader extends React.Component {
+interface UploaderProps {
+
+}
+
+interface UploaderState {
+  files: ExtendedFile[];
+  started: boolean;
+  uploads: boolean;
+}
+
+export default class Uploader extends React.Component<UploaderProps, UploaderState> {
   constructor(props) {
     super(props);
 
     this.state = {
       files: [],
-      started: false
+      started: false,
+      uploads: false
     };
   }
 
@@ -73,7 +83,7 @@ class Uploader extends React.Component {
 
     var files = [];
 
-    this.state.files.forEach(function(file) {
+    this.state.files.forEach((file) => {
       if (file.error) {
         files.push(<li key={file.name}>{file.name} <span className="error">✘</span></li>);
       } else if (file.complete) {
@@ -96,5 +106,3 @@ class Uploader extends React.Component {
     );
   }
 }
-
-export default Uploader;

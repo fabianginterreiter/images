@@ -5,7 +5,7 @@ import ImagePerson from "../model/ImagePerson";
 import BaseController from "./BaseController";
 
 export default class SearchController extends BaseController {
-  private words: String[];
+  private words: string[];
 
   constructor(req) {
     super(req);
@@ -26,13 +26,13 @@ export default class SearchController extends BaseController {
     .catch(console.log);
   }
 
-  createJoin(qb, subquery) {
+  public createJoin(qb, subquery) {
     // because qb.join(subquery, "images.id", "image_id") does not create parenthesis
     // around the subquery, we have to handle this as a joinRaw
     qb.joinRaw("inner join(" + subquery.toQuery() + ') on "images"."id" = "image_id"');
   }
 
-  createSearchQuery() {
+  public createSearchQuery() {
     return bookshelf.knex.select("image_id")
       .count("image_id AS count")
       .from((s1) => {
@@ -44,7 +44,7 @@ export default class SearchController extends BaseController {
       .orderBy("count", "desc");
   }
 
-  createSelectForPersons(s1) {
+  public createSelectForPersons(s1) {
     return s1.select("image_id")
       .from("images_persons")
       .join("persons", "persons.id", "images_persons.person_id")
@@ -56,7 +56,7 @@ export default class SearchController extends BaseController {
       });
   }
 
-  createSelectForTags(s2) {
+  public createSelectForTags(s2) {
     return s2.select("image_id")
       .from("images_tags")
       .join("tags", "tags.id", "images_tags.tag_id")
@@ -68,7 +68,7 @@ export default class SearchController extends BaseController {
       });
   }
 
-  createSelectForAlbums(s3) {
+  public createSelectForAlbums(s3) {
     return s3.select("image_id")
       .from("albums_images")
       .join("albums", "albums.id", "albums_images.album_id")

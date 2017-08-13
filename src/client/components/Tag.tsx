@@ -1,19 +1,27 @@
-"use strict"
+import * as React from "react"
+import Images from "./Images"
+import ImagesStore from "../stores/ImagesStore"
+import ImagesNav from "./ImagesNav"
+import{ Quickedit, DialogStore } from "../utils/Utils"
+import Ajax from "../libs/Ajax"
+import { browserHistory } from "react-router"
+import {Tag} from "../types/types"
 
-import * as React from 'react'
-import Images from './Images'
-import ImagesStore from '../stores/ImagesStore'
-import ImagesNav from './ImagesNav'
-import{ Quickedit, DialogStore } from '../utils/Utils'
-import Ajax from '../libs/Ajax'
-import { browserHistory } from 'react-router'
+interface TagComponentProps {
 
-class Tag extends React.Component {
+}
+
+interface TagComponentState {
+  tag: Tag;
+  edit: boolean;
+}
+
+export default class TagComponent extends React.Component<TagComponentProps, TagComponentState> {
   constructor(props) {
     super(props);
 
     this.state = {
-      tag: {},
+      tag: undefined,
       edit: false
     }
   }
@@ -23,8 +31,8 @@ class Tag extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    ImagesStore.load('/api/images?tag=' + newProps.params.id);
-    Ajax.get('/api/tags/' + newProps.params.id).then((tag) => this.setState({tag:tag}));
+    ImagesStore.load("/api/images?tag=" + newProps.params.id);
+    Ajax.get("/api/tags/" + newProps.params.id).then((tag) => this.setState({tag:tag}));
   }
 
   handleEdit() {
@@ -33,17 +41,17 @@ class Tag extends React.Component {
     });
   }
 
-  handleChange(value) {
+  handleChange(value: string) {
     if (this.state.tag.name === value) {
       this.setState({
         edit: false
-      })
+      });
     } else {
       this.state.tag.name = value;
-      Ajax.put('/api/tags/' + this.state.tag.id, this.state.tag).then((tag) => {
+      Ajax.put("/api/tags/" + this.state.tag.id, this.state.tag).then((tag) => {
         this.setState({
-          tag:tag,
-          edit:false
+          tag: tag,
+          edit: false
         });
       });
     }
@@ -61,13 +69,17 @@ class Tag extends React.Component {
   }
 
   handleDelete() {
-    DialogStore.open('Delete Tag', 'Do you really want to delete the Tags?')
-    .then((result) => Ajax.delete('/api/tags/' + this.state.tag.id)).then(() => {
-      browserHistory.push('/images');
+    DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
+    .then((result) => Ajax.delete("/api/tags/" + this.state.tag.id)).then(() => {
+      browserHistory.push("/images");
     }).catch((e) => console.log(e));
   }
 
   render() {
+    if (!this.state.tag) {
+      return <span />;
+    }
+
     return (
       <div>
         <h1>
@@ -82,5 +94,3 @@ class Tag extends React.Component {
     );
   }
 }
-
-export default Tag;

@@ -1,25 +1,23 @@
-"use strict"
+import * as React from "react"
+import Images from "./Images"
+import ImagesStore from "../stores/ImagesStore"
+import ImagesNav from "./ImagesNav"
+import { DialogStore } from "../utils/Utils"
+import SelectionStore from "../stores/SelectionStore"
 
-import * as React from 'react'
-import Images from './Images'
-import ImagesStore from '../stores/ImagesStore'
-import ImagesNav from './ImagesNav'
-import { DialogStore } from '../utils/Utils'
-import SelectionStore from '../stores/SelectionStore'
-
-class Trash extends React.Component {
+export default class Trash extends React.Component<{}, {}> {
   componentDidMount() {
-    ImagesStore.load('/api/images?trash=true');
+    ImagesStore.load("/api/images?trash=true");
   }
 
   handleClear() {
-    DialogStore.open('Delete Images', 'Do you really want to delete all selected images?', {
-      type: 'danger'
+    DialogStore.open("Delete Images", "Do you really want to delete all selected images?", {
+      type: "danger"
     }).then((result) => {
       if (result) {
-        fetch('/api/trash/clear', {
+        fetch("/api/trash/clear", {
           method: "DELETE",
-          credentials: 'include'
+          credentials: "include"
         }).then(() => {
         });
       }
@@ -56,5 +54,3 @@ class Trash extends React.Component {
     );
   }
 }
-
-export default Trash;

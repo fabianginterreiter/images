@@ -1,9 +1,12 @@
-"use strict"
-
-import {Dispatcher} from '../utils/Utils';
-import $ from 'jquery'
+import {Dispatcher} from "../utils/Utils";
+import $ from "jquery";
+import {ExtendedFile} from "../types/types";
 
 class UploadStore extends Dispatcher {
+  private _active: boolean;
+  private _canceled: boolean;
+  private _index: number;
+
   constructor() {
     super([]);
     this._active = false;
@@ -23,11 +26,11 @@ class UploadStore extends Dispatcher {
     super.dispatch();
   }
 
-  isUploading() {
+  isUploading(): boolean {
     return this._active;
   }
 
-  completeHandler(image) {
+  completeHandler(image: ExtendedFile) {
     super.getObject()[this._index].complete = true;
     super.getObject()[this._index].image = image;
     super.dispatch();
@@ -55,15 +58,15 @@ class UploadStore extends Dispatcher {
     }
 
     var formData = new FormData();
-    formData.append('image', super.getObject()[index].file);
+    formData.append("image", super.getObject()[index].file);
 
     $.ajax({
-      url: '/api/images',
-      type: 'POST',
+      url: "/api/images",
+      type: "POST",
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();
         if(myXhr.upload){
-          myXhr.upload.addEventListener('progress',this.progressHandlingFunction.bind(this), false);
+          myXhr.upload.addEventListener("progress",this.progressHandlingFunction.bind(this), false);
         }
         return myXhr;
       }.bind(this),

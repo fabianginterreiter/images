@@ -1,13 +1,20 @@
-"use strict"
+import * as React from "react"
+import * as $ from "jquery"
+import { Link } from "react-router"
+import{ Quickedit, DialogStore, ExtendedTable, sort } from "../utils/Utils"
+import NavigationsStore from "../stores/NavigationsStore"
+import Ajax from "../libs/Ajax"
+import {Person} from "../types/types";
 
-import * as React from 'react'
-import * as $ from 'jquery'
-import { Link } from 'react-router'
-import{ Quickedit, DialogStore, ExtendedTable, sort } from '../utils/Utils'
-import NavigationsStore from '../stores/NavigationsStore'
-import Ajax from '../libs/Ajax'
+interface PersonsComponentProps {
 
-class Persons extends React.Component {
+}
+
+interface PersonsComponentState {
+  persons: Person[];
+}
+
+export default class PersonsComponent extends React.Component<PersonsComponentProps, PersonsComponentState> {
   constructor(props) {
     super(props);
 
@@ -17,7 +24,7 @@ class Persons extends React.Component {
   }
 
   componentDidMount() {
-    Ajax.get('/api/persons').then((persons) => this.setState({persons:persons}));
+    Ajax.get("/api/persons").then((persons) => this.setState({persons:persons}));
   }
 
   componentWillUnmount() {
@@ -37,7 +44,7 @@ class Persons extends React.Component {
 
     person.name = value;
 
-    Ajax.put('/api/persons/' + person.id, person).then(() => {
+    Ajax.put("/api/persons/" + person.id, person).then(() => {
       this.forceUpdate();
     });
   }
@@ -48,10 +55,10 @@ class Persons extends React.Component {
   }
 
   handleDelete(person) {
-    DialogStore.open('Delete Person', 'Do you really want to delete the Person?', {
-      type: 'warning',
-      icon: 'fa fa-trash'
-    }).then(() => Ajax.delete('/api/persons/' + person.id)).then(() => {
+    DialogStore.open("Delete Person", "Do you really want to delete the Person?", {
+      type: "warning",
+      icon: "fa fa-trash"
+    }).then(() => Ajax.delete("/api/persons/" + person.id)).then(() => {
       for (var index = 0; index < this.state.persons.length; index++) {
         if (this.state.persons[index].id === person.id) {
           this.state.persons.splice(index, 1);
@@ -94,13 +101,11 @@ class Persons extends React.Component {
       <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
 
       <ExtendedTable columns={[
-        {title:'Name', name: 'name'},
-        {title:'Images', name: 'count', className:'option'},
-        {title:'Edit', className:'option'},
-        {title:'Delete', className:'option'}]} data={this.state.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={'name'} asc={true} />
+        {title:"Name", name: "name"},
+        {title:"Images", name: "count", className:"option"},
+        {title:"Edit", className:"option"},
+        {title:"Delete", className:"option"}]} data={this.state.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
 
     </div>);
   }
 }
-
-export default Persons;

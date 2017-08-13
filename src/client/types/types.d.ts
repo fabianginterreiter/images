@@ -13,6 +13,8 @@ export interface Tag {
   readonly id: number;
 
   name: string;
+
+  edit?: boolean;
 }
 
 export interface Image {
@@ -47,4 +49,12 @@ export interface Album {
 export interface User {
   readonly id: number;
   name: string;
+}
+
+export interface ExtendedFile extends File {
+  image: Image;
+  complete: boolean;
+  started: boolean;
+  error: boolean;
+  process: number;
 }

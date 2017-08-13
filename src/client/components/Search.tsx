@@ -1,22 +1,32 @@
-"use strict"
+import * as React from "react"
+import Images from "./Images"
+import ImagesStore from "../stores/ImagesStore"
+import ImagesNav from "./ImagesNav"
 
-import * as React from 'react'
-import Images from './Images'
-import ImagesStore from '../stores/ImagesStore'
-import ImagesNav from './ImagesNav'
+interface SearchProps {
+  location: {
+    query: {
+      s: string;
+    }
+  }
+}
 
-class Search extends React.Component {
+interface SearchState {
+  search: string;
+}
+
+export default class Search extends React.Component<SearchProps, SearchState> {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      search: ''
+      search: ""
     }
   }
 
   componentDidMount() {
-    ImagesStore.load('/api/search?s=' + this.props.location.query.s);
+    ImagesStore.load("/api/search?s=" + this.props.location.query.s);
 
     this.setState({
       search: this.props.location.query.s
@@ -24,7 +34,7 @@ class Search extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    ImagesStore.load('/api/search?s=' + newProps.location.query.s);
+    ImagesStore.load("/api/search?s=" + newProps.location.query.s);
 
     this.setState({
       search: newProps.location.query.s
@@ -43,5 +53,3 @@ class Search extends React.Component {
     );
   }
 }
-
-export default Search;

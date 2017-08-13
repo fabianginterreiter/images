@@ -1,9 +1,15 @@
-"use strict"
-
 import * as React from 'react'
 import ThumbnailsSizeStore from '../stores/ThumbnailsSizeStore'
 
-class ThumbnailsResizer extends React.Component {
+interface ThumbnailsResizerProps {
+
+}
+
+interface ThumbnailsResizerState {
+  size: number;
+}
+
+export default class ThumbnailsResizer extends React.Component<ThumbnailsResizerProps, ThumbnailsResizerState> {
   constructor(props) {
     super(props);
 
@@ -30,5 +36,3 @@ class ThumbnailsResizer extends React.Component {
     );
   }
 }
-
-export default ThumbnailsResizer;

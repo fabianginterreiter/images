@@ -1,12 +1,20 @@
-"use strict"
-
 import * as React from 'react'
 import { browserHistory } from 'react-router'
 import NavigationsState from '../states/NavigationsState'
 import Title from './Title'
 import { KeyUpListener } from '../utils/Utils'
 
-class Searchbar extends React.Component {
+interface SearchbarProps {
+
+}
+
+interface SearchbarState {
+  s: string;
+  open: boolean;
+}
+
+export default class Searchbar extends React.Component<SearchbarProps, SearchbarState> {
+  private opened: boolean;
 
   constructor(props) {
     super(props);
@@ -35,7 +43,7 @@ class Searchbar extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    browserHistory.push(`/images/search?s=${this.refs.search.value}`);
+    browserHistory.push(`/images/search?s=${(this.refs.search as HTMLFormElement).value}`);
 
     this.setState({
       open: false
@@ -53,7 +61,7 @@ class Searchbar extends React.Component {
   componentDidUpdate() {
     if (this.opened) {
       this.opened = false;
-      this.refs.search.select();
+      (this.refs.search as HTMLFormElement).select();
     }
   }
 
@@ -104,5 +112,3 @@ class Searchbar extends React.Component {
     );
   }
 }
-
-export default Searchbar;

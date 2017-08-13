@@ -1,22 +1,22 @@
-import * as React from "react"
-import * as $ from "jquery"
-import { OptionsList, DialogStore, Panel, KeyUpListener, ResizeListener } from "../utils/Utils"
-import Like from "./Like"
-import TagsList from "./TagsList"
-import PersonsList from "./PersonsList"
-import ImagesStore from "../stores/ImagesStore"
-import SelectionStore from "../stores/SelectionStore"
-import Faces from "./Faces"
-import * as moment from "moment"
-import {Image} from "../types/types"
+import * as $ from "jquery";
+import * as moment from "moment";
+import * as React from "react";
+import ImagesStore from "../stores/ImagesStore";
+import SelectionStore from "../stores/SelectionStore";
+import {Image} from "../types/types";
+import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
+import Faces from "./Faces";
+import Like from "./Like";
+import PersonsList from "./PersonsList";
+import TagsList from "./TagsList";
 
 interface FullscreenProps {
   image: Image;
-  previous():void;
-  next():void;
   size: number;
   number: number;
-  handleClose():void;
+  previous(): void;
+  next(): void;
+  handleClose(): void;
 }
 
 interface FullscreenState {
@@ -26,7 +26,7 @@ interface FullscreenState {
     width: number;
     height: number;
     left: number;
-  }
+  };
 }
 
 export default class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
@@ -42,18 +42,72 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ResizeListener.addChangeListener(this, this.handleImageLoad.bind(this));
     $("body").css("overflow", "hidden");
     this._show();
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     KeyUpListener.removeChangeListener(this);
     ResizeListener.removeChangeListener(this);
     $("body").css("overflow", "auto");
     clearTimeout(this.timeout);
+  }
+
+  render() {
+    let titleClass = "title";
+
+    if (this.state.show) {
+      titleClass += " show";
+    }
+
+    let options = [{
+        key: "delete",
+        type: "action",
+        name: "Delete"
+      }];
+
+    let checkBoxClass = null;
+    if (SelectionStore.isSelected(this.props.image)) {
+        checkBoxClass = "fa fa-check-square-o";
+      } else {
+        checkBoxClass = "fa fa-square-o";
+      }
+
+    return (
+      <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
+        <img ref="image" src={`/images/${this.props.image.path}`}
+          alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
+        <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
+        <div className={titleClass}>
+          <div onClick={this.props.handleClose} className="close">✕</div>
+          {this.props.image.title} ({this.props.number}/{this.props.size})
+          <div className="options">
+            <Like image={this.props.image} />&nbsp;
+            <i className={checkBoxClass} onClick={() => SelectionStore.handle(this.props.image)} />
+            <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
+          </div>
+        </div>
+        <div className="previous" onClick={this.props.previous} />
+        <div className="next" onClick={this.props.next} />
+        <Panel open={this.state.menu} clickCatcher={this.state.menu}
+          side="right" onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
+          <div className="title">
+          </div>
+          <div className="body">
+            <div>Filename: {this.props.image.filename}</div>
+            <div>Resolution: {this.props.image.width}/{this.props.image.height}</div>
+            <div>Date: {moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</div>
+
+            <OptionsList values={options} onClick={this.handleClick.bind(this)} />
+            <TagsList image={this.props.image} />
+            <PersonsList image={this.props.image} />
+          </div>
+        </Panel>
+      </div>
+    );
   }
 
   private handleKeyUp(e: KeyboardEvent) {
@@ -131,57 +185,5 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
         left: img.offsetLeft
       }
     });
-  }
-
-  render() {
-    var titleClass = "title";
-
-    if (this.state.show) {
-      titleClass += " show";
-    }
-
-    var options = [{
-        key: "delete",
-        type: "action",
-        name: "Delete"
-      }];
-
-      var checkBoxClass = null;
-      if (SelectionStore.isSelected(this.props.image)) {
-        checkBoxClass = "fa fa-check-square-o";
-      } else {
-        checkBoxClass = "fa fa-square-o"
-      }
-
-    return (
-      <div className="fullscreen" onMouseMove={this.handleMouseMove.bind(this)}>
-        <img ref="image" src={"/images/" + this.props.image.path} alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
-        <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
-        <div className={titleClass}>
-          <div onClick={this.props.handleClose} className="close">✕</div>
-          {this.props.image.title} ({this.props.number}/{this.props.size})
-          <div className="options">
-            <Like image={this.props.image} />&nbsp;
-            <i className={checkBoxClass} onClick={() => SelectionStore.handle(this.props.image)} />
-            <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
-          </div>
-        </div>
-        <div className="previous" onClick={this.props.previous} />
-        <div className="next" onClick={this.props.next} />
-        <Panel open={this.state.menu} clickCatcher={this.state.menu} side="right" onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
-          <div className="title">
-          </div>
-          <div className="body">
-            <div>Filename: {this.props.image.filename}</div>
-            <div>Resolution: {this.props.image.width}/{this.props.image.height}</div>
-            <div>Date: {moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</div>
-
-            <OptionsList values={options} onClick={this.handleClick.bind(this)} />
-            <TagsList image={this.props.image} />
-            <PersonsList image={this.props.image} />
-          </div>
-        </Panel>
-      </div>
-    );
   }
 }

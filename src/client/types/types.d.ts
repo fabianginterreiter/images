@@ -42,6 +42,7 @@ export interface Image extends PersistedObject {
   title: string;
   filename: string;
   deleted: boolean;
+  proportion: number;
 
   width: number;
   height: number;

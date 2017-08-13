@@ -1,14 +1,14 @@
-import * as React from "react"
-import Images from "./Images"
-import ImagesStore from "../stores/ImagesStore"
-import ImagesNav from "./ImagesNav"
-import Ajax from "../libs/Ajax"
+import * as React from "react";
+import Ajax from "../libs/Ajax";
+import ImagesStore from "../stores/ImagesStore";
 import {Person} from "../types/types";
+import Images from "./Images";
+import ImagesNav from "./ImagesNav";
 
 interface PersonComponentProps {
   params: {
     id: string;
-  }
+  };
 }
 
 interface PersonComponentState {
@@ -22,7 +22,7 @@ export default class PersonComponent extends React.Component<PersonComponentProp
 
     this.state = {
       person: undefined
-    }
+    };
   }
 
   componentDidMount() {
@@ -31,7 +31,7 @@ export default class PersonComponent extends React.Component<PersonComponentProp
 
   componentWillReceiveProps(newProps: PersonComponentProps) {
     ImagesStore.load("/api/images?person=" + newProps.params.id);
-    Ajax.get("/api/persons/" + newProps.params.id).then((person) => this.setState({person:person}));
+    Ajax.get("/api/persons/" + newProps.params.id).then((person) => this.setState({person}));
   }
 
   render() {

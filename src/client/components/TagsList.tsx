@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Link } from"react-router"
-import { AutoComplete } from "../utils/Utils"
-import ImagesStore from "../stores/ImagesStore"
-import {Image, Tag} from "../types/types"
+import * as React from "react";
+import { Link } from "react-router";
+import ImagesStore from "../stores/ImagesStore";
+import {Image, Tag} from "../types/types";
+import { AutoComplete } from "../utils/Utils";
 
 interface TagsListProps {
   image: Image;
@@ -38,4 +38,4 @@ export default class TagsList extends React.Component<TagsListProps, {}> {
       </div>
     );
   }
-};
+}

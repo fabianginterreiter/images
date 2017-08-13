@@ -1,11 +1,11 @@
-import * as React from 'react'
-import UserState from '../states/UserState'
-import { browserHistory } from 'react-router'
+import * as React from "react";
+import { browserHistory } from "react-router";
+import UserState from "../states/UserState";
 
 interface InitProps {
   location: {
     pathname: string;
-  }
+  };
 }
 
 interface InitState {
@@ -18,22 +18,10 @@ export default class Init extends React.Component<InitProps, InitState> {
 
     this.state = {
       initializing: true
-    }
+    };
   }
 
-  private handleUserChange() {
-    if (UserState.getUser()) {
-      if (this.props.location.pathname.startsWith('/images')) {
-        return;
-      }
-
-      browserHistory.push('/images');
-    } else {
-      browserHistory.push('/profiles');
-    }
-  }
-
-  componentDidMount() {
+  public componentDidMount() {
     UserState.addChangeListener(this, this.handleUserChange.bind(this));
 
     UserState.load().then(function() {
@@ -43,21 +31,33 @@ export default class Init extends React.Component<InitProps, InitState> {
     }.bind(this));
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     UserState.removeChangeListener(this);
   }
 
-  render() {
+  public render() {
     if (this.state.initializing) {
       return (<span>Loading</span>);
     }
 
-    if (this.props.location.pathname === '/') {
+    if (this.props.location.pathname === "/") {
       this.handleUserChange();
     }
 
     return (
       <div>{this.props.children}</div>
     );
+  }
+
+  private handleUserChange() {
+    if (UserState.getUser()) {
+      if (this.props.location.pathname.startsWith("/images")) {
+        return;
+      }
+
+      browserHistory.push("/images");
+    } else {
+      browserHistory.push("/profiles");
+    }
   }
 }

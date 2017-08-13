@@ -1,9 +1,9 @@
-import * as React from "react";
 import * as $ from "jquery";
-import { AutoComplete } from "../utils/Utils";
-import ImagesStore from "../stores/ImagesStore";
+import * as React from "react";
 import { Link } from "react-router";
+import ImagesStore from "../stores/ImagesStore";
 import { Image, Person } from "../types/types";
+import { AutoComplete } from "../utils/Utils";
 
 interface FacesProps {
   image: Image;
@@ -41,16 +41,30 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     super(props);
 
     this.state = {
-      selection: null,
-      create: null
-    }
+      create: null,
+      selection: null
+    };
+  }
+
+  public render() {
+    const className = "faces" + (this.props.show || this.state.create || this.state.selection ? " show" : "");
+
+    return (
+      <div className={className} style={this.props.style}
+        onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}
+        onMouseMove={this.handleMouseMove.bind(this)}>
+        {this._renderSelection()}
+        {this._renderCreate()}
+        {this._renderPersons()}
+      </div>
+    );
   }
 
   private getMousePosition(event) {
     return {
       x: event.clientX - this.offsetLeft,
       y: event.clientY - this.offsetTop,
-    }
+    };
   }
 
   private handleMouseDown(event) {
@@ -64,11 +78,11 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     }
 
     this.offsetLeft = event.target.offsetLeft;
-    this.offsetTop = event.target.offsetTop
+    this.offsetTop = event.target.offsetTop;
 
     this.startTime = new Date().getTime();
 
-    let position = this.getMousePosition(event);
+    const position = this.getMousePosition(event);
 
     this.setState({
       startX: position.x,
@@ -92,14 +106,13 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       return;
     }
 
-    var position = this.getMousePosition(event);
+    const position = this.getMousePosition(event);
 
-
-    var width = Math.max(position.x, this.state.startX) - Math.min(position.x, this.state.startX);
-    var height = Math.max(position.y, this.state.startY) - Math.min(position.y, this.state.startY);
-    var length = Math.max(width, height);
-    var x = this.state.startX < position.x ? this.state.startX : this.state.startX - length;
-    var y = this.state.startY < position.y ? this.state.startY : this.state.startY - length;
+    const width = Math.max(position.x, this.state.startX) - Math.min(position.x, this.state.startX);
+    const height = Math.max(position.y, this.state.startY) - Math.min(position.y, this.state.startY);
+    const length = Math.max(width, height);
+    const x = this.state.startX < position.x ? this.state.startX : this.state.startX - length;
+    const y = this.state.startY < position.y ? this.state.startY : this.state.startY - length;
 
     this.setState({
       selection: {
@@ -122,7 +135,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       return;
     }
 
-    let time = new Date().getTime() - this.startTime;
+    const time = new Date().getTime() - this.startTime;
 
     if (time < 300) {
       return this.setState({
@@ -130,7 +143,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       });
     }
 
-    let selection = this.state.selection;
+    const selection = this.state.selection;
 
     this.setState({
       selection: null,
@@ -157,7 +170,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       return (<span />);
     }
 
-    let style = {
+    const style = {
       top: (this.state.create.top + this.state.create.height + 10) + "px",
       left: this.state.create.left + "px"
     };
@@ -181,29 +194,29 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
 
   private handleCancelCreation() {
     this.setState({
-      create:null,
-      selection:null
+      create: null,
+      selection: null
     });
   }
 
   private _renderPersons() {
-    var persons = [];
+    const persons = [];
 
-    this.props.image.persons.forEach((person) => persons.push(this._renderPerson(person)))
+    this.props.image.persons.forEach((person) => persons.push(this._renderPerson(person)));
 
     return persons;
   }
 
   private _renderPerson(person: Person) {
-    var style = {
+    const style = {
       top: person._pivot_top + "%",
       left: person._pivot_left + "%",
       width: person._pivot_width + "%",
       height: person._pivot_height + "%"
-    }
+    };
 
-    let style2 = {
-      top: (this.props.style.height * (((person._pivot_top) + (person._pivot_height))/100) + 10) + "px",
+    const style2 = {
+      top: (this.props.style.height * (((person._pivot_top) + (person._pivot_height)) / 100) + 10) + "px",
       left: (person._pivot_left) + "%",
     };
 
@@ -211,20 +224,21 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       <Link to={`/images/persons/${person.id}`}><div className="border s" style={style}><div /></div></Link>
       <div style={style2} className="name">
         <Link to={`/images/persons/${person.id}`}>{person.name}</Link>&nbsp;
-        <span className="remove"><i className="icon-remove" onClick={(e) => this.handleDeletePerson(e, person)} /></span>
+        <span className="remove"><i className="icon-remove"
+          onClick={(e) => this.handleDeletePerson(e, person)} /></span>
       </div>
     </div>);
   }
 
   private handleAddPerson(person: Person) {
-    var object = {
+    const object = {
       top: (this.state.create.top / this.props.style.height * 100),
       left: (this.state.create.left / this.props.style.width * 100),
       width: (this.state.create.width / this.props.style.width * 100),
       height: (this.state.create.height / this.props.style.height * 100),
       id: person.id,
       name: person.name
-    }
+    };
 
     ImagesStore.addPerson(this.props.image, object);
 
@@ -236,17 +250,5 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
   private handleDeletePerson(e, person: Person) {
     e.preventDefault();
     ImagesStore.deletePerson(this.props.image, person);
-  }
-
-  render() {
-    var className = "faces" + (this.props.show || this.state.create || this.state.selection ? " show" : "");
-
-    return (
-      <div className={className} style={this.props.style} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
-        {this._renderSelection()}
-        {this._renderCreate()}
-        {this._renderPersons()}
-      </div>
-    );
   }
 }

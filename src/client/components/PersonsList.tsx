@@ -1,7 +1,7 @@
-import * as React from "react"
-import { Link } from "react-router"
-import ImagesStore from "../stores/ImagesStore"
-import {Image, Person} from "../types/types"
+import * as React from "react";
+import { Link } from "react-router";
+import ImagesStore from "../stores/ImagesStore";
+import {Image, Person} from "../types/types";
 
 interface PersonsListProps {
   image: Image;

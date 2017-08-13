@@ -1,5 +1,5 @@
-import * as React from 'react'
-import ThumbnailsSizeStore from '../stores/ThumbnailsSizeStore'
+import * as React from "react";
+import ThumbnailsSizeStore from "../stores/ThumbnailsSizeStore";
 
 interface ThumbnailsResizerState {
   size: number;
@@ -11,11 +11,11 @@ export default class ThumbnailsResizer extends React.Component<{}, ThumbnailsRes
 
     this.state = {
       size: ThumbnailsSizeStore.getObject()
-    }
+    };
   }
 
   componentDidMount() {
-    ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size:size})));
+    ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size})));
   }
 
   componentWillUnmount() {
@@ -23,7 +23,7 @@ export default class ThumbnailsResizer extends React.Component<{}, ThumbnailsRes
   }
 
   handleChange(event) {
-    ThumbnailsSizeStore.setObject(event.target.value)
+    ThumbnailsSizeStore.setObject(event.target.value);
   }
 
   render() {

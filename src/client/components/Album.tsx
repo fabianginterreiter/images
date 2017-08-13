@@ -1,10 +1,10 @@
-import * as React from "react"
-import Images from "./Images"
-import ImagesStore from "../stores/ImagesStore"
-import ImagesNav from "./ImagesNav"
-import SelectionStore from "../stores/SelectionStore"
-import Ajax from "../libs/Ajax"
-import {Album} from "../types/types"
+import * as React from "react";
+import Ajax from "../libs/Ajax";
+import ImagesStore from "../stores/ImagesStore";
+import SelectionStore from "../stores/SelectionStore";
+import {Album} from "../types/types";
+import Images from "./Images";
+import ImagesNav from "./ImagesNav";
 
 interface AlbumProps {
   params: {
@@ -23,27 +23,21 @@ export default class AlbumComponent extends React.Component<AlbumProps, AlbumSta
 
     this.state = {
       album: undefined
-    }
+    };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.componentWillReceiveProps(this.props);
   }
 
-  componentWillReceiveProps(newProps) {
-    ImagesStore.load("/api/images?album=" + newProps.params.albumId);
-    Ajax.get("/api/albums/" + newProps.params.albumId).then((album) => this.setState({album:album}));
+  public componentWillReceiveProps(newProps) {
+    ImagesStore.load(`/api/images?album=${newProps.params.albumId}`);
+    Ajax.get(`/api/albums/${newProps.params.albumId}`).then((album) => this.setState({album}));
   }
 
-  private handleRemoveFromAlbum() {
-    ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), this.state.album).then(() => {
-      ImagesStore.reload();
-    });
-  }
-
-  render() {
+  public render() {
     if (!this.state.album) {
-      return <span />
+      return <span />;
     }
 
     return (
@@ -51,11 +45,19 @@ export default class AlbumComponent extends React.Component<AlbumProps, AlbumSta
         <h1>
           <i className="fa fa-book" aria-hidden="true" /> {this.state.album.name}
           <ImagesNav>
-            <a onClick={this.handleRemoveFromAlbum.bind(this)}><i className="fa fa-times" /><span className="min500"> Remove</span></a>
+            <a onClick={this.handleRemoveFromAlbum.bind(this)}>
+              <i className="fa fa-times" /><span className="min500"> Remove</span>
+            </a>
           </ImagesNav>
         </h1>
         <Images />
       </div>
     );
+  }
+
+  private handleRemoveFromAlbum() {
+    ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), this.state.album).then(() => {
+      ImagesStore.reload();
+    });
   }
 }

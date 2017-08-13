@@ -1,13 +1,13 @@
-import * as React from "react"
-import * as $ from "jquery"
-import { Link } from "react-router"
-import Ajax from "../libs/Ajax"
-import NavigationsStore from "../stores/NavigationsStore"
-import { Quickedit, DialogStore, ExtendedTable, sort } from "../utils/Utils"
-import {Album} from "../types/types"
+import * as $ from "jquery";
+import * as React from "react";
+import { Link } from "react-router";
+import Ajax from "../libs/Ajax";
+import NavigationsStore from "../stores/NavigationsStore";
+import {Album} from "../types/types";
+import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 
 interface AlbumsState {
-  albums: Album[]
+  albums: Album[];
 }
 
 export default class Albums extends React.Component<{}, AlbumsState> {
@@ -16,14 +16,28 @@ export default class Albums extends React.Component<{}, AlbumsState> {
 
     this.state = {
       albums: []
-    }
+    };
   }
 
-  componentDidMount() {
-    Ajax.get("/api/albums?own=true").then((albums) => this.setState({albums:albums}));
+  public componentDidMount() {
+    Ajax.get("/api/albums?own=true").then((albums) => this.setState({albums}));
   }
 
-  componentWillUnmount() {
+  public render() {
+    return (<div className="settings">
+      <h1><i className="fa fa-book" aria-hidden="true" /> Albums</h1>
+
+      <ExtendedTable columns={[
+        {title: "Name", name: "name"},
+        {title: "Images", name: "count", className: "option"},
+        {title: "Public", className: "option"},
+        {title: "Edit", className: "option"},
+        {title: "Delete", className: "option"}]}
+        data={this.state.albums}
+        render={this._renderRow.bind(this)}
+        order={this.order.bind(this)}
+        name={"name"} asc={true} />
+    </div>);
   }
 
   private handleEdit(album: Album) {
@@ -60,7 +74,7 @@ export default class Albums extends React.Component<{}, AlbumsState> {
   private handleDelete(album: Album) {
     DialogStore.open("Delete Person", "Do you really want to delete the Album?")
     .then(() => Ajax.delete(`/api/albums/${album.id}`)).then(() => {
-      for (var index = 0; index < this.state.albums.length; index++) {
+      for (let index = 0; index < this.state.albums.length; index++) {
         if (this.state.albums[index].id === album.id) {
           this.state.albums.splice(index, 1);
           break;
@@ -68,7 +82,7 @@ export default class Albums extends React.Component<{}, AlbumsState> {
       }
       this.forceUpdate();
       NavigationsStore.load();
-    })
+    });
   }
 
   private _renderText(album: Album) {
@@ -96,20 +110,7 @@ export default class Albums extends React.Component<{}, AlbumsState> {
 
   private order(name, asc) {
     sort(this.state.albums, name, asc).then((albums) => this.setState({
-      albums:albums
+      albums
     }));
-  }
-
-  render() {
-    return (<div className="settings">
-      <h1><i className="fa fa-book" aria-hidden="true" /> Albums</h1>
-
-      <ExtendedTable columns={[
-        {title:"Name", name: "name"},
-        {title:"Images", name: "count", className:"option"},
-        {title:"Public", className:"option"},
-        {title:"Edit", className:"option"},
-        {title:"Delete", className:"option"}]} data={this.state.albums} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
-    </div>);
   }
 }

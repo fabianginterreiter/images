@@ -1,11 +1,11 @@
-import * as React from "react"
-import Images from "./Images"
-import ImagesStore from "../stores/ImagesStore"
-import ImagesNav from "./ImagesNav"
-import{ Quickedit, DialogStore } from "../utils/Utils"
-import Ajax from "../libs/Ajax"
-import { browserHistory } from "react-router"
-import {Tag} from "../types/types"
+import * as React from "react";
+import { browserHistory } from "react-router";
+import Ajax from "../libs/Ajax";
+import ImagesStore from "../stores/ImagesStore";
+import {Tag} from "../types/types";
+import { DialogStore, Quickedit } from "../utils/Utils";
+import Images from "./Images";
+import ImagesNav from "./ImagesNav";
 
 interface TagComponentState {
   tag: Tag;
@@ -19,7 +19,7 @@ export default class TagComponent extends React.Component<{}, TagComponentState>
     this.state = {
       tag: undefined,
       edit: false
-    }
+    };
   }
 
   componentDidMount() {
@@ -28,7 +28,7 @@ export default class TagComponent extends React.Component<{}, TagComponentState>
 
   componentWillReceiveProps(newProps) {
     ImagesStore.load("/api/images?tag=" + newProps.params.id);
-    Ajax.get("/api/tags/" + newProps.params.id).then((tag) => this.setState({tag:tag}));
+    Ajax.get("/api/tags/" + newProps.params.id).then((tag) => this.setState({tag}));
   }
 
   private handleEdit() {
@@ -46,7 +46,7 @@ export default class TagComponent extends React.Component<{}, TagComponentState>
       this.state.tag.name = value;
       Ajax.put("/api/tags/" + this.state.tag.id, this.state.tag).then((tag) => {
         this.setState({
-          tag: tag,
+          tag,
           edit: false
         });
       });
@@ -58,7 +58,7 @@ export default class TagComponent extends React.Component<{}, TagComponentState>
       return (<Quickedit
         value={this.state.tag.name}
         onChange={this.handleChange.bind(this)}
-        onCancel={() => this.setState({edit:false})} />);
+        onCancel={() => this.setState({edit: false})} />);
     }
 
     return this.state.tag.name;

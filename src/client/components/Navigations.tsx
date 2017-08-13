@@ -1,16 +1,16 @@
-import * as React from "react"
-import ImagesStore from "../stores/ImagesStore"
-import NavigationsStore from "../stores/NavigationsStore"
-import NavigationsState from "../states/NavigationsState"
-import { OptionsList, Panel } from "../utils/Utils"
-import UserState from "../states/UserState"
-import { browserHistory } from "react-router"
-import Title from "./Title"
+import * as React from "react";
+import { browserHistory } from "react-router";
+import NavigationsState from "../states/NavigationsState";
+import UserState from "../states/UserState";
+import ImagesStore from "../stores/ImagesStore";
+import NavigationsStore from "../stores/NavigationsStore";
 import { Option } from "../utils/component/OptionsList";
+import { OptionsList, Panel } from "../utils/Utils";
+import Title from "./Title";
 interface NavigationsProps {
   location: {
     pathname: string;
-  }
+  };
 }
 
 interface NavigationsState {
@@ -24,7 +24,7 @@ export default class Navigations extends React.Component<NavigationsProps, Navig
     this.state = {
       values: NavigationsStore.getObject(),
       query: ""
-    }
+    };
   }
 
   componentDidMount() {
@@ -38,7 +38,7 @@ export default class Navigations extends React.Component<NavigationsProps, Navig
       }
     }.bind(this));
 
-    NavigationsStore.addChangeListener(this, (navigations) => this.setState({values:navigations}));
+    NavigationsStore.addChangeListener(this, (navigations) => this.setState({values: navigations}));
   }
 
   componentWillUnmount() {
@@ -67,11 +67,11 @@ export default class Navigations extends React.Component<NavigationsProps, Navig
   }
 
   render() {
-    var open = (NavigationsState.getObject().open || NavigationsState.getObject().pinned);
+    let open = (NavigationsState.getObject().open || NavigationsState.getObject().pinned);
 
-    var clickCatcher = (NavigationsState.getObject().open && !NavigationsState.getObject().pinned);
+    let clickCatcher = (NavigationsState.getObject().open && !NavigationsState.getObject().pinned);
 
-    var pinClass = null;
+    let pinClass = null;
     if (NavigationsState.getObject().pinned) {
       pinClass = "fa fa-toggle-on";
     } else {
@@ -85,7 +85,7 @@ export default class Navigations extends React.Component<NavigationsProps, Navig
           <input type="text" onChange={this.handleSearchChange.bind(this)} value={this.state.query} placeholder="Filter" />
           <div className="badge min500" onClick={NavigationsState.pin.bind(NavigationsState)}><i className={pinClass} aria-hidden="true" /></div>
         </div>
-        <div style={{clear:"both"}} />
+        <div style={{clear: "both"}} />
         <div className="body">
           <OptionsList values={this.state.values}
             onClick={this.handleClick.bind(this)}

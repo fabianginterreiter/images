@@ -1,14 +1,14 @@
-import * as React from "react"
-import Images from "./Images"
-import ImagesStore from "../stores/ImagesStore"
-import ImagesNav from "./ImagesNav"
+import * as React from "react";
+import ImagesStore from "../stores/ImagesStore";
+import Images from "./Images";
+import ImagesNav from "./ImagesNav";
 
 interface SearchProps {
   location: {
     query: {
       s: string;
     }
-  }
+  };
 }
 
 interface SearchState {
@@ -22,7 +22,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
 
     this.state = {
       search: ""
-    }
+    };
   }
 
   componentDidMount() {
@@ -30,7 +30,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
 
     this.setState({
       search: this.props.location.query.s
-    })
+    });
   }
 
   componentWillReceiveProps(newProps) {
@@ -38,7 +38,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
 
     this.setState({
       search: newProps.location.query.s
-    })
+    });
   }
 
   render() {

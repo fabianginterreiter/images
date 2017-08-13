@@ -1,6 +1,6 @@
-import * as React from "react"
-import ImagesStore from "../stores/ImagesStore"
-import { Image } from "../types/types"
+import * as React from "react";
+import ImagesStore from "../stores/ImagesStore";
+import { Image } from "../types/types";
 
 interface LikeProps {
   image: Image;

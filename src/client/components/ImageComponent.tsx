@@ -1,6 +1,6 @@
-import * as React from "react"
-import * as $ from "jquery"
-import ViewPointStore from "../stores/ViewPointStore"
+import * as $ from "jquery";
+import * as React from "react";
+import ViewPointStore from "../stores/ViewPointStore";
 import {Image} from "../types/types";
 
 interface ImageComponentProps {
@@ -20,7 +20,7 @@ export default class ImageComponent extends React.Component<ImageComponentProps,
 
     this.state = {
       visible: true
-    }
+    };
   }
 
   componentDidMount() {
@@ -55,6 +55,6 @@ export default class ImageComponent extends React.Component<ImageComponentProps,
         <div style={this.props.style} className="preloaded" ref="child" />
       );
     }
-     return (<img src={"/thumbs/" + this.props.image.path} alt={this.props.image.filename} style={this.props.style} />);
+    return (<img src={"/thumbs/" + this.props.image.path} alt={this.props.image.filename} style={this.props.style} />);
   }
 }

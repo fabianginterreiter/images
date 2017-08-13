@@ -1,55 +1,46 @@
-import * as React from "react"
-import NavigationsState from "../states/NavigationsState"
-import UserState from "../states/UserState"
-import Uploader from "./Uploader"
-import DragAndDropUpload from "./DragAndDropUpload"
-import ImagesStore from "../stores/ImagesStore"
-import Header from "./Header"
-import UsersManagement from "./UsersManagement"
-import Navigations from "./Navigations"
-import Selection from "./selections/Selection"
-import { Main, ScrollUp } from "../utils/Utils"
-import OptionsPanel from "./options/OptionsPanel"
+import * as React from "react";
+import NavigationsState from "../states/NavigationsState";
+import UserState from "../states/UserState";
+import ImagesStore from "../stores/ImagesStore";
+import { Main, ScrollUp } from "../utils/Utils";
+import DragAndDropUpload from "./DragAndDropUpload";
+import Header from "./Header";
+import Navigations from "./Navigations";
+import OptionsPanel from "./options/OptionsPanel";
+import Selection from "./selections/Selection";
+import Uploader from "./Uploader";
+import UsersManagement from "./UsersManagement";
 
 interface ImagesAppProps {
   location: {
     pathname: string;
-  }
+  };
 }
 
-interface ImagesAppState {
-
-}
-
-export default class ImagesApp extends React.Component<ImagesAppProps, ImagesAppState> {
+export default class ImagesApp extends React.Component<ImagesAppProps, {}> {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     NavigationsState.addChangeListener(this, this.handleNavigationChange.bind(this));
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     NavigationsState.removeChangeListener(this);
   }
 
-  handleNavigationChange() {
-    this.forceUpdate();
-  }
-
-  render() {
+  public render() {
     if (!UserState.getUser()) {
       return (<div>Not User</div>);
     }
 
-    var contentClass = "content";
-    var pinned = "";
+    let contentClass = "content";
+    let pinned = "";
     if (NavigationsState.getObject().pinned) {
       contentClass += " pinned";
       pinned = "pinned";
     }
-
 
     return (
       <div>
@@ -71,5 +62,9 @@ export default class ImagesApp extends React.Component<ImagesAppProps, ImagesApp
         <ScrollUp />
       </div>
     );
+  }
+
+  private handleNavigationChange() {
+    this.forceUpdate();
   }
 }

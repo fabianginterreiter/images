@@ -1,10 +1,10 @@
-import * as React from "react"
-import * as $ from "jquery"
-import { Link } from "react-router"
-import{ Quickedit, DialogStore, ExtendedTable, sort } from "../utils/Utils"
-import NavigationsStore from "../stores/NavigationsStore"
-import Ajax from "../libs/Ajax"
+import * as $ from "jquery";
+import * as React from "react";
+import { Link } from "react-router";
+import Ajax from "../libs/Ajax";
+import NavigationsStore from "../stores/NavigationsStore";
 import {Person} from "../types/types";
+import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 
 interface PersonsComponentProps {
 
@@ -20,11 +20,11 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
 
     this.state = {
       persons: []
-    }
+    };
   }
 
   componentDidMount() {
-    Ajax.get("/api/persons").then((persons) => this.setState({persons:persons}));
+    Ajax.get("/api/persons").then((persons) => this.setState({persons}));
   }
 
   componentWillUnmount() {
@@ -59,7 +59,7 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
       type: "warning",
       icon: "fa fa-trash"
     }).then(() => Ajax.delete("/api/persons/" + person.id)).then(() => {
-      for (var index = 0; index < this.state.persons.length; index++) {
+      for (let index = 0; index < this.state.persons.length; index++) {
         if (this.state.persons[index].id === person.id) {
           this.state.persons.splice(index, 1);
           break;
@@ -92,7 +92,7 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
 
   private order(name: string, asc: boolean) {
     sort(this.state.persons, name, asc).then((persons) => this.setState({
-      persons:persons
+      persons
     }));
   }
 
@@ -101,11 +101,11 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
       <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
 
       <ExtendedTable columns={[
-        {title:"Name", name: "name"},
-        {title:"Images", name: "count", className:"option"},
-        {title:"Edit", className:"option"},
-        {title:"Delete", className:"option"}]} data={this.state.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
+        {title: "Name", name: "name"},
+        {title: "Images", name: "count", className: "option"},
+        {title: "Edit", className: "option"},
+        {title: "Delete", className: "option"}]} data={this.state.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
 
     </div>);
   }
-};
+}

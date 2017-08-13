@@ -1,8 +1,8 @@
-import * as React from "react";
 import * as moment from "moment";
+import * as React from "react";
+import Ajax from "../libs/Ajax";
 import UserState from "../states/UserState";
 import UsersStore from "../stores/UsersStore";
-import Ajax from "../libs/Ajax";
 import {User} from "../types/types";
 
 interface UsersManagementState {
@@ -17,11 +17,11 @@ export default class UsersManagement extends React.Component<{}, UsersManagement
     this.state = {
       users: UsersStore.getObject(),
       open: false
-    }
+    };
   }
 
   componentDidMount() {
-    UsersStore.addChangeListener(this, (users) => (this.setState({users:users})));
+    UsersStore.addChangeListener(this, (users) => (this.setState({users})));
   }
 
   componentWillUnmount() {
@@ -31,14 +31,14 @@ export default class UsersManagement extends React.Component<{}, UsersManagement
   private handleCreateUser(e) {
     e.preventDefault();
 
-    var data = new FormData();
+    let data = new FormData();
     data.append( "name", (this.refs.name as HTMLFormElement).value );
     Ajax.post("/api/users", {
           name: (this.refs.name as HTMLFormElement).value
     }).then(function(user) {
-      var users = UsersStore.getObject();
+      let users = UsersStore.getObject();
       users.push(user);
-      UsersStore.setObject(users)
+      UsersStore.setObject(users);
       UserState.setUser(user);
     });
   }
@@ -54,7 +54,7 @@ export default class UsersManagement extends React.Component<{}, UsersManagement
   }
 
   render() {
-    var createUser = (<span />);
+    let createUser = (<span />);
 
     if (this.state.open) {
       createUser = (

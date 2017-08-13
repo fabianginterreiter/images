@@ -1,8 +1,8 @@
-import * as React from 'react'
-import { browserHistory } from 'react-router'
-import NavigationsState from '../states/NavigationsState'
-import Title from './Title'
-import { KeyUpListener } from '../utils/Utils'
+import * as React from "react";
+import { browserHistory } from "react-router";
+import NavigationsState from "../states/NavigationsState";
+import { KeyUpListener } from "../utils/Utils";
+import Title from "./Title";
 
 interface SearchbarProps {
 
@@ -21,8 +21,8 @@ export default class Searchbar extends React.Component<SearchbarProps, Searchbar
 
     this.state = {
       open: false,
-      s: ''
-    }
+      s: ""
+    };
   }
 
   componentDidMount() {
@@ -36,8 +36,8 @@ export default class Searchbar extends React.Component<SearchbarProps, Searchbar
   private handleKeyUp(event: KeyboardEvent) {
     if (event.keyCode === 27) { //ESC
       this.setState({
-        open:false
-      })
+        open: false
+      });
     }
   }
 

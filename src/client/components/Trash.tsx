@@ -1,9 +1,9 @@
-import * as React from "react"
-import Images from "./Images"
-import ImagesStore from "../stores/ImagesStore"
-import ImagesNav from "./ImagesNav"
-import { DialogStore } from "../utils/Utils"
-import SelectionStore from "../stores/SelectionStore"
+import * as React from "react";
+import ImagesStore from "../stores/ImagesStore";
+import SelectionStore from "../stores/SelectionStore";
+import { DialogStore } from "../utils/Utils";
+import Images from "./Images";
+import ImagesNav from "./ImagesNav";
 
 export default class Trash extends React.Component<{}, {}> {
   componentDidMount() {
@@ -25,7 +25,7 @@ export default class Trash extends React.Component<{}, {}> {
   }
 
   private handleRevert(): void {
-    var promises = [];
+    let promises = [];
 
     ImagesStore.getObject().forEach((image) => {
       if (SelectionStore.isSelected(image)) {
@@ -47,8 +47,8 @@ export default class Trash extends React.Component<{}, {}> {
           </ImagesNav>
         </h1>
         <Images options={{
-          hideLike:true,
-          hideFullscreen:true
+          hideLike: true,
+          hideFullscreen: true
         }} />
       </div>
     );

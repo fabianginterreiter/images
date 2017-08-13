@@ -1,15 +1,15 @@
-import * as React from "react"
-import Images from "./Images"
-import ImagesStore from "../stores/ImagesStore"
-import ImagesNav from "./ImagesNav"
+import * as React from "react";
+import ImagesStore from "../stores/ImagesStore";
+import Images from "./Images";
+import ImagesNav from "./ImagesNav";
 
 export default class Favorites extends React.Component<{}, {}> {
 
-  componentDidMount() {
+  public componentDidMount() {
     return ImagesStore.load("/api/images?liked=true");
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <h1>

@@ -1,13 +1,13 @@
-import * as React from "react"
-import Images from "./Images"
-import ImagesStore from "../stores/ImagesStore"
+import * as React from "react";
+import ImagesStore from "../stores/ImagesStore";
+import Images from "./Images";
 
 export class All extends React.Component<{}, {}> {
-  componentDidMount() {
+  public componentDidMount() {
     ImagesStore.load("/api/images");
   }
 
-  render() {
+  public render() {
     return (
       <Images />
     );

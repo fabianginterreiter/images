@@ -1,8 +1,8 @@
-import ImagesStore from '../stores/ImagesStore';
-import UploadStore from '../stores/UploadStore';
-import * as React from 'react';
-import { Modal, InlineProgress } from '../utils/Utils';
+import * as React from "react";
+import ImagesStore from "../stores/ImagesStore";
+import UploadStore from "../stores/UploadStore";
 import {ExtendedFile, Image} from "../types/types";
+import { InlineProgress, Modal } from "../utils/Utils";
 
 interface UploaderState {
   files: ExtendedFile[];
@@ -22,7 +22,7 @@ export default class Uploader extends React.Component<{}, UploaderState> {
   }
 
   componentDidMount() {
-    UploadStore.addChangeListener(this, (files) => (this.setState({files:files})));
+    UploadStore.addChangeListener(this, (files) => (this.setState({files})));
   }
 
   componentWillUnmount() {
@@ -46,7 +46,7 @@ export default class Uploader extends React.Component<{}, UploaderState> {
   }
 
   private handleOpen(): void {
-    var images: Image[] = [];
+    let images: Image[] = [];
 
     this.state.files.forEach((file) => images.push(file.image));
 
@@ -55,21 +55,21 @@ export default class Uploader extends React.Component<{}, UploaderState> {
   }
 
   private __renderButtons() {
-    var buttons = [];
+    let buttons = [];
 
     if (!this.state.started) {
-      buttons.push(<button key='UploadButton' onClick={this.handleStart.bind(this)}>Upload</button>)
-      buttons.push(<button key='CancelButton' onClick={this.handleCancel.bind(this)}>Cancel</button>)
+      buttons.push(<button key="UploadButton" onClick={this.handleStart.bind(this)}>Upload</button>);
+      buttons.push(<button key="CancelButton" onClick={this.handleCancel.bind(this)}>Cancel</button>);
     } else {
       if (!UploadStore.isUploading()) {
-        buttons.push(<button key='ShowButton' onClick={this.handleOpen.bind(this)}>Show</button>)
-        buttons.push(<button key='CloseButton' onClick={this.handleCancel.bind(this)}>Close</button>)
+        buttons.push(<button key="ShowButton" onClick={this.handleOpen.bind(this)}>Show</button>);
+        buttons.push(<button key="CloseButton" onClick={this.handleCancel.bind(this)}>Close</button>);
       } else {
-        buttons.push(<button key='CancelUploading' onClick={this.handleCancel.bind(this)}>Cancel</button>)
+        buttons.push(<button key="CancelUploading" onClick={this.handleCancel.bind(this)}>Cancel</button>);
       }
     }
 
-    return (<div className="bottom">{buttons}</div>)
+    return (<div className="bottom">{buttons}</div>);
   }
 
   render() {
@@ -77,7 +77,7 @@ export default class Uploader extends React.Component<{}, UploaderState> {
       return (<span />);
     }
 
-    var files = [];
+    let files = [];
 
     this.state.files.forEach((file) => {
       if (file.error) {
@@ -101,4 +101,4 @@ export default class Uploader extends React.Component<{}, UploaderState> {
       </Modal>
     );
   }
-};
+}

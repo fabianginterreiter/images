@@ -6,16 +6,12 @@ import NavigationsStore from "../stores/NavigationsStore"
 import { Quickedit, DialogStore, ExtendedTable, sort } from "../utils/Utils"
 import {Album} from "../types/types"
 
-interface AlbumsProps {
-
-}
-
 interface AlbumsState {
   albums: Album[]
 }
 
-export default class Albums extends React.Component<AlbumsProps, AlbumsState> {
-  constructor(props: AlbumsProps) {
+export default class Albums extends React.Component<{}, AlbumsState> {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -30,12 +26,12 @@ export default class Albums extends React.Component<AlbumsProps, AlbumsState> {
   componentWillUnmount() {
   }
 
-  handleEdit(album) {
+  private handleEdit(album: Album) {
     album.edit = true;
     this.forceUpdate();
   }
 
-  handleChange(album, value) {
+  private handleChange(album: Album, value: string) {
     album.edit = false;
 
     if (album.name === value) {
@@ -47,24 +43,23 @@ export default class Albums extends React.Component<AlbumsProps, AlbumsState> {
     this.save(album);
   }
 
-  save(album) {
-    Ajax.put("/api/albums/" + album.id, album).then(() => this.forceUpdate());
+  private save(album: Album) {
+    Ajax.put(`/api/albums/${album.id}`, album).then(() => this.forceUpdate());
   }
 
-  handleVisibility(album) {
+  private handleVisibility(album: Album) {
     album.public = !album.public;
-
     this.save(album);
   }
 
-  handleCancel(album) {
+  private handleCancel(album: Album) {
     album.edit = false;
     this.forceUpdate();
   }
 
-  handleDelete(album) {
+  private handleDelete(album: Album) {
     DialogStore.open("Delete Person", "Do you really want to delete the Album?")
-    .then(() => Ajax.delete("/api/albums/" + album.id)).then(() => {
+    .then(() => Ajax.delete(`/api/albums/${album.id}`)).then(() => {
       for (var index = 0; index < this.state.albums.length; index++) {
         if (this.state.albums[index].id === album.id) {
           this.state.albums.splice(index, 1);
@@ -76,7 +71,7 @@ export default class Albums extends React.Component<AlbumsProps, AlbumsState> {
     })
   }
 
-  _renderText(album: Album) {
+  private _renderText(album: Album) {
     if (album.edit) {
       return (<Quickedit
         value={album.name}
@@ -87,7 +82,7 @@ export default class Albums extends React.Component<AlbumsProps, AlbumsState> {
     return (<Link to={`/images/albums/${album.id}`}>{album.name}</Link>);
   }
 
-  _renderRow(album) {
+  private _renderRow(album) {
     return (<tr key={album.id}>
       <td>{this._renderText(album)}</td>
       <td>{album.count}</td>
@@ -99,7 +94,7 @@ export default class Albums extends React.Component<AlbumsProps, AlbumsState> {
     </tr>);
   }
 
-  order(name, asc) {
+  private order(name, asc) {
     sort(this.state.albums, name, asc).then((albums) => this.setState({
       albums:albums
     }));

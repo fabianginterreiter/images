@@ -6,4 +6,4 @@ export default class Title extends React.Component<{}, {}> {
       <span><i className="fa fa-camera-retro" aria-hidden="true" /> Images</span>
     );
   }
-}
+};

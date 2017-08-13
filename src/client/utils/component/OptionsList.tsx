@@ -9,6 +9,7 @@ export interface Option {
   open?: boolean;
   className?: string;
   type: string;
+  link?: string;
 }
 
 interface OptionsListProps {

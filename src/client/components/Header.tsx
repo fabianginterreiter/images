@@ -11,15 +11,15 @@ export default class Header extends React.Component<{},{}> {
     super(props);
   }
 
-  handleClick() {
+  private handleClick() {
     $("#fileSelect").click();
   }
 
-  handleFileSelect(event) {
+  private handleFileSelect(event) {
     UploadStore.setFiles(event.target.files);
   }
 
-  handleOpenSettings() {
+  private handleOpenSettings() {
     OptionsStore.setObject(true);
   }
 
@@ -43,4 +43,4 @@ export default class Header extends React.Component<{},{}> {
       </header>
     );
   }
-}
+};

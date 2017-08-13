@@ -21,23 +21,23 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
     };
   }
 
-  toggle() {
+  private toggle() {
     this.setState({
       visible: !this.state.visible
     });
   }
 
-  close() {
+  private close() {
     this.setState({
       visible: false
     });
   }
 
-  handleTags() {
-    var images = SelectionStore.getSelected();
+  private handleTags() {
+    var images: Image[] = SelectionStore.getSelected();
 
-    Ajax.get('/api/tags').then((tags) => {
-      SelectionStore.getSelected().forEach((image) => {
+    Ajax.get('/api/tags').then((tags: Tag[]) => {
+      SelectionStore.getSelected().forEach((image: Image) => {
         image.tags.forEach((tag) => {
           var e = ListUtils.find(image.tags, tag.id) as Tag;
           if (e) {
@@ -74,12 +74,12 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
     }).catch((e) => console.log(e));
   }
 
-  handleAlbums() {
-    var images = SelectionStore.getSelected();
+  private handleAlbums() {
+    var images: Image[] = SelectionStore.getSelected();
 
-    Ajax.get('/api/albums').then((albums) => {
-      SelectionStore.getSelected().forEach((image) => {
-        image.albums.forEach((album) => {
+    Ajax.get('/api/albums').then((albums: Album[]) => {
+      SelectionStore.getSelected().forEach((image: Image) => {
+        image.albums.forEach((album: Album) => {
           var e = ListUtils.find(albums, album.id) as Album;
           if (e) {
             e.__count = e.__count ? e.__count + 1 : 1;
@@ -87,7 +87,7 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
         });
       });
 
-      albums.forEach((album) => {
+      albums.forEach((album: Album) => {
         if (album.__count && album.__count > 0) {
           if (album.__count === SelectionStore.size()) {
             album.selected = true;
@@ -98,7 +98,7 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
       });
 
       return SingleSelectDialogStore.open('Manage albums', albums);
-    }).then((album) => {
+    }).then((album: Album) => {
       if (!album.id) {
         Ajax.post('/api/albums', album)
           .then((result) => ImagesStore.addAlbums(SelectionStore.getSelected(), result));

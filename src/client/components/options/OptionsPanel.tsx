@@ -20,7 +20,7 @@ export default class OptionsPanel extends React.Component<{}, {}> {
     OptionsStore.removeChangeListener(this);
   }
 
-  close() {
+  private close(): void {
     OptionsStore.setObject(false);
   }
 
@@ -45,4 +45,4 @@ export default class OptionsPanel extends React.Component<{}, {}> {
         </Panel>
     );
   }
-}
+};

@@ -21,7 +21,7 @@ export default class Init extends React.Component<InitProps, InitState> {
     }
   }
 
-  handleUserChange() {
+  private handleUserChange() {
     if (UserState.getUser()) {
       if (this.props.location.pathname.startsWith('/images')) {
         return;

@@ -33,7 +33,7 @@ export default class Searchbar extends React.Component<SearchbarProps, Searchbar
     KeyUpListener.removeChangeListener(this);
   }
 
-  handleKeyUp(event) {
+  private handleKeyUp(event: KeyboardEvent) {
     if (event.keyCode === 27) { //ESC
       this.setState({
         open:false
@@ -41,16 +41,16 @@ export default class Searchbar extends React.Component<SearchbarProps, Searchbar
     }
   }
 
-  handleSubmit(e) {
+  private handleSubmit(e: Event): void {
     e.preventDefault();
     browserHistory.push(`/images/search?s=${(this.refs.search as HTMLFormElement).value}`);
 
     this.setState({
       open: false
-    })
+    });
   }
 
-  handleOpen() {
+  private handleOpen(): void {
     this.setState({
       open: true
     });
@@ -65,25 +65,25 @@ export default class Searchbar extends React.Component<SearchbarProps, Searchbar
     }
   }
 
-  handleClose() {
+  private handleClose(): void {
     this.setState({
       open: false
     });
   }
 
-  handleClickcatcherClick() {
+  private handleClickcatcherClick(): void {
     this.setState({
       open: false
     });
   }
 
-  handleChange(e) {
+  private handleChange(e) {
     this.setState({
       s: e.target.value
     });
   }
 
-  renderBar() {
+  private renderBar() {
     if (!this.state.open) {
       return null;
     }

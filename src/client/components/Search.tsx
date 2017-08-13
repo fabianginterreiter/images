@@ -26,7 +26,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
   }
 
   componentDidMount() {
-    ImagesStore.load("/api/search?s=" + this.props.location.query.s);
+    ImagesStore.load(`/api/search?s=${this.props.location.query.s}`);
 
     this.setState({
       search: this.props.location.query.s
@@ -34,7 +34,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
   }
 
   componentWillReceiveProps(newProps) {
-    ImagesStore.load("/api/search?s=" + newProps.location.query.s);
+    ImagesStore.load(`/api/search?s=${newProps.location.query.s}`);
 
     this.setState({
       search: newProps.location.query.s

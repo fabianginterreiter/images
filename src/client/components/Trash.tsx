@@ -10,7 +10,7 @@ export default class Trash extends React.Component<{}, {}> {
     ImagesStore.load("/api/images?trash=true");
   }
 
-  handleClear() {
+  private handleClear(): void {
     DialogStore.open("Delete Images", "Do you really want to delete all selected images?", {
       type: "danger"
     }).then((result) => {
@@ -24,7 +24,7 @@ export default class Trash extends React.Component<{}, {}> {
     });
   }
 
-  handleRevert() {
+  private handleRevert(): void {
     var promises = [];
 
     ImagesStore.getObject().forEach((image) => {

@@ -20,4 +20,4 @@ export default class Empty extends React.Component<{}, {}> {
       </div>
     );
   }
-}
+};

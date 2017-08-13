@@ -1,36 +1,32 @@
-import * as React from "react"
-import * as $ from "jquery"
-import { Link } from "react-router"
-import Ajax from "../libs/Ajax"
-import NavigationsStore from "../stores/NavigationsStore"
-import * as moment from "moment"
+import * as React from "react";
+import * as $ from "jquery";
+import { Link } from "react-router";
+import Ajax from "../libs/Ajax";
+import NavigationsStore from "../stores/NavigationsStore";
+import * as moment from "moment";
 
 interface Day {
   day: number;
   count: number;
-}
+};
 
 interface Month {
   month: number;
   count: number;
   days: Day[];
-}
+};
 
 interface Year {
   year: number;
   count: number;
   months: Month[];
-}
-
-interface DatesProps {
-
-}
+};
 
 interface DatesState {
   dates: Year[];
-}
+};
 
-export default class Dates extends React.Component<DatesProps, DatesState> {
+export default class Dates extends React.Component<{}, DatesState> {
   constructor(props) {
     super(props);
 
@@ -66,4 +62,4 @@ export default class Dates extends React.Component<DatesProps, DatesState> {
       </ul>
     </div>);
   }
-}
+};

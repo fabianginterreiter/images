@@ -106,7 +106,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     }.bind(this), 100);
   }
 
-  private handleKeyUp(e) {
+  private handleKeyUp(e: KeyboardEvent) {
     if (document.activeElement.tagName === "INPUT") {
       return;
     }

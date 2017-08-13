@@ -56,7 +56,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     clearTimeout(this.timeout);
   }
 
-  handleKeyUp(e) {
+  private handleKeyUp(e: KeyboardEvent) {
     if (document.activeElement.tagName === "INPUT") {
       return;
     }
@@ -76,7 +76,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     }
   }
 
-  _hide() {
+  private _hide() {
     if (this.state.menu) {
       return;
     }
@@ -86,11 +86,11 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     });
   }
 
-  handleMouseMove() {
+  private handleMouseMove() {
     this._show();
   }
 
-  _show() {
+  private _show() {
     this.setState({
       show: true
     });
@@ -98,7 +98,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     this.timeout = setTimeout(this._hide.bind(this), 1000);
   }
 
-  handleClick(option) {
+  private handleClick(option) {
     switch (option.key) {
       case "delete": {
         DialogStore.open("Delete Image", "Do you really want to delete the image?")
@@ -108,7 +108,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     }
   }
 
-  toggleMenu() {
+  private toggleMenu() {
     if (this.state.menu) {
       this._hide();
       this.setState({
@@ -122,7 +122,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     }
   }
 
-  handleImageLoad() {
+  private handleImageLoad() {
     const img = this.refs.image as HTMLImageElement;
     this.setState({
       style: {

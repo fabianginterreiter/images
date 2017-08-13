@@ -2,11 +2,7 @@ import ImagesStore from '../stores/ImagesStore';
 import UploadStore from '../stores/UploadStore';
 import * as React from 'react';
 import { Modal, InlineProgress } from '../utils/Utils';
-import {ExtendedFile} from "../types/types";
-
-interface UploaderProps {
-
-}
+import {ExtendedFile, Image} from "../types/types";
 
 interface UploaderState {
   files: ExtendedFile[];
@@ -14,7 +10,7 @@ interface UploaderState {
   uploads: boolean;
 }
 
-export default class Uploader extends React.Component<UploaderProps, UploaderState> {
+export default class Uploader extends React.Component<{}, UploaderState> {
   constructor(props) {
     super(props);
 
@@ -33,14 +29,14 @@ export default class Uploader extends React.Component<UploaderProps, UploaderSta
     UploadStore.removeChangeListener(this);
   }
 
-  handleStart() {
+  private handleStart() {
     UploadStore.upload();
     this.setState({
       started: true
     });
   }
 
-  handleCancel() {
+  private handleCancel() {
     this.setState({
       uploads: false
     });
@@ -49,8 +45,8 @@ export default class Uploader extends React.Component<UploaderProps, UploaderSta
     UploadStore.setObject([]);
   }
 
-  handleOpen() {
-    var images = [];
+  private handleOpen(): void {
+    var images: Image[] = [];
 
     this.state.files.forEach((file) => images.push(file.image));
 
@@ -58,7 +54,7 @@ export default class Uploader extends React.Component<UploaderProps, UploaderSta
     UploadStore.setObject([]);
   }
 
-  __renderButtons() {
+  private __renderButtons() {
     var buttons = [];
 
     if (!this.state.started) {
@@ -105,4 +101,4 @@ export default class Uploader extends React.Component<UploaderProps, UploaderSta
       </Modal>
     );
   }
-}
+};

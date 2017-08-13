@@ -12,11 +12,7 @@ interface DateViewProps {
   }
 }
 
-interface DateViewState {
-
-}
-
-export default class DateView extends React.Component<DateViewProps, DateViewState> {
+export default class DateView extends React.Component<DateViewProps, {}> {
 
   componentDidMount() {
     this.componentWillReceiveProps(this.props);
@@ -39,8 +35,8 @@ export default class DateView extends React.Component<DateViewProps, DateViewSta
     ImagesStore.load(url);
   }
 
-  renderTitle() {
-    var date = moment().year(this.props.params.year);
+  private renderTitle() {
+    let date = moment().year(this.props.params.year);
 
     if (this.props.params.month) {
       date.month(this.props.params.month - 1);

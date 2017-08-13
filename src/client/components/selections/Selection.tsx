@@ -7,15 +7,7 @@ import { browserHistory } from "react-router";
 import Title from "../Title";
 import { DialogStore } from "../../utils/Utils";
 
-interface SelectionProps {
-
-}
-
-interface SelectionState {
-
-}
-
-export default class Selection extends React.Component<SelectionProps, SelectionState> {
+export default class Selection extends React.Component<{}, {}> {
   componentDidMount() {
     SelectionStore.addChangeListener(this, (selection) => (this.setState({selection:selection})));
   }
@@ -58,4 +50,4 @@ export default class Selection extends React.Component<SelectionProps, Selection
       </header>
     );
   }
-}
+};

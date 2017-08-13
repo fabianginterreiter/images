@@ -5,16 +5,12 @@ import UsersStore from "../stores/UsersStore";
 import Ajax from "../libs/Ajax";
 import {User} from "../types/types";
 
-interface UsersManagementProps {
-
-}
-
 interface UsersManagementState {
   open: boolean;
   users: User[];
 }
 
-export default class UsersManagement extends React.Component<UsersManagementProps, UsersManagementState> {
+export default class UsersManagement extends React.Component<{}, UsersManagementState> {
   constructor(props) {
     super(props);
 
@@ -32,7 +28,7 @@ export default class UsersManagement extends React.Component<UsersManagementProp
     UsersStore.removeChangeListener(this);
   }
 
-  handleCreateUser(e) {
+  private handleCreateUser(e) {
     e.preventDefault();
 
     var data = new FormData();
@@ -47,11 +43,11 @@ export default class UsersManagement extends React.Component<UsersManagementProp
     });
   }
 
-  handleUserSelect(user) {
+  private handleUserSelect(user: User): void {
     UserState.setUser(user);
   }
 
-  openCreate() {
+  private openCreate(): void {
     this.setState({
       open: true
     });

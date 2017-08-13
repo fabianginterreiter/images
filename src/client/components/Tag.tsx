@@ -7,16 +7,12 @@ import Ajax from "../libs/Ajax"
 import { browserHistory } from "react-router"
 import {Tag} from "../types/types"
 
-interface TagComponentProps {
-
-}
-
 interface TagComponentState {
   tag: Tag;
   edit: boolean;
 }
 
-export default class TagComponent extends React.Component<TagComponentProps, TagComponentState> {
+export default class TagComponent extends React.Component<{}, TagComponentState> {
   constructor(props) {
     super(props);
 
@@ -35,13 +31,13 @@ export default class TagComponent extends React.Component<TagComponentProps, Tag
     Ajax.get("/api/tags/" + newProps.params.id).then((tag) => this.setState({tag:tag}));
   }
 
-  handleEdit() {
+  private handleEdit() {
     this.setState({
       edit: true
     });
   }
 
-  handleChange(value: string) {
+  private handleChange(value: string) {
     if (this.state.tag.name === value) {
       this.setState({
         edit: false
@@ -57,7 +53,7 @@ export default class TagComponent extends React.Component<TagComponentProps, Tag
     }
   }
 
-  renderTitle() {
+  private renderTitle() {
     if (this.state.edit) {
       return (<Quickedit
         value={this.state.tag.name}
@@ -68,7 +64,7 @@ export default class TagComponent extends React.Component<TagComponentProps, Tag
     return this.state.tag.name;
   }
 
-  handleDelete() {
+  private handleDelete() {
     DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
     .then((result) => Ajax.delete("/api/tags/" + this.state.tag.id)).then(() => {
       browserHistory.push("/images");

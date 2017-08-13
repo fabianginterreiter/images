@@ -46,7 +46,7 @@ export default class Navigations extends React.Component<NavigationsProps, Navig
     NavigationsStore.removeChangeListener(this);
   }
 
-  private handleClick(option) {
+  private handleClick(option: Option) {
     browserHistory.push(option.link);
 
     NavigationsState.close();
@@ -58,7 +58,7 @@ export default class Navigations extends React.Component<NavigationsProps, Navig
     });
   }
 
-  private isSelected(option) {
+  private isSelected(option: Option) {
     return this.props.location.pathname === option.link;
   }
 

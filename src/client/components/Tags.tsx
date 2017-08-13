@@ -6,15 +6,11 @@ import NavigationsStore from "../stores/NavigationsStore";
 import Ajax from "../libs/Ajax";
 import {Tag} from "../types/types";
 
-interface TagsComponentProps {
-
-}
-
 interface TagsComponentState {
   tags: Tag[];
 }
 
-export default class Tags extends React.Component<TagsComponentProps, TagsComponentState> {
+export default class Tags extends React.Component<{}, TagsComponentState> {
   constructor(props) {
     super(props);
 
@@ -30,12 +26,12 @@ export default class Tags extends React.Component<TagsComponentProps, TagsCompon
   componentWillUnmount() {
   }
 
-  handleEdit(tag) {
+  private handleEdit(tag: Tag): void {
     tag.edit = true;
     this.forceUpdate();
   }
 
-  handleChange(tag, value) {
+  private handleChange(tag: Tag, value: string): void {
     tag.edit = false;
 
     if (tag.name === value) {
@@ -49,12 +45,12 @@ export default class Tags extends React.Component<TagsComponentProps, TagsCompon
     });
   }
 
-  handleCancel(tag: Tag) {
+  private handleCancel(tag: Tag): void {
     tag.edit = false;
     this.forceUpdate();
   }
 
-  handleDelete(tag) {
+  private handleDelete(tag: Tag): void {
     DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
     .then((result) => Ajax.delete("/api/tags/" + tag.id)).then(() => {
       for (var index = 0; index < this.state.tags.length; index++) {
@@ -68,7 +64,7 @@ export default class Tags extends React.Component<TagsComponentProps, TagsCompon
     })
   }
 
-  _renderText(tag) {
+  private _renderText(tag: Tag) {
     if (tag.edit) {
       return (<Quickedit
         value={tag.name}
@@ -79,7 +75,7 @@ export default class Tags extends React.Component<TagsComponentProps, TagsCompon
     return (<Link to={`/images/tags/${tag.id}`}>{tag.name}</Link>);
   }
 
-  _renderRow(tag) {
+  private _renderRow(tag: Tag) {
     return (<tr key={tag.id}>
       <td>{this._renderText(tag)}</td>
       <td>{tag.count}</td>
@@ -88,7 +84,7 @@ export default class Tags extends React.Component<TagsComponentProps, TagsCompon
     </tr>);
   }
 
-  order(name, asc) {
+  private order(name: string, asc: boolean): void {
     sort(this.state.tags, name, asc).then((tags) => this.setState({
       tags:tags
     }));
@@ -106,4 +102,4 @@ export default class Tags extends React.Component<TagsComponentProps, TagsCompon
 
     </div>);
   }
-}
+};

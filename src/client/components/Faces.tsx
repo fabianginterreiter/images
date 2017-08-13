@@ -1,10 +1,9 @@
-import * as React from "react"
-import * as $ from "jquery"
-import { AutoComplete } from "../utils/Utils"
-import ImagesStore from "../stores/ImagesStore"
-import { Link } from "react-router"
+import * as React from "react";
+import * as $ from "jquery";
+import { AutoComplete } from "../utils/Utils";
+import ImagesStore from "../stores/ImagesStore";
+import { Link } from "react-router";
 import { Image, Person } from "../types/types";
-
 
 interface FacesProps {
   image: Image;
@@ -47,14 +46,14 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     }
   }
 
-  getMousePosition(event) {
+  private getMousePosition(event) {
     return {
       x: event.clientX - this.offsetLeft,
       y: event.clientY - this.offsetTop,
     }
   }
 
-  handleMouseDown(event) {
+  private handleMouseDown(event) {
     if (this.state.selection || this.state.create) {
 
       if (event.target.className.includes("resizer")) {
@@ -69,7 +68,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
 
     this.startTime = new Date().getTime();
 
-    var position = this.getMousePosition(event);
+    let position = this.getMousePosition(event);
 
     this.setState({
       startX: position.x,
@@ -84,7 +83,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     });
   }
 
-  handleMouseMove(event) {
+  private handleMouseMove(event) {
     if (!this.state.selection) {
       if (event.target.className.includes("resizer")) {
         console.log("RESIZER");
@@ -112,7 +111,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     });
   }
 
-  handleMouseUp(event) {
+  private handleMouseUp(event) {
     event.preventDefault();
 
     if (!this.state.selection) {
@@ -123,15 +122,15 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       return;
     }
 
-    var time = new Date().getTime() - this.startTime;
+    let time = new Date().getTime() - this.startTime;
 
     if (time < 300) {
       return this.setState({
         selection: null
-      })
+      });
     }
 
-    var selection = this.state.selection;
+    let selection = this.state.selection;
 
     this.setState({
       selection: null,
@@ -144,7 +143,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     });
   }
 
-  _renderSelection() {
+  private _renderSelection() {
     if (!this.state.selection) {
       return (<span />);
     }
@@ -152,7 +151,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     return (<div className="face"><div className="border borderCreate" style={this.state.selection} /></div>);
   }
 
-  _renderCreate() {
+  private _renderCreate() {
     if (!this.state.create) {
 
       return (<span />);
@@ -180,14 +179,14 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       </div>);
   }
 
-  handleCancelCreation() {
+  private handleCancelCreation() {
     this.setState({
       create:null,
       selection:null
     });
   }
 
-  _renderPersons() {
+  private _renderPersons() {
     var persons = [];
 
     this.props.image.persons.forEach((person) => persons.push(this._renderPerson(person)))
@@ -195,7 +194,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     return persons;
   }
 
-  _renderPerson(person: Person) {
+  private _renderPerson(person: Person) {
     var style = {
       top: person._pivot_top + "%",
       left: person._pivot_left + "%",
@@ -217,7 +216,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     </div>);
   }
 
-  handleAddPerson(person) {
+  private handleAddPerson(person: Person) {
     var object = {
       top: (this.state.create.top / this.props.style.height * 100),
       left: (this.state.create.left / this.props.style.width * 100),
@@ -234,7 +233,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
     });
   }
 
-  handleDeletePerson(e, person) {
+  private handleDeletePerson(e, person: Person) {
     e.preventDefault();
     ImagesStore.deletePerson(this.props.image, person);
   }

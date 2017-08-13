@@ -30,12 +30,12 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
   componentWillUnmount() {
   }
 
-  handleEdit(person) {
+  private handleEdit(person: Person) {
     person.edit = true;
     this.forceUpdate();
   }
 
-  handleChange(person, value) {
+  private handleChange(person: Person, value: string) {
     person.edit = false;
 
     if (person.name === value) {
@@ -49,12 +49,12 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
     });
   }
 
-  handleCancel(person) {
+  private handleCancel(person: Person) {
     person.edit = false;
     this.forceUpdate();
   }
 
-  handleDelete(person) {
+  private handleDelete(person: Person) {
     DialogStore.open("Delete Person", "Do you really want to delete the Person?", {
       type: "warning",
       icon: "fa fa-trash"
@@ -70,7 +70,7 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
     }).catch((e) => console.log(e));
   }
 
-  _renderText(person) {
+  private _renderText(person: Person) {
     if (person.edit) {
       return (<Quickedit
         value={person.name}
@@ -81,7 +81,7 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
     return (<Link to={`/images/persons/${person.id}`}>{person.name}</Link>);
   }
 
-  _renderRow(person) {
+  private _renderRow(person: Person) {
     return (<tr key={person.id}>
       <td>{this._renderText(person)}</td>
       <td>{person.count}</td>
@@ -90,7 +90,7 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
     </tr>);
   }
 
-  order(name, asc) {
+  private order(name: string, asc: boolean) {
     sort(this.state.persons, name, asc).then((persons) => this.setState({
       persons:persons
     }));
@@ -108,4 +108,4 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
 
     </div>);
   }
-}
+};

@@ -35,7 +35,7 @@ export default class AlbumComponent extends React.Component<AlbumProps, AlbumSta
     Ajax.get("/api/albums/" + newProps.params.albumId).then((album) => this.setState({album:album}));
   }
 
-  handleRemoveFromAlbum() {
+  private handleRemoveFromAlbum() {
     ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), this.state.album).then(() => {
       ImagesStore.reload();
     });

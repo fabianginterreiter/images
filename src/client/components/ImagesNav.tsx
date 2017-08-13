@@ -3,12 +3,12 @@ import ImagesStore from '../stores/ImagesStore'
 import SelectionStore from '../stores/SelectionStore'
 
 export default class ImagesNav extends React.Component<{}, {}> {
-  handleSelectAll() {
+  private handleSelectAll() {
     ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
     ImagesStore.dispatch();
   }
 
-  handleUnselectAll() {
+  private handleUnselectAll() {
     ImagesStore.getObject().forEach((image) => (SelectionStore.unselect(image)));
     ImagesStore.dispatch();
   }

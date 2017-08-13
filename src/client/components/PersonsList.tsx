@@ -1,18 +1,14 @@
 import * as React from "react"
 import { Link } from "react-router"
 import ImagesStore from "../stores/ImagesStore"
-import {Image} from "../types/types"
+import {Image, Person} from "../types/types"
 
 interface PersonsListProps {
   image: Image;
 }
 
-interface PersonsListState {
-
-}
-
-export default class PersonsList extends React.Component<PersonsListProps, PersonsListState> {
-  handleDeletePerson(person) {
+export default class PersonsList extends React.Component<PersonsListProps, {}> {
+  handleDeletePerson(person: Person) {
     ImagesStore.deletePerson(this.props.image, person);
   }
 

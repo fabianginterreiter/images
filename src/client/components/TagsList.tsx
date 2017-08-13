@@ -8,17 +8,13 @@ interface TagsListProps {
   image: Image;
 }
 
-interface TagsListState {
+export default class TagsList extends React.Component<TagsListProps, {}> {
 
-}
-
-export default class TagsList extends React.Component<TagsListProps, TagsListState> {
-
-  handleAddTag(tag: Tag) {
+  private handleAddTag(tag: Tag): void {
     ImagesStore.addTag(this.props.image, tag);
   }
 
-  handleDeleteTag(tag: Tag) {
+  private handleDeleteTag(tag: Tag): void {
     ImagesStore.deleteTag(this.props.image, tag);
   }
 
@@ -42,4 +38,4 @@ export default class TagsList extends React.Component<TagsListProps, TagsListSta
       </div>
     );
   }
-}
+};

@@ -2,15 +2,11 @@ import * as React from 'react'
 import * as $ from 'jquery'
 import UploadStore from '../stores/UploadStore'
 
-interface DragAndDropUploadProps {
-
-}
-
 interface DragAndDropUploadState {
   over: boolean;
 }
 
-export default class DragAndDropUpload extends React.Component<DragAndDropUploadProps, DragAndDropUploadState> {
+export default class DragAndDropUpload extends React.Component<{}, DragAndDropUploadState> {
   constructor(props) {
     super(props);
 
@@ -27,24 +23,21 @@ export default class DragAndDropUpload extends React.Component<DragAndDropUpload
     }.bind(this));
   }
 
-   preventDefault(event) {
+  private preventDefault(event) {
     event.preventDefault();
   }
 
-  handleDrop(e) {
+  private handleDrop(e) {
     e.preventDefault();
     UploadStore.setFiles(e.dataTransfer.files);
     this.setState({
       over: false
     });
-  };
+  }
 
   render() {
     if (!this.state.over) {
-      return (
-        <span>
-        </span>
-      );
+      return <span />;
     } else {
       return (<div className="drag" onDragOver={this.preventDefault} onDrop={this.handleDrop.bind(this)} />);
     }

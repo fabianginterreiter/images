@@ -61,8 +61,8 @@ export default class Configuration {
         connection: {
           filename: this.config.path + "/data.sqlite3"
         },
-        useNullAsDefault: true
-        // debug: true
+        useNullAsDefault: true,
+        debug: false
       };
     }
   }

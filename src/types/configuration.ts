@@ -6,6 +6,7 @@ export interface DatabaseConfiguration {
   client: string;
   useNullAsDefault: boolean;
   connection: DatabaseConnectionConfiguration;
+  debug?: boolean;
 }
 
 export interface ConfigurationObject {

@@ -1,11 +1,14 @@
-"use strict"
+import State from "../states/State"
+import cookie from "react-cookie"
 
-import State from '../states/State'
-import cookie from 'react-cookie'
+interface NavigationsStateProps {
+  open: boolean;
+  pinned: boolean;
+}
 
-class NavigationsState extends State {
+class NavigationsState extends State<NavigationsStateProps> {
   constructor() {
-    var c = cookie.load('pinned') === 'true';
+    var c = cookie.load("pinned") === "true";
 
     super({
       open:c,
@@ -31,7 +34,7 @@ class NavigationsState extends State {
       open:true
     });
 
-    cookie.save('pinned', this.getObject().pinned.toString());
+    cookie.save("pinned", this.getObject().pinned.toString());
   }
 }
 

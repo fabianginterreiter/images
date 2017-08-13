@@ -1,16 +1,13 @@
-"use strict"
+import * as React from "react"
+import * as $ from "jquery"
+import ThumbnailsResizer from "../ThumbnailsResizer"
+import { location } from "react-router"
+import { Panel } from "../../utils/Utils"
+import UserState from "../../states/UserState"
+import OptionsStore from "../../stores/OptionsStore"
+import ShowDateStore from "../../stores/ShowDateStore"
 
-import * as React from 'react'
-import * as $ from 'jquery'
-
-import ThumbnailsResizer from '../ThumbnailsResizer'
-import { location } from 'react-router'
-import { Panel } from '../../utils/Utils'
-import UserState from '../../states/UserState'
-import OptionsStore from '../../stores/OptionsStore'
-import ShowDateStore from '../../stores/ShowDateStore'
-
-class OptionsPanel extends React.Component {
+export default class OptionsPanel extends React.Component<{}, {}> {
   constructor(props) {
     super(props);
   }
@@ -29,7 +26,7 @@ class OptionsPanel extends React.Component {
 
   render() {
     return (
-        <Panel open={OptionsStore.getObject()} clickCatcher={OptionsStore.getObject()} onClickCatcherClick={this.close.bind(this)} side='right' header={true} footer={true}>
+        <Panel open={OptionsStore.getObject()} clickCatcher={OptionsStore.getObject()} onClickCatcherClick={this.close.bind(this)} side="right" header={true} footer={true}>
           <div className="title" onClick={this.close.bind(this)}>
             Settings
             <span className="badge"><i className="fa fa-cog" /></span>
@@ -49,5 +46,3 @@ class OptionsPanel extends React.Component {
     );
   }
 }
-
-export default OptionsPanel;

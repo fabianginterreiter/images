@@ -1,8 +1,8 @@
 import {Dispatcher} from "../utils/Utils";
 import $ from "jquery";
-import {ExtendedFile} from "../types/types";
+import {ExtendedFile, Image} from "../types/types";
 
-class UploadStore extends Dispatcher {
+class UploadStore extends Dispatcher<ExtendedFile[]> {
   private _active: boolean;
   private _canceled: boolean;
   private _index: number;
@@ -19,7 +19,11 @@ class UploadStore extends Dispatcher {
       var file = list[index];
       super.getObject().push({
         name: file.name,
-        file: file
+        file: file,
+        complete: false,
+        started: false,
+        error: false,
+        process: 0
       });
     }
 
@@ -30,7 +34,7 @@ class UploadStore extends Dispatcher {
     return this._active;
   }
 
-  completeHandler(image: ExtendedFile) {
+  completeHandler(image: Image) {
     super.getObject()[this._index].complete = true;
     super.getObject()[this._index].image = image;
     super.dispatch();

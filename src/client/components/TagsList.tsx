@@ -2,7 +2,7 @@ import * as React from "react"
 import { Link } from"react-router"
 import { AutoComplete } from "../utils/Utils"
 import ImagesStore from "../stores/ImagesStore"
-import {Image} from "../types/types"
+import {Image, Tag} from "../types/types"
 
 interface TagsListProps {
   image: Image;
@@ -14,11 +14,11 @@ interface TagsListState {
 
 export default class TagsList extends React.Component<TagsListProps, TagsListState> {
 
-  handleAddTag(tag) {
+  handleAddTag(tag: Tag) {
     ImagesStore.addTag(this.props.image, tag);
   }
 
-  handleDeleteTag(tag) {
+  handleDeleteTag(tag: Tag) {
     ImagesStore.deleteTag(this.props.image, tag);
   }
 

@@ -1,6 +1,11 @@
 import * as React from 'react'
 
-class Dropdown extends React.Component {
+interface DropdownProps {
+  open: boolean;
+  onCancel():void;
+}
+
+export default class Dropdown extends React.Component<DropdownProps, {}> {
   render() {
     if (!this.props.open) {
       return (<span />);
@@ -16,5 +21,3 @@ class Dropdown extends React.Component {
     );
   }
 }
-
-export default Dropdown;

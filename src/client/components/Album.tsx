@@ -4,21 +4,19 @@ import ImagesStore from "../stores/ImagesStore"
 import ImagesNav from "./ImagesNav"
 import SelectionStore from "../stores/SelectionStore"
 import Ajax from "../libs/Ajax"
-import * as types from "../types/types"
-
-interface AlbumParamProps {
-  albumId: number;
-}
+import {Album} from "../types/types"
 
 interface AlbumProps {
-  params: AlbumParamProps;
+  params: {
+    albumId: number;
+  };
 }
 
 interface AlbumState {
-  album: types.Album;
+  album: Album;
 }
 
-export default class Album extends React.Component<AlbumProps, AlbumState> {
+export default class AlbumComponent extends React.Component<AlbumProps, AlbumState> {
 
   constructor(props: AlbumProps) {
     super(props);
@@ -38,7 +36,7 @@ export default class Album extends React.Component<AlbumProps, AlbumState> {
   }
 
   handleRemoveFromAlbum() {
-    ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), {id:this.props.params.albumId}).then(() => {
+    ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), this.state.album).then(() => {
       ImagesStore.reload();
     });
   }

@@ -1,9 +1,9 @@
-"use strict"
-
 import {Dispatcher} from '../utils/Utils';
 import Ajax from '../libs/Ajax'
+import {Option} from "../utils/component/OptionsList";
 
-class NavigationsStore extends Dispatcher {
+
+class NavigationsStore extends Dispatcher<Option[]> {
   constructor() {
     super([]);
 
@@ -46,7 +46,7 @@ class NavigationsStore extends Dispatcher {
     return this.__getOption(this.getObject(), path);
   }
 
-  __getOption(options, path) {
+  private __getOption(options, path) {
     if (!options) {
       return null;
     }

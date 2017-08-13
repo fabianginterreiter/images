@@ -1,6 +1,6 @@
 import {Dispatcher} from "../utils/Utils";
 
-class ViewPointStore extends Dispatcher {
+class ViewPointStore extends Dispatcher<number> {
   constructor() {
     super(0);
 

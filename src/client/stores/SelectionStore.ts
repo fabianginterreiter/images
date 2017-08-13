@@ -1,11 +1,10 @@
-"use strict"
-
 import {Dispatcher} from '../utils/Utils';
 import * as $ from 'jquery';
+import {Image} from "../types/types";
 
-class KeyUpListener extends Dispatcher {
+class KeyUpListener extends Dispatcher<Map<number, Image>> {
   constructor() {
-    super({});
+    super(new Map<number, Image>());
   }
 
   handle(image) {
@@ -47,7 +46,7 @@ class KeyUpListener extends Dispatcher {
   }
 
   clear() {
-    this.setObject({});
+    this.setObject(new Map<number, Image>());
   }
 
   isEmpty() {

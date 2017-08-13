@@ -1,8 +1,6 @@
-"use strict"
+import {Dispatcher} from "../utils/Utils";
 
-import {Dispatcher} from '../utils/Utils';
-
-class State extends Dispatcher {
+class State<T> extends Dispatcher<T> {
   constructor(state) {
     super(state ? state : {});
   }

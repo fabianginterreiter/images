@@ -1,7 +1,11 @@
-import * as React from 'react'
-import ScrollListener from '../listener/ScrollListener'
+import * as React from "react"
+import ScrollListener from "../listener/ScrollListener"
 
-class ScrollUp extends React.Component {
+interface ScrollUpState {
+  visible: boolean;
+}
+
+export default class ScrollUp extends React.Component<{}, ScrollUpState> {
   constructor(props) {
     super(props);
 
@@ -40,7 +44,7 @@ class ScrollUp extends React.Component {
 
   render() {
     var style = {
-      visibility: this.state.visible ? 'visible' : 'hidden'
+      visibility: this.state.visible ? "visible" : "hidden"
     }
 
     return (
@@ -50,5 +54,3 @@ class ScrollUp extends React.Component {
     );
   }
 }
-
-export default ScrollUp;

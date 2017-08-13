@@ -1,13 +1,12 @@
+import cookie from "react-cookie";
 import {Dispatcher} from "../utils/Utils";
-import cookie from "react-cookie"
 
 class ThumbnailsSizeStore extends Dispatcher<number> {
   constructor() {
-    var c = cookie.load("thumbnailsSize");
-    super(c ? c : 200);
+    super(cookie.load("thumbnailsSize") ? cookie.load("thumbnailsSize") : 200);
   }
 
-  setObject(value) {
+  public setObject(value: number): void {
     super.setObject(value);
     cookie.save("thumbnailsSize", value);
   }

@@ -1,5 +1,5 @@
-import {Dispatcher} from '../utils/Utils';
-import cookie from 'react-cookie';
+import cookie from "react-cookie";
+import {Dispatcher} from "../utils/Utils";
 
 class OptionsStore extends Dispatcher<boolean> {
   constructor() {

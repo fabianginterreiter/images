@@ -1,18 +1,17 @@
+import cookie from "react-cookie";
 import {Dispatcher} from "../utils/Utils";
-import cookie from "react-cookie"
 
 class ShowDateStore extends Dispatcher<boolean> {
   constructor() {
-    var c = cookie.load("showDate");
-    super(c === "true");
+    super(cookie.load("showDate") === "true");
   }
 
-  setObject(value) {
+  public setObject(value: boolean): void {
     super.setObject(value);
     cookie.save("showDate", value.toString());
   }
 
-  change() {
+  public change(): void {
     this.setObject(!this.getObject());
   }
 }

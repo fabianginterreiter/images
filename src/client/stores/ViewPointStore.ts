@@ -7,9 +7,9 @@ class ViewPointStore extends Dispatcher<number> {
     window.addEventListener("scroll", this.handleScroll.bind(this));
   }
 
-  handleScroll(e) {
+  public handleScroll(e) {
     super.setObject(screen.height + document.body.scrollTop);
   }
-};
+}
 
 export default new ViewPointStore();

@@ -1,7 +1,6 @@
-import {Dispatcher} from '../utils/Utils';
-import Ajax from '../libs/Ajax'
+import Ajax from "../libs/Ajax";
 import {Option} from "../utils/component/OptionsList";
-
+import {Dispatcher} from "../utils/Utils";
 
 class NavigationsStore extends Dispatcher<Option[]> {
   constructor() {
@@ -10,30 +9,30 @@ class NavigationsStore extends Dispatcher<Option[]> {
     this.load();
   }
 
-  load() {
-    Ajax.get('/api/navigations').then((result) => {
-      var navigations = [];
+  public load() {
+    Ajax.get("/api/navigations").then((result) => {
+      const navigations = [];
 
       navigations.push({
-        key: 'all',
-        type: 'action',
-        name: 'All',
-        service: '/api/images',
-        link: '/images/',
-        fontAwesome: 'fa fa-picture-o'
+        key: "all",
+        type: "action",
+        name: "All",
+        service: "/api/images",
+        link: "/images/",
+        fontAwesome: "fa fa-picture-o"
       });
 
       navigations.push({
-        key: 'favorites',
-        type: 'action',
-        name: 'Favorites',
-        service: '/api/images?liked=true',
-        link: '/images/favorites',
-        fontAwesome: 'fa fa-heart-o'
+        key: "favorites",
+        type: "action",
+        name: "Favorites",
+        service: "/api/images?liked=true",
+        link: "/images/favorites",
+        fontAwesome: "fa fa-heart-o"
       });
 
       navigations.push({
-        type: 'divider'
+        type: "divider"
       });
 
       result.forEach((option) => (navigations.push(option)));
@@ -42,7 +41,7 @@ class NavigationsStore extends Dispatcher<Option[]> {
     });
   }
 
-  getOption(path) {
+  public getOption(path: string) {
     return this.__getOption(this.getObject(), path);
   }
 
@@ -51,12 +50,12 @@ class NavigationsStore extends Dispatcher<Option[]> {
       return null;
     }
 
-    for (var index = 0; index < options.length; index++) {
+    for (let index = 0; index < options.length; index++) {
       if (options[index].link === path) {
         return options[index];
       }
 
-      var child = this.__getOption(options[index].options, path);
+      const child = this.__getOption(options[index].options, path);
       if (child) {
         return child;
       }
@@ -64,8 +63,6 @@ class NavigationsStore extends Dispatcher<Option[]> {
 
     return null;
   }
-
-
 }
 
 export default new NavigationsStore();

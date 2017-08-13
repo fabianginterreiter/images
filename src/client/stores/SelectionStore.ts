@@ -1,14 +1,14 @@
-import {Dispatcher} from '../utils/Utils';
-import * as $ from 'jquery';
+import * as $ from "jquery";
 import {Image} from "../types/types";
+import {Dispatcher} from "../utils/Utils";
 
 class KeyUpListener extends Dispatcher<Map<number, Image>> {
   constructor() {
     super(new Map<number, Image>());
   }
 
-  handle(image) {
-    let selection = this.getObject();
+  public handle(image: Image) {
+    const selection = this.getObject();
     if (selection[image.id]) {
       delete selection[image.id];
     } else {
@@ -17,43 +17,43 @@ class KeyUpListener extends Dispatcher<Map<number, Image>> {
     this.setObject(selection);
   }
 
-  select(image) {
-    let selection = this.getObject();
+  public select(image: Image) {
+    const selection = this.getObject();
     if (!selection[image.id]) {
       selection[image.id] = image;
       this.setObject(selection);
     }
   }
 
-  unselect(image) {
-    let selection = this.getObject();
+  public unselect(image: Image) {
+    const selection = this.getObject();
     if (selection[image.id]) {
       delete selection[image.id];
       this.setObject(selection);
     }
   }
 
-  isSelected(image) {
+  public isSelected(image: Image) {
     return this.getObject()[image.id] ? true : false;
   }
 
-  getSelected() {
-    let images = [];
-    for (var key in this.getObject()) {
+  public getSelected(): Image[] {
+    const images = [];
+    for (const key in this.getObject()) {
       images.push(this.getObject()[key]);
     }
     return images;
   }
 
-  clear() {
+  public clear(): void {
     this.setObject(new Map<number, Image>());
   }
 
-  isEmpty() {
+  public isEmpty(): boolean {
     return this.size() === 0;
   }
 
-  size() {
+  public size(): number {
     return Object.keys(this.getObject()).length;
   }
 

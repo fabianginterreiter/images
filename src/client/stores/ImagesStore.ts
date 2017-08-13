@@ -1,9 +1,9 @@
-import {Dispatcher} from "../utils/Utils";
-import NavigationsStore from "./NavigationsStore";
 import $ from "jquery";
 import Ajax from "../libs/Ajax";
-import {Person, Tag, Album, Image} from "../types/types";
 import * as ListUtils from "../libs/ListUtils";
+import {Album, Image, Person, Tag} from "../types/types";
+import {Dispatcher} from "../utils/Utils";
+import NavigationsStore from "./NavigationsStore";
 
 class ImagesStore extends Dispatcher<Image[]> {
   private service: string;
@@ -15,36 +15,35 @@ class ImagesStore extends Dispatcher<Image[]> {
     super(null);
   }
 
-  like(image: Image) {
+  public like(image: Image) {
     if (image.liked) {
-      Ajax.put("/api/images/" + image.id + "/unlike").then(() => {
+      Ajax.put(`/api/images/${image.id}/unlike`).then(() => {
         image.liked = false;
         this.dispatch();
       });
     } else {
-      Ajax.put("/api/images/" + image.id + "/like").then(() => {
+      Ajax.put(`/api/images/${image.id}/like`).then(() => {
         image.liked = true;
         this.dispatch();
       });
     }
   }
 
-  addTag(image: Image, tag: Tag, mass: boolean = false) {
-    var newEntry = !tag.id;
-    return Ajax.put("/api/images/" + image.id + "/tags", tag).then((tag) => {
-      image.tags.push(tag);
+  public addTag(image: Image, tag: Tag, mass: boolean = false) {
+    return Ajax.put(`/api/images/${image.id}/tags`, tag).then((result) => {
+      image.tags.push(result);
       this.dispatch();
 
-      if (newEntry && !mass) {
+      if (!tag.id && !mass) {
         NavigationsStore.load();
       }
 
-      return tag;
+      return result;
     });
   }
 
-  addTags(images: Image[], tags: Tag[]) {
-    var promises = [];
+  public addTags(images: Image[], tags: Tag[]) {
+    const promises = [];
 
     tags.forEach((tag) => {
       if (tag.marked) {
@@ -66,13 +65,12 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  addAlbum(image: Image, album: Album, mass: boolean) {
-    var newEntry = !album.id;
-    return Ajax.put("/api/images/" + image.id + "/albums", album).then((album) => {
-      image.albums.push(album);
+  public addAlbum(image: Image, album: Album, mass: boolean) {
+    return Ajax.put(`/api/images/${image.id}/albums`, album).then((result) => {
+      image.albums.push(result);
       this.dispatch();
 
-      if (newEntry && !mass) {
+      if (!album.id && !mass) {
         NavigationsStore.load();
       }
 
@@ -80,8 +78,8 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  addAlbums(images: Image[], album: Album) {
-    var promises = [];
+  public addAlbums(images: Image[], album: Album) {
+    const promises = [];
 
     images.forEach((image) => {
       const e = ListUtils.find(image.albums, album.id);
@@ -95,8 +93,8 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  deleteFromAlbum(images: Image[], album: Album) {
-    var promises = [];
+  public deleteFromAlbum(images: Image[], album: Album) {
+    const promises = [];
 
     images.forEach((image) => {
       promises.push(this.deleteAlbum(image, album, true));
@@ -105,13 +103,13 @@ class ImagesStore extends Dispatcher<Image[]> {
     return Promise.all(promises);
   }
 
-  deleteAlbum(image: Image, album: Album, mass: boolean) {
-    return Ajax.delete("/api/images/" + image.id + "/albums/" + album.id).then(() => {
+  public deleteAlbum(image: Image, album: Album, mass: boolean) {
+    return Ajax.delete(`/api/images/${image.id}/albums/${album.id}`).then(() => {
       if (!mass) {
         NavigationsStore.load();
       }
 
-      for (var index = 0; index < image.albums.length; index++) {
+      for (let index = 0; index < image.albums.length; index++) {
         if (image.albums[index].id === album.id) {
           image.albums.splice(index, 1);
           break;
@@ -124,13 +122,13 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  deleteTag(image: Image, tag: Tag, mass: boolean = false) {
-    return Ajax.delete("/api/images/" + image.id + "/tags/" + tag.id).then(() => {
+  public deleteTag(image: Image, tag: Tag, mass: boolean = false) {
+    return Ajax.delete(`/api/images/${image.id}/tags/${tag.id}`).then(() => {
       if (!mass) {
         NavigationsStore.load();
       }
 
-      for (var index = 0; index < image.tags.length; index++) {
+      for (let index = 0; index < image.tags.length; index++) {
         if (image.tags[index].id === tag.id) {
           image.tags.splice(index, 1);
           break;
@@ -143,22 +141,21 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  addPerson(image: Image, person: Person) {
-    var newEntry = !person.id;
-    Ajax.put("/api/images/" + image.id + "/persons", person).then((person) => {
-      image.persons.push(person);
+  public addPerson(image: Image, person: Person) {
+    Ajax.put(`/api/images/${image.id}/persons`, person).then((result) => {
+      image.persons.push(result);
       this.dispatch();
 
-      if (newEntry) {
+      if (!person.id) {
         NavigationsStore.load();
       }
     });
   }
 
-  deletePerson(image: Image, person: Person) {
-    Ajax.delete("/api/images/" + image.id + "/persons/" + person.id).then(() => {
+  public deletePerson(image: Image, person: Person) {
+    Ajax.delete(`/api/images/${image.id}/persons/${person.id}`).then(() => {
       NavigationsStore.load();
-      for (var index = 0; index < image.persons.length; index++) {
+      for (let index = 0; index < image.persons.length; index++) {
         if (image.persons[index].id === person.id) {
           image.persons.splice(index, 1);
           break;
@@ -168,7 +165,7 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  load(service: string) {
+  public load(service: string) {
     this.setObject(null);
     this.service = service + (service.indexOf("?") > 0 ? "&" : "?");
     this.offset = 0;
@@ -180,7 +177,7 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  more() {
+  public more() {
     if (this.limit > 0 && !this.loading) {
       this.loading = true;
       this.offset += this.limit;
@@ -194,15 +191,15 @@ class ImagesStore extends Dispatcher<Image[]> {
     }
   }
 
-  reload() {
+  public reload() {
     if (this.service) {
       this.load(this.service);
     }
   }
 
-  delete(image: Image) {
-    Ajax.delete("/api/images/" + image.id).then(() => {
-      var index = this.getIndex(image);
+  public delete(image: Image) {
+    Ajax.delete(`/api/images/${image.id}`).then(() => {
+      const index = this.getIndex(image);
       if (index === -1) {
         return;
       }
@@ -212,12 +209,12 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  revert(image: Image) {
-    return Ajax.put("/api/images/" + image.id + "/revert").then(() => (image.deleted = false));
+  public revert(image: Image) {
+    return Ajax.put(`/api/images/${image.id}/revert`).then(() => (image.deleted = false));
   }
 
-  getIndex(image: Image) {
-    for (var index = 0; index < super.getObject().length; index++) {
+  public getIndex(image: Image) {
+    for (let index = 0; index < super.getObject().length; index++) {
       if (super.getObject()[index].id === image.id) {
         return index;
       }

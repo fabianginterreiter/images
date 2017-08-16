@@ -36,9 +36,13 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     super(props);
 
     this.state = {
-      show: false,
       menu: false,
-      style: undefined
+      show: false,
+      style: {
+        height: 0,
+        left: 0,
+        width: 0
+      }
     };
   }
 

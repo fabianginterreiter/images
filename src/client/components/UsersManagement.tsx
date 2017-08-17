@@ -20,40 +20,15 @@ export default class UsersManagement extends React.Component<{}, UsersManagement
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     UsersStore.addChangeListener(this, (users) => (this.setState({users})));
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     UsersStore.removeChangeListener(this);
   }
 
-  private handleCreateUser(e) {
-    e.preventDefault();
-
-    let data = new FormData();
-    data.append( "name", (this.refs.name as HTMLFormElement).value );
-    Ajax.post("/api/users", {
-          name: (this.refs.name as HTMLFormElement).value
-    }).then(function(user) {
-      let users = UsersStore.getObject();
-      users.push(user);
-      UsersStore.setObject(users);
-      UserState.setUser(user);
-    });
-  }
-
-  private handleUserSelect(user: User): void {
-    UserState.setUser(user);
-  }
-
-  private openCreate(): void {
-    this.setState({
-      open: true
-    });
-  }
-
-  render() {
+  public render() {
     let createUser = (<span />);
 
     if (this.state.open) {
@@ -87,5 +62,30 @@ export default class UsersManagement extends React.Component<{}, UsersManagement
         {createUser}
       </div>
     );
+  }
+
+  private handleCreateUser(e) {
+    e.preventDefault();
+
+    let data = new FormData();
+    data.append( "name", (this.refs.name as HTMLFormElement).value );
+    Ajax.post("/api/users", {
+          name: (this.refs.name as HTMLFormElement).value
+    }).then(function(user) {
+      let users = UsersStore.getObject();
+      users.push(user);
+      UsersStore.setObject(users);
+      UserState.setUser(user);
+    });
+  }
+
+  private handleUserSelect(user: User): void {
+    UserState.setUser(user);
+  }
+
+  private openCreate(): void {
+    this.setState({
+      open: true
+    });
   }
 }

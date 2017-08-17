@@ -29,15 +29,12 @@ interface ImagesState {
 }
 
 export default class Images extends React.Component<ImagesProps, ImagesState> {
-  private bundledImages;
   private lastSelection: number;
   private width: number;
   private resizeTimer;
 
   constructor(props: ImagesProps) {
     super(props);
-
-    this.bundledImages = [];
 
     this.state = {
       images: [],

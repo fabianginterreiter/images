@@ -102,7 +102,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
     this._calcuateDisplayWidth(this.state.images);
 
-    this.state.images.forEach((image, idx) => {
+    this.state.images.forEach((image: Image, idx: number) => {
       const newDate = image.year + "" + image.month + "" + image.day;
 
       let className = "item";
@@ -177,7 +177,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
         this.width = width;
         this.forceUpdate();
       }
-    }, 100);
+    }, 300);
   }
 
   private handleKeyUp(e: KeyboardEvent) {
@@ -236,7 +236,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     }
   }
 
-  private handleClick(idx, event) {
+  private handleClick(idx: number, event) {
     if ("mark" !== event.target.className) {
       return;
     }
@@ -250,7 +250,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     });
   }
 
-  private handleSelect(idx, event) {
+  private handleSelect(idx: number, event) {
     if (event.shiftKey && this.lastSelection >= 0) {
       if (SelectionStore.isSelected(this.state.images[idx])) {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
@@ -268,7 +268,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     this.lastSelection = idx;
   }
 
-  private handleDateSelect(idx) {
+  private handleDateSelect(idx: number) {
     const date = this.state.images[idx].year + "" + this.state.images[idx].month + "" + this.state.images[idx].day;
 
     let hasNotSelected = false;
@@ -316,7 +316,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
     const max = this.width / ThumbnailsSizeStore.getObject();
 
-    imgs.forEach((image) => {
+    imgs.forEach((image: Image) => {
       image.displayWidth = 0;
 
       sum += image.proportion;
@@ -324,7 +324,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
       if (sum > max) {
         const widthSize = (this.width - 2 * 1 * images.length) / sum;
-        images.forEach((object) => {
+        images.forEach((object: Image) => {
           object.displayWidth = object.proportion * widthSize;
           object.displayHeight = object.displayWidth / object.proportion;
         });

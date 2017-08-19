@@ -44,7 +44,7 @@ export default class Configuration {
       store: null
     };
 
-    if (this.config.redis && process.env.NODE_ENV === "production") {
+    if (this.config.redis) {
       const RedisStore = require("connect-redis")(session);
       result.store = new RedisStore();
     }

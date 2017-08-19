@@ -12,7 +12,7 @@ const settings = {
     redis: true
 };
 
-const development = "development";
+const defaultEnv = "production";
 
 const configurations: ConfigurationsObject = {
   development: {
@@ -38,14 +38,16 @@ const configurations: ConfigurationsObject = {
   }
 };
 
-const env = process.env.NODE_ENV || development;
+const env = process.env.NODE_ENV || defaultEnv;
+
+console.log(`Environment: ${env}`);
 
 let config: Configuration = null;
 
 if (configurations[env]) {
   config = new Configuration(configurations[env]);
 } else {
-  config = new Configuration(configurations[development]);
+  config = new Configuration(configurations[defaultEnv]);
 }
 
 export default config;

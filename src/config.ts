@@ -7,11 +7,6 @@ interface ConfigurationsObject {
   test: ConfigurationObject;
 }
 
-const settings = {
-    path: "../data",
-    redis: true
-};
-
 const defaultEnv = "production";
 
 const configurations: ConfigurationsObject = {
@@ -22,8 +17,8 @@ const configurations: ConfigurationsObject = {
   },
   production: {
     database: null,
-    path: settings.path,
-    redis: settings.redis
+    path: "data",
+    redis: true
   },
   test: {
     database: {

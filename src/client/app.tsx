@@ -18,13 +18,13 @@ import Tag from "./components/Tag";
 import Tags from "./components/Tags";
 import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
-import usersApp from './reducers'
+import imagesApp from "./reducers/index"
 import { Provider } from "react-redux";
-import { createStore } from 'redux'
+import { createStore } from "redux"
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 
-let store = createStore(usersApp);
+let store = createStore(imagesApp);
 
 ReactDOM.render(
   <Provider store={store}>

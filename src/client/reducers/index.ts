@@ -1,10 +1,8 @@
-import { combineReducers } from 'redux'
-import users from './users'
-import visibilityFilter from './visibilityFilter'
+import { combineReducers } from "redux";
+import users from "./users";
 
-const usersApp = combineReducers({
-  users,
-  visibilityFilter
+const imagesApp = combineReducers({
+  users
 })
 
-export default usersApp
+export default imagesApp

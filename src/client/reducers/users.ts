@@ -5,6 +5,7 @@ export default function users(state = [], action) {
           ...state,
           action.user
       ].sort((a, b) => a.name.localeCompare(b.name))
+    case "SET_USERS": return action.users;
     default:
       return state
   }

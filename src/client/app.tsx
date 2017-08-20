@@ -21,20 +21,14 @@ import UsersManagement from "./components/UsersManagement";
 import imagesApp from "./reducers"
 import * as ReactRedux from "react-redux";
 import { createStore } from "Redux";
-import { addUser } from "./actions";
+import { addUser, setUsers } from "./actions";
+import Ajax from "./libs/Ajax"
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 
 let store = createStore(imagesApp);
 
-console.log("HEHEH");
-
-store.subscribe(console.log);
-
-store.dispatch(addUser({
-  id: 1,
-  name: "Fabian"
-}));
+Ajax.get("/api/users").then(users => store.dispatch(setUsers(users)));
 
 ReactDOM.render(
   <ReactRedux.Provider store={store}>

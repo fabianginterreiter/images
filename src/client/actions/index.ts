@@ -6,3 +6,10 @@ export const addUser = (user: User) => {
     user: user
   }
 }
+
+export const setUsers = (users: User[]) => {
+  return {
+    type: "SET_USERS",
+    users: users
+  }
+}

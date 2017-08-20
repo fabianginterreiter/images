@@ -4,13 +4,18 @@ import Ajax from "../libs/Ajax";
 import UserState from "../states/UserState";
 import UsersStore from "../stores/UsersStore";
 import {User} from "../types/types";
+import * as ReactRedux from "react-redux";
+
+interface UsersManagementProps {
+  users: User[]
+}
 
 interface UsersManagementState {
   open: boolean;
   users: User[];
 }
 
-export default class UsersManagement extends React.Component<{}, UsersManagementState> {
+class UsersManagement extends React.Component<UsersManagementProps, UsersManagementState> {
   constructor(props) {
     super(props);
 
@@ -47,7 +52,7 @@ export default class UsersManagement extends React.Component<{}, UsersManagement
         <h1>Select Profile</h1>
         <div className="list">
           {
-            this.state.users.map((user, idx) => (
+            this.props.users.map((user, idx) => (
               <div key={user.id} onClick={this.handleUserSelect.bind(this, user)}>
                 <div><i className="fa fa-user fa-3x" /></div>
                 <div>{user.name}</div>
@@ -89,3 +94,11 @@ export default class UsersManagement extends React.Component<{}, UsersManagement
     });
   }
 }
+
+const mapStateToUsers = (state) => {
+  return {
+    users: state.users
+  }
+}
+
+export default ReactRedux.connect(mapStateToUsers)(UsersManagement);

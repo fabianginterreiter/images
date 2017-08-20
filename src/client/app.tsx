@@ -18,16 +18,26 @@ import Tag from "./components/Tag";
 import Tags from "./components/Tags";
 import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
-import imagesApp from "./reducers/index"
-import { Provider } from "react-redux";
-import { createStore } from "redux"
+import imagesApp from "./reducers"
+import * as ReactRedux from "react-redux";
+import { createStore } from "Redux";
+import { addUser } from "./actions";
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 
 let store = createStore(imagesApp);
 
+console.log("HEHEH");
+
+store.subscribe(console.log);
+
+store.dispatch(addUser({
+  id: 1,
+  name: "Fabian"
+}));
+
 ReactDOM.render(
-  <Provider store={store}>
+  <ReactRedux.Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={Init}>
         <Route path="images" components={ImagesApp}>
@@ -50,6 +60,6 @@ ReactDOM.render(
         <Route path="profiles" component={UsersManagement} />
       </Route>
     </Router>
-  </Provider>,
+  </ReactRedux.Provider>,
   document.getElementById("app")
 );

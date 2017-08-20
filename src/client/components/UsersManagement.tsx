@@ -2,17 +2,17 @@ import * as moment from "moment";
 import * as React from "react";
 import Ajax from "../libs/Ajax";
 import UserState from "../states/UserState";
-import UsersStore from "../stores/UsersStore";
 import {User} from "../types/types";
 import * as ReactRedux from "react-redux";
+import {addUser} from "../actions";
 
 interface UsersManagementProps {
-  users: User[]
+  users: User[];
+  addUser(user: User): void;
 }
 
 interface UsersManagementState {
   open: boolean;
-  users: User[];
 }
 
 class UsersManagement extends React.Component<UsersManagementProps, UsersManagementState> {
@@ -20,17 +20,8 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
     super(props);
 
     this.state = {
-      users: UsersStore.getObject(),
       open: false
     };
-  }
-
-  public componentDidMount() {
-    UsersStore.addChangeListener(this, (users) => (this.setState({users})));
-  }
-
-  public componentWillUnmount() {
-    UsersStore.removeChangeListener(this);
   }
 
   public render() {
@@ -76,11 +67,10 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
     data.append( "name", (this.refs.name as HTMLFormElement).value );
     Ajax.post("/api/users", {
           name: (this.refs.name as HTMLFormElement).value
-    }).then(function(user) {
-      let users = UsersStore.getObject();
-      users.push(user);
-      UsersStore.setObject(users);
-      UserState.setUser(user);
+    }).then((user) => {
+      this.props.addUser(user);
+
+      // UserState.setUser(user);
     });
   }
 
@@ -95,10 +85,17 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
   }
 }
 
-const mapStateToUsers = (state) => {
+const mapStateToProps = (state) => {
   return {
     users: state.users
   }
 }
 
-export default ReactRedux.connect(mapStateToUsers)(UsersManagement);
+const mapDispatchToProps = dispatch => {
+  return {
+    addUser: (user: User) => dispatch(addUser(user))
+  }
+}
+
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(UsersManagement);

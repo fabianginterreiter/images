@@ -12,6 +12,8 @@ interface InitProps {
 class Init extends React.Component<InitProps, {}> {
   constructor(props) {
     super(props);
+
+    this.componentWillReceiveProps(props);
   }
 
   public render() {
@@ -25,8 +27,8 @@ class Init extends React.Component<InitProps, {}> {
       if (props.location.pathname.startsWith("/images")) {
         return;
       }
-      if (props.location.pathname !== "/images/") {
-        browserHistory.push("/images/");
+      if (props.location.pathname !== "/images") {
+        browserHistory.push("/images");
       }
     } else {
       if (props.location.pathname !== "/profiles") {

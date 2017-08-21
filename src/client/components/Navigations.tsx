@@ -1,12 +1,12 @@
 import * as React from "react";
 import { browserHistory } from "react-router";
 import NavigationsState from "../states/NavigationsState";
-import UserState from "../states/UserState";
 import ImagesStore from "../stores/ImagesStore";
 import NavigationsStore from "../stores/NavigationsStore";
 import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
 import Title from "./Title";
+
 interface NavigationsProps {
   location: {
     pathname: string;
@@ -60,10 +60,6 @@ export default class Navigations extends React.Component<NavigationsProps, Navig
 
   private isSelected(option: Option) {
     return this.props.location.pathname === option.link;
-  }
-
-  private handleChangeUser() {
-    UserState.clear();
   }
 
   render() {

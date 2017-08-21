@@ -1,14 +1,14 @@
 import * as moment from "moment";
 import * as React from "react";
 import Ajax from "../libs/Ajax";
-import UserState from "../states/UserState";
 import {User} from "../types/types";
 import * as ReactRedux from "react-redux";
-import {addUser} from "../actions";
+import {addUser, setSession} from "../actions";
 
 interface UsersManagementProps {
   users: User[];
   addUser(user: User): void;
+  setSession(user: User): void;
 }
 
 interface UsersManagementState {
@@ -69,13 +69,14 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
           name: (this.refs.name as HTMLFormElement).value
     }).then((user) => {
       this.props.addUser(user);
-
-      // UserState.setUser(user);
+      this.props.setSession(user);
     });
   }
 
   private handleUserSelect(user: User): void {
-    UserState.setUser(user);
+    Ajax.get("/api/session/" + user.id).then(() => {
+        this.props.setSession(user);
+    });
   }
 
   private openCreate(): void {
@@ -85,7 +86,7 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     users: state.users
   }
@@ -93,7 +94,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addUser: (user: User) => dispatch(addUser(user))
+    addUser: (user: User) => dispatch(addUser(user)),
+    setSession: (user: User) => dispatch(setSession(user))
   }
 }
 

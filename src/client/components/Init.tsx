@@ -1,63 +1,45 @@
 import * as React from "react";
 import { browserHistory } from "react-router";
-import UserState from "../states/UserState";
+import * as ReactRedux from "react-redux";
 
 interface InitProps {
   location: {
     pathname: string;
   };
+  isLoggedIn(): boolean;
 }
 
-interface InitState {
-  initializing: boolean;
-}
-
-export default class Init extends React.Component<InitProps, InitState> {
+class Init extends React.Component<InitProps, {}> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      initializing: true
-    };
-  }
-
-  public componentDidMount() {
-    UserState.addChangeListener(this, this.handleUserChange.bind(this));
-
-    UserState.load().then(function() {
-      this.setState({
-        initializing: false
-      });
-    }.bind(this));
-  }
-
-  public componentWillUnmount() {
-    UserState.removeChangeListener(this);
   }
 
   public render() {
-    if (this.state.initializing) {
-      return (<span>Loading</span>);
-    }
-
-    if (this.props.location.pathname === "/") {
-      this.handleUserChange();
-    }
-
     return (
       <div>{this.props.children}</div>
     );
   }
 
-  private handleUserChange() {
-    if (UserState.getUser()) {
-      if (this.props.location.pathname.startsWith("/images")) {
+  public componentWillReceiveProps(props) {
+    if (props.isLoggedIn()) {
+      if (props.location.pathname.startsWith("/images")) {
         return;
       }
-
-      browserHistory.push("/images");
+      if (props.location.pathname !== "/images/") {
+        browserHistory.push("/images/");
+      }
     } else {
-      browserHistory.push("/profiles");
+      if (props.location.pathname !== "/profiles") {
+        browserHistory.push("/profiles");
+      }
     }
   }
 }
+
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: () => state.session !== null
+  }
+}
+export default ReactRedux.connect(mapStateToProps)(Init);

@@ -21,7 +21,7 @@ import UsersManagement from "./components/UsersManagement";
 import imagesApp from "./reducers"
 import * as ReactRedux from "react-redux";
 import { createStore } from "Redux";
-import { addUser, setUsers } from "./actions";
+import { addUser, setUsers, setSession } from "./actions";
 import Ajax from "./libs/Ajax"
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
@@ -29,6 +29,7 @@ const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = R
 let store = createStore(imagesApp);
 
 Ajax.get("/api/users").then(users => store.dispatch(setUsers(users)));
+Ajax.get("/api/session").then((user) => store.dispatch(setSession((user))));
 
 ReactDOM.render(
   <ReactRedux.Provider store={store}>

@@ -1,0 +1,2 @@
+export const SET_SESSION = "SET_SESSION";
+export const DELETE_SESSION = "DELETE_SESSION";

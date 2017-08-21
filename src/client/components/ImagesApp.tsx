@@ -1,6 +1,5 @@
 import * as React from "react";
 import NavigationsState from "../states/NavigationsState";
-import UserState from "../states/UserState";
 import ImagesStore from "../stores/ImagesStore";
 import { Main, ScrollUp } from "../utils/Utils";
 import DragAndDropUpload from "./DragAndDropUpload";
@@ -10,14 +9,16 @@ import OptionsPanel from "./options/OptionsPanel";
 import Selection from "./selections/Selection";
 import Uploader from "./Uploader";
 import UsersManagement from "./UsersManagement";
+import * as ReactRedux from "react-redux";
 
 interface ImagesAppProps {
   location: {
     pathname: string;
   };
+  isLoggedIn(): boolean;
 }
 
-export default class ImagesApp extends React.Component<ImagesAppProps, {}> {
+class ImagesApp extends React.Component<ImagesAppProps, {}> {
   constructor(props) {
     super(props);
   }
@@ -31,7 +32,7 @@ export default class ImagesApp extends React.Component<ImagesAppProps, {}> {
   }
 
   public render() {
-    if (!UserState.getUser()) {
+    if (!this.props.isLoggedIn()) {
       return (<div>Not User</div>);
     }
 
@@ -68,3 +69,11 @@ export default class ImagesApp extends React.Component<ImagesAppProps, {}> {
     this.forceUpdate();
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: () => state.session !== null
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps)(ImagesApp);

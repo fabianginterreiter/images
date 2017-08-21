@@ -3,11 +3,19 @@ import * as $ from "jquery"
 import ThumbnailsResizer from "../ThumbnailsResizer"
 import { location } from "react-router"
 import { Panel } from "../../utils/Utils"
-import UserState from "../../states/UserState"
 import OptionsStore from "../../stores/OptionsStore"
 import ShowDateStore from "../../stores/ShowDateStore"
+import * as ReactRedux from "react-redux";
+import {User} from "../../types/types"
+import {deleteSession} from "../../actions"
+import Ajax from "../../libs/Ajax";
 
-export default class OptionsPanel extends React.Component<{}, {}> {
+interface OptionsPanelProps {
+  session: User;
+  deleteSession(): void;
+}
+
+class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
   constructor(props) {
     super(props);
   }
@@ -22,6 +30,10 @@ export default class OptionsPanel extends React.Component<{}, {}> {
 
   private close(): void {
     OptionsStore.setObject(false);
+  }
+
+  private deleteSession() {
+    Ajax.delete("/api/session").then(() => (this.props.deleteSession()));
   }
 
   render() {
@@ -40,9 +52,23 @@ export default class OptionsPanel extends React.Component<{}, {}> {
           </div>
 
           <div className="footer">
-            <div className="profile" onClick={UserState.clear.bind(UserState)}><i className="fa fa-user"></i> {UserState.getUser().name}</div>
+            <div className="profile" onClick={this.deleteSession.bind(this)}><i className="fa fa-user"></i> {this.props.session.name}</div>
           </div>
         </Panel>
     );
   }
-};
+}
+
+const mapStateToProps = (state) => {
+  return {
+    session: state.session
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteSession: () => dispatch(deleteSession())
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(OptionsPanel);

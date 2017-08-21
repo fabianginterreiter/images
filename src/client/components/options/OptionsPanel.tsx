@@ -4,15 +4,16 @@ import ThumbnailsResizer from "../ThumbnailsResizer"
 import { location } from "react-router"
 import { Panel } from "../../utils/Utils"
 import OptionsStore from "../../stores/OptionsStore"
-import ShowDateStore from "../../stores/ShowDateStore"
 import * as ReactRedux from "react-redux";
 import {User} from "../../types/types"
-import {deleteSession} from "../../actions"
+import {deleteSession, setShowDate} from "../../actions"
 import Ajax from "../../libs/Ajax";
 
 interface OptionsPanelProps {
   session: User;
   deleteSession(): void;
+  setShowDate(show: boolean): void;
+  showDate: boolean;
 }
 
 class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
@@ -47,7 +48,7 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
           <div className="body">
             <ul className="options">
               <li><a>Size: <ThumbnailsResizer /></a></li>
-              <li><a><label><input type="checkbox" checked={ShowDateStore.getObject()} onChange={ShowDateStore.change.bind(ShowDateStore)} /> Show Dates</label></a></li>
+              <li><a><label><input type="checkbox" checked={this.props.showDate} onChange={() => this.props.setShowDate(!this.props.showDate)} /> Show Dates</label></a></li>
             </ul>
           </div>
 
@@ -61,13 +62,15 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
-    session: state.session
+    session: state.session,
+    showDate: state.options.showDate
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteSession: () => dispatch(deleteSession())
+    deleteSession: () => dispatch(deleteSession()),
+    setShowDate: (show: boolean) => dispatch(setShowDate(show))
   }
 }
 

@@ -5,20 +5,21 @@ import { Link } from "react-router";
 import NavigationsState from "../states/NavigationsState";
 import ImagesStore from "../stores/ImagesStore";
 import SelectionStore from "../stores/SelectionStore";
-import ShowDateStore from "../stores/ShowDateStore";
-import ThumbnailsSizeStore from "../stores/ThumbnailsSizeStore";
 import {Image} from "../types/types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
 import Fullscreen from "./Fullscreen";
 import ImageComponent from "./ImageComponent";
 import Like from "./Like";
+import * as ReactRedux from "react-redux";
 
 interface ImagesProps {
   options?: {
     hideFullscreen: boolean;
     hideLike: boolean;
   };
+  thumbnailsSize: number;
+  showDate: boolean;
 }
 
 interface ImagesState {
@@ -28,7 +29,7 @@ interface ImagesState {
   size: number;
 }
 
-export default class Images extends React.Component<ImagesProps, ImagesState> {
+class Images extends React.Component<ImagesProps, ImagesState> {
   private lastSelection: number;
   private width: number;
   private resizeTimer;
@@ -38,7 +39,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
     this.state = {
       images: [],
-      size: ThumbnailsSizeStore.getObject(),
+      size: this.props.thumbnailsSize,
       view: -1,
       width: -1
     };
@@ -48,12 +49,10 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
   public componentDidMount() {
     ImagesStore.addChangeListener(this, (images) => this.setState({images}));
-    ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size})));
     NavigationsState.addChangeListener(this, this.handleResize.bind(this));
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     SelectionStore.addChangeListener(this, () => this.forceUpdate());
-    ShowDateStore.addChangeListener(this, () => this.forceUpdate());
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
 
     this.width = document.getElementById("container").clientWidth;
@@ -61,13 +60,11 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
   public componentWillUnmount() {
     ImagesStore.removeChangeListener(this);
-    ThumbnailsSizeStore.removeChangeListener(this);
     NavigationsState.removeChangeListener(this);
     KeyUpListener.removeChangeListener(this);
     ResizeListener.removeChangeListener(this);
     ScrollListener.removeChangeListener(this);
     SelectionStore.removeChangeListener(this);
-    ShowDateStore.removeChangeListener(this);
   }
 
   public render() {
@@ -111,7 +108,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
         height: image.displayHeight + "px",
         width: image.displayWidth + "px"
       } : {
-        height: ThumbnailsSizeStore.getObject() + "px"
+        height: this.props.thumbnailsSize + "px"
       };
 
       let checkBoxClass = null;
@@ -123,7 +120,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
         checkBoxClass = "fa fa-check-square-o";
       }
 
-      if (ShowDateStore.getObject() && lastDate !== newDate) {
+      if (this.props.showDate && lastDate !== newDate) {
         elements.push(
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
             <div style={{width: image.displayWidth + "px"}}>
@@ -314,7 +311,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
       return;
     }
 
-    const max = this.width / ThumbnailsSizeStore.getObject();
+    const max = this.width / this.props.thumbnailsSize;
 
     imgs.forEach((image: Image) => {
       image.displayWidth = 0;
@@ -343,3 +340,12 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     return (<Like image={image} />);
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    thumbnailsSize: state.options.thumbnailsSize,
+    showDate: state.options.showDate
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps)(Images);

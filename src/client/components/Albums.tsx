@@ -101,7 +101,7 @@ export default class Albums extends React.Component<{}, AlbumsState> {
       <td>{this._renderText(album)}</td>
       <td>{album.count}</td>
       <td onClick={this.handleVisibility.bind(this, album)} className="option">
-        <input type="checkbox" checked={album.public} />
+        <input type="checkbox" defaultChecked={album.public} />
       </td>
       <td onClick={this.handleEdit.bind(this, album)} className="option"><i className="fa fa-pencil-square-o" /></td>
       <td onClick={this.handleDelete.bind(this, album)} className="option"><i className="fa fa-trash-o" /></td>

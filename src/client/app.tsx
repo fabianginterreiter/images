@@ -29,32 +29,35 @@ const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = R
 let store = createStore(imagesApp);
 
 Ajax.get("/api/users").then(users => store.dispatch(setUsers(users)));
-Ajax.get("/api/session").then((user) => store.dispatch(setSession((user))));
+Ajax.get("/api/session").then((user) => {
+  store.dispatch(setSession((user)))
 
-ReactDOM.render(
-  <ReactRedux.Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={Init}>
-        <Route path="images" components={ImagesApp}>
-          <Route path="dates/:year/:month/:day" component={DateView} />
-          <Route path="dates/:year/:month" component={DateView} />
-          <Route path="dates/:year" component={DateView} />
-          <Route path="tags/:id" component={Tag} />
-          <Route path="persons/:id" component={Person} />
-          <Route path="albums/:albumId" component={Album} />
-          <Route path="favorites" component={Favorites} />
-          <Route path="persons" component={Persons} />
-          <Route path="tags" component={Tags} />
-          <Route path="albums" component={Albums} />
-          <Route path="dates" component={Dates} />
-          <Route path="selected" component={Selected} />
-          <Route path="trash" component={Trash} />
-          <Route path="search" component={Search} />
-          <IndexRoute component={All} />
+  ReactDOM.render(
+    <ReactRedux.Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={Init}>
+          <Route path="images" components={ImagesApp}>
+            <Route path="dates/:year/:month/:day" component={DateView} />
+            <Route path="dates/:year/:month" component={DateView} />
+            <Route path="dates/:year" component={DateView} />
+            <Route path="tags/:id" component={Tag} />
+            <Route path="persons/:id" component={Person} />
+            <Route path="albums/:albumId" component={Album} />
+            <Route path="favorites" component={Favorites} />
+            <Route path="persons" component={Persons} />
+            <Route path="tags" component={Tags} />
+            <Route path="albums" component={Albums} />
+            <Route path="dates" component={Dates} />
+            <Route path="selected" component={Selected} />
+            <Route path="trash" component={Trash} />
+            <Route path="search" component={Search} />
+            <IndexRoute component={All} />
+          </Route>
+          <Route path="profiles" component={UsersManagement} />
         </Route>
-        <Route path="profiles" component={UsersManagement} />
-      </Route>
-    </Router>
-  </ReactRedux.Provider>,
-  document.getElementById("app")
-);
+      </Router>
+    </ReactRedux.Provider>,
+    document.getElementById("app")
+  );
+
+});

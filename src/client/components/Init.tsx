@@ -36,7 +36,6 @@ class Init extends React.Component<InitProps, {}> {
   }
 }
 
-
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: () => state.session !== null

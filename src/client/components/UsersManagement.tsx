@@ -4,6 +4,7 @@ import Ajax from "../libs/Ajax";
 import {User} from "../types/types";
 import * as ReactRedux from "react-redux";
 import {addUser, setSession} from "../actions";
+import NavigationsStore from "../stores/NavigationsStore"
 
 interface UsersManagementProps {
   users: User[];
@@ -76,6 +77,7 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
   private handleUserSelect(user: User): void {
     Ajax.get("/api/session/" + user.id).then(() => {
         this.props.setSession(user);
+        NavigationsStore.load();
     });
   }
 

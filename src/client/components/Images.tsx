@@ -10,7 +10,7 @@ import Empty from "./Empty";
 import Fullscreen from "./Fullscreen";
 import ImageComponent from "./ImageComponent";
 import Like from "./Like";
-import * as ReactRedux from "react-redux";
+import {connect} from "react-redux";
 
 interface ImagesProps {
   options?: {
@@ -351,4 +351,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default ReactRedux.connect(mapStateToProps)(Images);
+export default connect(mapStateToProps)(Images);

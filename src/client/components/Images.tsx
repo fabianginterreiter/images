@@ -2,7 +2,6 @@ import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router";
-import NavigationsState from "../states/NavigationsState";
 import ImagesStore from "../stores/ImagesStore";
 import SelectionStore from "../stores/SelectionStore";
 import {Image} from "../types/types";
@@ -20,6 +19,7 @@ interface ImagesProps {
   };
   thumbnailsSize: number;
   showDate: boolean;
+  pinned: boolean;
 }
 
 interface ImagesState {
@@ -49,7 +49,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
   public componentDidMount() {
     ImagesStore.addChangeListener(this, (images) => this.setState({images}));
-    NavigationsState.addChangeListener(this, this.handleResize.bind(this));
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     SelectionStore.addChangeListener(this, () => this.forceUpdate());
@@ -58,9 +57,12 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     this.width = document.getElementById("container").clientWidth;
   }
 
+  componentWillReceiveProps(props) {
+    this.handleResize();
+  }
+
   public componentWillUnmount() {
     ImagesStore.removeChangeListener(this);
-    NavigationsState.removeChangeListener(this);
     KeyUpListener.removeChangeListener(this);
     ResizeListener.removeChangeListener(this);
     ScrollListener.removeChangeListener(this);
@@ -344,7 +346,8 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 const mapStateToProps = (state) => {
   return {
     thumbnailsSize: state.options.thumbnailsSize,
-    showDate: state.options.showDate
+    showDate: state.options.showDate,
+    pinned: state.view.pinned
   }
 }
 

@@ -21,7 +21,7 @@ import UsersManagement from "./components/UsersManagement";
 import imagesApp from "./reducers"
 import * as ReactRedux from "react-redux";
 import { createStore } from "Redux";
-import { addUser, setUsers, setSession, setThumbnailSize, setShowDate } from "./actions";
+import { addUser, setUsers, setSession, setThumbnailSize, setShowDate, setPinNavigation } from "./actions";
 import Ajax from "./libs/Ajax"
 import cookie from "react-cookie";
 
@@ -31,6 +31,7 @@ let store = createStore(imagesApp);
 
 store.dispatch(setThumbnailSize(cookie.load("thumbnailsSize") ? cookie.load("thumbnailsSize") : 200));
 store.dispatch(setShowDate(cookie.load("showDate") === "true"));
+store.dispatch(setPinNavigation(cookie.load("pinned") === "true"));
 Ajax.get("/api/users").then(users => store.dispatch(setUsers(users)));
 Ajax.get("/api/session").then((user) => {
   store.dispatch(setSession((user)))

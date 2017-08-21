@@ -1,8 +1,8 @@
 import * as React from "react";
 import { browserHistory } from "react-router";
-import NavigationsState from "../states/NavigationsState";
 import { KeyUpListener } from "../utils/Utils";
 import Title from "./Title";
+import * as ReactRedux from "react-redux";
 
 interface SearchbarProps {
 
@@ -13,7 +13,7 @@ interface SearchbarState {
   open: boolean;
 }
 
-export default class Searchbar extends React.Component<SearchbarProps, SearchbarState> {
+class Searchbar extends React.Component<SearchbarProps, SearchbarState> {
   private opened: boolean;
 
   constructor(props) {
@@ -112,3 +112,16 @@ export default class Searchbar extends React.Component<SearchbarProps, Searchbar
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    open: state.view.open
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Searchbar);

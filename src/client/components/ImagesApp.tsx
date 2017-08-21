@@ -1,5 +1,4 @@
 import * as React from "react";
-import NavigationsState from "../states/NavigationsState";
 import ImagesStore from "../stores/ImagesStore";
 import { Main, ScrollUp } from "../utils/Utils";
 import DragAndDropUpload from "./DragAndDropUpload";
@@ -15,6 +14,7 @@ interface ImagesAppProps {
   location: {
     pathname: string;
   };
+  pinned: boolean;
   isLoggedIn(): boolean;
 }
 
@@ -23,12 +23,8 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
     super(props);
   }
 
-  public componentDidMount() {
-    NavigationsState.addChangeListener(this, this.handleNavigationChange.bind(this));
-  }
-
-  public componentWillUnmount() {
-    NavigationsState.removeChangeListener(this);
+  componentWillReceiveProps(props) {
+    this.handleNavigationChange();
   }
 
   public render() {
@@ -38,7 +34,7 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
 
     let contentClass = "content";
     let pinned = "";
-    if (NavigationsState.getObject().pinned) {
+    if (this.props.pinned) {
       contentClass += " pinned";
       pinned = "pinned";
     }
@@ -72,7 +68,8 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: () => state.session !== null
+    isLoggedIn: () => state.session !== null,
+    pinned: state.view.pinned
   }
 }
 

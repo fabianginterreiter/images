@@ -1,4 +1,4 @@
-import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE, SET_SHOW_DATE, SET_USERS, ADD_USER} from "../actionTypes";
+import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE, SET_SHOW_DATE, SET_USERS, ADD_USER, OPEN_NAVIGATION, CLOSE_NAVIGATION, SET_PIN_NAVIGATION} from "../actionTypes";
 
 import {User} from "../types/types";
 import cookie from "react-cookie";
@@ -43,5 +43,25 @@ export const setShowDate = (show: boolean) => {
   return {
     type: SET_SHOW_DATE,
     show: show
+  }
+}
+
+export const openNavigation = () => {
+  return {
+    type: OPEN_NAVIGATION
+  }
+}
+
+export const closeNavigation = () => {
+  return {
+    type: CLOSE_NAVIGATION
+  }
+}
+
+export const setPinNavigation = (pin: boolean) => {
+  cookie.save("pinned", pin ? "true" : "false");
+  return {
+    type: SET_PIN_NAVIGATION,
+    pin: pin
   }
 }

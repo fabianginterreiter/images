@@ -1,12 +1,17 @@
 import * as $ from "jquery";
 import * as React from "react";
-import NavigationsState from "../states/NavigationsState";
 import OptionsStore from "../stores/OptionsStore";
 import UploadStore from "../stores/UploadStore";
 import Searchbar from "./Searchbar";
 import Title from "./Title";
+import * as ReactRedux from "react-redux";
+import {openNavigation} from "../actions";
 
-export default class Header extends React.Component<{}, {}> {
+interface HeaderProps {
+  openNavigation():void;
+}
+
+class Header extends React.Component<HeaderProps, {}> {
   constructor(props) {
     super(props);
   }
@@ -14,7 +19,7 @@ export default class Header extends React.Component<{}, {}> {
   public render() {
     return (
       <header>
-        <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
+        <div className="title" onClick={() => this.props.openNavigation()}>
           <Title />
         </div>
 
@@ -45,3 +50,16 @@ export default class Header extends React.Component<{}, {}> {
     OptionsStore.setObject(true);
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openNavigation: () => dispatch(openNavigation())
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Header);

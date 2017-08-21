@@ -1,13 +1,18 @@
 import * as React from "react";
 import SelectionStore from "../../stores/SelectionStore";
 import ImagesStore from "../../stores/ImagesStore";
-import NavigationsState from "../../states/NavigationsState";
 import SelectionOptions from "./SelectionOptions";
 import { browserHistory } from "react-router";
 import Title from "../Title";
 import { DialogStore } from "../../utils/Utils";
+import * as ReactRedux from "react-redux";
+import {openNavigation} from "../../actions";
 
-export default class Selection extends React.Component<{}, {}> {
+interface SelectionProps {
+  openNavigation(): void;
+}
+
+class Selection extends React.Component<SelectionProps, {}> {
   componentDidMount() {
     SelectionStore.addChangeListener(this, (selection) => (this.setState({selection:selection})));
   }
@@ -36,7 +41,7 @@ export default class Selection extends React.Component<{}, {}> {
 
     return (
       <header className="selection">
-        <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
+        <div className="title" onClick={() => this.props.openNavigation()}>
           <Title />
         </div>
 
@@ -51,3 +56,16 @@ export default class Selection extends React.Component<{}, {}> {
     );
   }
 };
+
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openNavigation: () => dispatch(openNavigation())
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Selection);

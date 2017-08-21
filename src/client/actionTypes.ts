@@ -6,3 +6,7 @@ export const SET_SHOW_DATE = "SET_SHOW_DATE";
 
 export const ADD_USER = "ADD_USER";
 export const SET_USERS = "SET_USERS";
+
+export const OPEN_NAVIGATION = "OPEN_NAVIGATION";
+export const CLOSE_NAVIGATION = "CLOSE_NAVIGATION";
+export const SET_PIN_NAVIGATION = "SET_PIN_NAVIGATION";

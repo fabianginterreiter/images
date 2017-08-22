@@ -22,17 +22,7 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
     super(props);
   }
 
-
-
-  private close(): void {
-    this.props.closeOptionsPanel();
-  }
-
-  private deleteSession() {
-    Ajax.delete("/api/session").then(() => (this.props.deleteSession()));
-  }
-
-  render() {
+  public render() {
     return (
         <Panel open={this.props.open} clickCatcher={this.props.open} onClickCatcherClick={this.close.bind(this)} side="right" header={true} footer={true}>
           <div className="title" onClick={this.close.bind(this)}>
@@ -52,6 +42,14 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
           </div>
         </Panel>
     );
+  }
+
+  private close(): void {
+    this.props.closeOptionsPanel();
+  }
+
+  private deleteSession() {
+    Ajax.delete("/api/session").then(() => (this.props.deleteSession()));
   }
 }
 

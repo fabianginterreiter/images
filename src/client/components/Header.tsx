@@ -1,17 +1,17 @@
 import * as $ from "jquery";
-import {Component} from "react";
+import * as React from "react";
 import OptionsStore from "../stores/OptionsStore";
 import UploadStore from "../stores/UploadStore";
 import Searchbar from "./Searchbar";
 import Title from "./Title";
-import {connect} from "react-redux";
+import * as ReactRedux from "react-redux";
 import {openNavigation} from "../actions";
 
 interface HeaderProps {
   openNavigation():void;
 }
 
-class Header extends Component<HeaderProps, {}> {
+class Header extends React.Component<HeaderProps, {}> {
   constructor(props) {
     super(props);
   }
@@ -62,4 +62,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Header);

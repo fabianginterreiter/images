@@ -209,10 +209,6 @@ class ImagesStore extends Dispatcher<Image[]> {
     });
   }
 
-  public revert(image: Image) {
-    return Ajax.put(`/api/images/${image.id}/revert`).then(() => (image.deleted = false));
-  }
-
   public getIndex(image: Image) {
     for (let index = 0; index < super.getObject().length; index++) {
       if (super.getObject()[index].id === image.id) {

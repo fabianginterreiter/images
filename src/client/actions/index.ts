@@ -1,7 +1,11 @@
-import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE, SET_SHOW_DATE, SET_USERS, ADD_USER, OPEN_NAVIGATION, CLOSE_NAVIGATION, SET_PIN_NAVIGATION, OPEN_OPTIONS_PANEL, CLOSE_OPTIONS_PANEL} from "../actionTypes";
+import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE,
+  SET_SHOW_DATE, SET_USERS, ADD_USER, OPEN_NAVIGATION,
+  CLOSE_NAVIGATION, SET_PIN_NAVIGATION, OPEN_OPTIONS_PANEL,
+  CLOSE_OPTIONS_PANEL, SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM} from "../actionTypes";
 
-import {User} from "../types/types";
+import {User, Album} from "../types/types";
 import cookie from "react-cookie";
+import Ajax from "../libs/Ajax";
 
 export const addUser = (user: User) => {
   return {
@@ -76,4 +80,26 @@ export const closeOptionsPanel = () => {
   return {
     type: CLOSE_OPTIONS_PANEL
   }
+}
+
+export const loadAlbums = () => {
+  return (dispatch) => Ajax.get("/api/albums").then((albums) => dispatch({
+    type: SET_ALBUMS,
+    albums: albums
+  }))
+}
+
+export const sortAlbums = (key: string, asc: boolean) => {
+  return {
+    type: SORT_ALBUMS,
+    key: key,
+    asc: asc
+  }
+}
+
+export const saveAlbum = (album: Album) => {
+  return (dispatch) => Ajax.put(`/api/albums/${album.id}`, album).then(() => dispatch({
+    type: SAVE_ALBUM,
+    album: album
+  }))
 }

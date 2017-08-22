@@ -60,8 +60,6 @@ export interface Album extends PersistedObject {
   name: string;
   public: boolean;
 
-  edit?: boolean;
-
   __count?: number;
 
   selected?: boolean;

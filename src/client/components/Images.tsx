@@ -3,7 +3,6 @@ import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router";
 import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
 import {Image} from "../types/types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
@@ -11,6 +10,7 @@ import Fullscreen from "./Fullscreen";
 import ImageComponent from "./ImageComponent";
 import Like from "./Like";
 import {connect} from "react-redux";
+import {select, unselect, toggle} from "../actions";
 
 interface ImagesProps {
   options?: {
@@ -20,6 +20,10 @@ interface ImagesProps {
   thumbnailsSize: number;
   showDate: boolean;
   pinned: boolean;
+  select(image: Image): void;
+  unselect(image: Image): void;
+  toggle(image: Image): void;
+  isSelected(image: Image): boolean;
 }
 
 interface ImagesState {
@@ -51,7 +55,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     ImagesStore.addChangeListener(this, (images) => this.setState({images}));
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ResizeListener.addChangeListener(this, this.handleResize.bind(this));
-    SelectionStore.addChangeListener(this, () => this.forceUpdate());
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
 
     this.width = document.getElementById("container").clientWidth;
@@ -66,7 +69,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     KeyUpListener.removeChangeListener(this);
     ResizeListener.removeChangeListener(this);
     ScrollListener.removeChangeListener(this);
-    SelectionStore.removeChangeListener(this);
   }
 
   public render() {
@@ -115,7 +117,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
       let checkBoxClass = null;
 
-      if (SelectionStore.isSelected(image)) {
+      if (this.props.isSelected(image)) {
         className += " selected";
         checkBoxClass = "fa fa-check-square";
       } else {
@@ -131,7 +133,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
             </div>
             <div className="imgBorder">
               <ImageComponent image={image} style={style} />
-              <div className="select" onClick={this.handleSelect.bind(this, idx)}>
+              <div className="select" onClick={(e) => this.handleSelect(idx, e)}>
                 <i className={checkBoxClass} aria-hidden="true" />
               </div>
               {this.renderLikeButton(image)}
@@ -202,7 +204,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
       case 65: {
         if (e.ctrlKey) {
-          this.state.images.forEach((image) => SelectionStore.select(image));
+          this.state.images.forEach((image) => this.props.select(image));
         }
         break;
       }
@@ -251,17 +253,17 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
   private handleSelect(idx: number, event) {
     if (event.shiftKey && this.lastSelection >= 0) {
-      if (SelectionStore.isSelected(this.state.images[idx])) {
+      if (this.props.isSelected(this.state.images[idx])) {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-          SelectionStore.unselect(this.state.images[index]);
+          this.props.unselect(this.state.images[index]);
         }
       } else {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-          SelectionStore.select(this.state.images[index]);
+          this.props.select(this.state.images[index]);
         }
       }
     } else {
-      SelectionStore.handle(this.state.images[idx]);
+      this.props.toggle(this.state.images[idx]);
     }
 
     this.lastSelection = idx;
@@ -283,16 +285,16 @@ class Images extends React.Component<ImagesProps, ImagesState> {
         break;
       }
 
-      if (!SelectionStore.isSelected(this.state.images[index])) {
+      if (!this.props.isSelected(this.state.images[index])) {
         hasNotSelected = true;
       }
     }
 
     for (let i = idx; i < index; i++) {
       if (hasNotSelected) {
-        SelectionStore.select(this.state.images[i]);
+        this.props.select(this.state.images[i]);
       } else {
-        SelectionStore.unselect(this.state.images[i]);
+        this.props.unselect(this.state.images[i]);
       }
     }
 
@@ -347,8 +349,17 @@ const mapStateToProps = (state) => {
   return {
     thumbnailsSize: state.options.thumbnailsSize,
     showDate: state.options.showDate,
-    pinned: state.view.pinned
+    pinned: state.view.pinned,
+    isSelected: (image: Image) => state.selection.findIndex(obj => obj.id === image.id) >= 0
   }
 }
 
-export default connect(mapStateToProps)(Images);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    select: (image: Image) => dispatch(select(image)),
+    unselect: (image: Image) => dispatch(unselect(image)),
+    toggle: (image: Image) => dispatch(toggle(image))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Images);

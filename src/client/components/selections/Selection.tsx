@@ -1,32 +1,26 @@
 import * as React from "react";
-import SelectionStore from "../../stores/SelectionStore";
 import ImagesStore from "../../stores/ImagesStore";
 import SelectionOptions from "./SelectionOptions";
 import { browserHistory } from "react-router";
 import Title from "../Title";
 import { DialogStore } from "../../utils/Utils";
 import * as ReactRedux from "react-redux";
-import {openNavigation} from "../../actions";
+import {openNavigation, clear} from "../../actions";
+import {Image} from "../../types/types";
 
 interface SelectionProps {
   openNavigation(): void;
+  clear(): void;
+  selection: Image[]
 }
 
 class Selection extends React.Component<SelectionProps, {}> {
-  componentDidMount() {
-    SelectionStore.addChangeListener(this, (selection) => (this.setState({selection:selection})));
-  }
-
-  componentWillUnmount() {
-    SelectionStore.removeChangeListener(this);
-  }
-
   handleShow() {
     browserHistory.push("/images/selected");
   }
 
   handleDelete() {
-    var images = SelectionStore.getSelected();
+    let images: Image[] = this.props.selection;
     DialogStore.open("Delete Images", "Do you really want to delete all selected images?").then(() => {
       images.forEach(function(image) {
         ImagesStore.delete(image);
@@ -35,7 +29,7 @@ class Selection extends React.Component<SelectionProps, {}> {
   }
 
   render() {
-    if (SelectionStore.isEmpty()) {
+    if (this.props.selection.length === 0) {
       return (<span />);
     }
 
@@ -46,8 +40,8 @@ class Selection extends React.Component<SelectionProps, {}> {
         </div>
 
         <nav>
-          <div onClick={this.handleShow.bind(this)}><i className="fa fa-check-square-o" aria-hidden="true" /> {SelectionStore.size()} <span className="min500"> selected</span></div>
-          <div onClick={SelectionStore.clear.bind(SelectionStore)}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></div>
+          <div onClick={this.handleShow.bind(this)}><i className="fa fa-check-square-o" aria-hidden="true" /> {this.props.selection.length} <span className="min500"> selected</span></div>
+          <div onClick={() => this.props.clear()}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></div>
 
           <div className="right" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></div>
           <SelectionOptions />
@@ -59,12 +53,14 @@ class Selection extends React.Component<SelectionProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
+    selection: state.selection
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    openNavigation: () => dispatch(openNavigation())
+    openNavigation: () => dispatch(openNavigation()),
+    clear: () => dispatch(clear())
   }
 }
 

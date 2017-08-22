@@ -1,22 +1,23 @@
 import * as React from "react";
 import Ajax from "../libs/Ajax";
 import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
-import {Album} from "../types/types";
+import {Album, Image} from "../types/types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
+import {connect} from "react-redux";
 
 interface AlbumProps {
   params: {
     albumId: number;
   };
+  selection: Image[]
 }
 
 interface AlbumState {
   album: Album;
 }
 
-export default class AlbumComponent extends React.Component<AlbumProps, AlbumState> {
+class AlbumComponent extends React.Component<AlbumProps, AlbumState> {
 
   constructor(props: AlbumProps) {
     super(props);
@@ -56,8 +57,16 @@ export default class AlbumComponent extends React.Component<AlbumProps, AlbumSta
   }
 
   private handleRemoveFromAlbum() {
-    ImagesStore.deleteFromAlbum(SelectionStore.getSelected(), this.state.album).then(() => {
+    ImagesStore.deleteFromAlbum(this.props.selection, this.state.album).then(() => {
       ImagesStore.reload();
     });
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    selection: state.selection
+  }
+}
+
+export default connect(mapStateToProps)(AlbumComponent);

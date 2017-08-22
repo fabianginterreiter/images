@@ -3,11 +3,40 @@ import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE,
   CLOSE_NAVIGATION, SET_PIN_NAVIGATION, OPEN_OPTIONS_PANEL,
   CLOSE_OPTIONS_PANEL, SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM, DELETE_ALBUM,
   SET_TAGS, SORT_TAGS, SAVE_TAG, DELETE_TAG,
-  SET_PERSONS, SORT_PERSONS, SAVE_PERSON, DELETE_PERSON} from "../actionTypes";
+  SET_PERSONS, SORT_PERSONS, SAVE_PERSON, DELETE_PERSON,
+  SELECT, UNSELECT, TOGGLE_SELECTION, CLEAR_SELECTION
+} from "../actionTypes";
 
-import {User, Album, Person, Tag} from "../types/types";
+import {User, Album, Person, Tag, Image} from "../types/types";
 import cookie from "react-cookie";
 import Ajax from "../libs/Ajax";
+
+export const select = (image: Image) => {
+  return {
+    type: SELECT,
+    image: image
+  }
+}
+
+export const unselect = (image: Image) => {
+  return {
+    type: UNSELECT,
+    image: image
+  }
+}
+
+export const toggle = (image: Image) => {
+  return {
+    type: TOGGLE_SELECTION,
+    image: image
+  }
+}
+
+export const clear = () => {
+  return {
+    type: CLEAR_SELECTION
+  }
+}
 
 export const addUser = (user: User) => {
   return {

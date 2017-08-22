@@ -1,11 +1,14 @@
 import * as React from "react";
 import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
 import { DialogStore } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
+import {connect} from "react-redux";
+import {Image} from "../types/types";
 
-export default class Trash extends React.Component<{}, {}> {
+class Trash extends React.Component<{
+  isSelected(image: Image): boolean
+}, {}> {
   componentDidMount() {
     ImagesStore.load("/api/images?trash=true");
   }
@@ -28,7 +31,7 @@ export default class Trash extends React.Component<{}, {}> {
     let promises = [];
 
     ImagesStore.getObject().forEach((image) => {
-      if (SelectionStore.isSelected(image)) {
+      if (this.props.isSelected(image)) {
         promises.push(ImagesStore.revert(image));
       }
     });
@@ -54,3 +57,11 @@ export default class Trash extends React.Component<{}, {}> {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isSelected: (image: Image) => state.selection.findIndex(obj => obj.id === image.id) >= 0
+  }
+}
+
+export default connect(mapStateToProps)(Trash);

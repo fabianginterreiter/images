@@ -28,3 +28,8 @@ export const SET_PERSONS = "SET_PERSONS";
 export const SORT_PERSONS = "SORT_PERSONS";
 export const SAVE_PERSON = "SAVE_PERSON";
 export const DELETE_PERSON = "DELETE_PERSON";
+
+export const SELECT = "SELECT";
+export const UNSELECT = "UNSELECT";
+export const TOGGLE_SELECTION = "TOGGLE_SELECTION";
+export const CLEAR_SELECTION = "CLEAR_SELECTION";

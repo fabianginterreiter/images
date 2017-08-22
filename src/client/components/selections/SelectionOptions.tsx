@@ -3,16 +3,18 @@ import * as $ from "jquery"
 import { location } from 'react-router'
 import { OptionsList, Dropdown, SelectDialogStore, SingleSelectDialogStore } from '../../utils/Utils'
 import ImagesStore from '../../stores/ImagesStore'
-import SelectionStore from '../../stores/SelectionStore'
 import Ajax from '../../libs/Ajax'
 import * as ListUtils from '../../libs/ListUtils'
 import {Tag, Album, Person, Image} from "../../types/types";
+import {connect} from "react-redux";
 
 interface SelectionOptionsState {
   visible: boolean;
 }
 
-export default class SelectionOptions extends React.Component<{}, SelectionOptionsState> {
+class SelectionOptions extends React.Component<{
+  selection: Image[];
+}, SelectionOptionsState> {
   constructor(props) {
     super(props);
 
@@ -34,10 +36,10 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
   }
 
   private handleTags() {
-    var images: Image[] = SelectionStore.getSelected();
+    var images: Image[] = this.props.selection;
 
     Ajax.get('/api/tags').then((tags: Tag[]) => {
-      SelectionStore.getSelected().forEach((image: Image) => {
+      this.props.selection.forEach((image: Image) => {
         image.tags.forEach((tag) => {
           var e = ListUtils.find(image.tags, tag.id) as Tag;
           if (e) {
@@ -48,7 +50,7 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
 
       tags.forEach((tag) => {
         if (tag.__count && tag.__count > 0) {
-          if (tag.__count === SelectionStore.size()) {
+          if (tag.__count === this.props.selection.length) {
             tag.selected = true;
           } else {
             tag.marked = true;
@@ -67,18 +69,18 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
       });
 
       if (promises.length === 0) {
-        ImagesStore.addTags(SelectionStore.getSelected(), tags)
+        ImagesStore.addTags(this.props.selection, tags)
       } else {
-        Promise.all(promises).then(() => ImagesStore.addTags(SelectionStore.getSelected(), tags));
+        Promise.all(promises).then(() => ImagesStore.addTags(this.props.selection, tags));
       }
     }).catch((e) => console.log(e));
   }
 
   private handleAlbums() {
-    var images: Image[] = SelectionStore.getSelected();
+    var images: Image[] = this.props.selection;
 
     Ajax.get('/api/albums').then((albums: Album[]) => {
-      SelectionStore.getSelected().forEach((image: Image) => {
+      this.props.selection.forEach((image: Image) => {
         image.albums.forEach((album: Album) => {
           var e = ListUtils.find(albums, album.id) as Album;
           if (e) {
@@ -89,7 +91,7 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
 
       albums.forEach((album: Album) => {
         if (album.__count && album.__count > 0) {
-          if (album.__count === SelectionStore.size()) {
+          if (album.__count === this.props.selection.length) {
             album.selected = true;
           } else {
             album.marked = true;
@@ -101,9 +103,9 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
     }).then((album: Album) => {
       if (!album.id) {
         Ajax.post('/api/albums', album)
-          .then((result) => ImagesStore.addAlbums(SelectionStore.getSelected(), result));
+          .then((result) => ImagesStore.addAlbums(this.props.selection, result));
       } else {
-        ImagesStore.addAlbums(SelectionStore.getSelected(), album);
+        ImagesStore.addAlbums(this.props.selection, album);
       }
     }).catch((e) => console.log(e));
   }
@@ -122,3 +124,11 @@ export default class SelectionOptions extends React.Component<{}, SelectionOptio
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    selection: state.selection
+  }
+}
+
+export default connect(mapStateToProps)(SelectionOptions);

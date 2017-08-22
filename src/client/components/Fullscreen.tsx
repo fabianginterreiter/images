@@ -2,13 +2,14 @@ import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
 import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
 import {Image} from "../types/types";
 import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
 import Faces from "./Faces";
 import Like from "./Like";
 import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
+import {connect} from "react-redux";
+import {toggle} from "../actions"
 
 interface FullscreenProps {
   image: Image;
@@ -17,6 +18,8 @@ interface FullscreenProps {
   previous(): void;
   next(): void;
   handleClose(): void;
+  toggle(image: Image): void;
+  isSelected(image: Image): boolean;
 }
 
 interface FullscreenState {
@@ -29,7 +32,7 @@ interface FullscreenState {
   };
 }
 
-export default class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
+class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
   private timeout;
 
   constructor(props) {
@@ -74,7 +77,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
       }];
 
     let checkBoxClass = null;
-    if (SelectionStore.isSelected(this.props.image)) {
+    if (this.props.isSelected(this.props.image)) {
         checkBoxClass = "fa fa-check-square-o";
       } else {
         checkBoxClass = "fa fa-square-o";
@@ -90,7 +93,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
           {this.props.image.title} ({this.props.number}/{this.props.size})
           <div className="options">
             <Like image={this.props.image} />&nbsp;
-            <i className={checkBoxClass} onClick={() => SelectionStore.handle(this.props.image)} />
+            <i className={checkBoxClass} onClick={() => this.props.toggle(this.props.image)} />
             <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>
@@ -128,7 +131,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
 
       case 66: {
         this._show();
-        SelectionStore.handle(this.props.image);
+        this.props.toggle(this.props.image);
         break;
       }
     }
@@ -191,3 +194,17 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     });
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isSelected: (image: Image) => state.selection.findIndex(obj => obj.id === image.id) >= 0
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggle: (image: Image) => dispatch(toggle(image))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Fullscreen);

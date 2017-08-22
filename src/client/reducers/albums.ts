@@ -1,4 +1,4 @@
-import {SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM} from "../actionTypes"
+import {SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM, DELETE_ALBUM} from "../actionTypes"
 
 export default function albums(state = [], action) {
   switch (action.type) {
@@ -20,6 +20,8 @@ export default function albums(state = [], action) {
         }
         return album;
       });
+    case DELETE_ALBUM:
+      return state.filter((album) => (album.id !== action.album.id));
     default:
       return state;
   }

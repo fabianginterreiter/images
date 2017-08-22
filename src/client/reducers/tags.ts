@@ -1,4 +1,4 @@
-import {SET_TAGS, SORT_TAGS, SAVE_TAG} from "../actionTypes"
+import {SET_TAGS, SORT_TAGS, SAVE_TAG, DELETE_TAG} from "../actionTypes"
 
 export default function tags(state = [], action) {
   switch (action.type) {
@@ -20,6 +20,8 @@ export default function tags(state = [], action) {
         }
         return tag;
       });
+    case DELETE_TAG:
+      return state.filter((tag) => (tag.id !== action.tag.id));
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import {SET_PERSONS, SORT_PERSONS, SAVE_PERSON} from "../actionTypes"
+import {SET_PERSONS, SORT_PERSONS, SAVE_PERSON, DELETE_PERSON} from "../actionTypes"
 
 export default function persons(state = [], action) {
   switch (action.type) {
@@ -20,6 +20,8 @@ export default function persons(state = [], action) {
         }
         return person;
       });
+    case DELETE_PERSON:
+      return state.filter((person) => (person.id !== action.person.id));
     default:
       return state;
   }

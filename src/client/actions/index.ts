@@ -1,9 +1,9 @@
 import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE,
   SET_SHOW_DATE, SET_USERS, ADD_USER, OPEN_NAVIGATION,
   CLOSE_NAVIGATION, SET_PIN_NAVIGATION, OPEN_OPTIONS_PANEL,
-  CLOSE_OPTIONS_PANEL, SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM,
-  SET_TAGS, SORT_TAGS, SAVE_TAG,
-  SET_PERSONS, SORT_PERSONS, SAVE_PERSON} from "../actionTypes";
+  CLOSE_OPTIONS_PANEL, SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM, DELETE_ALBUM,
+  SET_TAGS, SORT_TAGS, SAVE_TAG, DELETE_TAG,
+  SET_PERSONS, SORT_PERSONS, SAVE_PERSON, DELETE_PERSON} from "../actionTypes";
 
 import {User, Album, Person, Tag} from "../types/types";
 import cookie from "react-cookie";
@@ -106,6 +106,13 @@ export const saveAlbum = (album: Album) => {
   }))
 }
 
+export const deleteAlbum = (album: Album) => {
+  return (dispatch) => Ajax.delete(`/api/albums/${album.id}`).then(() => dispatch({
+    type: DELETE_ALBUM,
+    album: album
+  }));
+}
+
 export const loadTags = () => {
   return (dispatch) => Ajax.get("/api/tags").then((tags) => dispatch({
     type: SET_TAGS,
@@ -126,6 +133,13 @@ export const saveTag = (tag: Tag) => {
     type: SAVE_TAG,
     tag: tag
   }))
+}
+
+export const deleteTag = (tag: Tag) => {
+  return (dispatch) => Ajax.delete(`/api/tags/${tag.id}`).then(() => dispatch({
+    type: DELETE_TAG,
+    tag: tag
+  }));
 }
 
 
@@ -149,4 +163,11 @@ export const savePerson = (person: Person) => {
     type: SAVE_PERSON,
     person: person
   }))
+}
+
+export const deletePerson = (person: Person) => {
+  return (dispatch) => Ajax.delete(`/api/persons/${person.id}`).then(() => dispatch({
+    type: DELETE_PERSON,
+    person: person
+  }));
 }

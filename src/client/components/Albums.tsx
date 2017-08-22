@@ -6,12 +6,13 @@ import NavigationsStore from "../stores/NavigationsStore";
 import {Album} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit } from "../utils/Utils";
 import * as ReactRedux from "react-redux";
-import {sortAlbums, saveAlbum} from "../actions";
+import {sortAlbums, saveAlbum, deleteAlbum} from "../actions";
 
 interface AlbumsProps {
   albums: Album[];
   sort(key:string, asc: boolean);
   save(album: Album);
+  delete(album: Album);
 }
 
 interface AlbumsState {
@@ -77,16 +78,7 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
 
   private handleDelete(album: Album) {
     DialogStore.open("Delete Person", "Do you really want to delete the Album?")
-    .then(() => Ajax.delete(`/api/albums/${album.id}`)).then(() => {
-      for (let index = 0; index < this.props.albums.length; index++) {
-        if (this.props.albums[index].id === album.id) {
-          this.props.albums.splice(index, 1);
-          break;
-        }
-      }
-      this.forceUpdate();
-      NavigationsStore.load();
-    });
+    .then(() => this.props.delete(album));
   }
 
   private _renderText(album: Album) {
@@ -126,7 +118,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     sort: (key:string, asc:boolean) => dispatch(sortAlbums(key, asc)),
-    save: (album: Album) => dispatch(saveAlbum(album))
+    save: (album: Album) => dispatch(saveAlbum(album)),
+    delete: (album: Album) => dispatch(deleteAlbum(album))
   }
 }
 

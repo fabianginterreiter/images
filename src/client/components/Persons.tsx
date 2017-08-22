@@ -6,12 +6,13 @@ import NavigationsStore from "../stores/NavigationsStore";
 import {Person} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 import * as ReactRedux from "react-redux";
-import {sortPersons, savePerson} from "../actions";
+import {sortPersons, savePerson, deletePerson} from "../actions";
 
 interface PersonsComponentProps {
   persons: Person[];
   sort(key:string, asc: boolean);
-  save(album: Person);
+  save(person: Person);
+  delete(person: Person);
 }
 
 interface PersonsComponentState {
@@ -57,16 +58,7 @@ class PersonsComponent extends React.Component<PersonsComponentProps, PersonsCom
     DialogStore.open("Delete Person", "Do you really want to delete the Person?", {
       type: "warning",
       icon: "fa fa-trash"
-    }).then(() => Ajax.delete("/api/persons/" + person.id)).then(() => {
-      for (let index = 0; index < this.props.persons.length; index++) {
-        if (this.props.persons[index].id === person.id) {
-          this.props.persons.splice(index, 1);
-          break;
-        }
-      }
-      this.forceUpdate();
-      NavigationsStore.load();
-    }).catch((e) => console.log(e));
+    }).then(() => this.props.delete(person));
   }
 
   private _renderText(person: Person) {
@@ -114,7 +106,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     sort: (key:string, asc:boolean) => dispatch(sortPersons(key, asc)),
-    save: (person: Person) => dispatch(savePerson(person))
+    save: (person: Person) => dispatch(savePerson(person)),
+    delete: (person: Person) => dispatch(deletePerson(person))
   }
 }
 

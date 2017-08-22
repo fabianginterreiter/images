@@ -6,12 +6,13 @@ import NavigationsStore from "../stores/NavigationsStore";
 import {Tag} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 import * as ReactRedux from "react-redux";
-import {sortTags, saveTag} from "../actions";
+import {sortTags, saveTag, deleteTag} from "../actions";
 
 interface TagsProps {
   tags: Tag[];
   sort(key:string, asc: boolean);
-  save(album: Tag);
+  save(tag: Tag);
+  delete(tag: Tag);
 }
 
 interface TagsComponentState {
@@ -56,16 +57,7 @@ class Tags extends React.Component<TagsProps, TagsComponentState> {
 
   private handleDelete(tag: Tag): void {
     DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
-    .then((result) => Ajax.delete("/api/tags/" + tag.id)).then(() => {
-      for (let index = 0; index < this.props.tags.length; index++) {
-        if (this.props.tags[index].id === tag.id) {
-          this.props.tags.splice(index, 1);
-          break;
-        }
-      }
-      this.forceUpdate();
-      NavigationsStore.load();
-    });
+    .then((result) => this.props.delete(tag));
   }
 
   private _renderText(tag: Tag) {
@@ -115,7 +107,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     sort: (key:string, asc:boolean) => dispatch(sortTags(key, asc)),
-    save: (tag: Tag) => dispatch(saveTag(tag))
+    save: (tag: Tag) => dispatch(saveTag(tag)),
+    delete: (tag: Tag) => dispatch(deleteTag(tag))
   }
 }
 

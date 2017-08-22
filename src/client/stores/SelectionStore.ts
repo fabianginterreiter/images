@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import {Image} from "../types/types";
 import {Dispatcher} from "../utils/Utils";
 

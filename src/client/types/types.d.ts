@@ -18,7 +18,6 @@ export interface Person extends PersistedObject {
   height?: number;
 
   __count?: number;
-  edit?: boolean;
 }
 
 export interface Tag extends PersistedObject {
@@ -26,7 +25,6 @@ export interface Tag extends PersistedObject {
 
   count?: number;
 
-  edit?: boolean;
   marked?: boolean;
   selected?: boolean;
 

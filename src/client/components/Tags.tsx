@@ -8,6 +8,7 @@ import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 
 interface TagsComponentState {
   tags: Tag[];
+  edit: number;
 }
 
 export default class Tags extends React.Component<{}, TagsComponentState> {
@@ -15,7 +16,8 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
     super(props);
 
     this.state = {
-      tags: []
+      tags: [],
+      edit: 0
     };
   }
 
@@ -27,12 +29,15 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
   }
 
   private handleEdit(tag: Tag): void {
-    tag.edit = true;
-    this.forceUpdate();
+    this.setState({
+      edit: tag.id
+    })
   }
 
   private handleChange(tag: Tag, value: string): void {
-    tag.edit = false;
+    this.setState({
+      edit: 0
+    })
 
     if (tag.name === value) {
       return this.forceUpdate();
@@ -46,7 +51,9 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
   }
 
   private handleCancel(tag: Tag): void {
-    tag.edit = false;
+    this.setState({
+      edit: 0
+    })
     this.forceUpdate();
   }
 
@@ -65,7 +72,7 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
   }
 
   private _renderText(tag: Tag) {
-    if (tag.edit) {
+    if (tag.id === this.state.edit) {
       return (<Quickedit
         value={tag.name}
         onChange={(value) => this.handleChange(tag, value)}

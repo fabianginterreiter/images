@@ -12,6 +12,7 @@ interface PersonsComponentProps {
 
 interface PersonsComponentState {
   persons: Person[];
+  edit: number;
 }
 
 export default class PersonsComponent extends React.Component<PersonsComponentProps, PersonsComponentState> {
@@ -19,7 +20,8 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
     super(props);
 
     this.state = {
-      persons: []
+      persons: [],
+      edit: 0
     };
   }
 
@@ -31,12 +33,15 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
   }
 
   private handleEdit(person: Person) {
-    person.edit = true;
-    this.forceUpdate();
+    this.setState({
+      edit: person.id
+    })
   }
 
   private handleChange(person: Person, value: string) {
-    person.edit = false;
+    this.setState({
+      edit: 0
+    })
 
     if (person.name === value) {
       return this.forceUpdate();
@@ -49,9 +54,10 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
     });
   }
 
-  private handleCancel(person: Person) {
-    person.edit = false;
-    this.forceUpdate();
+  private handleCancel() {
+    this.setState({
+      edit: 0
+    })
   }
 
   private handleDelete(person: Person) {
@@ -71,11 +77,11 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
   }
 
   private _renderText(person: Person) {
-    if (person.edit) {
+    if (person.id === this.state.edit) {
       return (<Quickedit
         value={person.name}
         onChange={(value) => this.handleChange(person, value)}
-        onCancel={() => this.handleCancel(person)} />);
+        onCancel={() => this.handleCancel()} />);
     }
 
     return (<Link to={`/images/persons/${person.id}`}>{person.name}</Link>);
@@ -99,13 +105,11 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
   render() {
     return (<div className="settings">
       <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
-
       <ExtendedTable columns={[
         {title: "Name", name: "name"},
         {title: "Images", name: "count", className: "option"},
         {title: "Edit", className: "option"},
         {title: "Delete", className: "option"}]} data={this.state.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
-
     </div>);
   }
 }

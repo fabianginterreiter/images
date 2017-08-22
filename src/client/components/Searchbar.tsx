@@ -119,9 +119,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-  }
-}
-
-export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Searchbar);
+export default ReactRedux.connect(mapStateToProps)(Searchbar);

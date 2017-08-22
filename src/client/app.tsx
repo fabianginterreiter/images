@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as ReactRouter from "react-router";
+import ReduxThunk from "redux-thunk";
 import Album from "./components/Album";
 import Albums from "./components/Albums";
 import { All } from "./components/All";
@@ -20,21 +21,21 @@ import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
 import imagesApp from "./reducers"
 import * as ReactRedux from "react-redux";
-import { createStore } from "Redux";
+import { createStore, applyMiddleware } from "Redux";
 import { addUser, setUsers, setSession, setThumbnailSize, setShowDate, setPinNavigation } from "./actions";
-import Ajax from "./libs/Ajax"
+import Ajax from "./libs/Ajax";
 import cookie from "react-cookie";
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 
-let store = createStore(imagesApp);
+let store = createStore(imagesApp, applyMiddleware(ReduxThunk));
 
 store.dispatch(setThumbnailSize(cookie.load("thumbnailsSize") ? cookie.load("thumbnailsSize") : 200));
 store.dispatch(setShowDate(cookie.load("showDate") === "true"));
 store.dispatch(setPinNavigation(cookie.load("pinned") === "true"));
 Ajax.get("/api/users").then(users => store.dispatch(setUsers(users)));
 Ajax.get("/api/session").then((user) => {
-  store.dispatch(setSession((user)))
+  store.dispatch(setSession(user))
 
   ReactDOM.render(
     <ReactRedux.Provider store={store}>
@@ -63,5 +64,4 @@ Ajax.get("/api/session").then((user) => {
     </ReactRedux.Provider>,
     document.getElementById("app")
   );
-
 });

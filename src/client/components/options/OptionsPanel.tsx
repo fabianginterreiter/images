@@ -3,17 +3,18 @@ import * as $ from "jquery"
 import ThumbnailsResizer from "../ThumbnailsResizer"
 import { location } from "react-router"
 import { Panel } from "../../utils/Utils"
-import OptionsStore from "../../stores/OptionsStore"
 import * as ReactRedux from "react-redux";
 import {User} from "../../types/types"
-import {deleteSession, setShowDate} from "../../actions"
+import {deleteSession, setShowDate, closeOptionsPanel} from "../../actions"
 import Ajax from "../../libs/Ajax";
 
 interface OptionsPanelProps {
   session: User;
+  showDate: boolean;
+  open: boolean;
   deleteSession(): void;
   setShowDate(show: boolean): void;
-  showDate: boolean;
+  closeOptionsPanel(): void;
 }
 
 class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
@@ -21,16 +22,10 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
     super(props);
   }
 
-  componentDidMount() {
-    OptionsStore.addChangeListener(this, () => (this.forceUpdate()));
-  }
 
-  componentWillUnmount() {
-    OptionsStore.removeChangeListener(this);
-  }
 
   private close(): void {
-    OptionsStore.setObject(false);
+    this.props.closeOptionsPanel();
   }
 
   private deleteSession() {
@@ -39,7 +34,7 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
 
   render() {
     return (
-        <Panel open={OptionsStore.getObject()} clickCatcher={OptionsStore.getObject()} onClickCatcherClick={this.close.bind(this)} side="right" header={true} footer={true}>
+        <Panel open={this.props.open} clickCatcher={this.props.open} onClickCatcherClick={this.close.bind(this)} side="right" header={true} footer={true}>
           <div className="title" onClick={this.close.bind(this)}>
             Settings
             <span className="badge"><i className="fa fa-cog" /></span>
@@ -63,14 +58,16 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
 const mapStateToProps = (state) => {
   return {
     session: state.session,
-    showDate: state.options.showDate
+    showDate: state.options.showDate,
+    open: state.view.optionsPanelOpen
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     deleteSession: () => dispatch(deleteSession()),
-    setShowDate: (show: boolean) => dispatch(setShowDate(show))
+    setShowDate: (show: boolean) => dispatch(setShowDate(show)),
+    closeOptionsPanel: () => dispatch(closeOptionsPanel())
   }
 }
 

@@ -1,4 +1,4 @@
-import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE, SET_SHOW_DATE, SET_USERS, ADD_USER, OPEN_NAVIGATION, CLOSE_NAVIGATION, SET_PIN_NAVIGATION} from "../actionTypes";
+import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE, SET_SHOW_DATE, SET_USERS, ADD_USER, OPEN_NAVIGATION, CLOSE_NAVIGATION, SET_PIN_NAVIGATION, OPEN_OPTIONS_PANEL, CLOSE_OPTIONS_PANEL} from "../actionTypes";
 
 import {User} from "../types/types";
 import cookie from "react-cookie";
@@ -63,5 +63,17 @@ export const setPinNavigation = (pin: boolean) => {
   return {
     type: SET_PIN_NAVIGATION,
     pin: pin
+  }
+}
+
+export const openOptionsPanel = () => {
+  return {
+    type: OPEN_OPTIONS_PANEL
+  }
+}
+
+export const closeOptionsPanel = () => {
+  return {
+    type: CLOSE_OPTIONS_PANEL
   }
 }

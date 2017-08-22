@@ -1,14 +1,14 @@
 import * as $ from "jquery";
 import * as React from "react";
-import OptionsStore from "../stores/OptionsStore";
 import UploadStore from "../stores/UploadStore";
 import Searchbar from "./Searchbar";
 import Title from "./Title";
 import * as ReactRedux from "react-redux";
-import {openNavigation} from "../actions";
+import {openNavigation, openOptionsPanel} from "../actions";
 
 interface HeaderProps {
   openNavigation():void;
+  openOptionsPanel():void;
 }
 
 class Header extends React.Component<HeaderProps, {}> {
@@ -47,7 +47,7 @@ class Header extends React.Component<HeaderProps, {}> {
   }
 
   private handleOpenSettings() {
-    OptionsStore.setObject(true);
+    this.props.openOptionsPanel();
   }
 }
 
@@ -58,7 +58,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openNavigation: () => dispatch(openNavigation())
+    openNavigation: () => dispatch(openNavigation()),
+    openOptionsPanel: () => dispatch(openOptionsPanel())
   }
 }
 

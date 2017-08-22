@@ -22,7 +22,7 @@ import UsersManagement from "./components/UsersManagement";
 import imagesApp from "./reducers"
 import * as ReactRedux from "react-redux";
 import { createStore, applyMiddleware } from "Redux";
-import { addUser, setUsers, setSession, setThumbnailSize, setShowDate, setPinNavigation, loadAlbums } from "./actions";
+import { addUser, setUsers, setSession, setThumbnailSize, setShowDate, setPinNavigation, loadAlbums, loadTags, loadPersons } from "./actions";
 import Ajax from "./libs/Ajax";
 import cookie from "react-cookie";
 
@@ -38,10 +38,9 @@ Ajax.get("/api/users").then(users => store.dispatch(setUsers(users)));
 Ajax.get("/api/session").then((user) => {
   store.dispatch(setSession(user))
 
-  Ajax.get("/api/albums").then((albums) => store.dispatch({
-    type: "SET_ALBUMS",
-    albums: albums
-  }));
+  store.dispatch(loadAlbums());
+  store.dispatch(loadPersons());
+  store.dispatch(loadTags());
 
   ReactDOM.render(
     <ReactRedux.Provider store={store}>

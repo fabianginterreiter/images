@@ -17,3 +17,11 @@ export const CLOSE_OPTIONS_PANEL = "CLOSE_OPTIONS_PANEL";
 export const SET_ALBUMS = "SET_ALBUMS";
 export const SORT_ALBUMS = "SORT_ALBUMS";
 export const SAVE_ALBUM = "SAVE_ALBUM";
+
+export const SET_TAGS = "SET_TAGS";
+export const SORT_TAGS = "SORT_TAGS";
+export const SAVE_TAG = "SAVE_TAG";
+
+export const SET_PERSONS = "SET_PERSONS";
+export const SORT_PERSONS = "SORT_PERSONS";
+export const SAVE_PERSON = "SAVE_PERSON";

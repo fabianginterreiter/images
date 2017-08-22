@@ -1,9 +1,11 @@
 import {SET_SESSION, DELETE_SESSION, SET_THUMBNAIL_SIZE,
   SET_SHOW_DATE, SET_USERS, ADD_USER, OPEN_NAVIGATION,
   CLOSE_NAVIGATION, SET_PIN_NAVIGATION, OPEN_OPTIONS_PANEL,
-  CLOSE_OPTIONS_PANEL, SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM} from "../actionTypes";
+  CLOSE_OPTIONS_PANEL, SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM,
+  SET_TAGS, SORT_TAGS, SAVE_TAG,
+  SET_PERSONS, SORT_PERSONS, SAVE_PERSON} from "../actionTypes";
 
-import {User, Album} from "../types/types";
+import {User, Album, Person, Tag} from "../types/types";
 import cookie from "react-cookie";
 import Ajax from "../libs/Ajax";
 
@@ -101,5 +103,50 @@ export const saveAlbum = (album: Album) => {
   return (dispatch) => Ajax.put(`/api/albums/${album.id}`, album).then(() => dispatch({
     type: SAVE_ALBUM,
     album: album
+  }))
+}
+
+export const loadTags = () => {
+  return (dispatch) => Ajax.get("/api/tags").then((tags) => dispatch({
+    type: SET_TAGS,
+    tags: tags
+  }))
+}
+
+export const sortTags = (key: string, asc: boolean) => {
+  return {
+    type: SORT_TAGS,
+    key: key,
+    asc: asc
+  }
+}
+
+export const saveTag = (tag: Tag) => {
+  return (dispatch) => Ajax.put(`/api/tags/${tag.id}`, tag).then(() => dispatch({
+    type: SAVE_TAG,
+    tag: tag
+  }))
+}
+
+
+export const loadPersons = () => {
+  return (dispatch) => Ajax.get("/api/persons").then((persons) => dispatch({
+    type: SET_PERSONS,
+    persons: persons
+  }))
+}
+
+export const sortPersons = (key: string, asc: boolean) => {
+  return {
+    type: SORT_PERSONS,
+    key: key,
+    asc: asc
+  }
+}
+
+export const savePerson = (person: Person) => {
+  return (dispatch) => Ajax.put(`/api/persons/${person.id}`, person).then(() => dispatch({
+    type: SAVE_PERSON,
+    person: person
   }))
 }

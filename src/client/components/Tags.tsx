@@ -5,27 +5,26 @@ import Ajax from "../libs/Ajax";
 import NavigationsStore from "../stores/NavigationsStore";
 import {Tag} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
+import * as ReactRedux from "react-redux";
+import {sortTags, saveTag} from "../actions";
+
+interface TagsProps {
+  tags: Tag[];
+  sort(key:string, asc: boolean);
+  save(album: Tag);
+}
 
 interface TagsComponentState {
-  tags: Tag[];
   edit: number;
 }
 
-export default class Tags extends React.Component<{}, TagsComponentState> {
+class Tags extends React.Component<TagsProps, TagsComponentState> {
   constructor(props) {
     super(props);
 
     this.state = {
-      tags: [],
       edit: 0
     };
-  }
-
-  componentDidMount() {
-    Ajax.get("/api/tags").then((tags) => this.setState({tags}));
-  }
-
-  componentWillUnmount() {
   }
 
   private handleEdit(tag: Tag): void {
@@ -45,9 +44,7 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
 
     tag.name = value;
 
-    Ajax.put("/api/tags/" + tag.id, tag).then(() => {
-      this.forceUpdate();
-    });
+    this.props.save(tag);
   }
 
   private handleCancel(tag: Tag): void {
@@ -60,9 +57,9 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
   private handleDelete(tag: Tag): void {
     DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
     .then((result) => Ajax.delete("/api/tags/" + tag.id)).then(() => {
-      for (let index = 0; index < this.state.tags.length; index++) {
-        if (this.state.tags[index].id === tag.id) {
-          this.state.tags.splice(index, 1);
+      for (let index = 0; index < this.props.tags.length; index++) {
+        if (this.props.tags[index].id === tag.id) {
+          this.props.tags.splice(index, 1);
           break;
         }
       }
@@ -92,9 +89,7 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
   }
 
   private order(name: string, asc: boolean): void {
-    sort(this.state.tags, name, asc).then((tags) => this.setState({
-      tags
-    }));
+    this.props.sort(name, asc);
   }
 
   render() {
@@ -105,8 +100,23 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
         {title: "Name", name: "name"},
         {title: "Images", name: "count", className: "option"},
         {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]} data={this.state.tags} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
+        {title: "Delete", className: "option"}]} data={this.props.tags} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
 
     </div>);
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tags: state.tags
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sort: (key:string, asc:boolean) => dispatch(sortTags(key, asc)),
+    save: (tag: Tag) => dispatch(saveTag(tag))
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Tags);

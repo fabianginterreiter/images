@@ -5,31 +5,26 @@ import Ajax from "../libs/Ajax";
 import NavigationsStore from "../stores/NavigationsStore";
 import {Person} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
+import * as ReactRedux from "react-redux";
+import {sortPersons, savePerson} from "../actions";
 
 interface PersonsComponentProps {
-
+  persons: Person[];
+  sort(key:string, asc: boolean);
+  save(album: Person);
 }
 
 interface PersonsComponentState {
-  persons: Person[];
   edit: number;
 }
 
-export default class PersonsComponent extends React.Component<PersonsComponentProps, PersonsComponentState> {
+class PersonsComponent extends React.Component<PersonsComponentProps, PersonsComponentState> {
   constructor(props) {
     super(props);
 
     this.state = {
-      persons: [],
       edit: 0
     };
-  }
-
-  componentDidMount() {
-    Ajax.get("/api/persons").then((persons) => this.setState({persons}));
-  }
-
-  componentWillUnmount() {
   }
 
   private handleEdit(person: Person) {
@@ -49,9 +44,7 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
 
     person.name = value;
 
-    Ajax.put("/api/persons/" + person.id, person).then(() => {
-      this.forceUpdate();
-    });
+    this.props.save(person);
   }
 
   private handleCancel() {
@@ -65,9 +58,9 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
       type: "warning",
       icon: "fa fa-trash"
     }).then(() => Ajax.delete("/api/persons/" + person.id)).then(() => {
-      for (let index = 0; index < this.state.persons.length; index++) {
-        if (this.state.persons[index].id === person.id) {
-          this.state.persons.splice(index, 1);
+      for (let index = 0; index < this.props.persons.length; index++) {
+        if (this.props.persons[index].id === person.id) {
+          this.props.persons.splice(index, 1);
           break;
         }
       }
@@ -97,9 +90,7 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
   }
 
   private order(name: string, asc: boolean) {
-    sort(this.state.persons, name, asc).then((persons) => this.setState({
-      persons
-    }));
+    this.props.sort(name, asc);
   }
 
   render() {
@@ -109,7 +100,22 @@ export default class PersonsComponent extends React.Component<PersonsComponentPr
         {title: "Name", name: "name"},
         {title: "Images", name: "count", className: "option"},
         {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]} data={this.state.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
+        {title: "Delete", className: "option"}]} data={this.props.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
     </div>);
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    persons: state.persons
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sort: (key:string, asc:boolean) => dispatch(sortPersons(key, asc)),
+    save: (person: Person) => dispatch(savePerson(person))
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(PersonsComponent);

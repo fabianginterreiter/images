@@ -4,7 +4,7 @@ import * as ReactRouter from "react-router";
 import ReduxThunk from "redux-thunk";
 import Album from "./components/Album";
 import Albums from "./components/Albums";
-import { All } from "./components/All";
+import All from "./components/All";
 import Dates from "./components/Dates";
 import DateView from "./components/DateView";
 import Favorites from "./components/Favorites";

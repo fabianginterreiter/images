@@ -116,15 +116,15 @@ export default class ImagesController extends BaseController {
         qb.where("images.deleted", false);
       }
 
-      if (this.query.limit) {
-        qb.limit(this.query.limit);
-      } else {
-        qb.limit(100);
-      }
+      // if (this.query.limit) {
+      //   qb.limit(this.query.limit);
+      // } else {
+      //   qb.limit(100);
+      // }
 
-      if (this.query.offset) {
-        qb.offset(this.query.offset);
-      }
+      // if (this.query.offset) {
+      //   qb.offset(this.query.offset);
+      // }
 
       qb.orderBy("date", "DESC");
     }).fetchAll({withRelated: ["user", "tags", "albums", "persons"]})

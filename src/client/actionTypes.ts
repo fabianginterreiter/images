@@ -33,3 +33,7 @@ export const SELECT = "SELECT";
 export const UNSELECT = "UNSELECT";
 export const TOGGLE_SELECTION = "TOGGLE_SELECTION";
 export const CLEAR_SELECTION = "CLEAR_SELECTION";
+
+export const SET_IMAGES = "SET_IMAGES";
+export const LIKE_IMAGE = "LIKE_IMAGE";
+export const UNLIKE_IMAGE = "UNLIKE_IMAGE";

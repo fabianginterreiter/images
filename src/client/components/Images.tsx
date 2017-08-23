@@ -2,7 +2,6 @@ import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router";
-import ImagesStore from "../stores/ImagesStore";
 import {Image} from "../types/types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
@@ -20,6 +19,7 @@ interface ImagesProps {
   thumbnailsSize: number;
   showDate: boolean;
   pinned: boolean;
+  images: Image[];
   select(image: Image): void;
   unselect(image: Image): void;
   toggle(image: Image): void;
@@ -27,7 +27,6 @@ interface ImagesProps {
 }
 
 interface ImagesState {
-  images: Image[];
   view: number;
   width: number;
   size: number;
@@ -42,7 +41,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     super(props);
 
     this.state = {
-      images: [],
       size: this.props.thumbnailsSize,
       view: -1,
       width: -1
@@ -52,7 +50,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
   }
 
   public componentDidMount() {
-    ImagesStore.addChangeListener(this, (images) => this.setState({images}));
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
@@ -65,20 +62,19 @@ class Images extends React.Component<ImagesProps, ImagesState> {
   }
 
   public componentWillUnmount() {
-    ImagesStore.removeChangeListener(this);
     KeyUpListener.removeChangeListener(this);
     ResizeListener.removeChangeListener(this);
     ScrollListener.removeChangeListener(this);
   }
 
   public render() {
-    if (!this.state.images) {
+    if (!this.props.images) {
       return (<div id="container">
         Loading
       </div>);
     }
 
-    if (this.state.images.length === 0) {
+    if (this.props.images.length === 0) {
       return (<div id="container">
         <Empty />
       </div>);
@@ -89,11 +85,11 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     if (this.state.view >= 0) {
       view = (
         <Fullscreen
-          image={this.state.images[this.state.view]}
+          image={this.props.images[this.state.view]}
           next={this.handleNext.bind(this)}
           previous={this.handlePrevious.bind(this)}
           handleClose={this.handleFullscreenClose.bind(this)}
-          number={this.state.view + 1} size={this.state.images.length} />
+          number={this.state.view + 1} size={this.props.images.length} />
       );
     }
 
@@ -101,9 +97,9 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
     let lastDate = "";
 
-    this._calcuateDisplayWidth(this.state.images);
+    this._calcuateDisplayWidth(this.props.images);
 
-    this.state.images.forEach((image: Image, idx: number) => {
+    this.props.images.forEach((image: Image, idx: number) => {
       const newDate = image.year + "" + image.month + "" + image.day;
 
       let className = "item";
@@ -204,7 +200,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
       case 65: {
         if (e.ctrlKey) {
-          this.state.images.forEach((image) => this.props.select(image));
+          this.props.images.forEach((image) => this.props.select(image));
         }
         break;
       }
@@ -218,12 +214,12 @@ class Images extends React.Component<ImagesProps, ImagesState> {
   }
 
   private handleNext() {
-    if (this.state.view < this.state.images.length - 1) {
+    if (this.state.view < this.props.images.length - 1) {
       this.setState({
         view: this.state.view + 1
       }, () => {
-        if (this.state.view === this.state.images.length - 5) {
-          ImagesStore.more();
+        if (this.state.view === this.props.images.length - 5) {
+          //ImagesStore.more();
         }
       });
     }
@@ -253,48 +249,48 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
   private handleSelect(idx: number, event) {
     if (event.shiftKey && this.lastSelection >= 0) {
-      if (this.props.isSelected(this.state.images[idx])) {
+      if (this.props.isSelected(this.props.images[idx])) {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-          this.props.unselect(this.state.images[index]);
+          this.props.unselect(this.props.images[index]);
         }
       } else {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-          this.props.select(this.state.images[index]);
+          this.props.select(this.props.images[index]);
         }
       }
     } else {
-      this.props.toggle(this.state.images[idx]);
+      this.props.toggle(this.props.images[idx]);
     }
 
     this.lastSelection = idx;
   }
 
   private handleDateSelect(idx: number) {
-    const date = this.state.images[idx].year + "" + this.state.images[idx].month + "" + this.state.images[idx].day;
+    const date = this.props.images[idx].year + "" + this.props.images[idx].month + "" + this.props.images[idx].day;
 
     let hasNotSelected = false;
 
     let index = idx;
 
-    for (; index < this.state.images.length; index++) {
-      const newDate = this.state.images[index].year + ""
-        + this.state.images[index].month + ""
-        + this.state.images[index].day;
+    for (; index < this.props.images.length; index++) {
+      const newDate = this.props.images[index].year + ""
+        + this.props.images[index].month + ""
+        + this.props.images[index].day;
 
       if (newDate !== date) {
         break;
       }
 
-      if (!this.props.isSelected(this.state.images[index])) {
+      if (!this.props.isSelected(this.props.images[index])) {
         hasNotSelected = true;
       }
     }
 
     for (let i = idx; i < index; i++) {
       if (hasNotSelected) {
-        this.props.select(this.state.images[i]);
+        this.props.select(this.props.images[i]);
       } else {
-        this.props.unselect(this.state.images[i]);
+        this.props.unselect(this.props.images[i]);
       }
     }
 
@@ -303,7 +299,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
   private handleScroll(e) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
-      ImagesStore.more();
+      //ImagesStore.more();
     }
   }
 
@@ -350,6 +346,7 @@ const mapStateToProps = (state) => {
     thumbnailsSize: state.options.thumbnailsSize,
     showDate: state.options.showDate,
     pinned: state.view.pinned,
+    images: state.images,
     isSelected: (image: Image) => state.selection.findIndex(obj => obj.id === image.id) >= 0
   }
 }

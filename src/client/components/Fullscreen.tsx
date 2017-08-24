@@ -10,6 +10,7 @@ import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
 import {connect} from "react-redux";
 import {toggle} from "../actions"
+import {like, unlike} from "../actions/images";
 
 interface FullscreenProps {
   image: Image;
@@ -20,6 +21,8 @@ interface FullscreenProps {
   handleClose(): void;
   toggle(image: Image): void;
   isSelected(image: Image): boolean;
+  like(image: Image): void;
+  unlike(image: Image): void;
 }
 
 interface FullscreenState {
@@ -125,7 +128,11 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     switch (e.keyCode) {
       case 32: {
         this._show();
-        ImagesStore.like(this.props.image);
+        if (this.props.image.liked) {
+          this.props.unlike(this.props.image);
+        } else {
+          this.props.like(this.props.image);
+        }
         break;
       }
 
@@ -203,7 +210,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toggle: (image: Image) => dispatch(toggle(image))
+    toggle: (image: Image) => dispatch(toggle(image)),
+    like: (image: Image) => dispatch(like(image)),
+    unlike: (image: Image) => dispatch(unlike(image))
   }
 }
 

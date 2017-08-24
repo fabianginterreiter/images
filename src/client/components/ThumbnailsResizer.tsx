@@ -4,21 +4,15 @@ import {setThumbnailSize} from "../actions";
 
 interface ThumbnailsResizerProps {
   size: number;
-  setThumbnailSize(size: number): void;
+  setThumbnailSize(size: string): void;
 }
 
 class ThumbnailsResizer extends React.Component<ThumbnailsResizerProps, {}> {
-  constructor(props) {
-    super(props);
-  }
-
-  handleChange(event) {
-    this.props.setThumbnailSize(event.target.value);
-  }
-
   render() {
     return (
-      <input type="range" min="80" max="200" step="40" value={this.props.size} onChange={this.handleChange.bind(this)} />
+      <input type="range" min="80" max="200" step="40"
+      value={this.props.size}
+      onChange={(event) => this.props.setThumbnailSize(event.target.value)} />
     );
   }
 }
@@ -31,7 +25,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setThumbnailSize: (size: number) => dispatch(setThumbnailSize(size))
+    setThumbnailSize: (size: string) => dispatch(setThumbnailSize(parseInt(size)))
   }
 }
 

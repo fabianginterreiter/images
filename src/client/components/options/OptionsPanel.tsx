@@ -1,11 +1,10 @@
-import * as React from "react"
-import * as $ from "jquery"
-import ThumbnailsResizer from "../ThumbnailsResizer"
-import { location } from "react-router"
-import { Panel } from "../../utils/Utils"
+import * as React from "react";
+import ThumbnailsResizer from "../ThumbnailsResizer";
+import { location } from "react-router";
+import { Panel } from "../../utils/Utils";
 import * as ReactRedux from "react-redux";
-import {User} from "../../types/types"
-import {deleteSession, setShowDate, closeOptionsPanel} from "../../actions"
+import {User} from "../../types/types";
+import {deleteSession, setShowDate, closeOptionsPanel} from "../../actions";
 import Ajax from "../../libs/Ajax";
 
 interface OptionsPanelProps {
@@ -18,14 +17,10 @@ interface OptionsPanelProps {
 }
 
 class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
-  constructor(props) {
-    super(props);
-  }
-
   public render() {
     return (
-        <Panel open={this.props.open} clickCatcher={this.props.open} onClickCatcherClick={this.close.bind(this)} side="right" header={true} footer={true}>
-          <div className="title" onClick={this.close.bind(this)}>
+        <Panel open={this.props.open} clickCatcher={this.props.open} onClickCatcherClick={this.props.closeOptionsPanel.bind(this)} side="right" header={true} footer={true}>
+          <div className="title" onClick={this.props.closeOptionsPanel.bind(this)}>
             Settings
             <span className="badge"><i className="fa fa-cog" /></span>
           </div>
@@ -38,18 +33,10 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
           </div>
 
           <div className="footer">
-            <div className="profile" onClick={this.deleteSession.bind(this)}><i className="fa fa-user"></i> {this.props.session.name}</div>
+            <div className="profile" onClick={this.props.deleteSession.bind(this)}><i className="fa fa-user"></i> {this.props.session.name}</div>
           </div>
         </Panel>
     );
-  }
-
-  private close(): void {
-    this.props.closeOptionsPanel();
-  }
-
-  private deleteSession() {
-    Ajax.delete("/api/session").then(() => (this.props.deleteSession()));
   }
 }
 

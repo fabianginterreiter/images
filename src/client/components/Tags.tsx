@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import * as React from "react";
 import { Link } from "react-router";
 import Ajax from "../libs/Ajax";

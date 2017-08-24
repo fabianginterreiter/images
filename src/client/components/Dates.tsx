@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router";

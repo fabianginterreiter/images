@@ -1,9 +1,7 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
-import { Image } from "../types/types";
+import {Image} from "../types/types";
 import {connect} from "react-redux";
-import {like} from "../actions/images";
-import {unlike} from "../actions/images";
+import {like, unlike} from "../actions/images";
 
 interface LikeProps {
   image: Image;
@@ -16,7 +14,7 @@ class Like extends React.Component<LikeProps, {}> {
     const className = this.props.image.liked ? "fa fa-heart" : "fa fa-heart-o";
 
     return (
-      <span className="like" onClick={ImagesStore.like.bind(ImagesStore, this.props.image)}>
+      <span className="like" onClick={() => this.handleClick()}>
         <i className={className} aria-hidden="true" />
       </span>
     );
@@ -43,4 +41,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect()(Like);
+export default connect(mapStateToProps, mapDispatchToProps)(Like);

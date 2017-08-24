@@ -15,20 +15,6 @@ class ImagesStore extends Dispatcher<Image[]> {
     super(null);
   }
 
-  public like(image: Image) {
-    if (image.liked) {
-      Ajax.put(`/api/images/${image.id}/unlike`).then(() => {
-        image.liked = false;
-        this.dispatch();
-      });
-    } else {
-      Ajax.put(`/api/images/${image.id}/like`).then(() => {
-        image.liked = true;
-        this.dispatch();
-      });
-    }
-  }
-
   public addTag(image: Image, tag: Tag, mass: boolean = false) {
     return Ajax.put(`/api/images/${image.id}/tags`, tag).then((result) => {
       image.tags.push(result);

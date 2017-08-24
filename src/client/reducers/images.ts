@@ -7,17 +7,19 @@ export default function images(state = [], action) {
     case LIKE_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          return Object.assign({}, image, {like:true});
+          return {...image, liked: true};
+        } else {
+          return image;
         }
-        return image;
-      })
+      });
     case UNLIKE_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          return Object.assign({}, image, {like:false});
+          return {...image, liked: false};
+        } else {
+          return image;
         }
-        return image;
-      })
+      });
     default:
       return state;
   }

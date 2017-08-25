@@ -10,7 +10,7 @@ import ImagesNav from "./ImagesNav";
 interface AlbumProps {
   album: Album;
   params: {
-    albumId: number;
+    id: number;
   };
   selection: Image[];
   images: Image[];
@@ -54,7 +54,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   dispatch(loadImages(`/api/images?album=${ownProps.params.id}`));
-  return {};
+  return {
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumComponent);

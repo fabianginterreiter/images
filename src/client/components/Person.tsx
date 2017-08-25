@@ -16,11 +16,6 @@ interface PersonComponentProps {
 }
 
 class PersonComponent extends React.Component<PersonComponentProps, {}> {
-
-  constructor(props: PersonComponentProps) {
-    super(props);
-  }
-
   public render() {
     if (!this.props.person) {
       return <span />;
@@ -47,7 +42,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   dispatch(loadImages(`/api/images?person=${ownProps.params.id}`));
-  return {};
+  return {
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonComponent);

@@ -10,6 +10,9 @@ import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 
 interface TagComponentProps {
+  params: {
+    id: number;
+  };
   tag: Tag;
   images: Image[];
 }
@@ -99,7 +102,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   dispatch(loadImages(`/api/images?tag=${ownProps.params.id}`));
-  return {};
+  return {
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagComponent);

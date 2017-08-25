@@ -29,7 +29,6 @@ interface ImagesProps {
 interface ImagesState {
   view: number;
   width: number;
-  size: number;
 }
 
 class Images extends React.Component<ImagesProps, ImagesState> {
@@ -40,7 +39,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     super(props);
 
     this.state = {
-      size: this.props.thumbnailsSize,
       view: -1,
       width: -1
     };
@@ -155,7 +153,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     return (
       <div id="container">
         {view}
-        <div className={"container size" + this.state.size}>
+        <div className={"container size" + this.props.thumbnailsSize}>
           {elements}
         </div>
       </div>

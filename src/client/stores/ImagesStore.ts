@@ -3,7 +3,6 @@ import Ajax from "../libs/Ajax";
 import * as ListUtils from "../libs/ListUtils";
 import {Album, Image, Person, Tag} from "../types/types";
 import {Dispatcher} from "../utils/Utils";
-import NavigationsStore from "./NavigationsStore";
 
 class ImagesStore extends Dispatcher<Image[]> {
   private service: string;
@@ -19,10 +18,6 @@ class ImagesStore extends Dispatcher<Image[]> {
     return Ajax.put(`/api/images/${image.id}/tags`, tag).then((result) => {
       image.tags.push(result);
       this.dispatch();
-
-      if (!tag.id && !mass) {
-        NavigationsStore.load();
-      }
 
       return result;
     });
@@ -46,19 +41,13 @@ class ImagesStore extends Dispatcher<Image[]> {
       });
     });
 
-    return Promise.all(promises).then(() => {
-      return NavigationsStore.load();
-    });
+    return Promise.all(promises);
   }
 
   public addAlbum(image: Image, album: Album, mass: boolean) {
     return Ajax.put(`/api/images/${image.id}/albums`, album).then((result) => {
       image.albums.push(result);
       this.dispatch();
-
-      if (!album.id && !mass) {
-        NavigationsStore.load();
-      }
 
       return album;
     });
@@ -74,9 +63,7 @@ class ImagesStore extends Dispatcher<Image[]> {
       }
     });
 
-    return Promise.all(promises).then(() => {
-      return NavigationsStore.load();
-    });
+    return Promise.all(promises);
   }
 
   public deleteFromAlbum(images: Image[], album: Album) {
@@ -91,10 +78,6 @@ class ImagesStore extends Dispatcher<Image[]> {
 
   public deleteAlbum(image: Image, album: Album, mass: boolean) {
     return Ajax.delete(`/api/images/${image.id}/albums/${album.id}`).then(() => {
-      if (!mass) {
-        NavigationsStore.load();
-      }
-
       for (let index = 0; index < image.albums.length; index++) {
         if (image.albums[index].id === album.id) {
           image.albums.splice(index, 1);
@@ -110,10 +93,6 @@ class ImagesStore extends Dispatcher<Image[]> {
 
   public deleteTag(image: Image, tag: Tag, mass: boolean = false) {
     return Ajax.delete(`/api/images/${image.id}/tags/${tag.id}`).then(() => {
-      if (!mass) {
-        NavigationsStore.load();
-      }
-
       for (let index = 0; index < image.tags.length; index++) {
         if (image.tags[index].id === tag.id) {
           image.tags.splice(index, 1);
@@ -131,16 +110,11 @@ class ImagesStore extends Dispatcher<Image[]> {
     Ajax.put(`/api/images/${image.id}/persons`, person).then((result) => {
       image.persons.push(result);
       this.dispatch();
-
-      if (!person.id) {
-        NavigationsStore.load();
-      }
     });
   }
 
   public deletePerson(image: Image, person: Person) {
     Ajax.delete(`/api/images/${image.id}/persons/${person.id}`).then(() => {
-      NavigationsStore.load();
       for (let index = 0; index < image.persons.length; index++) {
         if (image.persons[index].id === person.id) {
           image.persons.splice(index, 1);

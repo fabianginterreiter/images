@@ -2,7 +2,6 @@ import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router";
 import Ajax from "../libs/Ajax";
-import NavigationsStore from "../stores/NavigationsStore";
 
 interface Day {
   day: number;
@@ -15,7 +14,7 @@ interface Month {
   days: Day[];
 }
 
-interface Year {
+export interface Year {
   year: number;
   count: number;
   months: Month[];

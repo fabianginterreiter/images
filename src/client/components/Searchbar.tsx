@@ -1,19 +1,15 @@
 import * as React from "react";
+import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
 import { KeyUpListener } from "../utils/Utils";
 import Title from "./Title";
-import * as ReactRedux from "react-redux";
-
-interface SearchbarProps {
-
-}
 
 interface SearchbarState {
   s: string;
   open: boolean;
 }
 
-class Searchbar extends React.Component<SearchbarProps, SearchbarState> {
+class Searchbar extends React.Component<{}, SearchbarState> {
   private opened: boolean;
 
   constructor(props) {
@@ -25,16 +21,35 @@ class Searchbar extends React.Component<SearchbarProps, SearchbarState> {
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     KeyUpListener.removeChangeListener(this);
   }
 
+  public render() {
+    return (
+      <a className="right">
+        <span onClick={this.handleOpen.bind(this)}>
+          <i className="fa fa-search" />
+          <span className="min500"> Search</span>
+        </span>
+        {this.renderBar()}
+      </a>
+    );
+  }
+
+  public componentDidUpdate() {
+    if (this.opened) {
+      this.opened = false;
+      (this.refs.search as HTMLFormElement).select();
+    }
+  }
+
   private handleKeyUp(event: KeyboardEvent) {
-    if (event.keyCode === 27) { //ESC
+    if (event.keyCode === 27) { // ESC
       this.setState({
         open: false
       });
@@ -56,13 +71,6 @@ class Searchbar extends React.Component<SearchbarProps, SearchbarState> {
     });
 
     this.opened = true;
-  }
-
-  componentDidUpdate() {
-    if (this.opened) {
-      this.opened = false;
-      (this.refs.search as HTMLFormElement).select();
-    }
   }
 
   private handleClose(): void {
@@ -95,28 +103,20 @@ class Searchbar extends React.Component<SearchbarProps, SearchbarState> {
 
           <nav>
             <form onSubmit={this.handleSubmit.bind(this)}>
-              <input type="text" ref="search" placeholder="Search" value={this.state.s} onChange={this.handleChange.bind(this)} />
+              <input type="text" ref="search" placeholder="Search" value={this.state.s}
+                onChange={this.handleChange.bind(this)} />
             </form>
             <span className="right" onClick={this.handleClose.bind(this)}><i className="fa fa-times" /></span>
           </nav>
       </header>
     </div>);
   }
-
-  render() {
-    return (
-      <a className="right">
-        <span onClick={this.handleOpen.bind(this)}><i className="fa fa-search" /><span className="min500"> Search</span></span>
-        {this.renderBar()}
-      </a>
-    );
-  }
 }
 
 const mapStateToProps = (state) => {
   return {
     open: state.view.open
-  }
-}
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps)(Searchbar);

@@ -1,10 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {loadImages} from "../actions/images";
 import ImagesStore from "../stores/ImagesStore";
 import {Image} from "../types/types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
-import {loadImages} from "../actions/images";
 
 class Favorites extends React.Component<{
   images: Image[];

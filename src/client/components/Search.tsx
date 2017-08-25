@@ -1,9 +1,12 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
+import {connect} from "react-redux";
+import {loadImages} from "../actions";
+import {Image} from "../types/types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 
 interface SearchProps {
+  images: Image[];
   location: {
     query: {
       s: string;
@@ -11,45 +14,29 @@ interface SearchProps {
   };
 }
 
-interface SearchState {
-  search: string;
-}
-
-export default class Search extends React.Component<SearchProps, SearchState> {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      search: ""
-    };
-  }
-
-  componentDidMount() {
-    ImagesStore.load(`/api/search?s=${this.props.location.query.s}`);
-
-    this.setState({
-      search: this.props.location.query.s
-    });
-  }
-
-  componentWillReceiveProps(newProps) {
-    ImagesStore.load(`/api/search?s=${newProps.location.query.s}`);
-
-    this.setState({
-      search: newProps.location.query.s
-    });
-  }
-
-  render() {
+class Search extends React.Component<SearchProps, {}> {
+  public render() {
     return (
       <div>
         <h1>
-          <i className="fa fa-search" aria-hidden="true" /> Search: {this.state.search}
+          <i className="fa fa-search" aria-hidden="true" /> Search: {this.props.location.query.s}
           <ImagesNav />
         </h1>
-        <Images />
+        <Images images={this.props.images} />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    images: state.images
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  dispatch(loadImages(`/api/search?s=${ownProps.location.query.s}`));
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

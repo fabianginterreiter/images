@@ -1,7 +1,12 @@
 import * as React from "react";
+import cookie from "react-cookie";
 import * as ReactDOM from "react-dom";
+import * as ReactRedux from "react-redux";
 import * as ReactRouter from "react-router";
+import { applyMiddleware, createStore } from "Redux";
 import ReduxThunk from "redux-thunk";
+import { addUser, loadAlbums, loadPersons, loadTags, setPinNavigation,
+  setSession, setShowDate, setThumbnailSize, setUsers } from "./actions";
 import Album from "./components/Album";
 import Albums from "./components/Albums";
 import All from "./components/All";
@@ -19,24 +24,20 @@ import Tag from "./components/Tag";
 import Tags from "./components/Tags";
 import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
-import imagesApp from "./reducers"
-import * as ReactRedux from "react-redux";
-import { createStore, applyMiddleware } from "Redux";
-import { addUser, setUsers, setSession, setThumbnailSize, setShowDate, setPinNavigation, loadAlbums, loadTags, loadPersons } from "./actions";
 import Ajax from "./libs/Ajax";
-import cookie from "react-cookie";
+import imagesApp from "./reducers";
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 
-let store = createStore(imagesApp, applyMiddleware(ReduxThunk));
+const store = createStore(imagesApp, applyMiddleware(ReduxThunk));
 
 store.dispatch(setThumbnailSize(cookie.load("thumbnailsSize") ? cookie.load("thumbnailsSize") : 200));
 store.dispatch(setShowDate(cookie.load("showDate") === "true"));
 store.dispatch(setPinNavigation(cookie.load("pinned") === "true"));
-Ajax.get("/api/users").then(users => store.dispatch(setUsers(users)));
+Ajax.get("/api/users").then((users) => store.dispatch(setUsers(users)));
 
 Ajax.get("/api/session").then((user) => {
-  store.dispatch(setSession(user))
+  store.dispatch(setSession(user));
 
   store.dispatch(loadAlbums());
   store.dispatch(loadPersons());
@@ -52,7 +53,7 @@ Ajax.get("/api/session").then((user) => {
             <Route path="dates/:year" component={DateView} />
             <Route path="tags/:id" component={Tag} />
             <Route path="persons/:id" component={Person} />
-            <Route path="albums/:albumId" component={Album} />
+            <Route path="albums/:id" component={Album} />
             <Route path="favorites" component={Favorites} />
             <Route path="persons" component={Persons} />
             <Route path="tags" component={Tags} />

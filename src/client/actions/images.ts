@@ -4,7 +4,8 @@ import Ajax from "../libs/Ajax";
 
 export const loadImages = (service: string) => {
   return (dispatch) => {
-    Ajax.get(service).then(images => dispatch(setImages(images)));
+    dispatch(setImages([]));
+    Ajax.get(service).then((images) => dispatch(setImages(images)));
   }
 }
 

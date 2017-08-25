@@ -9,6 +9,7 @@ import Selection from "./selections/Selection";
 import Uploader from "./Uploader";
 import UsersManagement from "./UsersManagement";
 import * as ReactRedux from "react-redux";
+import {setImages} from "../actions";
 
 interface ImagesAppProps {
   location: {
@@ -23,7 +24,7 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
     super(props);
   }
 
-  componentWillReceiveProps(props) {
+  public componentWillReceiveProps(props) {
     this.handleNavigationChange();
   }
 

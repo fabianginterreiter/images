@@ -1,34 +1,31 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
-import Images from "./Images";
 import {connect} from "react-redux";
-import {Image} from "../types/types";
 import {loadImages} from "../actions";
 import Ajax from "../libs/Ajax";
+import ImagesStore from "../stores/ImagesStore";
+import {Image} from "../types/types";
+import Images from "./Images";
 
 class All extends React.Component<{
-  loadImages(service: string);
+  images: Image[];
 }, {}> {
-  public componentDidMount() {
-    this.props.loadImages("/api/images");
-  }
 
   public render() {
     return (
-      <Images />
+      <Images images={this.props.images} />
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-  }
-}
+    images: state.images
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    loadImages: (service: string) => dispatch(loadImages(service))
-  }
-}
+  dispatch(loadImages("/api/images"));
+  return {};
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(All);

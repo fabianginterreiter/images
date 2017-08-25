@@ -1,72 +1,60 @@
 import * as React from "react";
+import {connect} from "react-redux";
+import {loadImages} from "../actions";
 import Ajax from "../libs/Ajax";
 import ImagesStore from "../stores/ImagesStore";
 import {Album, Image} from "../types/types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
-import {connect} from "react-redux";
 
 interface AlbumProps {
+  album: Album;
   params: {
     albumId: number;
   };
-  selection: Image[]
+  selection: Image[];
+  images: Image[];
 }
 
-interface AlbumState {
-  album: Album;
-}
-
-class AlbumComponent extends React.Component<AlbumProps, AlbumState> {
-
-  constructor(props: AlbumProps) {
-    super(props);
-
-    this.state = {
-      album: undefined
-    };
-  }
-
-  public componentDidMount() {
-    this.componentWillReceiveProps(this.props);
-  }
-
-  public componentWillReceiveProps(newProps) {
-    ImagesStore.load(`/api/images?album=${newProps.params.albumId}`);
-    Ajax.get(`/api/albums/${newProps.params.albumId}`).then((album) => this.setState({album}));
-  }
-
+class AlbumComponent extends React.Component<AlbumProps, {}> {
   public render() {
-    if (!this.state.album) {
+    if (!this.props.album) {
       return <span />;
     }
 
     return (
       <div>
         <h1>
-          <i className="fa fa-book" aria-hidden="true" /> {this.state.album.name}
+          <i className="fa fa-book" aria-hidden="true" /> {this.props.album.name}
           <ImagesNav>
             <a onClick={this.handleRemoveFromAlbum.bind(this)}>
               <i className="fa fa-times" /><span className="min500"> Remove</span>
             </a>
           </ImagesNav>
         </h1>
-        <Images />
+        <Images images={this.props.images} />
       </div>
     );
   }
 
   private handleRemoveFromAlbum() {
-    ImagesStore.deleteFromAlbum(this.props.selection, this.state.album).then(() => {
+    ImagesStore.deleteFromAlbum(this.props.selection, this.props.album).then(() => {
       ImagesStore.reload();
     });
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    album: state.albums.find((album) => album.id === parseInt(ownProps.params.id, 10)),
+    images: state.images,
     selection: state.selection
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(AlbumComponent);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  dispatch(loadImages(`/api/images?album=${ownProps.params.id}`));
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AlbumComponent);

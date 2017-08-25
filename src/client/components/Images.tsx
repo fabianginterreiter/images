@@ -1,15 +1,15 @@
 import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
+import {connect} from "react-redux";
 import { Link } from "react-router";
+import {select, toggle, unselect} from "../actions";
 import {Image} from "../types/types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
 import Fullscreen from "./Fullscreen";
 import ImageComponent from "./ImageComponent";
 import Like from "./Like";
-import {connect} from "react-redux";
-import {select, unselect, toggle} from "../actions";
 
 interface ImagesProps {
   options?: {
@@ -34,7 +34,6 @@ interface ImagesState {
 
 class Images extends React.Component<ImagesProps, ImagesState> {
   private lastSelection: number;
-  private width: number;
   private resizeTimer;
 
   constructor(props: ImagesProps) {
@@ -54,11 +53,13 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
 
-    this.width = document.getElementById("container").clientWidth;
+    this.setState({
+      width: document.getElementById("container").clientWidth
+    });
   }
 
-  componentWillReceiveProps(props) {
-    this.handleResize();
+  public componentWillReceiveProps(props) {
+    // this.handleResize();
   }
 
   public componentWillUnmount() {
@@ -168,11 +169,12 @@ class Images extends React.Component<ImagesProps, ImagesState> {
       if (!container) {
         return;
       }
-      const width = container.clientWidth;
+      const width: number = container.clientWidth;
 
-      if (width !== this.width) {
-        this.width = width;
-        this.forceUpdate();
+      if (width !== this.state.width && width) {
+        this.setState({
+          width
+        });
       }
     }, 300);
   }
@@ -219,7 +221,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
         view: this.state.view + 1
       }, () => {
         if (this.state.view === this.props.images.length - 5) {
-          //ImagesStore.more();
+          // ImagesStore.more();
         }
       });
     }
@@ -299,7 +301,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
   private handleScroll(e) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
-      //ImagesStore.more();
+      // ImagesStore.more();
     }
   }
 
@@ -307,11 +309,11 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     let sum = 0;
     let images = [];
 
-    if (!this.width) {
+    if (!this.state.width) {
       return;
     }
 
-    const max = this.width / this.props.thumbnailsSize;
+    const max = this.state.width / this.props.thumbnailsSize;
 
     imgs.forEach((image: Image) => {
       image.displayWidth = 0;
@@ -320,7 +322,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
       images.push(image);
 
       if (sum > max) {
-        const widthSize = (this.width - 2 * 1 * images.length) / sum;
+        const widthSize = (this.state.width - 2 * 1 * images.length) / sum;
         images.forEach((object: Image) => {
           object.displayWidth = object.proportion * widthSize;
           object.displayHeight = object.displayWidth / object.proportion;
@@ -343,20 +345,19 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
 const mapStateToProps = (state) => {
   return {
-    thumbnailsSize: state.options.thumbnailsSize,
-    showDate: state.options.showDate,
+    isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     pinned: state.view.pinned,
-    images: state.images,
-    isSelected: (image: Image) => state.selection.findIndex(obj => obj.id === image.id) >= 0
-  }
-}
+    showDate: state.options.showDate,
+    thumbnailsSize: state.options.thumbnailsSize
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     select: (image: Image) => dispatch(select(image)),
-    unselect: (image: Image) => dispatch(unselect(image)),
-    toggle: (image: Image) => dispatch(toggle(image))
-  }
-}
+    toggle: (image: Image) => dispatch(toggle(image)),
+    unselect: (image: Image) => dispatch(unselect(image))
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Images);

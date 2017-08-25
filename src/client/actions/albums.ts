@@ -4,29 +4,29 @@ import Ajax from "../libs/Ajax";
 
 export const loadAlbums = () => {
   return (dispatch) => Ajax.get("/api/albums").then((albums) => dispatch({
-    type: SET_ALBUMS,
-    albums: albums
-  }))
-}
+    albums,
+    type: SET_ALBUMS
+  }));
+};
 
 export const sortAlbums = (key: string, asc: boolean) => {
   return {
-    type: SORT_ALBUMS,
-    key: key,
-    asc: asc
-  }
-}
+    asc,
+    key,
+    type: SORT_ALBUMS
+  };
+};
 
 export const saveAlbum = (album: Album) => {
   return (dispatch) => Ajax.put(`/api/albums/${album.id}`, album).then(() => dispatch({
-    type: SAVE_ALBUM,
-    album: album
-  }))
-}
+    album,
+    type: SAVE_ALBUM
+  }));
+};
 
 export const deleteAlbum = (album: Album) => {
   return (dispatch) => Ajax.delete(`/api/albums/${album.id}`).then(() => dispatch({
-    type: DELETE_ALBUM,
-    album: album
+    album,
+    type: DELETE_ALBUM
   }));
-}
+};

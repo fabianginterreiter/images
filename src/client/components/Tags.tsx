@@ -1,17 +1,17 @@
 import * as React from "react";
+import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
+import {deleteTag, saveTag, sortTags} from "../actions";
 import Ajax from "../libs/Ajax";
 import NavigationsStore from "../stores/NavigationsStore";
 import {Tag} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
-import * as ReactRedux from "react-redux";
-import {sortTags, saveTag, deleteTag} from "../actions";
 
 interface TagsProps {
   tags: Tag[];
-  sort(key:string, asc: boolean);
-  save(tag: Tag);
   delete(tag: Tag);
+  save(tag: Tag);
+  sort(key: string, asc: boolean);
 }
 
 interface TagsComponentState {
@@ -27,16 +27,31 @@ class Tags extends React.Component<TagsProps, TagsComponentState> {
     };
   }
 
+  public render() {
+    return (<div className="settings">
+      <h1><i className="fa fa-tags" aria-hidden="true" /> Tags</h1>
+
+      <ExtendedTable columns={[
+        {title: "Name", name: "name"},
+        {title: "Images", name: "count", className: "option"},
+        {title: "Edit", className: "option"},
+        {title: "Delete", className: "option"}]} data={this.props.tags}
+        render={this._renderRow.bind(this)}
+        order={(name, asc) => this.props.sort.bind(name, asc)} name={"name"} asc={true} />
+
+    </div>);
+  }
+
   private handleEdit(tag: Tag): void {
     this.setState({
       edit: tag.id
-    })
+    });
   }
 
   private handleChange(tag: Tag, value: string): void {
     this.setState({
       edit: 0
-    })
+    });
 
     if (tag.name === value) {
       return this.forceUpdate();
@@ -50,7 +65,7 @@ class Tags extends React.Component<TagsProps, TagsComponentState> {
   private handleCancel(tag: Tag): void {
     this.setState({
       edit: 0
-    })
+    });
     this.forceUpdate();
   }
 
@@ -78,37 +93,20 @@ class Tags extends React.Component<TagsProps, TagsComponentState> {
       <td onClick={this.handleDelete.bind(this, tag)} className="option"><i className="fa fa-trash-o" /></td>
     </tr>);
   }
-
-  private order(name: string, asc: boolean): void {
-    this.props.sort(name, asc);
-  }
-
-  render() {
-    return (<div className="settings">
-      <h1><i className="fa fa-tags" aria-hidden="true" /> Tags</h1>
-
-      <ExtendedTable columns={[
-        {title: "Name", name: "name"},
-        {title: "Images", name: "count", className: "option"},
-        {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]} data={this.props.tags} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
-
-    </div>);
-  }
 }
 
 const mapStateToProps = (state) => {
   return {
     tags: state.tags
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sort: (key:string, asc:boolean) => dispatch(sortTags(key, asc)),
+    delete: (tag: Tag) => dispatch(deleteTag(tag)),
     save: (tag: Tag) => dispatch(saveTag(tag)),
-    delete: (tag: Tag) => dispatch(deleteTag(tag))
-  }
-}
+    sort: (key: string, asc: boolean) => dispatch(sortTags(key, asc))
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Tags);

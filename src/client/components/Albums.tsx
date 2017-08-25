@@ -1,15 +1,15 @@
 import * as React from "react";
+import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
+import {deleteAlbum, saveAlbum, sortAlbums} from "../actions";
 import Ajax from "../libs/Ajax";
 import NavigationsStore from "../stores/NavigationsStore";
 import {Album} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit } from "../utils/Utils";
-import * as ReactRedux from "react-redux";
-import {sortAlbums, saveAlbum, deleteAlbum} from "../actions";
 
 interface AlbumsProps {
   albums: Album[];
-  sort(key:string, asc: boolean);
+  sort(key: string, asc: boolean);
   save(album: Album);
   delete(album: Album);
 }
@@ -24,7 +24,7 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
 
     this.state = {
       edit: 0
-    }
+    };
   }
 
   public render() {
@@ -53,7 +53,7 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
   private handleChange(album: Album, value: string) {
     this.setState({
       edit: 0
-    })
+    });
 
     if (album.name === value) {
       return this.forceUpdate();
@@ -72,7 +72,7 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
   private handleCancel(album: Album) {
     this.setState({
       edit: 0
-    })
+    });
   }
 
   private handleDelete(album: Album) {
@@ -111,15 +111,15 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
 const mapStateToProps = (state) => {
   return {
     albums: state.albums
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sort: (key:string, asc:boolean) => dispatch(sortAlbums(key, asc)),
+    delete: (album: Album) => dispatch(deleteAlbum(album)),
     save: (album: Album) => dispatch(saveAlbum(album)),
-    delete: (album: Album) => dispatch(deleteAlbum(album))
-  }
-}
+    sort: (key: string, asc: boolean) => dispatch(sortAlbums(key, asc))
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Albums);

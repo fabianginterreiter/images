@@ -1,15 +1,15 @@
 import * as React from "react";
+import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
+import {deletePerson, savePerson, sortPersons} from "../actions";
 import Ajax from "../libs/Ajax";
 import NavigationsStore from "../stores/NavigationsStore";
 import {Person} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
-import * as ReactRedux from "react-redux";
-import {sortPersons, savePerson, deletePerson} from "../actions";
 
 interface PersonsComponentProps {
   persons: Person[];
-  sort(key:string, asc: boolean);
+  sort(key: string, asc: boolean);
   save(person: Person);
   delete(person: Person);
 }
@@ -27,16 +27,29 @@ class PersonsComponent extends React.Component<PersonsComponentProps, PersonsCom
     };
   }
 
+  public render() {
+    return (<div className="settings">
+      <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
+      <ExtendedTable columns={[
+        {title: "Name", name: "name"},
+        {title: "Images", name: "count", className: "option"},
+        {title: "Edit", className: "option"},
+        {title: "Delete", className: "option"}]} data={this.props.persons}
+        render={this._renderRow.bind(this)} order={(name, asc) => this.props.sort(name, asc)}
+        name={"name"} asc={true} />
+    </div>);
+  }
+
   private handleEdit(person: Person) {
     this.setState({
       edit: person.id
-    })
+    });
   }
 
   private handleChange(person: Person, value: string) {
     this.setState({
       edit: 0
-    })
+    });
 
     if (person.name === value) {
       return this.forceUpdate();
@@ -50,13 +63,13 @@ class PersonsComponent extends React.Component<PersonsComponentProps, PersonsCom
   private handleCancel() {
     this.setState({
       edit: 0
-    })
+    });
   }
 
   private handleDelete(person: Person) {
     DialogStore.open("Delete Person", "Do you really want to delete the Person?", {
-      type: "warning",
-      icon: "fa fa-trash"
+      icon: "fa fa-trash",
+      type: "warning"
     }).then(() => this.props.delete(person));
   }
 
@@ -79,35 +92,20 @@ class PersonsComponent extends React.Component<PersonsComponentProps, PersonsCom
       <td onClick={this.handleDelete.bind(this, person)} className="option"><i className="fa fa-trash-o" /></td>
     </tr>);
   }
-
-  private order(name: string, asc: boolean) {
-    this.props.sort(name, asc);
-  }
-
-  render() {
-    return (<div className="settings">
-      <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
-      <ExtendedTable columns={[
-        {title: "Name", name: "name"},
-        {title: "Images", name: "count", className: "option"},
-        {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]} data={this.props.persons} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
-    </div>);
-  }
 }
 
 const mapStateToProps = (state) => {
   return {
     persons: state.persons
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sort: (key:string, asc:boolean) => dispatch(sortPersons(key, asc)),
+    delete: (person: Person) => dispatch(deletePerson(person)),
     save: (person: Person) => dispatch(savePerson(person)),
-    delete: (person: Person) => dispatch(deletePerson(person))
-  }
-}
+    sort: (key: string, asc: boolean) => dispatch(sortPersons(key, asc))
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(PersonsComponent);

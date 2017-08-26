@@ -23,14 +23,14 @@ export default function images(state = [], action) {
     case ADD_TAG_TO_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.tags = [...image.tags, action.tag];
+          return {...image, tags: [...image.tags, action.tag]};
         }
         return image;
       });
     case REMOVE_TAG:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.tags = image.tags.filter((tag) => (tag.id === action.tag.id));
+          image.tags = image.tags.filter((tag) => (tag.id !== action.tag.id));
         }
         return image;
       });

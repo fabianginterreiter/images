@@ -14,36 +14,6 @@ class ImagesStore extends Dispatcher<Image[]> {
     super(null);
   }
 
-  public addTag(image: Image, tag: Tag, mass: boolean = false) {
-    return Ajax.put(`/api/images/${image.id}/tags`, tag).then((result) => {
-      image.tags.push(result);
-      this.dispatch();
-
-      return result;
-    });
-  }
-
-  public addTags(images: Image[], tags: Tag[]) {
-    const promises = [];
-
-    tags.forEach((tag) => {
-      if (tag.marked) {
-        return;
-      }
-
-      images.forEach((image) => {
-        const e = ListUtils.find(image.tags, tag.id);
-        if (e && !tag.selected) {
-          promises.push(this.deleteTag(image, tag, true));
-        } else if (!e && tag.selected) {
-          promises.push(this.addTag(image, tag, true));
-        }
-      });
-    });
-
-    return Promise.all(promises);
-  }
-
   public addAlbum(image: Image, album: Album, mass: boolean) {
     return Ajax.put(`/api/images/${image.id}/albums`, album).then((result) => {
       image.albums.push(result);

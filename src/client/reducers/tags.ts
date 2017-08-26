@@ -1,4 +1,4 @@
-import {SET_TAGS, SORT_TAGS, SAVE_TAG, DELETE_TAG, ADD_TAG} from "../actionTypes"
+import {SET_TAGS, SORT_TAGS, SAVE_TAG, DELETE_TAG, ADD_TAG, REMOVE_TAG, ADD_TAG_TO_IMAGE} from "../actionTypes"
 
 export default function tags(state = [], action) {
   switch (action.type) {
@@ -24,6 +24,20 @@ export default function tags(state = [], action) {
       return state.filter((tag) => (tag.id !== action.tag.id));
     case ADD_TAG:
       return [...state, action.tag];
+    case ADD_TAG_TO_IMAGE:
+      return state.map((tag) => {
+        if (tag.id === action.tag.id) {
+          return {...tag, count: tag.count + 1};
+        }
+        return tag;
+      });
+    case REMOVE_TAG:
+      return state.map((tag) => {
+        if (tag.id === action.tag.id) {
+          return {...tag, count: tag.count - 1};
+        }
+        return tag;
+     });
     default:
       return state;
   }

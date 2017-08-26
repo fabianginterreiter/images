@@ -23,6 +23,7 @@ export const SET_TAGS = "SET_TAGS";
 export const SORT_TAGS = "SORT_TAGS";
 export const SAVE_TAG = "SAVE_TAG";
 export const DELETE_TAG = "DELETE_TAG";
+export const ADD_TAG = "ADD_TAG";
 
 export const SET_PERSONS = "SET_PERSONS";
 export const SORT_PERSONS = "SORT_PERSONS";
@@ -37,3 +38,5 @@ export const CLEAR_SELECTION = "CLEAR_SELECTION";
 export const SET_IMAGES = "SET_IMAGES";
 export const LIKE_IMAGE = "LIKE_IMAGE";
 export const UNLIKE_IMAGE = "UNLIKE_IMAGE";
+export const ADD_TAG_TO_IMAGE = "ADD_TAG_TO_IMAGE";
+export const REMOVE_TAG = "REMOVE_TAG";

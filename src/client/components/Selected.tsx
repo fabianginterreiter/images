@@ -9,19 +9,17 @@ class Selected extends React.Component<{
   selection: Image[]
 }, {}> {
 
-  componentDidMount() {
+  public componentDidMount() {
     if (this.props.selection.length === 0) {
       browserHistory.push("/images");
     }
-
-    ImagesStore.setObject(this.props.selection);
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <h1><i className="icon-check" /> Selection</h1>
-        <Images />
+        <Images images={this.props.selection} />
       </div>
     );
   }
@@ -30,7 +28,7 @@ class Selected extends React.Component<{
 const mapStateToProps = (state) => {
   return {
     selection: state.selection
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(Selected);

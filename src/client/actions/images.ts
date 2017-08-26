@@ -1,5 +1,5 @@
-import {SET_IMAGES, LIKE_IMAGE, UNLIKE_IMAGE} from "../actionTypes";
-import {Image} from "../types/types";
+import {SET_IMAGES, LIKE_IMAGE, UNLIKE_IMAGE, ADD_TAG_TO_IMAGE, REMOVE_TAG} from "../actionTypes";
+import {Image, Tag, Album, Person} from "../types/types";
 import Ajax from "../libs/Ajax";
 
 export const loadImages = (service: string) => {
@@ -13,21 +13,37 @@ export const loadImages = (service: string) => {
 
 export const setImages = (images: Image[]) => {
   return {
-    type: SET_IMAGES,
-    images: images
-  }
-}
+    images,
+    type: SET_IMAGES
+  };
+};
 
 export const like = (image: Image) => {
   return (dispatch) => Ajax.put(`/api/images/${image.id}/like`).then(() => dispatch({
-    type: LIKE_IMAGE,
-    image: image
+    image,
+    type: LIKE_IMAGE
   }));
-}
+};
 
 export const unlike = (image: Image) => {
   return (dispatch) => Ajax.put(`/api/images/${image.id}/unlike`).then(() => dispatch({
-    type: UNLIKE_IMAGE,
-    image: image
+    image,
+    type: UNLIKE_IMAGE
   }));
-}
+};
+
+export const addTagToImage = (image: Image, tag: Tag) => {
+  return (dispatch) => Ajax.put(`/api/images/${image.id}/tags`, tag).then(() => dispatch({
+    image,
+    tag,
+    type: ADD_TAG_TO_IMAGE
+  }));
+};
+
+export const removeTag = (image: Image, tag: Tag) => {
+  return (dispatch) => Ajax.delete(`/api/images/${image.id}/tags/${tag.id}`).then(() => dispatch({
+    image,
+    tag,
+    type: REMOVE_TAG
+  })).catch(console.log);
+};

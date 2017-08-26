@@ -7,6 +7,7 @@ import Ajax from '../../libs/Ajax'
 import * as ListUtils from '../../libs/ListUtils'
 import {Tag, Album, Person, Image} from "../../types/types";
 import {connect} from "react-redux";
+import {addTag, removeTag, addTagToImage} from "../../actions";
 
 interface SelectionOptionsState {
   visible: boolean;
@@ -14,6 +15,11 @@ interface SelectionOptionsState {
 
 class SelectionOptions extends React.Component<{
   selection: Image[];
+  tags: Tag[];
+  albums: Album[];
+  addTagToImage(image: Image, tag: Tag): void;
+  removeTag(image: Image, tag: Tag): void;
+  addTag(tag: Tag): void;
 }, SelectionOptionsState> {
   constructor(props) {
     super(props);
@@ -36,48 +42,54 @@ class SelectionOptions extends React.Component<{
   }
 
   private handleTags() {
-    var images: Image[] = this.props.selection;
+    const images: Image[] = this.props.selection;
 
-    Ajax.get('/api/tags').then((tags: Tag[]) => {
-      this.props.selection.forEach((image: Image) => {
-        image.tags.forEach((tag) => {
-          var e = ListUtils.find(image.tags, tag.id) as Tag;
-          if (e) {
-            e.__count = e.__count ? e.__count + 1 : 1;
+    const val = {};
+    images.forEach((image) => image.tags.forEach((tag) => val[tag.id] = val[tag.id] ? val[tag.id] + 1 : 1));
+
+    const options = this.props.tags.map((tag) => {
+      return {
+        id: tag.id,
+        marked: 0 < val[tag.id] && val[tag.id] < images.length,
+        name: tag.name,
+        selected: val[tag.id] === images.length
+      };
+    });
+
+    SelectDialogStore.open("Manage Tags", options).then((result) => {
+      const c = result.filter((tag) => tag.selected).map((obj) => {
+        return {
+          id: obj.id,
+          name: obj.name
+        };
+      });
+
+      Promise.all(
+        c.map((tag) => {
+          if (tag.id) {
+            return Promise.resolve(tag)
+          } else {
+            return Ajax.post("/api/tags", tag).then((r) => {
+              tag.id = r.id;
+              this.props.addTag(tag);
+              return tag;
+            });
           }
+        })
+      )
+      .then(() => {
+        images.forEach((image) => {
+          image.tags.filter((tag) => (!c.find((o) => o.id === tag.id)))
+            .forEach((tag) => this.props.removeTag(image, tag));
+          c.filter((o) => !image.tags.find((tag) => tag.id === o.id))
+            .forEach((tag) => this.props.addTagToImage(image, tag));
         });
       });
-
-      tags.forEach((tag) => {
-        if (tag.__count && tag.__count > 0) {
-          if (tag.__count === this.props.selection.length) {
-            tag.selected = true;
-          } else {
-            tag.marked = true;
-          }
-        }
-      });
-
-      return SelectDialogStore.open('Manage Tags', tags);
-    }).then((tags) => {
-      var promises = [];
-      tags.forEach((tag) => {
-        if (tag.id || !tag.selected) {
-          return;
-        }
-        promises.push(Ajax.post('/api/tags', tag).then((result) => (tag.id = result.id)));
-      });
-
-      if (promises.length === 0) {
-        ImagesStore.addTags(this.props.selection, tags)
-      } else {
-        Promise.all(promises).then(() => ImagesStore.addTags(this.props.selection, tags));
-      }
-    }).catch((e) => console.log(e));
+    });
   }
 
   private handleAlbums() {
-    var images: Image[] = this.props.selection;
+    const images: Image[] = this.props.selection;
 
     Ajax.get('/api/albums').then((albums: Album[]) => {
       this.props.selection.forEach((image: Image) => {
@@ -127,8 +139,18 @@ class SelectionOptions extends React.Component<{
 
 const mapStateToProps = (state) => {
   return {
-    selection: state.selection
-  }
-}
+    albums: state.albums,
+    selection: state.selection,
+    tags: state.tags
+  };
+};
 
-export default connect(mapStateToProps)(SelectionOptions);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTag: (tag: Tag) => dispatch(addTag(tag)),
+    addTagToImage: (image: Image, tag: Tag) => dispatch(addTagToImage(image, tag)),
+    removeTag: (image: Image, tag: Tag) => dispatch(removeTag(image, tag))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectionOptions);

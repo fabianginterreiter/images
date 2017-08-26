@@ -1,10 +1,10 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
 import {connect} from "react-redux";
 import {Image} from "../types/types"
 import {select, unselect} from "../actions"
 
 class ImagesNav extends React.Component<{
+  images: Image[];
   select(image: Image);
   unselect(image: Image);
 }, {}> {
@@ -23,26 +23,25 @@ class ImagesNav extends React.Component<{
   }
 
   private handleSelectAll() {
-    ImagesStore.getObject().forEach((image) => (this.props.select(image)));
-    ImagesStore.dispatch();
+    this.props.images.forEach((image) => (this.props.select(image)));
   }
 
   private handleUnselectAll() {
-    ImagesStore.getObject().forEach((image) => (this.props.unselect(image)));
-    ImagesStore.dispatch();
+    this.props.images.forEach((image) => (this.props.unselect(image)));
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-  }
-}
+    images: state.images
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     select: (image: Image) => dispatch(select(image)),
     unselect: (image: Image) => dispatch(unselect(image)),
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImagesNav);

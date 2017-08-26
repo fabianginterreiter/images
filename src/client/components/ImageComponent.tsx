@@ -7,7 +7,7 @@ interface ImageComponentProps {
 }
 
 export default class ImageComponent extends React.Component<ImageComponentProps, {}> {
-  render() {
+  public render() {
     return (<img src={"/thumbs/" + this.props.image.path} alt={this.props.image.filename} style={this.props.style} />);
   }
 }

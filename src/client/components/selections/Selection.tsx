@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
-import {clear, openNavigation} from "../../actions";
-import ImagesStore from "../../stores/ImagesStore";
+import {clear, openNavigation, deleteImage} from "../../actions";
 import {Image} from "../../types/types";
 import { DialogStore } from "../../utils/Utils";
 import Title from "../Title";
@@ -11,6 +10,7 @@ import SelectionOptions from "./SelectionOptions";
 interface SelectionProps {
   selection: Image[];
   clear(): void;
+  deleteImage(image: Image): void;
   openNavigation(): void;
 }
 
@@ -50,11 +50,8 @@ class Selection extends React.Component<SelectionProps, {}> {
   }
 
   private handleDelete() {
-    const images: Image[] = this.props.selection;
     DialogStore.open("Delete Images", "Do you really want to delete all selected images?").then(() => {
-      images.forEach((image) => {
-        ImagesStore.delete(image);
-      });
+      this.props.selection.forEach((image) => this.props.deleteImage(image));
     });
   }
 }
@@ -68,6 +65,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     clear: () => dispatch(clear()),
+    deleteImage: (image: Image) => dispatch(deleteImage(image)),
     openNavigation: () => dispatch(openNavigation())
   };
 };

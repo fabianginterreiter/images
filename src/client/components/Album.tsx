@@ -1,8 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {loadImages} from "../actions";
+import {loadImages, removeAlbumFromImage} from "../actions";
 import Ajax from "../libs/Ajax";
-import ImagesStore from "../stores/ImagesStore";
 import {Album, Image} from "../types/types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
@@ -14,6 +13,7 @@ interface AlbumProps {
   };
   selection: Image[];
   images: Image[];
+  removeAlbumFromImage(image: Image, album: Album): void;
 }
 
 class AlbumComponent extends React.Component<AlbumProps, {}> {
@@ -38,9 +38,7 @@ class AlbumComponent extends React.Component<AlbumProps, {}> {
   }
 
   private handleRemoveFromAlbum() {
-    ImagesStore.deleteFromAlbum(this.props.selection, this.props.album).then(() => {
-      ImagesStore.reload();
-    });
+    this.props.selection.forEach((image) => this.props.removeAlbumFromImage(image, this.props.album));
   }
 }
 
@@ -55,6 +53,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   dispatch(loadImages(`/api/images?album=${ownProps.params.id}`));
   return {
+    removeAlbumFromImage: (image: Image, album: Album) => dispatch(removeAlbumFromImage(image, album))
   };
 };
 

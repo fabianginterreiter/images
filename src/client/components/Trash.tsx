@@ -1,16 +1,36 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
 import { DialogStore } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 import {connect} from "react-redux";
 import {Image} from "../types/types";
+import {revertImage, loadImages} from "../actions";
 
 class Trash extends React.Component<{
+  images: Image[];
   isSelected(image: Image): boolean
+  revertImage(image: Image): void;
 }, {}> {
-  componentDidMount() {
-    ImagesStore.load("/api/images?trash=true");
+  public render() {
+    return (
+      <div>
+        <h1>
+          <i className="fa fa-trash-o"/> Trash
+          <ImagesNav>
+            <button className="danger" onClick={this.handleClear.bind(this)}>
+              <i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span>
+            </button>
+            <button className="success" onClick={this.handleRevert.bind(this)}>
+              <i className="fa fa-undo" aria-hidden="true" /><span className="min500"> Revert</span>
+            </button>
+          </ImagesNav>
+        </h1>
+        <Images options={{
+          hideFullscreen: true,
+          hideLike: true
+        }} images={this.props.images} />
+      </div>
+    );
   }
 
   private handleClear(): void {
@@ -19,49 +39,34 @@ class Trash extends React.Component<{
     }).then((result) => {
       if (result) {
         fetch("/api/trash/clear", {
-          method: "DELETE",
-          credentials: "include"
-        }).then(() => {
+          credentials: "include",
+          method: "DELETE"
         });
       }
     });
   }
 
   private handleRevert(): void {
-    let promises = [];
-
-    ImagesStore.getObject().forEach((image) => {
+    this.props.images.forEach((image) => {
       if (this.props.isSelected(image)) {
-        promises.push(ImagesStore.revert(image));
+        this.props.revertImage(image);
       }
     });
-
-    Promise.all(promises).then(() => this.forceUpdate());
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>
-          <i className="fa fa-trash-o"/> Trash
-          <ImagesNav>
-            <button className="danger" onClick={this.handleClear.bind(this)}><i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span></button>
-            <button className="success" onClick={this.handleRevert.bind(this)}><i className="fa fa-undo" aria-hidden="true" /><span className="min500"> Revert</span></button>
-          </ImagesNav>
-        </h1>
-        <Images options={{
-          hideLike: true,
-          hideFullscreen: true
-        }} />
-      </div>
-    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    isSelected: (image: Image) => state.selection.findIndex(obj => obj.id === image.id) >= 0
-  }
-}
+    images: state.images,
+    isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0
+  };
+};
 
-export default connect(mapStateToProps)(Trash);
+const mapDispatchToProps = (dispatch) => {
+  dispatch(loadImages("/api/images?trash=true"));
+  return {
+    revertImage: (image: Image) => dispatch(revertImage(image))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Trash);

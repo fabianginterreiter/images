@@ -10,7 +10,7 @@ import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
 import {connect} from "react-redux";
 import {toggle} from "../actions"
-import {like, unlike} from "../actions/images";
+import {like, unlike, deleteImage} from "../actions/images";
 
 interface FullscreenProps {
   image: Image;
@@ -23,6 +23,7 @@ interface FullscreenProps {
   isSelected(image: Image): boolean;
   like(image: Image): void;
   unlike(image: Image): void;
+  deleteImage(image: Image): void;
 }
 
 interface FullscreenState {
@@ -66,7 +67,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     clearTimeout(this.timeout);
   }
 
-  render() {
+  public render() {
     let titleClass = "title";
 
     if (this.state.show) {
@@ -170,7 +171,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     switch (option.key) {
       case "delete": {
         DialogStore.open("Delete Image", "Do you really want to delete the image?")
-        .then(() => ImagesStore.delete(this.props.image));
+        .then(() => this.props.deleteImage(this.props.image));
         break;
       }
     }
@@ -204,12 +205,13 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
 
 const mapStateToProps = (state) => {
   return {
-    isSelected: (image: Image) => state.selection.findIndex(obj => obj.id === image.id) >= 0
+    isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deleteImage: (image: Image) => dispatch(deleteImage(image)),
     toggle: (image: Image) => dispatch(toggle(image)),
     like: (image: Image) => dispatch(like(image)),
     unlike: (image: Image) => dispatch(unlike(image))

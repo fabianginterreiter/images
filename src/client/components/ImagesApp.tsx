@@ -1,5 +1,4 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
 import { Main, ScrollUp } from "../utils/Utils";
 import DragAndDropUpload from "./DragAndDropUpload";
 import Header from "./Header";

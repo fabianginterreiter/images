@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import { browserHistory } from "react-router";
 import {loadImages} from "../actions";
 import Ajax from "../libs/Ajax";
-import ImagesStore from "../stores/ImagesStore";
 import {Image, Tag} from "../types/types";
 import { DialogStore, Quickedit } from "../utils/Utils";
 import Images from "./Images";

@@ -5,7 +5,6 @@ import { location } from "react-router";
 import {addAlbum, addAlbumToImage, addTag, addTagToImage, removeAlbumFromImage, removeTag} from "../../actions";
 import Ajax from "../../libs/Ajax";
 import * as ListUtils from "../../libs/ListUtils";
-import ImagesStore from "../../stores/ImagesStore";
 import {Album, Image, Person, Tag} from "../../types/types";
 import { Dropdown, OptionsList, SelectDialogStore, SingleSelectDialogStore } from "../../utils/Utils";
 

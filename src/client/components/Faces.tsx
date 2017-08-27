@@ -1,7 +1,6 @@
 import * as $ from "jquery";
 import * as React from "react";
 import { Link } from "react-router";
-import ImagesStore from "../stores/ImagesStore";
 import { Image, Person } from "../types/types";
 import { AutoComplete } from "../utils/Utils";
 import {connect} from "react-redux";

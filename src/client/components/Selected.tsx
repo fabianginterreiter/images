@@ -1,6 +1,5 @@
 import * as React from "react";
 import { browserHistory } from "react-router";
-import ImagesStore from "../stores/ImagesStore";
 import Images from "./Images";
 import {connect} from "react-redux";
 import {Image} from "../types/types";

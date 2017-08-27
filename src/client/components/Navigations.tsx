@@ -1,6 +1,5 @@
 import * as React from "react";
 import { browserHistory } from "react-router";
-import ImagesStore from "../stores/ImagesStore";
 import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
 import Title from "./Title";

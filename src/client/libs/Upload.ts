@@ -2,7 +2,7 @@ import {Dispatcher} from "../utils/Utils";
 import * as $ from "jquery";
 import {ExtendedFile, Image} from "../types/types";
 
-export default class UploadStore {
+export default class Upload {
   private active: boolean;
   private canceled: boolean;
   private index: number;

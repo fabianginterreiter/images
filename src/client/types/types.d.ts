@@ -4,7 +4,6 @@ export interface PersistedObject {
 
 export interface Person extends PersistedObject {
   name: string;
-
   count?: number;
 
   _pivot_top?: number;
@@ -16,19 +15,11 @@ export interface Person extends PersistedObject {
   left?: number;
   width?: number;
   height?: number;
-
-  __count?: number;
 }
 
 export interface Tag extends PersistedObject {
   name: string;
-
   count?: number;
-
-  marked?: boolean;
-  selected?: boolean;
-
-  __count?: number;
 }
 
 export interface Image extends PersistedObject {
@@ -57,11 +48,6 @@ export interface Image extends PersistedObject {
 export interface Album extends PersistedObject {
   name: string;
   public: boolean;
-
-  __count?: number;
-
-  selected?: boolean;
-  marked?: boolean;
 }
 
 export interface User extends PersistedObject {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import ImagesStore from "../stores/ImagesStore";
-import UploadStore from "../stores/UploadStore";
+import Upload from "../libs/Upload";
 import {ExtendedFile, Image} from "../types/types";
 import { InlineProgress, Modal } from "../utils/Utils";
 import {connect} from "react-redux";
@@ -21,7 +21,7 @@ class Uploader extends React.Component<{
   setUploadComplete(file: ExtendedFile, image: Image): void;
   setUploadProgress(file: ExtendedFile, progress: number): void;
 }, UploaderState> {
-  private uploader: UploadStore = new UploadStore();
+  private uploader: Upload = new Upload();
 
   constructor(props) {
     super(props);

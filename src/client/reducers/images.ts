@@ -1,6 +1,7 @@
 import {SET_IMAGES, LIKE_IMAGE, UNLIKE_IMAGE, ADD_TAG_TO_IMAGE,
   REMOVE_TAG, ADD_ALBUM_TO_IMAGE, REMOVE_ALBUM_FROM_IMAGE,
-  DELETE_TAG, DELETE_ALBUM, DELETE_IMAGE, REVERT_IMAGE} from "../actionTypes"
+  DELETE_TAG, DELETE_ALBUM, DELETE_IMAGE, REVERT_IMAGE, DELETE_PERSON,
+  ADD_PERSON_TO_IMAGE, REMOVE_PERSON_TO_IMAGE} from "../actionTypes"
 
 export default function images(state = [], action) {
   switch (action.type) {
@@ -50,6 +51,20 @@ export default function images(state = [], action) {
         }
         return image;
       });
+    case ADD_PERSON_TO_IMAGE:
+      return state.map((image) => {
+        if (image.id === action.image.id) {
+          return {...image, persons: [...image.persons, action.person]};
+        }
+        return image;
+      });
+    case REMOVE_PERSON_TO_IMAGE:
+      return state.map((image) => {
+        if (image.id === action.image.id) {
+          image.persons = image.persons.filter((person) => (person.id !== action.person.id));
+        }
+        return image;
+      });
     case DELETE_TAG:
       return state.map((image) => {
         image.tags = image.tags.filter((tag) => (tag.id !== action.tag.id));
@@ -58,6 +73,11 @@ export default function images(state = [], action) {
     case DELETE_ALBUM:
       return state.map((image) => {
         image.albums = image.albums.filter((album) => (album.id !== action.album.id));
+        return image;
+      });
+    case DELETE_PERSON:
+      return state.map((image) => {
+        image.persons = image.persons.filter((person) => (person.id !== action.person.id));
         return image;
       });
     case DELETE_IMAGE:

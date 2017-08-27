@@ -4,6 +4,8 @@ import { Link } from "react-router";
 import ImagesStore from "../stores/ImagesStore";
 import { Image, Person } from "../types/types";
 import { AutoComplete } from "../utils/Utils";
+import {connect} from "react-redux";
+import {addPersonToImage, removePersonToImage} from "../actions";
 
 interface FacesProps {
   image: Image;
@@ -12,6 +14,8 @@ interface FacesProps {
     width: number;
   };
   show: boolean;
+  addPersonToImage(image: Image, person: Person): void;
+  removePersonToImage(image: Image, person: Person): void;
 }
 
 interface FacesState {
@@ -31,7 +35,7 @@ interface FacesState {
   startY?: number;
 }
 
-export default class Faces extends React.Component<FacesProps, FacesState> {
+class Faces extends React.Component<FacesProps, FacesState> {
 
   private offsetLeft: number;
   private offsetTop: number;
@@ -240,7 +244,7 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
       name: person.name
     };
 
-    ImagesStore.addPerson(this.props.image, object);
+    this.props.addPersonToImage(this.props.image, object);
 
     this.setState({
       create: null
@@ -249,6 +253,20 @@ export default class Faces extends React.Component<FacesProps, FacesState> {
 
   private handleDeletePerson(e, person: Person) {
     e.preventDefault();
-    ImagesStore.deletePerson(this.props.image, person);
+    this.props.removePersonToImage(this.props.image, person);
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addPersonToImage: (image: Image, person: Person) => dispatch(addPersonToImage(image, person)),
+    removePersonToImage: (image: Image, person: Person) => dispatch(removePersonToImage(image, person))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Faces);

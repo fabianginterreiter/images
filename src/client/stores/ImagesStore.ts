@@ -14,25 +14,6 @@ class ImagesStore extends Dispatcher<Image[]> {
     super(null);
   }
 
-  public addPerson(image: Image, person: Person) {
-    Ajax.put(`/api/images/${image.id}/persons`, person).then((result) => {
-      image.persons.push(result);
-      this.dispatch();
-    });
-  }
-
-  public deletePerson(image: Image, person: Person) {
-    Ajax.delete(`/api/images/${image.id}/persons/${person.id}`).then(() => {
-      for (let index = 0; index < image.persons.length; index++) {
-        if (image.persons[index].id === person.id) {
-          image.persons.splice(index, 1);
-          break;
-        }
-      }
-      this.dispatch();
-    });
-  }
-
   public load(service: string) {
     this.setObject(null);
     this.service = service + (service.indexOf("?") > 0 ? "&" : "?");

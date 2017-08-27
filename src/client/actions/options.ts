@@ -4,15 +4,15 @@ import {SET_SHOW_DATE, SET_THUMBNAIL_SIZE} from "../actionTypes";
 export const setThumbnailSize = (size: number) => {
   cookie.save("thumbnailsSize", size);
   return {
-    type: SET_THUMBNAIL_SIZE,
-    size
+    size,
+    type: SET_THUMBNAIL_SIZE
   };
 };
 
 export const setShowDate = (show: boolean) => {
   cookie.save("showDate", show ? "true" : "false");
   return {
-    type: SET_SHOW_DATE,
-    show
+    show,
+    type: SET_SHOW_DATE
   };
 };

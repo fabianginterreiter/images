@@ -19,7 +19,9 @@ interface OptionsPanelProps {
 class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
   public render() {
     return (
-        <Panel open={this.props.open} clickCatcher={this.props.open} onClickCatcherClick={this.props.closeOptionsPanel.bind(this)} side="right" header={true} footer={true}>
+        <Panel open={this.props.open} clickCatcher={this.props.open}
+          onClickCatcherClick={this.props.closeOptionsPanel.bind(this)}
+          side="right" header={true} footer={true}>
           <div className="title" onClick={this.props.closeOptionsPanel.bind(this)}>
             Settings
             <span className="badge"><i className="fa fa-cog" /></span>
@@ -28,12 +30,15 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
           <div className="body">
             <ul className="options">
               <li><a>Size: <ThumbnailsResizer /></a></li>
-              <li><a><label><input type="checkbox" checked={this.props.showDate} onChange={() => this.props.setShowDate(!this.props.showDate)} /> Show Dates</label></a></li>
+              <li><a><label><input type="checkbox" checked={this.props.showDate}
+              onChange={() => this.props.setShowDate(!this.props.showDate)} /> Show Dates</label></a></li>
             </ul>
           </div>
 
           <div className="footer">
-            <div className="profile" onClick={this.props.deleteSession.bind(this)}><i className="fa fa-user"></i> {this.props.session.name}</div>
+            <div className="profile" onClick={this.props.deleteSession.bind(this)}>
+              <i className="fa fa-user"></i> {this.props.session.name}
+            </div>
           </div>
         </Panel>
     );

@@ -7,7 +7,7 @@ class Cookies {
     this.values = {};
 
     const cookies = cookie.select(/.+/);
-    for (let name in cookies) {
+    for (const name in cookies) {
       this.values[name] = cookies[name];
     }
   }
@@ -29,7 +29,7 @@ class Cookies {
   public clear() {
     const cookies = cookie.select(/.+/);
 
-    for (let key in cookies) {
+    for (const key in cookies) {
       this.remove(key);
     }
   }

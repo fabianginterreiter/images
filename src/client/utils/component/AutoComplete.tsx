@@ -36,12 +36,40 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     };
   }
 
-  componentWillReceiveProps() {
+  public render() {
+    this.marked = null;
+
+    let className = "";
+
+    if (this.contains(this.props.ignore, {
+      name: this.state.value
+    })) {
+      className += "marked";
+    }
+
+    return (
+      <div className="autocomplete" ref="box">
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <input className={className}
+            type="text"
+            ref="input"
+            value={this.state.value}
+            onChange={this.handleChange.bind(this)}
+            onFocus={this.handleFocus.bind(this)}
+            onBlur={this.handleBlur.bind(this)}
+            placeholder={this.props.placeholder} />
+            {this.__renderTags()}
+        </form>
+      </div>
+    );
+  }
+
+  public componentWillReceiveProps() {
     this.setState({
     });
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
 
     if (this.props.focus) {
@@ -49,7 +77,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     KeyUpListener.removeChangeListener(this);
   }
 
@@ -83,12 +111,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
   }
 
   private contains(tags, tag) {
-    for (let index = 0; index < tags.length; index++) {
-      if (tags[index].name === tag.name) {
-        return true;
-      }
-    }
-    return false;
+    return tags.find((t) => t.name === tag.name);
   }
 
   private handleChange(event) {
@@ -206,33 +229,5 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
           ), this)
         }
       </ul>);
-  }
-
-  render() {
-    this.marked = null;
-
-    let className = "";
-
-    if (this.contains(this.props.ignore, {
-      name: this.state.value
-    })) {
-      className += "marked";
-    }
-
-    return (
-      <div className="autocomplete" ref="box">
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <input className={className}
-            type="text"
-            ref="input"
-            value={this.state.value}
-            onChange={this.handleChange.bind(this)}
-            onFocus={this.handleFocus.bind(this)}
-            onBlur={this.handleBlur.bind(this)}
-            placeholder={this.props.placeholder} />
-            {this.__renderTags()}
-        </form>
-      </div>
-    );
   }
 }

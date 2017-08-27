@@ -6,7 +6,7 @@ interface DropdownProps {
 }
 
 export default class Dropdown extends React.Component<DropdownProps, {}> {
-  render() {
+  public render() {
     if (!this.props.open) {
       return (<span />);
     }

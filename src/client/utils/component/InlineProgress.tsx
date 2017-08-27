@@ -5,7 +5,7 @@ interface InlineProgressProps {
 }
 
 export default class InlineProgress extends React.Component<InlineProgressProps, {}> {
-  render() {
+  public render() {
     return (
       <div className="inlineProgress">
         <div className="green" style={{width: this.props.progress + "%"}} />

@@ -22,7 +22,7 @@ class DialogStore extends Dispatcher<DialogStoreOption> {
 
   open(title: string, text: string, settings: DialogStoreSettings = undefined) {
     return new Promise((resolve, reject) => {
-      let options: DialogStoreOption = {
+      const options: DialogStoreOption = {
         title,
         text,
         resolve,

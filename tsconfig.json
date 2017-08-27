@@ -8,6 +8,8 @@
     "outDir": "dist",
     "baseUrl": ".",
     "allowJs": true,
+    "sort-keys": false,
+    "object-literal-sort-keys": false,
     "paths": {
         "*": [
             "node_modules/@types/*",

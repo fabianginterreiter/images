@@ -3,18 +3,14 @@ import * as React from "react";
 interface PanelProps {
   clickCatcher: boolean;
   open: boolean;
-  onClickCatcherClick(): void;
   side: string;
   footer?: boolean;
   header?: boolean;
+  onClickCatcherClick(): void;
 }
 
-interface PanelState {
-
-}
-
-export default class Panel extends React.Component<PanelProps, PanelState> {
-  render() {
+export default class Panel extends React.Component<PanelProps, {}> {
+  public render() {
     let clickCatcher = (<span />);
 
     if (this.props.clickCatcher && this.props.open) {

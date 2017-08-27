@@ -19,11 +19,11 @@ class DragAndDropUpload extends React.Component<{
   }
 
   public componentDidMount() {
-    $(window).on("dragover dragenter", function() {
+    $(window).on("dragover dragenter", () => {
       this.setState({
         over: true
       });
-    }.bind(this));
+    });
   }
 
   public render() {

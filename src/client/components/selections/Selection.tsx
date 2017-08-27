@@ -1,34 +1,21 @@
 import * as React from "react";
-import ImagesStore from "../../stores/ImagesStore";
-import SelectionOptions from "./SelectionOptions";
-import { browserHistory } from "react-router";
-import Title from "../Title";
-import { DialogStore } from "../../utils/Utils";
 import * as ReactRedux from "react-redux";
-import {openNavigation, clear} from "../../actions";
+import { browserHistory } from "react-router";
+import {clear, openNavigation} from "../../actions";
+import ImagesStore from "../../stores/ImagesStore";
 import {Image} from "../../types/types";
+import { DialogStore } from "../../utils/Utils";
+import Title from "../Title";
+import SelectionOptions from "./SelectionOptions";
 
 interface SelectionProps {
-  openNavigation(): void;
+  selection: Image[];
   clear(): void;
-  selection: Image[]
+  openNavigation(): void;
 }
 
 class Selection extends React.Component<SelectionProps, {}> {
-  handleShow() {
-    browserHistory.push("/images/selected");
-  }
-
-  handleDelete() {
-    let images: Image[] = this.props.selection;
-    DialogStore.open("Delete Images", "Do you really want to delete all selected images?").then(() => {
-      images.forEach(function(image) {
-        ImagesStore.delete(image);
-      });
-    });
-  }
-
-  render() {
+  public render() {
     if (this.props.selection.length === 0) {
       return (<span />);
     }
@@ -40,28 +27,49 @@ class Selection extends React.Component<SelectionProps, {}> {
         </div>
 
         <nav>
-          <div onClick={this.handleShow.bind(this)}><i className="fa fa-check-square-o" aria-hidden="true" /> {this.props.selection.length} <span className="min500"> selected</span></div>
-          <div onClick={() => this.props.clear()}><i className="fa fa-times" aria-hidden="true" /><span className="min500"> Clear</span></div>
+          <div onClick={this.handleShow.bind(this)}>
+            <i className="fa fa-check-square-o" aria-hidden="true" /> {this.props.selection.length}
+            <span className="min500"> selected</span>
+          </div>
+          <div onClick={() => this.props.clear()}>
+            <i className="fa fa-times" aria-hidden="true" />
+            <span className="min500"> Clear</span>
+          </div>
 
-          <div className="right" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span></div>
+          <div className="right" onClick={this.handleDelete.bind(this)}>
+            <i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span>
+          </div>
           <SelectionOptions />
         </nav>
       </header>
     );
   }
-};
+
+  private handleShow() {
+    browserHistory.push("/images/selected");
+  }
+
+  private handleDelete() {
+    const images: Image[] = this.props.selection;
+    DialogStore.open("Delete Images", "Do you really want to delete all selected images?").then(() => {
+      images.forEach((image) => {
+        ImagesStore.delete(image);
+      });
+    });
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
     selection: state.selection
-  }
-}
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    openNavigation: () => dispatch(openNavigation()),
-    clear: () => dispatch(clear())
-  }
-}
+    clear: () => dispatch(clear()),
+    openNavigation: () => dispatch(openNavigation())
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Selection);

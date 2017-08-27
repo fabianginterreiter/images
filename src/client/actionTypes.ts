@@ -18,6 +18,7 @@ export const SET_ALBUMS = "SET_ALBUMS";
 export const SORT_ALBUMS = "SORT_ALBUMS";
 export const SAVE_ALBUM = "SAVE_ALBUM";
 export const DELETE_ALBUM = "DELETE_ALBUM";
+export const ADD_ALBUM = "ADD_ALBUM";
 
 export const SET_TAGS = "SET_TAGS";
 export const SORT_TAGS = "SORT_TAGS";
@@ -40,3 +41,5 @@ export const LIKE_IMAGE = "LIKE_IMAGE";
 export const UNLIKE_IMAGE = "UNLIKE_IMAGE";
 export const ADD_TAG_TO_IMAGE = "ADD_TAG_TO_IMAGE";
 export const REMOVE_TAG = "REMOVE_TAG";
+export const ADD_ALBUM_TO_IMAGE = "ADD_ALBUM_TO_IMAGE";
+export const REMOVE_ALBUM_FROM_IMAGE = "REMOVE_ALBUM_FROM_IMAGE";

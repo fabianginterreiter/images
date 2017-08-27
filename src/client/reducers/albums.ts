@@ -1,9 +1,13 @@
-import {SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM, DELETE_ALBUM} from "../actionTypes"
+import {SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM,
+  DELETE_ALBUM, ADD_ALBUM} from "../actionTypes"
+import {Album} from "../types/types";
+
+const sort = (a: Album, b: Album) => a.name.localeCompare(b.name);
 
 export default function albums(state = [], action) {
   switch (action.type) {
     case SET_ALBUMS:
-      return action.albums.sort((a, b) => a.name.localeCompare(b.name));
+      return action.albums.sort(sort);
     case SORT_ALBUMS:
       return state.sort((a, b) => {
         if (a[action.key] < b[action.key]) {
@@ -22,6 +26,8 @@ export default function albums(state = [], action) {
       });
     case DELETE_ALBUM:
       return state.filter((album) => (album.id !== action.album.id));
+    case ADD_ALBUM:
+      return [...state, action.album].sort(sort);
     default:
       return state;
   }

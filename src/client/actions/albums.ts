@@ -1,4 +1,4 @@
-import {SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM, DELETE_ALBUM} from "../actionTypes";
+import {SET_ALBUMS, SORT_ALBUMS, SAVE_ALBUM, DELETE_ALBUM, ADD_ALBUM} from "../actionTypes";
 import {Album} from "../types/types";
 import Ajax from "../libs/Ajax";
 
@@ -29,4 +29,11 @@ export const deleteAlbum = (album: Album) => {
     album,
     type: DELETE_ALBUM
   }));
+};
+
+export const addAlbum = (album: Album) => {
+  return {
+    album,
+    type: ADD_ALBUM
+  };
 };

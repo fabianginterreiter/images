@@ -1,13 +1,13 @@
-import * as React from 'react'
-import * as $ from "jquery"
-import { location } from 'react-router'
-import { OptionsList, Dropdown, SelectDialogStore, SingleSelectDialogStore } from '../../utils/Utils'
-import ImagesStore from '../../stores/ImagesStore'
-import Ajax from '../../libs/Ajax'
-import * as ListUtils from '../../libs/ListUtils'
-import {Tag, Album, Person, Image} from "../../types/types";
+import * as $ from "jquery";
+import * as React from "react";
 import {connect} from "react-redux";
-import {addTag, removeTag, addTagToImage} from "../../actions";
+import { location } from "react-router";
+import {addAlbum, addAlbumToImage, addTag, addTagToImage, removeAlbumFromImage, removeTag} from "../../actions";
+import Ajax from "../../libs/Ajax";
+import * as ListUtils from "../../libs/ListUtils";
+import ImagesStore from "../../stores/ImagesStore";
+import {Album, Image, Person, Tag} from "../../types/types";
+import { Dropdown, OptionsList, SelectDialogStore, SingleSelectDialogStore } from "../../utils/Utils";
 
 interface SelectionOptionsState {
   visible: boolean;
@@ -20,6 +20,9 @@ class SelectionOptions extends React.Component<{
   addTagToImage(image: Image, tag: Tag): void;
   removeTag(image: Image, tag: Tag): void;
   addTag(tag: Tag): void;
+  addAlbum(album: Album): void;
+  removeAlbumFromImage(image: Image, album: Album): void;
+  addAlbumToImage(image: Image, album: Album): void;
 }, SelectionOptionsState> {
   constructor(props) {
     super(props);
@@ -27,6 +30,20 @@ class SelectionOptions extends React.Component<{
     this.state = {
       visible: false,
     };
+  }
+
+  public render() {
+    return (
+      <div onClick={this.toggle.bind(this)} className="right">
+        <span><i className="fa fa-plus" aria-hidden="true" /><span className="min500"> Add</span></span>
+        <Dropdown open={this.state.visible} onCancel={this.close.bind(this)}>
+          <ul className="options">
+            <li><a onClick={this.handleTags.bind(this)}><i className="fa fa-tags" /> Manage Tags</a></li>
+            <li><a onClick={this.handleAlbums.bind(this)}><i className="fa fa-book" /> Add to Album</a></li>
+          </ul>
+        </Dropdown>
+      </div>
+    );
   }
 
   private toggle() {
@@ -67,7 +84,7 @@ class SelectionOptions extends React.Component<{
       Promise.all(
         c.map((tag) => {
           if (tag.id) {
-            return Promise.resolve(tag)
+            return Promise.resolve(tag);
           } else {
             return Ajax.post("/api/tags", tag).then((r) => {
               tag.id = r.id;
@@ -88,52 +105,42 @@ class SelectionOptions extends React.Component<{
     });
   }
 
+  private persist(album: Album) {
+    if (album.id) {
+      return Promise.resolve(album);
+    } else {
+      return Ajax.post("/api/albums", album).then((object) => {
+        this.props.addAlbum(object);
+        return object;
+      });
+    }
+  }
+
   private handleAlbums() {
     const images: Image[] = this.props.selection;
 
-    Ajax.get('/api/albums').then((albums: Album[]) => {
-      this.props.selection.forEach((image: Image) => {
-        image.albums.forEach((album: Album) => {
-          var e = ListUtils.find(albums, album.id) as Album;
-          if (e) {
-            e.__count = e.__count ? e.__count + 1 : 1;
-          }
-        });
+    const val = {};
+    images.forEach((image) => image.albums.forEach((album) => val[album.id] = val[album.id] ? val[album.id] + 1 : 1));
+
+    const options = this.props.albums.map((album) => {
+      return {
+        id: album.id,
+        marked: 0 < val[album.id] && val[album.id] < images.length,
+        name: album.name,
+        selected: val[album.id] === images.length
+      };
+    });
+
+    SingleSelectDialogStore.open("Manage albums", options).then((result) => {
+      this.persist({
+        id: result.id,
+        name: result.name,
+        public: false
+      }).then((album: Album) => {
+        images.filter((image: Image) => (!image.albums.find((a) => album.id === a.id)))
+          .forEach((image: Image) => this.props.addAlbumToImage(image, album));
       });
-
-      albums.forEach((album: Album) => {
-        if (album.__count && album.__count > 0) {
-          if (album.__count === this.props.selection.length) {
-            album.selected = true;
-          } else {
-            album.marked = true;
-          }
-        }
-      });
-
-      return SingleSelectDialogStore.open('Manage albums', albums);
-    }).then((album: Album) => {
-      if (!album.id) {
-        Ajax.post('/api/albums', album)
-          .then((result) => ImagesStore.addAlbums(this.props.selection, result));
-      } else {
-        ImagesStore.addAlbums(this.props.selection, album);
-      }
-    }).catch((e) => console.log(e));
-  }
-
-  render() {
-    return (
-      <div onClick={this.toggle.bind(this)} className="right">
-        <span><i className="fa fa-plus" aria-hidden="true" /><span className="min500"> Add</span></span>
-        <Dropdown open={this.state.visible} onCancel={this.close.bind(this)}>
-          <ul className="options">
-            <li><a onClick={this.handleTags.bind(this)}><i className="fa fa-tags" /> Manage Tags</a></li>
-            <li><a onClick={this.handleAlbums.bind(this)}><i className="fa fa-book" /> Add to Album</a></li>
-          </ul>
-        </Dropdown>
-      </div>
-    );
+    });
   }
 }
 
@@ -147,8 +154,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    addAlbum: (album: Album) => dispatch(addAlbum(album)),
+    addAlbumToImage: (image: Image, album: Album) => dispatch(addAlbumToImage(image, album)),
     addTag: (tag: Tag) => dispatch(addTag(tag)),
     addTagToImage: (image: Image, tag: Tag) => dispatch(addTagToImage(image, tag)),
+    removeAlbumFromImage: (image: Image, album: Album) => dispatch(removeAlbumFromImage(image, album)),
     removeTag: (image: Image, tag: Tag) => dispatch(removeTag(image, tag))
   };
 };

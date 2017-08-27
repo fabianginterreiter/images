@@ -1,79 +1,89 @@
 import {Dispatcher} from "../utils/Utils";
-import $ from "jquery";
+import * as $ from "jquery";
 import {ExtendedFile, Image} from "../types/types";
 
-class UploadStore extends Dispatcher<ExtendedFile[]> {
-  private _active: boolean;
-  private _canceled: boolean;
-  private _index: number;
+export default class UploadStore {
+  private active: boolean;
+  private canceled: boolean;
+  private index: number;
+  private files: ExtendedFile[];
+  private extCompleteHandler: (file: ExtendedFile, image: Image) => void;
+  private extStartedHandler: (file: ExtendedFile) => void;
+  private extErrorHandler: (file: ExtendedFile) => void;
+  private extProgressHandler: (file: ExtendedFile, progress: number) => void;
 
-  constructor() {
-    super([]);
-    this._active = false;
+  public isUploading(): boolean {
+    return this.active;
   }
 
-  setFiles(list) {
-    var files = [];
+  public upload(files: ExtendedFile[]) {
+    this.files = files;
+    this.canceled = false;
+    this.index = 0;
+    this.active = true;
+    this._upload(0);
+  }
 
-    for (var index = 0; index < list.length; index++) {
-      var file = list[index];
-      super.getObject().push({
-        name: file.name,
-        file: file,
-        complete: false,
-        started: false,
-        error: false,
-        process: 0
-      });
+  public cancel() {
+    this.canceled = true;
+  }
+
+  public setCompleteHandler(completeHandler) {
+    this.extCompleteHandler = completeHandler;
+  }
+
+  public setErrorHandler(errorHandler) {
+    this.extErrorHandler = errorHandler;
+  }
+
+  public setProgressHandler(progressHandler) {
+    this.extProgressHandler = progressHandler;
+  }
+
+  public setStartedHandler(startedHandler) {
+    this.extStartedHandler = startedHandler;
+  }
+
+  private completeHandler(image: Image) {
+    if (this.extCompleteHandler) {
+      this.extCompleteHandler(this.files[this.index], image);
     }
 
-    super.dispatch();
+    this.index++;
+    this._upload(this.index);
   }
 
-  isUploading(): boolean {
-    return this._active;
+  private beforeSendHandler(e) {
+    if (this.extStartedHandler) {
+      this.extStartedHandler(this.files[this.index]);
+    }
   }
 
-  completeHandler(image: Image) {
-    super.getObject()[this._index].complete = true;
-    super.getObject()[this._index].image = image;
-    super.dispatch();
-    this._index++;
-    this._upload(this._index);
+  private errorHandler() {
+    if (this.extErrorHandler) {
+      this.extErrorHandler(this.files[this.index]);
+    }
   }
 
-  beforeSendHandler(e) {
-    super.getObject()[this._index].complete = false;
-    super.getObject()[this._index].process = 0;
-    super.getObject()[this._index].started = true;
-    super.dispatch();
-  }
-
-  errorHandler() {
-    super.getObject()[this._index].complete = false;
-    super.getObject()[this._index].error = true;
-  }
-
-  _upload(index) {
-    if (!(index < super.getObject().length) || this._canceled) {
-      this._active = false;
-      super.dispatch();
+  private _upload(index) {
+    if (!(index < this.files.length) || this.canceled) {
+      this.active = false;
       return;
     }
 
-    var formData = new FormData();
-    formData.append("image", super.getObject()[index].file);
+    const formData = new FormData();
+    formData.append("image", this.files[index].file);
 
     $.ajax({
       url: "/api/images",
       type: "POST",
-      xhr: function() {
-        var myXhr = $.ajaxSettings.xhr();
-        if(myXhr.upload){
-          myXhr.upload.addEventListener("progress",this.progressHandlingFunction.bind(this), false);
+      xhr: () => {
+        const myXhr = $.ajaxSettings.xhr();
+        if(myXhr.upload) {
+          myXhr.upload.addEventListener("progress", this.progressHandlingFunction.bind(this), false);
         }
         return myXhr;
-      }.bind(this),
+      },
       beforeSend: this.beforeSendHandler.bind(this),
       success: this.completeHandler.bind(this),
       data: formData,
@@ -83,28 +93,14 @@ class UploadStore extends Dispatcher<ExtendedFile[]> {
     });
   }
 
-  progressHandlingFunction(e) {
-    if(e.lengthComputable) {
-      var max = e.total;
-      var current = e.loaded;
+  private progressHandlingFunction(e) {
+    if (e.lengthComputable && this.extProgressHandler) {
+      const max = e.total;
+      const current = e.loaded;
 
-      var Percentage = (current * 100)/max;
+      const percentage = (current * 100) / max;
 
-      super.getObject()[this._index].process = Percentage;
-      super.dispatch();
+      this.extProgressHandler(this.files[this.index], percentage);
     }
   }
-
-  upload() {
-    this._canceled = false;
-    this._index = 0;
-    this._active = true;
-    this._upload(0);
-  }
-
-  cancel() {
-    this._canceled = true;
-  }
 }
-
-export default new UploadStore();

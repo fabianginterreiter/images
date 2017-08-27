@@ -7,3 +7,4 @@ export * from "./users";
 export * from "./view";
 export * from "./options";
 export * from "./images";
+export * from "./uploads";

@@ -8,9 +8,10 @@ import tags from "./tags";
 import persons from "./persons";
 import selection from "./selection";
 import images from "./images";
+import uploads from "./uploads";
 
 const imagesApp = combineReducers({
-  users, session, options, view, albums, tags, persons, selection, images
-})
+  users, session, options, view, albums, tags, persons, selection, images, uploads
+});
 
 export default imagesApp

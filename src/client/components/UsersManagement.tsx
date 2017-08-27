@@ -86,18 +86,17 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     users: state.users
-  }
-}
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addUser: (user: User) => dispatch(addUser(user)),
     setSession: (user: User) => dispatch(setSession(user))
-  }
-}
-
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(UsersManagement);

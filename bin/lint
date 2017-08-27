@@ -1,1 +1,1 @@
-tslint --fix src/**/*.ts{,x}
+tslint --fix 'src/**/*.ts?(x)'

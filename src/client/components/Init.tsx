@@ -1,6 +1,6 @@
 import * as React from "react";
-import { browserHistory } from "react-router";
 import * as ReactRedux from "react-redux";
+import { browserHistory } from "react-router";
 
 interface InitProps {
   location: {
@@ -41,6 +41,6 @@ class Init extends React.Component<InitProps, {}> {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: () => state.session !== null
-  }
-}
+  };
+};
 export default ReactRedux.connect(mapStateToProps)(Init);

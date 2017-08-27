@@ -1,8 +1,8 @@
-import {SET_IMAGES, LIKE_IMAGE, UNLIKE_IMAGE, ADD_TAG_TO_IMAGE, REMOVE_TAG,
-  ADD_ALBUM_TO_IMAGE, REMOVE_ALBUM_FROM_IMAGE, DELETE_IMAGE, REVERT_IMAGE,
-  ADD_PERSON_TO_IMAGE, REMOVE_PERSON_TO_IMAGE} from "../actionTypes";
-import {Image, Tag, Album, Person} from "../types/types";
+import {ADD_ALBUM_TO_IMAGE, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE, LIKE_IMAGE,
+  REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE, REMOVE_TAG, REVERT_IMAGE,
+  SET_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
 import Ajax from "../libs/Ajax";
+import {Album, Image, Person, Tag} from "../types/types";
 
 export const loadImages = (service: string) => {
   return (dispatch) => {

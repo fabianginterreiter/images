@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 interface ExtendedTableColumn {
   name?: string;
@@ -9,7 +9,7 @@ interface ExtendedTableColumn {
 interface ExtendedTableProps<T> {
   name: string;
   asc: boolean;
-  order(name: string, asc: boolean):void;
+  order(name: string, asc: boolean): void;
   columns: ExtendedTableColumn[];
   data: T[];
   render(object: T);
@@ -32,13 +32,13 @@ export default class ExtendedTable<T> extends React.Component<ExtendedTableProps
 
   handleClick(name) {
     this.setState({
-      name: name,
+      name,
       asc: this.state.name !== name || !this.state.asc
     }, () => this.props.order(this.state.name, this.state.asc));
   }
 
   _renderHead() {
-    var elements = [];
+    let elements = [];
 
     this.props.columns.forEach((column) => {
       if (column.name) {
@@ -67,6 +67,6 @@ export default class ExtendedTable<T> extends React.Component<ExtendedTableProps
       {this._renderHead()}
       <tbody>
         {this.props.data.map((album) => this.props.render(album))}
-      </tbody></table>)
+      </tbody></table>);
   }
 }

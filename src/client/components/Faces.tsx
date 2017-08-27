@@ -1,10 +1,10 @@
 import * as $ from "jquery";
 import * as React from "react";
+import {connect} from "react-redux";
 import { Link } from "react-router";
+import {addPersonToImage, removePersonToImage} from "../actions";
 import { Image, Person } from "../types/types";
 import { AutoComplete } from "../utils/Utils";
-import {connect} from "react-redux";
-import {addPersonToImage, removePersonToImage} from "../actions";
 
 interface FacesProps {
   image: Image;

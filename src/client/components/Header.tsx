@@ -1,9 +1,9 @@
 import * as $ from "jquery";
 import * as React from "react";
+import {connect} from "react-redux";
+import {addFilesToUploads, openNavigation, openOptionsPanel} from "../actions";
 import Searchbar from "./Searchbar";
 import Title from "./Title";
-import {connect} from "react-redux";
-import {openNavigation, openOptionsPanel, addFilesToUploads} from "../actions";
 
 interface HeaderProps {
   openNavigation(): void;

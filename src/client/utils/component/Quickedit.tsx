@@ -1,11 +1,11 @@
-import * as React from "react"
-import * as $ from "jquery"
-import KeyUpListener from "../listener/KeyUpListener"
+import * as $ from "jquery";
+import * as React from "react";
+import KeyUpListener from "../listener/KeyUpListener";
 
 interface QuickeditProps {
   value: string;
-  onCancel():void;
-  onChange(value:string):void;
+  onCancel(): void;
+  onChange(value: string): void;
 }
 
 interface QuickeditState {
@@ -18,7 +18,7 @@ export default class Quickedit extends React.Component<QuickeditProps, Quickedit
 
     this.state = {
       value: props.value
-    }
+    };
   }
 
   componentDidMount() {
@@ -43,7 +43,7 @@ export default class Quickedit extends React.Component<QuickeditProps, Quickedit
   handleChange(event) {
     this.setState({
       value: event.target.value
-    })
+    });
   }
 
   handleBlur(event) {

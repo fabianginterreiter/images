@@ -1,8 +1,8 @@
-import * as React from "react"
-import KeyUpListener from "../listener/KeyUpListener"
+import * as React from "react";
+import KeyUpListener from "../listener/KeyUpListener";
 
 interface ModalProps {
-  onCancel():void;
+  onCancel(): void;
 }
 
 interface ModalState {

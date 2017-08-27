@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {Image} from "../types/types"
-import {select, unselect} from "../actions"
+import {select, unselect} from "../actions";
+import {Image} from "../types/types";
 
 class ImagesNav extends React.Component<{
   images: Image[];

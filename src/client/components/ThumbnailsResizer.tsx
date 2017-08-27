@@ -20,13 +20,13 @@ class ThumbnailsResizer extends React.Component<ThumbnailsResizerProps, {}> {
 const mapStateToProps = (state) => {
   return {
     size: state.options.thumbnailsSize
-  }
-}
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setThumbnailSize: (size: string) => dispatch(setThumbnailSize(parseInt(size)))
-  }
-}
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(ThumbnailsResizer);

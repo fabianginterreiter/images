@@ -1,5 +1,5 @@
-import * as React from "react"
-import Cookies from "../Cookies"
+import * as React from "react";
+import Cookies from "../Cookies";
 
 export interface Option {
   key: string;
@@ -14,9 +14,9 @@ export interface Option {
 
 interface OptionsListProps {
   query?: String;
-  onClick(option):void;
-  selected?(option):void;
-  active?(option):boolean;
+  onClick(option): void;
+  selected?(option): void;
+  active?(option): boolean;
   values: Option[];
 }
 
@@ -32,7 +32,7 @@ export default class OptionsList extends React.Component<OptionsListProps, Optio
   }
 
   handleClick(e, options) {
-    if(e.target.className === "badge" || e.target.parentNode.className === "badge") {
+    if (e.target.className === "badge" || e.target.parentNode.className === "badge") {
       return this.toggleMenu(e, options);
     }
 
@@ -55,9 +55,9 @@ export default class OptionsList extends React.Component<OptionsListProps, Optio
   }
 
   _renderName(option: Option) {
-    var name = option.name;
+    let name = option.name;
 
-    var icon = null;
+    let icon = null;
     if (option.fontAwesome) {
       icon = (<i className={option.fontAwesome} aria-hidden="true" />);
     }
@@ -69,17 +69,17 @@ export default class OptionsList extends React.Component<OptionsListProps, Optio
   }
 
   _renderItem(option: Option, idx, deep) {
-    var className = option.className ? option.className : "";
+    let className = option.className ? option.className : "";
 
-    var style = {
+    let style = {
       paddingLeft: 10 + deep * 20 + "px"
-    }
+    };
 
     switch (option.type) {
       case "divider":
         return (<li key={"divider" + idx} className={className + " divider"} style={style} />);
       case "action":
-        var badge = (<span />);
+        let badge = (<span />);
         if (option.options && option.options.length) {
           if (option.open) {
             badge = (<div className="badge"><i className="fa fa-chevron-down" /></div>);
@@ -89,11 +89,11 @@ export default class OptionsList extends React.Component<OptionsListProps, Optio
         }
 
         if (this.props.selected && this.props.selected(option)) {
-          return (<li key={option.key} className={className + " selected"} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>)
+          return (<li key={option.key} className={className + " selected"} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>);
         } else if (!this.props.active || this.props.active(option)) {
-          return (<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>)
+          return (<li key={option.key} className={className} onClick={(e) => this.handleClick(e, option)} style={style}>{this._renderName(option)}{badge}</li>);
         } else {
-          return (<li key={option.key} className={className + " disabled"} style={style}>{this._renderName(option)}{badge}</li>)
+          return (<li key={option.key} className={className + " disabled"} style={style}>{this._renderName(option)}{badge}</li>);
         }
       case "menu":
         if (option.open) {
@@ -129,7 +129,7 @@ export default class OptionsList extends React.Component<OptionsListProps, Optio
   }
 
   render() {
-    var options = this._renderOptions([], this.props.values, 0, true);
+    let options = this._renderOptions([], this.props.values, 0, true);
 
     return (
       <ul className="options">

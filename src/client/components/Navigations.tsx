@@ -1,14 +1,14 @@
+import * as moment from "moment";
 import * as React from "react";
+import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
+import {closeNavigation, openNavigation, setPinNavigation} from "../actions";
+import Ajax from "../libs/Ajax";
+import {Album} from "../types/types";
 import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
-import Title from "./Title";
-import * as ReactRedux from "react-redux";
-import * as moment from "moment";
-import {Album} from "../types/types";
-import {openNavigation, closeNavigation, setPinNavigation} from "../actions";
-import Ajax from "../libs/Ajax";
 import {Year} from "./Dates";
+import Title from "./Title";
 
 interface NavigationsProps {
   location: {
@@ -44,7 +44,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     if (this.props.open) {
       this.setState({
         query: ""
-      })
+      });
     }
   }
 
@@ -151,7 +151,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
               type: "action",
               name: moment().month(month.month - 1).year(year.year).format("MMMM YYYY"),
               link: `/images/dates/${year.year}/${month.month}`
-            }
+            };
           })
         };
       })
@@ -177,9 +177,9 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
   }
 
   render() {
-    let open = (this.props.open || this.props.pinned);
+    const open = (this.props.open || this.props.pinned);
 
-    let clickCatcher = (this.props.open && !this.props.pinned);
+    const clickCatcher = (this.props.open && !this.props.pinned);
 
     let pinClass = null;
     if (this.props.pinned) {
@@ -213,15 +213,15 @@ const mapStateToProps = (state) => {
     albums: state.albums,
     persons: state.persons,
     tags: state.tags
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     openNavigation: () => dispatch(openNavigation()),
     closeNavigation: () => dispatch(closeNavigation()),
     setPinNavigation: (pin: boolean) => dispatch(setPinNavigation(pin))
-  }
-}
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Navigations);

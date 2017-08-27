@@ -1,11 +1,11 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
+import {connect} from "react-redux";
+import {cancelUpload, setImages, setUploadComplete, setUploadError,
+  setUploadProgress, setUploadStart} from "../actions";
 import Upload from "../libs/Upload";
+import ImagesStore from "../stores/ImagesStore";
 import {ExtendedFile, Image} from "../types/types";
 import { InlineProgress, Modal } from "../utils/Utils";
-import {connect} from "react-redux";
-import {cancelUpload, setImages, setUploadError, setUploadStart,
-  setUploadComplete, setUploadProgress} from "../actions";
 
 interface UploaderState {
   started: boolean;
@@ -37,7 +37,7 @@ class Uploader extends React.Component<{
       return (<span />);
     }
 
-    let files = [];
+    const files = [];
 
     this.props.files.forEach((file) => {
       if (file.error) {
@@ -88,7 +88,7 @@ class Uploader extends React.Component<{
   }
 
   private __renderButtons() {
-    let buttons = [];
+    const buttons = [];
 
     if (!this.state.started) {
       buttons.push(<button key="UploadButton" onClick={this.handleStart.bind(this)}>Upload</button>);

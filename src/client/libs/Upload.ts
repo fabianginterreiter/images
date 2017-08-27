@@ -1,6 +1,6 @@
-import {Dispatcher} from "../utils/Utils";
 import * as $ from "jquery";
 import {ExtendedFile, Image} from "../types/types";
+import {Dispatcher} from "../utils/Utils";
 
 export default class Upload {
   private active: boolean;
@@ -79,7 +79,7 @@ export default class Upload {
       type: "POST",
       xhr: () => {
         const myXhr = $.ajaxSettings.xhr();
-        if(myXhr.upload) {
+        if (myXhr.upload) {
           myXhr.upload.addEventListener("progress", this.progressHandlingFunction.bind(this), false);
         }
         return myXhr;

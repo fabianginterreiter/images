@@ -1,4 +1,4 @@
-import {SET_TAGS, SORT_TAGS, SAVE_TAG, DELETE_TAG, ADD_TAG, REMOVE_TAG, ADD_TAG_TO_IMAGE} from "../actionTypes"
+import {ADD_TAG, ADD_TAG_TO_IMAGE, DELETE_TAG, REMOVE_TAG, SAVE_TAG, SET_TAGS, SORT_TAGS} from "../actionTypes";
 
 export default function tags(state = [], action) {
   switch (action.type) {

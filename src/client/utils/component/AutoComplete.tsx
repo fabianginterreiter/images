@@ -1,14 +1,14 @@
-import * as React from 'react'
-import KeyUpListener from '../listener/KeyUpListener'
-import * as $ from 'jquery'
+import * as $ from "jquery";
+import * as React from "react";
+import KeyUpListener from "../listener/KeyUpListener";
 
 interface AutoCompleteProps {
   focus?: boolean;
   service: string;
   placeholder: string;
   ignore: Element[];
-  onBlur?(event):void;
-  onSelect(object: Element):void;
+  onBlur?(event): void;
+  onSelect(object: Element): void;
 }
 
 interface Element {
@@ -29,11 +29,11 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
   constructor(props: AutoCompleteProps) {
     super(props);
     this.state = {
-      value: '',
+      value: "",
       tags: [],
       focus: false,
       index: -1
-    }
+    };
   }
 
   componentWillReceiveProps() {
@@ -61,7 +61,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
       }
       case 38: {
         if (this.state.index > 0) {
-          var newIndex = this.state.index - 1;
+          const newIndex = this.state.index - 1;
           this.setState({
             index: newIndex,
             value: this.state.tags[newIndex].name
@@ -71,7 +71,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
       }
       case 40: {
         if (this.state.index < this.state.tags.length - 1) {
-          var newIndex = this.state.index + 1;
+          const newIndex = this.state.index + 1;
           this.setState({
             index: newIndex,
             value: this.state.tags[newIndex].name
@@ -83,7 +83,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
   }
 
   private contains(tags, tag) {
-    for (var index = 0; index < tags.length; index++) {
+    for (let index = 0; index < tags.length; index++) {
       if (tags[index].name === tag.name) {
         return true;
       }
@@ -92,14 +92,14 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
   }
 
   private handleChange(event) {
-    let value = event.target.value;
+    const value = event.target.value;
     this.setState({
-      value: value
+      value
     });
 
     if (value.length > 1) {
-      fetch(this.props.service + '?q=' + value + '%').then((result) => result.json()).then((result) => {
-        var tags = [];
+      fetch(this.props.service + "?q=" + value + "%").then((result) => result.json()).then((result) => {
+        const tags = [];
 
         result.forEach((tag) => {
           if (!this.contains(this.props.ignore, tag)) {
@@ -108,13 +108,13 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
         });
 
         this.setState({
-          tags:tags,
+          tags,
           index: -1
-        })
+        });
       });
     } else {
       this.setState({
-        tags:[],
+        tags: [],
         index: -1
       });
     }
@@ -132,7 +132,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
       }
 
       this.setState({
-        value: '',
+        value: "",
         tags: [],
         index: -1
       });
@@ -159,7 +159,7 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     setTimeout(() => {
       this.setState({
         focus: false,
-        value: '',
+        value: "",
         tags: []
       });
 
@@ -177,13 +177,13 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
     if (this.state.index > -1) {
       if (this.state.tags[this.state.index].id === tag.id) {
         this.marked = tag;
-        return 'select';
+        return "select";
       }
     }
 
     if (tag.name.toUpperCase() === this.state.value.toUpperCase()) {
       this.marked = tag;
-      return 'marked';
+      return "marked";
     }
   }
 
@@ -192,9 +192,9 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
       return (<span />);
     }
 
-    var style = {
+    const style = {
       top: $(this.refs.box).height()
-    }
+    };
 
     return (
       <ul style={style}>
@@ -211,12 +211,12 @@ export default class AutoComplete extends React.Component<AutoCompleteProps, Aut
   render() {
     this.marked = null;
 
-    var className='';
+    let className = "";
 
     if (this.contains(this.props.ignore, {
       name: this.state.value
     })) {
-      className += 'marked';
+      className += "marked";
     }
 
     return (

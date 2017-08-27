@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
-import {clear, openNavigation, deleteImage} from "../../actions";
+import {clear, deleteImage, openNavigation} from "../../actions";
 import {Image} from "../../types/types";
 import { DialogStore } from "../../utils/Utils";
 import Title from "../Title";

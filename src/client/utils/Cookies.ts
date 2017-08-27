@@ -1,4 +1,4 @@
-import * as cookie from "react-cookie"
+import * as cookie from "react-cookie";
 
 class Cookies {
   private values: object;
@@ -6,30 +6,30 @@ class Cookies {
   constructor() {
     this.values = {};
 
-    let cookies = cookie.select(/.+/);
-    for (var name in cookies) {
+    const cookies = cookie.select(/.+/);
+    for (let name in cookies) {
       this.values[name] = cookies[name];
     }
   }
 
-  set(name, value) {
+  public set(name, value) {
     this.values[name] = value;
-    cookie.save(name, value, { path: '/' });
+    cookie.save(name, value, { path: "/" });
   }
 
-  get(name) {
+  public get(name) {
     return this.values[name];
   }
 
-  remove(name) {
-    cookie.remove(name, { path: '/' });
+  public remove(name) {
+    cookie.remove(name, { path: "/" });
     delete this.values[name];
   }
 
-  clear() {
-    var cookies = cookie.select(/.+/);
+  public clear() {
+    const cookies = cookie.select(/.+/);
 
-    for (var key in cookies) {
+    for (let key in cookies) {
       this.remove(key);
     }
   }

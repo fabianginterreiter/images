@@ -1,4 +1,6 @@
 import * as React from "react";
+import * as ReactRedux from "react-redux";
+import {setImages} from "../actions";
 import { Main, ScrollUp } from "../utils/Utils";
 import DragAndDropUpload from "./DragAndDropUpload";
 import Header from "./Header";
@@ -7,8 +9,6 @@ import OptionsPanel from "./options/OptionsPanel";
 import Selection from "./selections/Selection";
 import Uploader from "./Uploader";
 import UsersManagement from "./UsersManagement";
-import * as ReactRedux from "react-redux";
-import {setImages} from "../actions";
 
 interface ImagesAppProps {
   location: {
@@ -70,7 +70,7 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: () => state.session !== null,
     pinned: state.view.pinned
-  }
-}
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps)(ImagesApp);

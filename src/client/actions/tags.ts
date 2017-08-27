@@ -1,6 +1,6 @@
-import {SET_TAGS, SORT_TAGS, SAVE_TAG, DELETE_TAG, ADD_TAG} from "../actionTypes";
-import {Tag} from "../types/types";
+import {ADD_TAG, DELETE_TAG, SAVE_TAG, SET_TAGS, SORT_TAGS} from "../actionTypes";
 import Ajax from "../libs/Ajax";
+import {Tag} from "../types/types";
 
 export const loadTags = () => {
   return (dispatch) => Ajax.get("/api/tags").then((tags) => dispatch({

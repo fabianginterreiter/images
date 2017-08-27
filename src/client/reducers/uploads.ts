@@ -1,12 +1,12 @@
-import {ADD_FILE_TO_UPLOAD, START_UPLOAD, CANCEL_UPLOAD, SET_UPLOAD_ERROR,
-  SET_UPLOAD_COMPLETE, SET_UPLOAD_START, SET_UPLOAD_PROGRESS} from "../actionTypes"
+import {ADD_FILE_TO_UPLOAD, CANCEL_UPLOAD, SET_UPLOAD_COMPLETE, SET_UPLOAD_ERROR,
+  SET_UPLOAD_PROGRESS, SET_UPLOAD_START, START_UPLOAD} from "../actionTypes";
 
 import {ExtendedFile} from "../types/types";
 
 export default function users(state = {
   files: [],
   status: null
-}, action) {
+},                            action) {
   switch (action.type) {
     case ADD_FILE_TO_UPLOAD:
       return {...state, files: [

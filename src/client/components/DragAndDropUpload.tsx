@@ -1,7 +1,7 @@
 import * as $ from "jquery";
 import * as React from "react";
 import {connect} from "react-redux";
-import {openNavigation, openOptionsPanel, addFilesToUploads} from "../actions";
+import {addFilesToUploads, openNavigation, openOptionsPanel} from "../actions";
 
 interface DragAndDropUploadState {
   over: boolean;

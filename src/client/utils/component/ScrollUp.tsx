@@ -1,5 +1,5 @@
-import * as React from "react"
-import ScrollListener from "../listener/ScrollListener"
+import * as React from "react";
+import ScrollListener from "../listener/ScrollListener";
 
 interface ScrollUpState {
   visible: boolean;
@@ -11,7 +11,7 @@ export default class ScrollUp extends React.Component<{}, ScrollUpState> {
 
     this.state = {
       visible: false
-    }
+    };
   }
 
   componentDidMount() {
@@ -39,13 +39,13 @@ export default class ScrollUp extends React.Component<{}, ScrollUpState> {
   }
 
   handleClick() {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   }
 
   render() {
-    var style = {
+    let style = {
       visibility: this.state.visible ? "visible" : "hidden"
-    }
+    };
 
     return (
       <div className="scrollup" style={style} onClick={this.handleClick.bind(this)}>

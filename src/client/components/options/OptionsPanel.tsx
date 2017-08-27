@@ -1,11 +1,11 @@
 import * as React from "react";
-import ThumbnailsResizer from "../ThumbnailsResizer";
-import { location } from "react-router";
-import { Panel } from "../../utils/Utils";
 import * as ReactRedux from "react-redux";
-import {User} from "../../types/types";
-import {deleteSession, setShowDate, closeOptionsPanel} from "../../actions";
+import { location } from "react-router";
+import {closeOptionsPanel, deleteSession, setShowDate} from "../../actions";
 import Ajax from "../../libs/Ajax";
+import {User} from "../../types/types";
+import { Panel } from "../../utils/Utils";
+import ThumbnailsResizer from "../ThumbnailsResizer";
 
 interface OptionsPanelProps {
   session: User;
@@ -45,15 +45,15 @@ const mapStateToProps = (state) => {
     session: state.session,
     showDate: state.options.showDate,
     open: state.view.optionsPanelOpen
-  }
-}
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     deleteSession: () => dispatch(deleteSession()),
     setShowDate: (show: boolean) => dispatch(setShowDate(show)),
     closeOptionsPanel: () => dispatch(closeOptionsPanel())
-  }
-}
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(OptionsPanel);

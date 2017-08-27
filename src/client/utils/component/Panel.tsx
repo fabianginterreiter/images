@@ -1,9 +1,9 @@
-import * as React from 'react'
+import * as React from "react";
 
 interface PanelProps {
   clickCatcher: boolean;
   open: boolean;
-  onClickCatcherClick():void;
+  onClickCatcherClick(): void;
   side: string;
   footer?: boolean;
   header?: boolean;
@@ -15,24 +15,24 @@ interface PanelState {
 
 export default class Panel extends React.Component<PanelProps, PanelState> {
   render() {
-    var clickCatcher = (<span />);
+    let clickCatcher = (<span />);
 
     if (this.props.clickCatcher && this.props.open) {
       clickCatcher = (<div className="click" onClick={this.props.onClickCatcherClick} />);
     }
 
-    var className = 'panel ' + this.props.side;
+    let className = "panel " + this.props.side;
 
     if (this.props.open) {
-      className += ' open';
+      className += " open";
     }
 
     if (this.props.footer) {
-      className += ' hasFooter';
+      className += " hasFooter";
     }
 
     if (this.props.header) {
-      className += ' hasHeader';
+      className += " hasHeader";
     }
 
     return (

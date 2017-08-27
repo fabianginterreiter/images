@@ -1,9 +1,9 @@
 import * as moment from "moment";
 import * as React from "react";
-import Ajax from "../libs/Ajax";
-import {User} from "../types/types";
 import * as ReactRedux from "react-redux";
 import {addUser, setSession} from "../actions";
+import Ajax from "../libs/Ajax";
+import {User} from "../types/types";
 
 interface UsersManagementProps {
   users: User[];

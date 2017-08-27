@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Link } from "react-router";
-import {Image, Person} from "../types/types";
 import {connect} from "react-redux";
+import { Link } from "react-router";
 import {removePersonToImage} from "../actions";
+import {Image, Person} from "../types/types";
 
 interface PersonsListProps {
   image: Image;

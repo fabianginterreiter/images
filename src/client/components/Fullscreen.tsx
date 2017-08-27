@@ -1,6 +1,9 @@
 import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
+import {connect} from "react-redux";
+import {toggle} from "../actions";
+import {deleteImage, like, unlike} from "../actions/images";
 import ImagesStore from "../stores/ImagesStore";
 import {Image} from "../types/types";
 import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
@@ -8,9 +11,6 @@ import Faces from "./Faces";
 import Like from "./Like";
 import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
-import {connect} from "react-redux";
-import {toggle} from "../actions"
-import {like, unlike, deleteImage} from "../actions/images";
 
 interface FullscreenProps {
   image: Image;
@@ -74,7 +74,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
       titleClass += " show";
     }
 
-    let options = [{
+    const options = [{
         key: "delete",
         type: "action",
         name: "Delete"
@@ -206,8 +206,8 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
 const mapStateToProps = (state) => {
   return {
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -215,7 +215,7 @@ const mapDispatchToProps = (dispatch) => {
     toggle: (image: Image) => dispatch(toggle(image)),
     like: (image: Image) => dispatch(like(image)),
     unlike: (image: Image) => dispatch(unlike(image))
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Fullscreen);

@@ -1,5 +1,5 @@
-import {ADD_FILE_TO_UPLOAD, CANCEL_UPLOAD, SET_UPLOAD_ERROR, SET_UPLOAD_START,
-  SET_UPLOAD_COMPLETE, SET_UPLOAD_PROGRESS} from "../actionTypes";
+import {ADD_FILE_TO_UPLOAD, CANCEL_UPLOAD, SET_UPLOAD_COMPLETE, SET_UPLOAD_ERROR,
+  SET_UPLOAD_PROGRESS, SET_UPLOAD_START} from "../actionTypes";
 import {ExtendedFile, Image} from "../types/types";
 
 export const addFilesToUploads = (files) => {

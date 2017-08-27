@@ -1,8 +1,8 @@
 import * as React from "react";
-import { browserHistory } from "react-router";
-import Images from "./Images";
 import {connect} from "react-redux";
+import { browserHistory } from "react-router";
 import {Image} from "../types/types";
+import Images from "./Images";
 
 class Selected extends React.Component<{
   selection: Image[]

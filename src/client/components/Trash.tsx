@@ -1,10 +1,10 @@
 import * as React from "react";
+import {connect} from "react-redux";
+import {loadImages, revertImage} from "../actions";
+import {Image} from "../types/types";
 import { DialogStore } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
-import {connect} from "react-redux";
-import {Image} from "../types/types";
-import {revertImage, loadImages} from "../actions";
 
 class Trash extends React.Component<{
   images: Image[];

@@ -1,10 +1,10 @@
 import * as moment from "moment";
 import * as React from "react";
-import Images from "./Images";
-import ImagesNav from "./ImagesNav";
+import {connect} from "react-redux";
 import {loadImages} from "../actions";
 import {Image} from "../types/types";
-import {connect} from "react-redux";
+import Images from "./Images";
+import ImagesNav from "./ImagesNav";
 
 interface DateViewProps {
   images: Image[];

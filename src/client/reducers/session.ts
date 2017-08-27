@@ -1,4 +1,4 @@
-import {SET_SESSION, DELETE_SESSION} from "../actionTypes";
+import {DELETE_SESSION, SET_SESSION} from "../actionTypes";
 
 export default function session(state = null, action) {
   switch (action.type) {
@@ -7,6 +7,6 @@ export default function session(state = null, action) {
     case DELETE_SESSION:
       return null;
     default:
-      return state
+      return state;
   }
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
-import {Image} from "../types/types";
 import {connect} from "react-redux";
 import {like, unlike} from "../actions/images";
+import {Image} from "../types/types";
 
 interface LikeProps {
   image: Image;
@@ -31,14 +31,14 @@ class Like extends React.Component<LikeProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     like: (image: Image) => dispatch(like(image)),
     unlike: (image: Image) => dispatch(unlike(image))
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Like);

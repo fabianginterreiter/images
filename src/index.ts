@@ -40,6 +40,14 @@ app.use("/thumbs", express.static(config.getThumbnailPath()));
 app.use("/images", express.static(config.getPreviewPath()));
 
 app.get("*", (req, res) => {
+  if (req.path.startsWith("/thumbs")) {
+    console.log("WAAA");
+  }
+
+  if (req.path.startsWith("/images")) {
+    
+  }
+
   res.sendFile(path.resolve(__dirname, "./public", "index.html"));
 });
 

@@ -1,15 +1,57 @@
 import {ADD_ALBUM_TO_IMAGE, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE, LIKE_IMAGE,
   REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE, REMOVE_TAG, REVERT_IMAGE,
-  SET_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
+  SET_IMAGES, UNLIKE_IMAGE, LOAD_MORE_IMAGES, SET_IMAGE_SERVICE, ADD_IMAGES} from "../actionTypes";
 import Ajax from "../libs/Ajax";
-import {Album, Image, Person, Tag} from "../types/types";
+import {Album, Image, Person, Tag, Service} from "../types/types";
 
-export const loadImages = (service: string) => {
+export const loadImages = (path: string) => {
   return (dispatch) => {
     setTimeout(() => {
+      dispatch({
+        path,
+        type: SET_IMAGE_SERVICE
+      });
+
       dispatch(setImages([]));
-      Ajax.get(service).then((images) => dispatch(setImages(images)));
+      Ajax.get(path).then((images) => dispatch(setImages(images)));
     }, 0);
+  };
+};
+
+export const loadImagesWithOffset = (path: string) => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch({
+        path,
+        offset: 0,
+        type: SET_IMAGE_SERVICE
+      });
+
+      dispatch(setImages([]));
+      Ajax.get(path + (path.indexOf("?") > 0 ? "&" : "?") + "limit=100").then((images) => dispatch(setImages(images)));
+    }, 0);
+  };
+};
+
+export const loadMoreImages = (service: Service) => {
+  return (dispatch) => {
+    if (service.loading || service.end) {
+      return dispatch({type:"NOTHING"});
+    }
+
+    const nextOffset = service.offset + 100;
+
+    dispatch({
+      offset: nextOffset,
+      type: LOAD_MORE_IMAGES
+    });
+
+    Ajax.get(service.path + (service.path.indexOf("?") > 0 ? "&" : "?") + "limit=100&offset=" + nextOffset).then((images) => {
+      dispatch({
+        type: ADD_IMAGES,
+        images
+      })
+    });
   };
 };
 

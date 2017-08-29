@@ -3,8 +3,8 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
-import {select, toggle, unselect} from "../actions";
-import {Image} from "../types/types";
+import {select, toggle, unselect, loadMoreImages} from "../actions";
+import {Image, Service} from "../types/types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
 import Fullscreen from "./Fullscreen";
@@ -20,10 +20,14 @@ interface ImagesProps {
   showDate: boolean;
   pinned: boolean;
   images: Image[];
+  offset: number;
+  reload?: boolean;
+  service: Service;
   select(image: Image): void;
   unselect(image: Image): void;
   toggle(image: Image): void;
   isSelected(image: Image): boolean;
+  loadMoreImages(service: Service): void;
 }
 
 interface ImagesState {
@@ -34,6 +38,7 @@ interface ImagesState {
 class Images extends React.Component<ImagesProps, ImagesState> {
   private lastSelection: number;
   private resizeTimer;
+  private pinned: boolean;
 
   constructor(props: ImagesProps) {
     super(props);
@@ -44,6 +49,8 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     };
 
     this.lastSelection = -1;
+
+    this.pinned = props.pinned;
   }
 
   public componentDidMount() {
@@ -57,7 +64,11 @@ class Images extends React.Component<ImagesProps, ImagesState> {
   }
 
   public componentWillReceiveProps(props) {
-    // this.handleResize();
+    if (this.pinned !== props.pinned) {
+      this.handleResize();
+    }
+
+    this.pinned = props.pinned;
   }
 
   public componentWillUnmount() {
@@ -160,6 +171,12 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     );
   }
 
+  private loadMore() {
+    if (this.props.reload) {
+      this.props.loadMoreImages(this.props.service);
+    }
+  }
+
   private handleResize() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(() => {
@@ -219,7 +236,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
         view: this.state.view + 1
       }, () => {
         if (this.state.view === this.props.images.length - 5) {
-          // ImagesStore.more();
+          this.loadMore();
         }
       });
     }
@@ -299,7 +316,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
   private handleScroll(e) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
-      // ImagesStore.more();
+      this.loadMore();
     }
   }
 
@@ -345,13 +362,16 @@ const mapStateToProps = (state) => {
   return {
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     pinned: state.view.pinned,
+    service: state.service,
     showDate: state.options.showDate,
-    thumbnailsSize: state.options.thumbnailsSize
+    thumbnailsSize: state.options.thumbnailsSize,
+    offset: state.service.offset
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    loadMoreImages: (service: Service) => dispatch(loadMoreImages(service)),
     select: (image: Image) => dispatch(select(image)),
     toggle: (image: Image) => dispatch(toggle(image)),
     unselect: (image: Image) => dispatch(unselect(image))

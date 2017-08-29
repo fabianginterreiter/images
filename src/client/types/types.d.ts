@@ -63,3 +63,10 @@ export interface ExtendedFile {
   file: File;
   name: string;
 }
+
+export interface Service {
+  path: string;
+  offset: number;
+  loading: boolean;
+  end: boolean;
+}

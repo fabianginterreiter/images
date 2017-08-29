@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {loadImages} from "../actions";
+import {loadImagesWithOffset} from "../actions";
 import Ajax from "../libs/Ajax";
 import {Image} from "../types/types";
 import Images from "./Images";
@@ -11,7 +11,7 @@ class All extends React.Component<{
 
   public render() {
     return (
-      <Images images={this.props.images} />
+      <Images images={this.props.images} reload={true} />
     );
   }
 }
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  dispatch(loadImages("/api/images"));
+  dispatch(loadImagesWithOffset("/api/images"));
   return {};
 };
 

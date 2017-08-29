@@ -1,8 +1,10 @@
 import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
+import {connect} from "react-redux";
+import {toggle} from "../actions";
+import {deleteImage, like, unlike} from "../actions/images";
 import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
 import {Image} from "../types/types";
 import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
 import Faces from "./Faces";
@@ -17,6 +19,11 @@ interface FullscreenProps {
   previous(): void;
   next(): void;
   handleClose(): void;
+  toggle(image: Image): void;
+  isSelected(image: Image): boolean;
+  like(image: Image): void;
+  unlike(image: Image): void;
+  deleteImage(image: Image): void;
 }
 
 interface FullscreenState {
@@ -29,7 +36,7 @@ interface FullscreenState {
   };
 }
 
-export default class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
+class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
   private timeout;
 
   constructor(props) {
@@ -60,21 +67,21 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     clearTimeout(this.timeout);
   }
 
-  render() {
+  public render() {
     let titleClass = "title";
 
     if (this.state.show) {
       titleClass += " show";
     }
 
-    let options = [{
+    const options = [{
         key: "delete",
         type: "action",
         name: "Delete"
       }];
 
     let checkBoxClass = null;
-    if (SelectionStore.isSelected(this.props.image)) {
+    if (this.props.isSelected(this.props.image)) {
         checkBoxClass = "fa fa-check-square-o";
       } else {
         checkBoxClass = "fa fa-square-o";
@@ -90,7 +97,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
           {this.props.image.title} ({this.props.number}/{this.props.size})
           <div className="options">
             <Like image={this.props.image} />&nbsp;
-            <i className={checkBoxClass} onClick={() => SelectionStore.handle(this.props.image)} />
+            <i className={checkBoxClass} onClick={() => this.props.toggle(this.props.image)} />
             <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>
@@ -122,13 +129,17 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     switch (e.keyCode) {
       case 32: {
         this._show();
-        ImagesStore.like(this.props.image);
+        if (this.props.image.liked) {
+          this.props.unlike(this.props.image);
+        } else {
+          this.props.like(this.props.image);
+        }
         break;
       }
 
       case 66: {
         this._show();
-        SelectionStore.handle(this.props.image);
+        this.props.toggle(this.props.image);
         break;
       }
     }
@@ -160,7 +171,7 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     switch (option.key) {
       case "delete": {
         DialogStore.open("Delete Image", "Do you really want to delete the image?")
-        .then(() => ImagesStore.delete(this.props.image));
+        .then(() => this.props.deleteImage(this.props.image));
         break;
       }
     }
@@ -191,3 +202,20 @@ export default class Fullscreen extends React.Component<FullscreenProps, Fullscr
     });
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteImage: (image: Image) => dispatch(deleteImage(image)),
+    toggle: (image: Image) => dispatch(toggle(image)),
+    like: (image: Image) => dispatch(like(image)),
+    unlike: (image: Image) => dispatch(unlike(image))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Fullscreen);

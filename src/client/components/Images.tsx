@@ -1,13 +1,10 @@
 import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
+import {connect} from "react-redux";
 import { Link } from "react-router";
-import NavigationsState from "../states/NavigationsState";
-import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
-import ShowDateStore from "../stores/ShowDateStore";
-import ThumbnailsSizeStore from "../stores/ThumbnailsSizeStore";
-import {Image} from "../types/types";
+import {select, toggle, unselect, loadMoreImages} from "../actions";
+import {Image, Service} from "../types/types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
 import Fullscreen from "./Fullscreen";
@@ -19,65 +16,75 @@ interface ImagesProps {
     hideFullscreen: boolean;
     hideLike: boolean;
   };
+  thumbnailsSize: number;
+  showDate: boolean;
+  pinned: boolean;
+  images: Image[];
+  offset: number;
+  reload?: boolean;
+  service: Service;
+  select(image: Image): void;
+  unselect(image: Image): void;
+  toggle(image: Image): void;
+  isSelected(image: Image): boolean;
+  loadMoreImages(service: Service): void;
 }
 
 interface ImagesState {
-  images: Image[];
   view: number;
   width: number;
-  size: number;
 }
 
-export default class Images extends React.Component<ImagesProps, ImagesState> {
+class Images extends React.Component<ImagesProps, ImagesState> {
   private lastSelection: number;
-  private width: number;
   private resizeTimer;
+  private pinned: boolean;
 
   constructor(props: ImagesProps) {
     super(props);
 
     this.state = {
-      images: [],
-      size: ThumbnailsSizeStore.getObject(),
       view: -1,
       width: -1
     };
 
     this.lastSelection = -1;
+
+    this.pinned = props.pinned;
   }
 
   public componentDidMount() {
-    ImagesStore.addChangeListener(this, (images) => this.setState({images}));
-    ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size})));
-    NavigationsState.addChangeListener(this, this.handleResize.bind(this));
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ResizeListener.addChangeListener(this, this.handleResize.bind(this));
-    SelectionStore.addChangeListener(this, () => this.forceUpdate());
-    ShowDateStore.addChangeListener(this, () => this.forceUpdate());
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
 
-    this.width = document.getElementById("container").clientWidth;
+    this.setState({
+      width: document.getElementById("container").clientWidth
+    });
+  }
+
+  public componentWillReceiveProps(props) {
+    if (this.pinned !== props.pinned) {
+      this.handleResize();
+    }
+
+    this.pinned = props.pinned;
   }
 
   public componentWillUnmount() {
-    ImagesStore.removeChangeListener(this);
-    ThumbnailsSizeStore.removeChangeListener(this);
-    NavigationsState.removeChangeListener(this);
     KeyUpListener.removeChangeListener(this);
     ResizeListener.removeChangeListener(this);
     ScrollListener.removeChangeListener(this);
-    SelectionStore.removeChangeListener(this);
-    ShowDateStore.removeChangeListener(this);
   }
 
   public render() {
-    if (!this.state.images) {
+    if (!this.props.images) {
       return (<div id="container">
         Loading
       </div>);
     }
 
-    if (this.state.images.length === 0) {
+    if (this.props.images.length === 0) {
       return (<div id="container">
         <Empty />
       </div>);
@@ -88,11 +95,11 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     if (this.state.view >= 0) {
       view = (
         <Fullscreen
-          image={this.state.images[this.state.view]}
+          image={this.props.images[this.state.view]}
           next={this.handleNext.bind(this)}
           previous={this.handlePrevious.bind(this)}
           handleClose={this.handleFullscreenClose.bind(this)}
-          number={this.state.view + 1} size={this.state.images.length} />
+          number={this.state.view + 1} size={this.props.images.length} />
       );
     }
 
@@ -100,9 +107,9 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
     let lastDate = "";
 
-    this._calcuateDisplayWidth(this.state.images);
+    this._calcuateDisplayWidth(this.props.images);
 
-    this.state.images.forEach((image: Image, idx: number) => {
+    this.props.images.forEach((image: Image, idx: number) => {
       const newDate = image.year + "" + image.month + "" + image.day;
 
       let className = "item";
@@ -111,19 +118,19 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
         height: image.displayHeight + "px",
         width: image.displayWidth + "px"
       } : {
-        height: ThumbnailsSizeStore.getObject() + "px"
+        height: this.props.thumbnailsSize + "px"
       };
 
       let checkBoxClass = null;
 
-      if (SelectionStore.isSelected(image)) {
+      if (this.props.isSelected(image)) {
         className += " selected";
         checkBoxClass = "fa fa-check-square";
       } else {
         checkBoxClass = "fa fa-check-square-o";
       }
 
-      if (ShowDateStore.getObject() && lastDate !== newDate) {
+      if (this.props.showDate && lastDate !== newDate) {
         elements.push(
           <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
             <div style={{width: image.displayWidth + "px"}}>
@@ -132,7 +139,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
             </div>
             <div className="imgBorder">
               <ImageComponent image={image} style={style} />
-              <div className="select" onClick={this.handleSelect.bind(this, idx)}>
+              <div className="select" onClick={(e) => this.handleSelect(idx, e)}>
                 <i className={checkBoxClass} aria-hidden="true" />
               </div>
               {this.renderLikeButton(image)}
@@ -157,11 +164,17 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     return (
       <div id="container">
         {view}
-        <div className={"container size" + this.state.size}>
+        <div className={"container size" + this.props.thumbnailsSize}>
           {elements}
         </div>
       </div>
     );
+  }
+
+  private loadMore() {
+    if (this.props.reload) {
+      this.props.loadMoreImages(this.props.service);
+    }
   }
 
   private handleResize() {
@@ -171,11 +184,12 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
       if (!container) {
         return;
       }
-      const width = container.clientWidth;
+      const width: number = container.clientWidth;
 
-      if (width !== this.width) {
-        this.width = width;
-        this.forceUpdate();
+      if (width !== this.state.width && width) {
+        this.setState({
+          width
+        });
       }
     }, 300);
   }
@@ -203,7 +217,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
       case 65: {
         if (e.ctrlKey) {
-          this.state.images.forEach((image) => SelectionStore.select(image));
+          this.props.images.forEach((image) => this.props.select(image));
         }
         break;
       }
@@ -217,12 +231,12 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
   }
 
   private handleNext() {
-    if (this.state.view < this.state.images.length - 1) {
+    if (this.state.view < this.props.images.length - 1) {
       this.setState({
         view: this.state.view + 1
       }, () => {
-        if (this.state.view === this.state.images.length - 5) {
-          ImagesStore.more();
+        if (this.state.view === this.props.images.length - 5) {
+          this.loadMore();
         }
       });
     }
@@ -252,48 +266,48 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
   private handleSelect(idx: number, event) {
     if (event.shiftKey && this.lastSelection >= 0) {
-      if (SelectionStore.isSelected(this.state.images[idx])) {
+      if (this.props.isSelected(this.props.images[idx])) {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-          SelectionStore.unselect(this.state.images[index]);
+          this.props.unselect(this.props.images[index]);
         }
       } else {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-          SelectionStore.select(this.state.images[index]);
+          this.props.select(this.props.images[index]);
         }
       }
     } else {
-      SelectionStore.handle(this.state.images[idx]);
+      this.props.toggle(this.props.images[idx]);
     }
 
     this.lastSelection = idx;
   }
 
   private handleDateSelect(idx: number) {
-    const date = this.state.images[idx].year + "" + this.state.images[idx].month + "" + this.state.images[idx].day;
+    const date = this.props.images[idx].year + "" + this.props.images[idx].month + "" + this.props.images[idx].day;
 
     let hasNotSelected = false;
 
     let index = idx;
 
-    for (; index < this.state.images.length; index++) {
-      const newDate = this.state.images[index].year + ""
-        + this.state.images[index].month + ""
-        + this.state.images[index].day;
+    for (; index < this.props.images.length; index++) {
+      const newDate = this.props.images[index].year + ""
+        + this.props.images[index].month + ""
+        + this.props.images[index].day;
 
       if (newDate !== date) {
         break;
       }
 
-      if (!SelectionStore.isSelected(this.state.images[index])) {
+      if (!this.props.isSelected(this.props.images[index])) {
         hasNotSelected = true;
       }
     }
 
     for (let i = idx; i < index; i++) {
       if (hasNotSelected) {
-        SelectionStore.select(this.state.images[i]);
+        this.props.select(this.props.images[i]);
       } else {
-        SelectionStore.unselect(this.state.images[i]);
+        this.props.unselect(this.props.images[i]);
       }
     }
 
@@ -302,7 +316,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
 
   private handleScroll(e) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
-      ImagesStore.more();
+      this.loadMore();
     }
   }
 
@@ -310,11 +324,11 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     let sum = 0;
     let images = [];
 
-    if (!this.width) {
+    if (!this.state.width) {
       return;
     }
 
-    const max = this.width / ThumbnailsSizeStore.getObject();
+    const max = this.state.width / this.props.thumbnailsSize;
 
     imgs.forEach((image: Image) => {
       image.displayWidth = 0;
@@ -323,7 +337,7 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
       images.push(image);
 
       if (sum > max) {
-        const widthSize = (this.width - 2 * 1 * images.length) / sum;
+        const widthSize = (this.state.width - 2 * 1 * images.length) / sum;
         images.forEach((object: Image) => {
           object.displayWidth = object.proportion * widthSize;
           object.displayHeight = object.displayWidth / object.proportion;
@@ -343,3 +357,25 @@ export default class Images extends React.Component<ImagesProps, ImagesState> {
     return (<Like image={image} />);
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
+    pinned: state.view.pinned,
+    service: state.service,
+    showDate: state.options.showDate,
+    thumbnailsSize: state.options.thumbnailsSize,
+    offset: state.service.offset
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadMoreImages: (service: Service) => dispatch(loadMoreImages(service)),
+    select: (image: Image) => dispatch(select(image)),
+    toggle: (image: Image) => dispatch(toggle(image)),
+    unselect: (image: Image) => dispatch(unselect(image))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Images);

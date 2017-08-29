@@ -1,6 +1,6 @@
-import * as React from 'react'
-import DialogStore from './DialogStore'
-import {DialogStoreOption} from './DialogStore'
+import * as React from "react";
+import DialogStore from "./DialogStore";
+import {DialogStoreOption} from "./DialogStore";
 
 interface DialgoState {
   options: DialogStoreOption;
@@ -9,11 +9,11 @@ interface DialgoState {
 class Dialog extends React.Component<{}, DialgoState> {
   constructor(props) {
     super(props);
-    this.state = {options:undefined};
+    this.state = {options: undefined};
   }
 
   componentDidMount() {
-    DialogStore.addChangeListener(this, (options) => (this.setState({options:options})));
+    DialogStore.addChangeListener(this, (options) => (this.setState({options})));
   }
 
   componentWillUnmount() {
@@ -35,7 +35,7 @@ class Dialog extends React.Component<{}, DialgoState> {
       return (<span />);
     }
 
-    var icon = null;
+    let icon = null;
 
     if (this.state.options.icon) {
       icon = (<i className={this.state.options.icon} />);

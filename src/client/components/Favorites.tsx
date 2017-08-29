@@ -1,13 +1,13 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
+import {connect} from "react-redux";
+import {loadImages} from "../actions/images";
+import {Image} from "../types/types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 
-export default class Favorites extends React.Component<{}, {}> {
-
-  public componentDidMount() {
-    return ImagesStore.load("/api/images?liked=true");
-  }
+class Favorites extends React.Component<{
+  images: Image[];
+}, {}> {
 
   public render() {
     return (
@@ -16,8 +16,21 @@ export default class Favorites extends React.Component<{}, {}> {
           <i className="fa fa-heart-o" aria-hidden="true" /> Favorites
           <ImagesNav />
         </h1>
-        <Images />
+        <Images images={this.props.images} />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    images: state.images
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  dispatch(loadImages("/api/images?liked=true"));
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

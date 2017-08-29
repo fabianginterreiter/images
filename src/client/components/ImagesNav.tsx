@@ -1,8 +1,13 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
+import {connect} from "react-redux";
+import {select, unselect} from "../actions";
+import {Image} from "../types/types";
 
-export default class ImagesNav extends React.Component<{}, {}> {
+class ImagesNav extends React.Component<{
+  images: Image[];
+  select(image: Image);
+  unselect(image: Image);
+}, {}> {
   public render() {
     return (
       <nav className="group">
@@ -18,12 +23,25 @@ export default class ImagesNav extends React.Component<{}, {}> {
   }
 
   private handleSelectAll() {
-    ImagesStore.getObject().forEach((image) => (SelectionStore.select(image)));
-    ImagesStore.dispatch();
+    this.props.images.forEach((image) => (this.props.select(image)));
   }
 
   private handleUnselectAll() {
-    ImagesStore.getObject().forEach((image) => (SelectionStore.unselect(image)));
-    ImagesStore.dispatch();
+    this.props.images.forEach((image) => (this.props.unselect(image)));
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    images: state.images
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    select: (image: Image) => dispatch(select(image)),
+    unselect: (image: Image) => dispatch(unselect(image)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImagesNav);

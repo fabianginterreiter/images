@@ -1,34 +1,55 @@
 import * as React from "react";
+import {connect} from "react-redux";
 import { browserHistory } from "react-router";
+import {loadImages} from "../actions";
 import Ajax from "../libs/Ajax";
-import ImagesStore from "../stores/ImagesStore";
-import {Tag} from "../types/types";
+import {Image, Tag} from "../types/types";
 import { DialogStore, Quickedit } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 
-interface TagComponentState {
+interface TagComponentProps {
+  params: {
+    id: number;
+  };
   tag: Tag;
+  images: Image[];
+}
+
+interface TagComponentState {
   edit: boolean;
 }
 
-export default class TagComponent extends React.Component<{}, TagComponentState> {
+class TagComponent extends React.Component<TagComponentProps, TagComponentState> {
   constructor(props) {
     super(props);
 
     this.state = {
-      tag: undefined,
       edit: false
     };
   }
 
-  componentDidMount() {
-    this.componentWillReceiveProps(this.props);
-  }
+  public render() {
+    if (!this.props.tag) {
+      return <span />;
+    }
 
-  componentWillReceiveProps(newProps) {
-    ImagesStore.load("/api/images?tag=" + newProps.params.id);
-    Ajax.get("/api/tags/" + newProps.params.id).then((tag) => this.setState({tag}));
+    return (
+      <div>
+        <h1>
+          <i className="fa fa-tag" aria-hidden="true" /> {this.renderTitle()}
+          <ImagesNav>
+            <a onClick={this.handleEdit.bind(this)} className="primary">
+              <i className="fa fa-pencil-square-o" /><span className="min500"> Edit</span>
+            </a>
+            <a onClick={this.handleDelete.bind(this)} className="warning">
+              <i className="fa fa-trash-o" /><span className="min500"> Delete</span>
+            </a>
+          </ImagesNav>
+        </h1>
+        <Images images={this.props.images} />
+      </div>
+    );
   }
 
   private handleEdit() {
@@ -38,15 +59,14 @@ export default class TagComponent extends React.Component<{}, TagComponentState>
   }
 
   private handleChange(value: string) {
-    if (this.state.tag.name === value) {
+    if (this.props.tag.name === value) {
       this.setState({
         edit: false
       });
     } else {
-      this.state.tag.name = value;
-      Ajax.put("/api/tags/" + this.state.tag.id, this.state.tag).then((tag) => {
+      this.props.tag.name = value;
+      Ajax.put("/api/tags/" + this.props.tag.id, this.props.tag).then((tag) => {
         this.setState({
-          tag,
           edit: false
         });
       });
@@ -56,37 +76,33 @@ export default class TagComponent extends React.Component<{}, TagComponentState>
   private renderTitle() {
     if (this.state.edit) {
       return (<Quickedit
-        value={this.state.tag.name}
+        value={this.props.tag.name}
         onChange={this.handleChange.bind(this)}
         onCancel={() => this.setState({edit: false})} />);
     }
 
-    return this.state.tag.name;
+    return this.props.tag.name;
   }
 
   private handleDelete() {
     DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
-    .then((result) => Ajax.delete("/api/tags/" + this.state.tag.id)).then(() => {
+    .then((result) => Ajax.delete("/api/tags/" + this.props.tag.id)).then(() => {
       browserHistory.push("/images");
-    }).catch((e) => console.log(e));
-  }
-
-  render() {
-    if (!this.state.tag) {
-      return <span />;
-    }
-
-    return (
-      <div>
-        <h1>
-          <i className="fa fa-tag" aria-hidden="true" /> {this.renderTitle()}
-          <ImagesNav>
-            <a onClick={this.handleEdit.bind(this)} className="primary"><i className="fa fa-pencil-square-o" /><span className="min500"> Edit</span></a>
-            <a onClick={this.handleDelete.bind(this)} className="warning"><i className="fa fa-trash-o" /><span className="min500"> Delete</span></a>
-          </ImagesNav>
-        </h1>
-        <Images />
-      </div>
-    );
+    });
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    images: state.images,
+    tag: state.tags.find((tag) => tag.id === parseInt(ownProps.params.id, 10))
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  dispatch(loadImages(`/api/images?tag=${ownProps.params.id}`));
+  return {
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TagComponent);

@@ -1,7 +1,6 @@
 import * as React from "react";
-import NavigationsState from "../states/NavigationsState";
-import UserState from "../states/UserState";
-import ImagesStore from "../stores/ImagesStore";
+import * as ReactRedux from "react-redux";
+import {setImages} from "../actions";
 import { Main, ScrollUp } from "../utils/Utils";
 import DragAndDropUpload from "./DragAndDropUpload";
 import Header from "./Header";
@@ -15,29 +14,27 @@ interface ImagesAppProps {
   location: {
     pathname: string;
   };
+  pinned: boolean;
+  isLoggedIn(): boolean;
 }
 
-export default class ImagesApp extends React.Component<ImagesAppProps, {}> {
+class ImagesApp extends React.Component<ImagesAppProps, {}> {
   constructor(props) {
     super(props);
   }
 
-  public componentDidMount() {
-    NavigationsState.addChangeListener(this, this.handleNavigationChange.bind(this));
-  }
-
-  public componentWillUnmount() {
-    NavigationsState.removeChangeListener(this);
+  public componentWillReceiveProps(props) {
+    this.handleNavigationChange();
   }
 
   public render() {
-    if (!UserState.getUser()) {
+    if (!this.props.isLoggedIn()) {
       return (<div>Not User</div>);
     }
 
     let contentClass = "content";
     let pinned = "";
-    if (NavigationsState.getObject().pinned) {
+    if (this.props.pinned) {
       contentClass += " pinned";
       pinned = "pinned";
     }
@@ -68,3 +65,12 @@ export default class ImagesApp extends React.Component<ImagesAppProps, {}> {
     this.forceUpdate();
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: () => state.session !== null,
+    pinned: state.view.pinned
+  };
+};
+
+export default ReactRedux.connect(mapStateToProps)(ImagesApp);

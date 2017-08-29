@@ -1,37 +1,37 @@
 import * as React from "react";
+import {connect} from "react-redux";
 import { Link } from "react-router";
-import ImagesStore from "../stores/ImagesStore";
+import {addTag, addTagToImage, removeTag} from "../actions";
 import {Image, Tag} from "../types/types";
 import { AutoComplete } from "../utils/Utils";
 
 interface TagsListProps {
   image: Image;
+  addTagToImage(image: Image, tag: Tag): void;
+  removeTag(image: Image, tag: Tag): void;
+  addTag(tag: Tag): void;
 }
 
-export default class TagsList extends React.Component<TagsListProps, {}> {
+class TagsList extends React.Component<TagsListProps, {}> {
 
-  private handleAddTag(tag: Tag): void {
-    ImagesStore.addTag(this.props.image, tag);
-  }
-
-  private handleDeleteTag(tag: Tag): void {
-    ImagesStore.deleteTag(this.props.image, tag);
-  }
-
-  render() {
+  public render() {
     return (
       <div className="tags">
         <h4><i className="fa fa-tag" aria-hidden="true" /> Tags</h4>
-
         <div className="input">
-          <AutoComplete service="/api/tags" onSelect={this.handleAddTag.bind(this)} ignore={this.props.image.tags} placeholder="Add Tag" />
+          <AutoComplete service="/api/tags"
+          onSelect={(tag) => this.props.addTagToImage(this.props.image, tag as Tag)}
+          ignore={this.props.image.tags} placeholder="Add Tag" />
         </div>
 
         <ul>
           {
-            this.props.image.tags.map((tag, idx) => (<li key={tag.id}>
+            this.props.image.tags.map((tag) => (<li key={tag.id}>
               <Link to={`/images/tags/${tag.id}`}>{tag.name}</Link>
-              <span className="badge"><i className="icon-remove" onClick={this.handleDeleteTag.bind(this, tag)} /></span>
+              <span className="badge">
+                <i className="icon-remove" onClick={() => this.props.removeTag(this.props.image, tag)}>
+                  Remove</i>
+              </span>
             </li>))
           }
         </ul>
@@ -39,3 +39,21 @@ export default class TagsList extends React.Component<TagsListProps, {}> {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    albums: state.albums,
+    selection: state.selection,
+    tags: state.tags
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTag: (tag: Tag) => dispatch(addTag(tag)),
+    addTagToImage: (image: Image, tag: Tag) => dispatch(addTagToImage(image, tag)),
+    removeTag: (image: Image, tag: Tag) => dispatch(removeTag(image, tag))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TagsList);

@@ -118,8 +118,6 @@ export default class ImagesController extends BaseController {
 
       if (this.query.limit) {
         qb.limit(this.query.limit);
-      } else {
-        qb.limit(100);
       }
 
       if (this.query.offset) {

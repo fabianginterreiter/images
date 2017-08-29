@@ -1,12 +1,17 @@
 import * as $ from "jquery";
 import * as React from "react";
-import NavigationsState from "../states/NavigationsState";
-import OptionsStore from "../stores/OptionsStore";
-import UploadStore from "../stores/UploadStore";
+import {connect} from "react-redux";
+import {addFilesToUploads, openNavigation, openOptionsPanel} from "../actions";
 import Searchbar from "./Searchbar";
 import Title from "./Title";
 
-export default class Header extends React.Component<{}, {}> {
+interface HeaderProps {
+  openNavigation(): void;
+  openOptionsPanel(): void;
+  addFilesToUploads(files): void;
+}
+
+class Header extends React.Component<HeaderProps, {}> {
   constructor(props) {
     super(props);
   }
@@ -14,7 +19,7 @@ export default class Header extends React.Component<{}, {}> {
   public render() {
     return (
       <header>
-        <div className="title" onClick={NavigationsState.open.bind(NavigationsState)}>
+        <div className="title" onClick={() => this.props.openNavigation()}>
           <Title />
         </div>
 
@@ -38,10 +43,25 @@ export default class Header extends React.Component<{}, {}> {
   }
 
   private handleFileSelect(event) {
-    UploadStore.setFiles(event.target.files);
+    this.props.addFilesToUploads(event.target.files);
   }
 
   private handleOpenSettings() {
-    OptionsStore.setObject(true);
+    this.props.openOptionsPanel();
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openNavigation: () => dispatch(openNavigation()),
+    openOptionsPanel: () => dispatch(openOptionsPanel()),
+    addFilesToUploads: (files) => dispatch(addFilesToUploads(files))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

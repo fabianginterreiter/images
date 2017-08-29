@@ -1,12 +1,12 @@
-import * as React from 'react'
+import * as React from "react";
 
 interface DropdownProps {
   open: boolean;
-  onCancel():void;
+  onCancel(): void;
 }
 
 export default class Dropdown extends React.Component<DropdownProps, {}> {
-  render() {
+  public render() {
     if (!this.props.open) {
       return (<span />);
     }

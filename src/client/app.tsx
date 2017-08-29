@@ -1,9 +1,15 @@
 import * as React from "react";
+import cookie from "react-cookie";
 import * as ReactDOM from "react-dom";
+import * as ReactRedux from "react-redux";
 import * as ReactRouter from "react-router";
+import { applyMiddleware, createStore } from "Redux";
+import ReduxThunk from "redux-thunk";
+import { addUser, loadAlbums, loadPersons, loadTags, setPinNavigation,
+  setSession, setShowDate, setThumbnailSize, setUsers } from "./actions";
 import Album from "./components/Album";
 import Albums from "./components/Albums";
-import { All } from "./components/All";
+import All from "./components/All";
 import Dates from "./components/Dates";
 import DateView from "./components/DateView";
 import Favorites from "./components/Favorites";
@@ -18,31 +24,50 @@ import Tag from "./components/Tag";
 import Tags from "./components/Tags";
 import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
+import Ajax from "./libs/Ajax";
+import imagesApp from "./reducers";
 
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 
-ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="/" component={Init}>
-      <Route path="images" components={ImagesApp}>
-        <Route path="dates/:year/:month/:day" component={DateView} />
-        <Route path="dates/:year/:month" component={DateView} />
-        <Route path="dates/:year" component={DateView} />
-        <Route path="tags/:id" component={Tag} />
-        <Route path="persons/:id" component={Person} />
-        <Route path="albums/:albumId" component={Album} />
-        <Route path="favorites" component={Favorites} />
-        <Route path="persons" component={Persons} />
-        <Route path="tags" component={Tags} />
-        <Route path="albums" component={Albums} />
-        <Route path="dates" component={Dates} />
-        <Route path="selected" component={Selected} />
-        <Route path="trash" component={Trash} />
-        <Route path="search" component={Search} />
-        <IndexRoute component={All} />
-      </Route>
-      <Route path="profiles" component={UsersManagement} />
-    </Route>
-  </Router>,
-  document.getElementById("app")
-);
+const store = createStore(imagesApp, applyMiddleware(ReduxThunk));
+
+store.dispatch(setThumbnailSize(cookie.load("thumbnailsSize") ? cookie.load("thumbnailsSize") : 200));
+store.dispatch(setShowDate(cookie.load("showDate") === "true"));
+store.dispatch(setPinNavigation(cookie.load("pinned") === "true"));
+Ajax.get("/api/users").then((users) => store.dispatch(setUsers(users)));
+
+Ajax.get("/api/session").then((user) => {
+  store.dispatch(setSession(user));
+
+  store.dispatch(loadAlbums());
+  store.dispatch(loadPersons());
+  store.dispatch(loadTags());
+
+  ReactDOM.render(
+    <ReactRedux.Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={Init}>
+          <Route path="images" components={ImagesApp}>
+            <Route path="dates/:year/:month/:day" component={DateView} />
+            <Route path="dates/:year/:month" component={DateView} />
+            <Route path="dates/:year" component={DateView} />
+            <Route path="tags/:id" component={Tag} />
+            <Route path="persons/:id" component={Person} />
+            <Route path="albums/:id" component={Album} />
+            <Route path="favorites" component={Favorites} />
+            <Route path="persons" component={Persons} />
+            <Route path="tags" component={Tags} />
+            <Route path="albums" component={Albums} />
+            <Route path="dates" component={Dates} />
+            <Route path="selected" component={Selected} />
+            <Route path="trash" component={Trash} />
+            <Route path="search" component={Search} />
+            <IndexRoute component={All} />
+          </Route>
+          <Route path="profiles" component={UsersManagement} />
+        </Route>
+      </Router>
+    </ReactRedux.Provider>,
+    document.getElementById("app")
+  );
+});

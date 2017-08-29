@@ -1,25 +1,33 @@
 import * as React from "react";
+import {connect} from "react-redux";
 import { browserHistory } from "react-router";
-import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
+import {Image} from "../types/types";
 import Images from "./Images";
 
-export default class Selected extends React.Component<{}, {}> {
+class Selected extends React.Component<{
+  selection: Image[]
+}, {}> {
 
-  componentDidMount() {
-    if (SelectionStore.isEmpty()) {
+  public componentDidMount() {
+    if (this.props.selection.length === 0) {
       browserHistory.push("/images");
     }
-
-    ImagesStore.setObject(SelectionStore.getSelected());
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <h1><i className="icon-check" /> Selection</h1>
-        <Images />
+        <Images images={this.props.selection} />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    selection: state.selection
+  };
+};
+
+export default connect(mapStateToProps)(Selected);

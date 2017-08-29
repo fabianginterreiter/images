@@ -1,10 +1,13 @@
 import * as moment from "moment";
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
+import {connect} from "react-redux";
+import {loadImages} from "../actions";
+import {Image} from "../types/types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 
 interface DateViewProps {
+  images: Image[];
   params: {
     year?: number;
     month?: number;
@@ -12,29 +15,7 @@ interface DateViewProps {
   };
 }
 
-export default class DateView extends React.Component<DateViewProps, {}> {
-
-  public componentDidMount() {
-    this.componentWillReceiveProps(this.props);
-  }
-
-  public componentWillReceiveProps(newProps: DateViewProps) {
-    let url = "/api/images";
-    if (newProps.params.year) {
-      url += "?year=" + newProps.params.year;
-
-      if (newProps.params.month) {
-        url += "&month=" + newProps.params.month;
-
-        if (newProps.params.day) {
-          url += "&day=" + newProps.params.day;
-        }
-      }
-    }
-
-    ImagesStore.load(url);
-  }
-
+class DateView extends React.Component<DateViewProps, {}> {
   public render() {
     return (
       <div>
@@ -42,7 +23,7 @@ export default class DateView extends React.Component<DateViewProps, {}> {
           <i className="fa fa-calendar" aria-hidden="true" /> {this.renderTitle()}
           <ImagesNav />
         </h1>
-        <Images />
+        <Images images={this.props.images} />
       </div>
     );
   }
@@ -64,3 +45,29 @@ export default class DateView extends React.Component<DateViewProps, {}> {
     return date.format("YYYY");
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    images: state.images
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  let url = "/api/images";
+  if (ownProps.params.year) {
+    url += "?year=" + ownProps.params.year;
+
+    if (ownProps.params.month) {
+      url += "&month=" + ownProps.params.month;
+
+      if (ownProps.params.day) {
+        url += "&day=" + ownProps.params.day;
+      }
+    }
+  }
+
+  dispatch(loadImages(url));
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DateView);

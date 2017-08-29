@@ -1,12 +1,15 @@
 import * as $ from "jquery";
 import * as React from "react";
-import UploadStore from "../stores/UploadStore";
+import {connect} from "react-redux";
+import {addFilesToUploads, openNavigation, openOptionsPanel} from "../actions";
 
 interface DragAndDropUploadState {
   over: boolean;
 }
 
-export default class DragAndDropUpload extends React.Component<{}, DragAndDropUploadState> {
+class DragAndDropUpload extends React.Component<{
+  addFilesToUploads(files): void;
+}, DragAndDropUploadState> {
   constructor(props) {
     super(props);
 
@@ -16,11 +19,11 @@ export default class DragAndDropUpload extends React.Component<{}, DragAndDropUp
   }
 
   public componentDidMount() {
-    $(window).on("dragover dragenter", function() {
+    $(window).on("dragover dragenter", () => {
       this.setState({
         over: true
       });
-    }.bind(this));
+    });
   }
 
   public render() {
@@ -37,9 +40,22 @@ export default class DragAndDropUpload extends React.Component<{}, DragAndDropUp
 
   private handleDrop(e) {
     e.preventDefault();
-    UploadStore.setFiles(e.dataTransfer.files);
+    this.props.addFilesToUploads(e.dataTransfer.files);
     this.setState({
       over: false
     });
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addFilesToUploads: (files) => dispatch(addFilesToUploads(files))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DragAndDropUpload);

@@ -54,7 +54,7 @@ router.put("/:id/tags", (req, res) => {
 });
 
 router.delete("/:id/tags/:tag_id", (req, res) => new TagsController(req)
-.deleteTag().then(() => res.send("OK")).catch((e) => res.status(404).send(e)));
+.deleteTag().then(() => res.send({status: "OK"})).catch((e) => res.status(404).send(e)));
 
 router.put("/:id/albums", (req, res) => {
   new AlbumsController(req).addAlbum().then((tag) => res.send(tag))

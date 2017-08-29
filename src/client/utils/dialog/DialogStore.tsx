@@ -1,4 +1,4 @@
-import Dispatcher from "../Dispatcher"
+import Dispatcher from "../Dispatcher";
 
 export interface DialogStoreOption {
   title: string;
@@ -22,16 +22,16 @@ class DialogStore extends Dispatcher<DialogStoreOption> {
 
   open(title: string, text: string, settings: DialogStoreSettings = undefined) {
     return new Promise((resolve, reject) => {
-      var options: DialogStoreOption = {
-        title:title,
-        text:text,
-        resolve: resolve,
-        reject: reject,
+      const options: DialogStoreOption = {
+        title,
+        text,
+        resolve,
+        reject,
         open: true
       };
 
       if (settings) {
-        options.type = settings.type
+        options.type = settings.type;
         options.icon = settings.icon;
       }
 

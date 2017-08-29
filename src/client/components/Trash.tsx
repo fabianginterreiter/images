@@ -1,13 +1,36 @@
 import * as React from "react";
-import ImagesStore from "../stores/ImagesStore";
-import SelectionStore from "../stores/SelectionStore";
+import {connect} from "react-redux";
+import {loadImages, revertImage} from "../actions";
+import {Image} from "../types/types";
 import { DialogStore } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 
-export default class Trash extends React.Component<{}, {}> {
-  componentDidMount() {
-    ImagesStore.load("/api/images?trash=true");
+class Trash extends React.Component<{
+  images: Image[];
+  isSelected(image: Image): boolean
+  revertImage(image: Image): void;
+}, {}> {
+  public render() {
+    return (
+      <div>
+        <h1>
+          <i className="fa fa-trash-o"/> Trash
+          <ImagesNav>
+            <button className="danger" onClick={this.handleClear.bind(this)}>
+              <i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span>
+            </button>
+            <button className="success" onClick={this.handleRevert.bind(this)}>
+              <i className="fa fa-undo" aria-hidden="true" /><span className="min500"> Revert</span>
+            </button>
+          </ImagesNav>
+        </h1>
+        <Images options={{
+          hideFullscreen: true,
+          hideLike: true
+        }} images={this.props.images} />
+      </div>
+    );
   }
 
   private handleClear(): void {
@@ -16,41 +39,34 @@ export default class Trash extends React.Component<{}, {}> {
     }).then((result) => {
       if (result) {
         fetch("/api/trash/clear", {
-          method: "DELETE",
-          credentials: "include"
-        }).then(() => {
+          credentials: "include",
+          method: "DELETE"
         });
       }
     });
   }
 
   private handleRevert(): void {
-    let promises = [];
-
-    ImagesStore.getObject().forEach((image) => {
-      if (SelectionStore.isSelected(image)) {
-        promises.push(ImagesStore.revert(image));
+    this.props.images.forEach((image) => {
+      if (this.props.isSelected(image)) {
+        this.props.revertImage(image);
       }
     });
-
-    Promise.all(promises).then(() => this.forceUpdate());
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>
-          <i className="fa fa-trash-o"/> Trash
-          <ImagesNav>
-            <button className="danger" onClick={this.handleClear.bind(this)}><i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span></button>
-            <button className="success" onClick={this.handleRevert.bind(this)}><i className="fa fa-undo" aria-hidden="true" /><span className="min500"> Revert</span></button>
-          </ImagesNav>
-        </h1>
-        <Images options={{
-          hideLike: true,
-          hideFullscreen: true
-        }} />
-      </div>
-    );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    images: state.images,
+    isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  dispatch(loadImages("/api/images?trash=true"));
+  return {
+    revertImage: (image: Image) => dispatch(revertImage(image))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Trash);

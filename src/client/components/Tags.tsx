@@ -1,38 +1,56 @@
-import * as $ from "jquery";
 import * as React from "react";
+import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
+import {deleteTag, saveTag, sortTags} from "../actions";
 import Ajax from "../libs/Ajax";
-import NavigationsStore from "../stores/NavigationsStore";
 import {Tag} from "../types/types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 
-interface TagsComponentState {
+interface TagsProps {
   tags: Tag[];
+  delete(tag: Tag);
+  save(tag: Tag);
+  sort(key: string, asc: boolean);
 }
 
-export default class Tags extends React.Component<{}, TagsComponentState> {
+interface TagsComponentState {
+  edit: number;
+}
+
+class Tags extends React.Component<TagsProps, TagsComponentState> {
   constructor(props) {
     super(props);
 
     this.state = {
-      tags: []
+      edit: 0
     };
   }
 
-  componentDidMount() {
-    Ajax.get("/api/tags").then((tags) => this.setState({tags}));
-  }
+  public render() {
+    return (<div className="settings">
+      <h1><i className="fa fa-tags" aria-hidden="true" /> Tags</h1>
 
-  componentWillUnmount() {
+      <ExtendedTable columns={[
+        {title: "Name", name: "name"},
+        {title: "Images", name: "count", className: "option"},
+        {title: "Edit", className: "option"},
+        {title: "Delete", className: "option"}]} data={this.props.tags}
+        render={this._renderRow.bind(this)}
+        order={(name, asc) => this.props.sort.bind(name, asc)} name={"name"} asc={true} />
+
+    </div>);
   }
 
   private handleEdit(tag: Tag): void {
-    tag.edit = true;
-    this.forceUpdate();
+    this.setState({
+      edit: tag.id
+    });
   }
 
   private handleChange(tag: Tag, value: string): void {
-    tag.edit = false;
+    this.setState({
+      edit: 0
+    });
 
     if (tag.name === value) {
       return this.forceUpdate();
@@ -40,32 +58,23 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
 
     tag.name = value;
 
-    Ajax.put("/api/tags/" + tag.id, tag).then(() => {
-      this.forceUpdate();
-    });
+    this.props.save(tag);
   }
 
   private handleCancel(tag: Tag): void {
-    tag.edit = false;
+    this.setState({
+      edit: 0
+    });
     this.forceUpdate();
   }
 
   private handleDelete(tag: Tag): void {
     DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
-    .then((result) => Ajax.delete("/api/tags/" + tag.id)).then(() => {
-      for (let index = 0; index < this.state.tags.length; index++) {
-        if (this.state.tags[index].id === tag.id) {
-          this.state.tags.splice(index, 1);
-          break;
-        }
-      }
-      this.forceUpdate();
-      NavigationsStore.load();
-    });
+    .then((result) => this.props.delete(tag));
   }
 
   private _renderText(tag: Tag) {
-    if (tag.edit) {
+    if (tag.id === this.state.edit) {
       return (<Quickedit
         value={tag.name}
         onChange={(value) => this.handleChange(tag, value)}
@@ -83,23 +92,20 @@ export default class Tags extends React.Component<{}, TagsComponentState> {
       <td onClick={this.handleDelete.bind(this, tag)} className="option"><i className="fa fa-trash-o" /></td>
     </tr>);
   }
-
-  private order(name: string, asc: boolean): void {
-    sort(this.state.tags, name, asc).then((tags) => this.setState({
-      tags
-    }));
-  }
-
-  render() {
-    return (<div className="settings">
-      <h1><i className="fa fa-tags" aria-hidden="true" /> Tags</h1>
-
-      <ExtendedTable columns={[
-        {title: "Name", name: "name"},
-        {title: "Images", name: "count", className: "option"},
-        {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]} data={this.state.tags} render={this._renderRow.bind(this)} order={this.order.bind(this)} name={"name"} asc={true} />
-
-    </div>);
-  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tags: state.tags
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    delete: (tag: Tag) => dispatch(deleteTag(tag)),
+    save: (tag: Tag) => dispatch(saveTag(tag)),
+    sort: (key: string, asc: boolean) => dispatch(sortTags(key, asc))
+  };
+};
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Tags);

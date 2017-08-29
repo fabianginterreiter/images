@@ -1,5 +1,5 @@
-import Dispatcher from "../Dispatcher"
-import $ from "jquery"
+import $ from "jquery";
+import Dispatcher from "../Dispatcher";
 
 class ScrollListener extends Dispatcher<Event> {
   constructor() {

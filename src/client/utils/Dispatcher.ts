@@ -1,4 +1,4 @@
-var __next_objid=0;
+let __next_objid = 0;
 
 export default class Dispatcher<T> {
   private callbacks;
@@ -22,25 +22,25 @@ export default class Dispatcher<T> {
     return object.__obj_id;
   }
 
-  public addChangeListener(object, callback: (obj: T) => void):number {
-    var id = this._objectId(object);
+  public addChangeListener(object, callback: (obj: T) => void): number {
+    const id = this._objectId(object);
     this.callbacks[id] = callback;
     return id;
   }
 
   public removeChangeListener(object) {
-    var id = this._objectId(object);
+    const id = this._objectId(object);
     delete this.callbacks[id];
   }
 
   public dispatch() {
-    var payload: T = this.getObject();
+    const payload: T = this.getObject();
 
     if (this.takeover && this.callbacks[this.takeover]) {
       return this.callbacks[this.takeover](payload);
     }
 
-    for (var id in this.callbacks) {
+    for (const id in this.callbacks) {
       this.callbacks[id](payload);
     }
   }

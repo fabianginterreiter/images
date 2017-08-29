@@ -1,34 +1,32 @@
 import * as React from "react";
-import ThumbnailsSizeStore from "../stores/ThumbnailsSizeStore";
+import * as ReactRedux from "react-redux";
+import {setThumbnailSize} from "../actions";
 
-interface ThumbnailsResizerState {
+interface ThumbnailsResizerProps {
   size: number;
+  setThumbnailSize(size: string): void;
 }
 
-export default class ThumbnailsResizer extends React.Component<{}, ThumbnailsResizerState> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      size: ThumbnailsSizeStore.getObject()
-    };
-  }
-
-  componentDidMount() {
-    ThumbnailsSizeStore.addChangeListener(this, (size) => (this.setState({size})));
-  }
-
-  componentWillUnmount() {
-    ThumbnailsSizeStore.removeChangeListener(this);
-  }
-
-  handleChange(event) {
-    ThumbnailsSizeStore.setObject(event.target.value);
-  }
-
+class ThumbnailsResizer extends React.Component<ThumbnailsResizerProps, {}> {
   render() {
     return (
-      <input type="range" min="80" max="200" step="40" value={this.state.size} onChange={this.handleChange.bind(this)} />
+      <input type="range" min="80" max="200" step="40"
+      value={this.props.size}
+      onChange={(event) => this.props.setThumbnailSize(event.target.value)} />
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    size: state.options.thumbnailsSize
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setThumbnailSize: (size: string) => dispatch(setThumbnailSize(parseInt(size)))
+  };
+};
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(ThumbnailsResizer);

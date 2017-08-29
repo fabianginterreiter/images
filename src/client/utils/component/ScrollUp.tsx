@@ -1,5 +1,5 @@
-import * as React from "react"
-import ScrollListener from "../listener/ScrollListener"
+import * as React from "react";
+import ScrollListener from "../listener/ScrollListener";
 
 interface ScrollUpState {
   visible: boolean;
@@ -11,18 +11,30 @@ export default class ScrollUp extends React.Component<{}, ScrollUpState> {
 
     this.state = {
       visible: false
-    }
+    };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     ScrollListener.removeChangeListener(this);
   }
 
-  handleScroll(event) {
+  public render() {
+    const style = {
+      visibility: this.state.visible ? "visible" : "hidden"
+    };
+
+    return (
+      <div className="scrollup" style={style} onClick={this.handleClick.bind(this)}>
+        <i className="fa fa-arrow-circle-up" aria-hidden="true" />
+      </div>
+    );
+  }
+
+  private handleScroll(event) {
     if (document.body.scrollTop === 0) {
       if (this.state.visible) {
         this.setState({
@@ -38,19 +50,7 @@ export default class ScrollUp extends React.Component<{}, ScrollUpState> {
     }
   }
 
-  handleClick() {
-    window.scrollTo(0,0);
-  }
-
-  render() {
-    var style = {
-      visibility: this.state.visible ? "visible" : "hidden"
-    }
-
-    return (
-      <div className="scrollup" style={style} onClick={this.handleClick.bind(this)}>
-        <i className="fa fa-arrow-circle-up" aria-hidden="true" />
-      </div>
-    );
+  private handleClick() {
+    window.scrollTo(0, 0);
   }
 }

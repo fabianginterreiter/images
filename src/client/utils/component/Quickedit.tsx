@@ -1,11 +1,11 @@
-import * as React from "react"
-import * as $ from "jquery"
-import KeyUpListener from "../listener/KeyUpListener"
+import * as $ from "jquery";
+import * as React from "react";
+import KeyUpListener from "../listener/KeyUpListener";
 
 interface QuickeditProps {
   value: string;
-  onCancel():void;
-  onChange(value:string):void;
+  onCancel(): void;
+  onChange(value: string): void;
 }
 
 interface QuickeditState {
@@ -18,18 +18,25 @@ export default class Quickedit extends React.Component<QuickeditProps, Quickedit
 
     this.state = {
       value: props.value
-    }
+    };
   }
 
-  componentDidMount() {
+  public render() {
+    return (<form onSubmit={this.handleSubmit.bind(this)} className="quickedit">
+      <input type="text" value={this.state.value} onBlur={this.handleBlur.bind(this)}
+      autoFocus onChange={this.handleChange.bind(this)} />
+    </form>);
+  }
+
+  public componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     KeyUpListener.removeChangeListener(this);
   }
 
-  handleKeyUp(event) {
+  private handleKeyUp(event) {
     switch (event.keyCode) {
       case 27: {
         if (this.props.onCancel) {
@@ -40,28 +47,22 @@ export default class Quickedit extends React.Component<QuickeditProps, Quickedit
     }
   }
 
-  handleChange(event) {
+  private handleChange(event) {
     this.setState({
       value: event.target.value
-    })
+    });
   }
 
-  handleBlur(event) {
+  private handleBlur(event) {
     if (this.props.onChange) {
       this.props.onChange(this.state.value);
     }
   }
 
-  handleSubmit(e) {
+  private handleSubmit(e) {
     e.preventDefault();
     if (this.props.onChange) {
       this.props.onChange(this.state.value);
     }
-  }
-
-  render() {
-    return (<form onSubmit={this.handleSubmit.bind(this)} className="quickedit">
-      <input type="text" value={this.state.value} onBlur={this.handleBlur.bind(this)} autoFocus onChange={this.handleChange.bind(this)} />
-    </form>);
   }
 }

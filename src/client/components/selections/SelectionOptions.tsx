@@ -108,7 +108,7 @@ class SelectionOptions extends React.Component<{
     if (album.id) {
       return Promise.resolve(album);
     } else {
-      return Ajax.post("/api/albums", album).then((object) => {
+      return Ajax.post("/api/albums", album).then((object: Album) => {
         this.props.addAlbum(object);
         return object;
       });

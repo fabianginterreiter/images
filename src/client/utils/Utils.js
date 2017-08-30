@@ -25,9 +25,6 @@ import DialogStore from './dialog/DialogStore'
 import SelectDialogStore from './dialog/SelectDialogStore'
 import SingleSelectDialogStore from './dialog/SingleSelectDialogStore'
 
-// Helper
-import sort from './helper/sort'
-
 export { Dispatcher,
   Cookies,
 
@@ -51,7 +48,4 @@ export { Dispatcher,
   Main,
   DialogStore,
   SelectDialogStore,
-  SingleSelectDialogStore,
-
-  // helper
-  sort } 
+  SingleSelectDialogStore}

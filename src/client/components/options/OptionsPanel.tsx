@@ -47,17 +47,17 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
+    open: state.view.optionsPanelOpen,
     session: state.session,
-    showDate: state.options.showDate,
-    open: state.view.optionsPanelOpen
+    showDate: state.options.showDate
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    closeOptionsPanel: () => dispatch(closeOptionsPanel()),
     deleteSession: () => dispatch(deleteSession()),
-    setShowDate: (show: boolean) => dispatch(setShowDate(show)),
-    closeOptionsPanel: () => dispatch(closeOptionsPanel())
+    setShowDate: (show: boolean) => dispatch(setShowDate(show))
   };
 };
 

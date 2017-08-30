@@ -1,11 +1,11 @@
 import {ADD_IMAGES, LOAD_MORE_IMAGES, REACHED_END, SET_IMAGE_SERVICE, SET_IMAGES} from "../actionTypes";
 
 export default function session(state = {
-  url: null,
-  offset: 0,
+  end: false,
   loading: false,
-  end: false
-},                              action) {
+  offset: 0,
+  url: null
+}, action) {
   switch (action.type) {
     case SET_IMAGE_SERVICE:
       return {path: action.path, loading: true, offset: 0, end: false};

@@ -12,7 +12,7 @@ export default function selection(state = [], action) {
     case CLEAR_SELECTION:
       return [];
     case TOGGLE_SELECTION:
-      return state.findIndex((image) => image.id === action.image.id) >= 0 ?
+      return state.find((image) => image.id === action.image.id) ?
         state.filter((image) => (image.id !== action.image.id)) :
         [...state, action.image];
     default:

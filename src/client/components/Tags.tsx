@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import {deleteTag, saveTag, sortTags} from "../actions";
 import Ajax from "../libs/Ajax";
 import {Tag} from "../types";
-import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
+import {DialogStore, ExtendedTable, Quickedit} from "../utils/Utils";
 
 interface TagsProps {
   tags: Tag[];

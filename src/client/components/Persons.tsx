@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import {deletePerson, savePerson, sortPersons} from "../actions";
 import Ajax from "../libs/Ajax";
 import {Person} from "../types";
-import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
+import {DialogStore, ExtendedTable, Quickedit} from "../utils/Utils";
 
 interface PersonsComponentProps {
   persons: Person[];

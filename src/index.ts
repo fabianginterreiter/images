@@ -15,6 +15,7 @@ import sessionroute from "./routes/session";
 import tags from "./routes/tags";
 import trash from "./routes/trash";
 import users from "./routes/users";
+import CacheController from "./controllers/CacheController";
 
 const app = express();
 
@@ -37,9 +38,17 @@ app.use("/api/search", search);
 app.use(express.static(path.resolve(__dirname, "./public")));
 
 app.use("/thumbs", express.static(config.getThumbnailPath()));
-app.use("/images", express.static(config.getPreviewPath()));
+app.use("/show", express.static(config.getPreviewPath()));
 
 app.get("*", (req, res) => {
+  if (req.path.startsWith("/thumbs")) {
+    return new CacheController(req).getThumbnail(res);
+  }
+
+  if (req.path.startsWith("/show")) {
+    return new CacheController(req).getPreview(res);
+  }
+
   res.sendFile(path.resolve(__dirname, "./public", "index.html"));
 });
 

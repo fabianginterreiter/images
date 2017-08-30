@@ -6,6 +6,7 @@ export default class BaseController {
   protected files: any;
   protected query: any;
   protected body: any;
+  protected path: string;
   protected session: Express.Session;
 
   public constructor(req: express.Request) {
@@ -14,6 +15,7 @@ export default class BaseController {
     this.files = req.files || [];
     this.query = req.query || [];
     this.body = req.body || {};
+    this.path = req.path;
     this.session = req.session || {} as Express.Session;
   }
 

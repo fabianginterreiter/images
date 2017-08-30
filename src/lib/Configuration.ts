@@ -1,34 +1,41 @@
 import {ConfigurationObject, DatabaseConfiguration} from "../types/configuration";
 
+interface Data {
+  data: string;
+  cache: string;
+  redis: boolean;
+}
+
 export default class Configuration {
-  private config: ConfigurationObject;
+  private config: Data;
+  private environment: string;
+  private production: boolean;
 
-  public constructor(config: ConfigurationObject) {
+  public constructor(config: Data) {
     this.config = config;
-  }
-
-  public setPath(path) {
-    this.config.path = path;
+    this.environment = process.env.NODE_ENV || 'production';
+    console.log(`Environment: ${this.environment}`);
+    this.production = this.environment === 'production';
   }
 
   public getPath() {
-    return this.config.path;
+    return this.config.data;
   }
 
   public getImagesPath() {
-    return this.config.path + "/images";
+    return this.config.data + "/images";
   }
 
   public getCachePath() {
-    return this.config.path + "/cache";
+    return this.config.cache;
   }
 
   public getPreviewPath() {
-    return this.config.path + "/cache/preview";
+    return this.config.cache + "/preview";
   }
 
   public getThumbnailPath() {
-    return this.config.path + "/cache/thumbnails";
+    return this.config.cache + "/thumbnails";
   }
 
   public getSessionConfig(session) {
@@ -44,7 +51,8 @@ export default class Configuration {
       store: null
     };
 
-    if (this.config.redis) {
+    if (this.config.redis && this.production) {
+      console.log("Use Redis");
       const RedisStore = require("connect-redis")(session);
       result.store = new RedisStore();
     }
@@ -53,17 +61,13 @@ export default class Configuration {
   }
 
   public getDatabaseConfiguration(): DatabaseConfiguration {
-    if (this.config.database) {
-      return this.config.database;
-    } else {
-      return {
-        client: "sqlite3",
-        connection: {
-          filename: this.config.path + "/data.sqlite3"
-        },
-        useNullAsDefault: true,
-        debug: false
-      };
-    }
+    return {
+      client: "sqlite3",
+      connection: {
+        filename: this.config.data + "/data.sqlite3"
+      },
+      useNullAsDefault: true,
+      debug: false
+    };
   }
 }

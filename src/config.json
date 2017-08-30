@@ -1,0 +1,5 @@
+{
+  "cache": "cache",
+  "data": "data",
+  "redis": true
+}

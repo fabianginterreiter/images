@@ -38,14 +38,14 @@ app.use("/api/search", search);
 app.use(express.static(path.resolve(__dirname, "./public")));
 
 app.use("/thumbs", express.static(config.getThumbnailPath()));
-app.use("/images", express.static(config.getPreviewPath()));
+app.use("/show", express.static(config.getPreviewPath()));
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/thumbs")) {
     return new CacheController(req).getThumbnail(res);
   }
 
-  if (req.path.startsWith("/images")) {
+  if (req.path.startsWith("/show")) {
     return new CacheController(req).getPreview(res);
   }
 

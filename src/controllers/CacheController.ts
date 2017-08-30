@@ -9,11 +9,13 @@ import * as Express from "express";
 
 export default class CacheController extends BaseController {
   getThumbnail(res: Express.Response) {
+    console.log("Create Thumbnail: " + this.path);
     this.resize(res, this.path.substring(8), config.getThumbnailPath(), 1000, 200);
   }
 
   getPreview(res: Express.Response) {
-    this.resize(res, this.path.substring(8), config.getThumbnailPath(), 2000, 2000);
+    console.log("Create Preview: " + this.path);
+    this.resize(res, this.path.substring(5), config.getPreviewPath(), 2000, 2000);
   }
 
   private resize(res: Express.Response, image: string, target: string, width: number, height: number) {

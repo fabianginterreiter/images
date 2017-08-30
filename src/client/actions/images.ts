@@ -1,8 +1,8 @@
-import {ADD_ALBUM_TO_IMAGE, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE, LIKE_IMAGE,
-  REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE, REMOVE_TAG, REVERT_IMAGE,
-  SET_IMAGES, UNLIKE_IMAGE, LOAD_MORE_IMAGES, SET_IMAGE_SERVICE, ADD_IMAGES} from "../actionTypes";
+import {ADD_ALBUM_TO_IMAGE, ADD_IMAGES, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE,
+  LIKE_IMAGE, LOAD_MORE_IMAGES, REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE,
+  REMOVE_TAG, REVERT_IMAGE, SET_IMAGE_SERVICE, SET_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
 import Ajax from "../libs/Ajax";
-import {Album, Image, Person, Tag, Service} from "../types";
+import {Album, Image, Person, Service, Tag} from "../types";
 
 export const loadImages = (path: string) => {
   return (dispatch) => {
@@ -36,7 +36,7 @@ export const loadImagesWithOffset = (path: string) => {
 export const loadMoreImages = (service: Service) => {
   return (dispatch) => {
     if (service.loading || service.end) {
-      return dispatch({type:"NOTHING"});
+      return dispatch({type: "NOTHING"});
     }
 
     const nextOffset = service.offset + 100;
@@ -50,7 +50,7 @@ export const loadMoreImages = (service: Service) => {
       dispatch({
         type: ADD_IMAGES,
         images
-      })
+      });
     });
   };
 };

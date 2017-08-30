@@ -1,5 +1,5 @@
-import {ConfigurationObject, DatabaseConfiguration} from "../types/configuration";
 import * as fs from "fs-extra";
+import {ConfigurationObject, DatabaseConfiguration} from "../types/configuration";
 
 interface Data {
   data: string;
@@ -14,9 +14,9 @@ class Configuration {
 
   public constructor(config: Data) {
     this.config = config;
-    this.environment = process.env.NODE_ENV || 'production';
+    this.environment = process.env.NODE_ENV || "production";
     console.log(`Environment: ${this.environment}`);
-    this.production = this.environment === 'production';
+    this.production = this.environment === "production";
   }
 
   public getPath() {

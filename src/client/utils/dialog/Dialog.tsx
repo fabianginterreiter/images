@@ -12,25 +12,25 @@ class Dialog extends React.Component<{}, DialgoState> {
     this.state = {options: undefined};
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     DialogStore.addChangeListener(this, (options) => (this.setState({options})));
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     DialogStore.removeChangeListener(this);
   }
 
-  handleCancel() {
+  public handleCancel() {
     this.state.options.reject(false);
     DialogStore.setObject(undefined);
   }
 
-  handleOk() {
+  public handleOk() {
     this.state.options.resolve(true);
     DialogStore.setObject(undefined);
   }
 
-  render() {
+  public render() {
     if (!this.state.options || !this.state.options.open) {
       return (<span />);
     }

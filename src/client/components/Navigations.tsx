@@ -176,7 +176,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     return this.props.location.pathname === option.link;
   }
 
-  render() {
+  public render() {
     const open = (this.props.open || this.props.pinned);
 
     const clickCatcher = (this.props.open && !this.props.pinned);

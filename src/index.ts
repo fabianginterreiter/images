@@ -3,6 +3,7 @@ import * as express from "express";
 import * as session from "express-session";
 import * as fs from "fs-extra";
 import * as path from "path";
+import CacheController from "./controllers/CacheController";
 import config from "./lib/Configuration";
 import bookshelf from "./model/bookshelf";
 import albums from "./routes/albums";
@@ -15,7 +16,6 @@ import sessionroute from "./routes/session";
 import tags from "./routes/tags";
 import trash from "./routes/trash";
 import users from "./routes/users";
-import CacheController from "./controllers/CacheController";
 
 const app = express();
 

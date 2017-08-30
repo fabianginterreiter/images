@@ -1,19 +1,19 @@
-import User from "../model/User";
-import BaseController from "./BaseController";
-import Image from "../model/Image";
-import ResizeImage from "../lib/ResizeImage";
-import config from "../lib/Configuration";
+import * as Express from "express";
 import * as fs from "fs-extra";
 import * as sharp from "sharp";
-import * as Express from "express";
+import config from "../lib/Configuration";
+import ResizeImage from "../lib/ResizeImage";
+import Image from "../model/Image";
+import User from "../model/User";
+import BaseController from "./BaseController";
 
 export default class CacheController extends BaseController {
-  getThumbnail(res: Express.Response) {
+  public getThumbnail(res: Express.Response) {
     console.log("Create Thumbnail: " + this.path);
     this.resize(res, this.path.substring(8), config.getThumbnailPath(), 1000, 200);
   }
 
-  getPreview(res: Express.Response) {
+  public getPreview(res: Express.Response) {
     console.log("Create Preview: " + this.path);
     this.resize(res, this.path.substring(5), config.getPreviewPath(), 2000, 2000);
   }

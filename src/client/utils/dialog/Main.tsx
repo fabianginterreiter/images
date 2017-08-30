@@ -4,7 +4,7 @@ import SelectDialog from "./SelectDialog";
 import SingleSelectDialog from "./SingleSelectDialog";
 
 class Main extends React.Component {
-  render() {
+  public render() {
     return (
       <div>
         <Dialog />

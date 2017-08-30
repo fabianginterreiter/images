@@ -3,7 +3,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
-import {select, toggle, unselect, loadMoreImages} from "../actions";
+import {loadMoreImages, select, toggle, unselect} from "../actions";
 import {Image, Service} from "../types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";

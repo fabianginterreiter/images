@@ -8,7 +8,7 @@ interface ThumbnailsResizerProps {
 }
 
 class ThumbnailsResizer extends React.Component<ThumbnailsResizerProps, {}> {
-  render() {
+  public render() {
     return (
       <input type="range" min="80" max="200" step="40"
       value={this.props.size}

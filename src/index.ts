@@ -3,7 +3,7 @@ import * as express from "express";
 import * as session from "express-session";
 import * as fs from "fs-extra";
 import * as path from "path";
-import config from "./config";
+import config from "./lib/config";
 import bookshelf from "./model/bookshelf";
 import albums from "./routes/albums";
 import images from "./routes/images";

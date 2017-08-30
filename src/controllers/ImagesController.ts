@@ -1,4 +1,4 @@
-import config from "../config";
+import config from "../lib/config";
 import CopyImageFile from "../lib/CopyImageFile";
 import ImageExtention from "../lib/ImageExtention";
 import * as ImageInfo from "../lib/ImageInfo";

@@ -2,7 +2,7 @@ import User from "../model/User";
 import BaseController from "./BaseController";
 import Image from "../model/Image";
 import ResizeImage from "../lib/ResizeImage";
-import config from "../config";
+import config from "../lib/config";
 import * as fs from "fs-extra";
 import * as sharp from "sharp";
 import * as Express from "express";

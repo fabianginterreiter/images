@@ -1,5 +1,5 @@
 import * as fs from "fs-extra";
-import config from "./config";
+import config from "./Configuration";
 
 export default function(file, image) {
   const directory = image.year + "/" + image.month;

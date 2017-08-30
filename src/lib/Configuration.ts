@@ -1,4 +1,5 @@
 import {ConfigurationObject, DatabaseConfiguration} from "../types/configuration";
+import * as fs from "fs-extra";
 
 interface Data {
   data: string;
@@ -6,7 +7,7 @@ interface Data {
   redis: boolean;
 }
 
-export default class Configuration {
+class Configuration {
   private config: Data;
   private environment: string;
   private production: boolean;
@@ -71,3 +72,5 @@ export default class Configuration {
     };
   }
 }
+
+export default new Configuration(JSON.parse(fs.readFileSync(__dirname + "/../config.json", "utf8")));

@@ -1,6 +1,6 @@
 import * as fs from "fs-extra";
 import * as sharp from "sharp";
-import config from "./config";
+import config from "./Configuration";
 
 export default function(image, target, width, height) {
   const directory = image.year + "/" + image.month;

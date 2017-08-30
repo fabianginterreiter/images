@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import config from "../lib/config";
+import config from "../lib/Configuration";
 import Image from "../model/Image";
 import BaseController from "./BaseController";
 

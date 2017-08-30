@@ -3,7 +3,7 @@ import cookie from "react-cookie";
 import * as ReactDOM from "react-dom";
 import * as ReactRedux from "react-redux";
 import * as ReactRouter from "react-router";
-import { applyMiddleware, createStore } from "Redux";
+import { applyMiddleware, createStore } from "redux";
 import ReduxThunk from "redux-thunk";
 import { addUser, loadAlbums, loadPersons, loadTags, setPinNavigation,
   setSession, setShowDate, setThumbnailSize, setUsers } from "./actions";

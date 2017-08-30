@@ -40,6 +40,9 @@ class Selection extends React.Component<SelectionProps, {}> {
             <i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span>
           </div>
           <SelectionOptions />
+          <div className="right" onClick={() => this.handleDownload()}>
+            <i className="fa fa-download" aria-hidden="true" /> <span className="min500"> Download</span>
+          </div>
         </nav>
       </header>
     );
@@ -53,6 +56,13 @@ class Selection extends React.Component<SelectionProps, {}> {
     DialogStore.open("Delete Images", "Do you really want to delete all selected images?").then(() => {
       this.props.selection.forEach((image) => this.props.deleteImage(image));
     });
+  }
+
+  private handleDownload() {
+    const ids = this.props.selection.map((image) => image.id).join("+");
+    console.log(ids);
+
+    window.location.href = `/api/download/images/${ids}`;
   }
 }
 

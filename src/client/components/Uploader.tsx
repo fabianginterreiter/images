@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {cancelUpload, setImages, setUploadComplete, setUploadError,
   setUploadProgress, setUploadStart} from "../actions";
 import Upload from "../libs/Upload";
-import {ExtendedFile, Image} from "../types/types";
+import {ExtendedFile, Image} from "../types";
 import { InlineProgress, Modal } from "../utils/Utils";
 
 interface UploaderState {

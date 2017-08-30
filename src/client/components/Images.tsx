@@ -4,7 +4,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
 import {select, toggle, unselect, loadMoreImages} from "../actions";
-import {Image, Service} from "../types/types";
+import {Image, Service} from "../types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
 import Fullscreen from "./Fullscreen";

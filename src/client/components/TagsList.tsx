@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
 import {addTag, addTagToImage, removeTag} from "../actions";
-import {Image, Tag} from "../types/types";
+import {Image, Tag} from "../types";
 import { AutoComplete } from "../utils/Utils";
 
 interface TagsListProps {

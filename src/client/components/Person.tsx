@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {loadImages} from "../actions";
 import Ajax from "../libs/Ajax";
-import {Image, Person} from "../types/types";
+import {Image, Person} from "../types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 

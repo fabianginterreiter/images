@@ -3,7 +3,7 @@ import * as React from "react";
 import * as ReactRedux from "react-redux";
 import {addUser, setSession} from "../actions";
 import Ajax from "../libs/Ajax";
-import {User} from "../types/types";
+import {User} from "../types";
 
 interface UsersManagementProps {
   users: User[];

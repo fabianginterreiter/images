@@ -1,5 +1,5 @@
 import * as $ from "jquery";
-import {ExtendedFile, Image} from "../types/types";
+import {ExtendedFile, Image} from "../types";
 import {Dispatcher} from "../utils/Utils";
 
 export default class Upload {

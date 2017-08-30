@@ -1,6 +1,6 @@
 import {ADD_ALBUM, DELETE_ALBUM, SAVE_ALBUM, SET_ALBUMS, SORT_ALBUMS} from "../actionTypes";
 import Ajax from "../libs/Ajax";
-import {Album} from "../types/types";
+import {Album} from "../types";
 
 export const loadAlbums = () => {
   return (dispatch) => Ajax.get("/api/albums").then((albums) => dispatch({

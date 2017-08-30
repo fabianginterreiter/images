@@ -4,7 +4,7 @@ import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
 import {closeNavigation, openNavigation, setPinNavigation} from "../actions";
 import Ajax from "../libs/Ajax";
-import {Album} from "../types/types";
+import {Album} from "../types";
 import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
 import {Year} from "./Dates";

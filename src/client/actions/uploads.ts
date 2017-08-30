@@ -1,6 +1,6 @@
 import {ADD_FILE_TO_UPLOAD, CANCEL_UPLOAD, SET_UPLOAD_COMPLETE, SET_UPLOAD_ERROR,
   SET_UPLOAD_PROGRESS, SET_UPLOAD_START} from "../actionTypes";
-import {ExtendedFile, Image} from "../types/types";
+import {ExtendedFile, Image} from "../types";
 
 export const addFilesToUploads = (files) => {
   return (dispatch) => {

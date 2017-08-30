@@ -3,7 +3,7 @@ import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
 import {deleteAlbum, saveAlbum, sortAlbums} from "../actions";
 import Ajax from "../libs/Ajax";
-import {Album} from "../types/types";
+import {Album} from "../types";
 import { DialogStore, ExtendedTable, Quickedit } from "../utils/Utils";
 
 interface AlbumsProps {

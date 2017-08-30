@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import { browserHistory } from "react-router";
-import {Image} from "../types/types";
+import {Image} from "../types";
 import Images from "./Images";
 
 class Selected extends React.Component<{

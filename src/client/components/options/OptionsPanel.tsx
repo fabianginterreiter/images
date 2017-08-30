@@ -3,7 +3,7 @@ import * as ReactRedux from "react-redux";
 import { location } from "react-router";
 import {closeOptionsPanel, deleteSession, setShowDate} from "../../actions";
 import Ajax from "../../libs/Ajax";
-import {User} from "../../types/types";
+import {User} from "../../types";
 import { Panel } from "../../utils/Utils";
 import ThumbnailsResizer from "../ThumbnailsResizer";
 

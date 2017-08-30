@@ -1,6 +1,6 @@
 import {DELETE_SESSION, SET_SESSION} from "../actionTypes";
 import Ajax from "../libs/Ajax";
-import {User} from "../types/types";
+import {User} from "../types";
 
 export const setSession = (user: User) => {
   return {

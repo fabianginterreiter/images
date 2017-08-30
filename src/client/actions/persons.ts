@@ -1,6 +1,6 @@
 import {DELETE_PERSON, SAVE_PERSON, SET_PERSONS, SORT_PERSONS} from "../actionTypes";
 import Ajax from "../libs/Ajax";
-import {Person} from "../types/types";
+import {Person} from "../types";
 
 export const loadPersons = () => {
   return (dispatch) => Ajax.get("/api/persons").then((persons) => dispatch({

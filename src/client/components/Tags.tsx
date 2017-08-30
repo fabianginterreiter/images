@@ -3,7 +3,7 @@ import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
 import {deleteTag, saveTag, sortTags} from "../actions";
 import Ajax from "../libs/Ajax";
-import {Tag} from "../types/types";
+import {Tag} from "../types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 
 interface TagsProps {

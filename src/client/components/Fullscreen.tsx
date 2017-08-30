@@ -4,7 +4,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {toggle} from "../actions";
 import {deleteImage, like, unlike} from "../actions/images";
-import {Image} from "../types/types";
+import {Image} from "../types";
 import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
 import Faces from "./Faces";
 import Like from "./Like";

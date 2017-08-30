@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {loadImages, removeAlbumFromImage} from "../actions";
 import Ajax from "../libs/Ajax";
-import {Album, Image} from "../types/types";
+import {Album, Image} from "../types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 

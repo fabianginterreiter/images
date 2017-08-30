@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {loadImages, revertImage} from "../actions";
-import {Image} from "../types/types";
+import {Image} from "../types";
 import { DialogStore } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";

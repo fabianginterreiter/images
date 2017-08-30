@@ -2,7 +2,7 @@ import {ADD_ALBUM_TO_IMAGE, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE,
   REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE, REMOVE_TAG, REVERT_IMAGE,
   SET_IMAGES, UNLIKE_IMAGE, LOAD_MORE_IMAGES, SET_IMAGE_SERVICE, ADD_IMAGES} from "../actionTypes";
 import Ajax from "../libs/Ajax";
-import {Album, Image, Person, Tag, Service} from "../types/types";
+import {Album, Image, Person, Tag, Service} from "../types";
 
 export const loadImages = (path: string) => {
   return (dispatch) => {

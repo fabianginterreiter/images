@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Image} from "../types/types";
+import {Image} from "../types";
 
 interface ImageComponentProps {
   style: Object;

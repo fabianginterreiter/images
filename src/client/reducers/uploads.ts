@@ -1,7 +1,7 @@
 import {ADD_FILE_TO_UPLOAD, CANCEL_UPLOAD, SET_UPLOAD_COMPLETE, SET_UPLOAD_ERROR,
   SET_UPLOAD_PROGRESS, SET_UPLOAD_START, START_UPLOAD} from "../actionTypes";
 
-import {ExtendedFile} from "../types/types";
+import {ExtendedFile} from "../types";
 
 export default function users(state = {
   files: [],

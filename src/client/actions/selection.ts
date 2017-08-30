@@ -1,5 +1,5 @@
 import {CLEAR_SELECTION, SELECT, TOGGLE_SELECTION, UNSELECT} from "../actionTypes";
-import {Image} from "../types/types";
+import {Image} from "../types";
 
 export const select = (image: Image) => {
   return {

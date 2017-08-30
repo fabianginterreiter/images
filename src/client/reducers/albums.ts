@@ -1,6 +1,6 @@
 import {ADD_ALBUM, DELETE_ALBUM, SAVE_ALBUM,
   SET_ALBUMS, SORT_ALBUMS} from "../actionTypes";
-import {Album} from "../types/types";
+import {Album} from "../types";
 
 const sort = (a: Album, b: Album) => a.name.localeCompare(b.name);
 

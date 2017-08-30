@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {like, unlike} from "../actions/images";
-import {Image} from "../types/types";
+import {Image} from "../types";
 
 interface LikeProps {
   image: Image;

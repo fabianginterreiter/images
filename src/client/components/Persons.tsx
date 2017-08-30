@@ -3,7 +3,7 @@ import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
 import {deletePerson, savePerson, sortPersons} from "../actions";
 import Ajax from "../libs/Ajax";
-import {Person} from "../types/types";
+import {Person} from "../types";
 import { DialogStore, ExtendedTable, Quickedit, sort } from "../utils/Utils";
 
 interface PersonsComponentProps {

@@ -3,6 +3,8 @@ var shell = require('shelljs');
 shell.mkdir('-p', 'dist');
 shell.cp('-R', 'src/public/', 'dist/');
 
+shell.cp("src/config.json", "dist/config.json");
+
 shell.cp("node_modules/react/dist/react.js", "dist/public/vendor/javascript/react.min.js");
 shell.cp("node_modules/react-router/umd/ReactRouter.js", "dist/public/vendor/javascript/react-router.min.js");
 shell.cp("node_modules/react-dom/dist/react-dom.js", "dist/public/vendor/javascript/react-dom.min.js");

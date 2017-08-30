@@ -1,5 +1,6 @@
 dist/
 data/
+cache/
 uploads/
 node_modules/
 public/bundle.js

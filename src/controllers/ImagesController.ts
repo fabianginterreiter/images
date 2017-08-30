@@ -31,10 +31,6 @@ export default class ImagesController extends BaseController {
 
       return CopyImageFile(this.file.path, result);
     }.bind(this)).then((result) => {
-      return ResizeImage(result, config.getThumbnailPath(), 1000, 200);
-    }).then((result) => {
-      return ResizeImage(result, config.getPreviewPath(), 2000, 2000);
-    }).then((result) => {
       return new Image(result).save();
     }).then((result) => (result.toJSON()))
     .catch(console.log);

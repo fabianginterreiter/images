@@ -15,6 +15,7 @@ import sessionroute from "./routes/session";
 import tags from "./routes/tags";
 import trash from "./routes/trash";
 import users from "./routes/users";
+import CacheController from "./controllers/CacheController";
 
 const app = express();
 
@@ -41,11 +42,11 @@ app.use("/images", express.static(config.getPreviewPath()));
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/thumbs")) {
-    console.log("WAAA");
+    return new CacheController(req).getThumbnail(res);
   }
 
   if (req.path.startsWith("/images")) {
-    
+    return new CacheController(req).getPreview(res);
   }
 
   res.sendFile(path.resolve(__dirname, "./public", "index.html"));

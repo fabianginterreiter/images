@@ -2,7 +2,6 @@ import * as Express from "express";
 import * as fs from "fs-extra";
 import * as sharp from "sharp";
 import config from "../lib/Configuration";
-import ResizeImage from "../lib/ResizeImage";
 import Image from "../model/Image";
 import User from "../model/User";
 import BaseController from "./BaseController";

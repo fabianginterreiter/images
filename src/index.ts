@@ -41,6 +41,7 @@ app.use(express.static(path.resolve(__dirname, "./public")));
 
 app.use("/thumbs", express.static(config.getThumbnailPath()));
 app.use("/show", express.static(config.getPreviewPath()));
+app.use("/org", express.static(config.getImagesPath()));
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/thumbs")) {

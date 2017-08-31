@@ -98,6 +98,9 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
             <Like image={this.props.image} />&nbsp;
             <i className={checkBoxClass} onClick={() => this.props.toggle(this.props.image)} />
             <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
+            <a href={`/org/${this.props.image.path}`} download={this.props.image.filename}>
+              <i className="fa fa-download" aria-hidden="true" />
+            </a>
           </div>
         </div>
         <div className="previous" onClick={this.props.previous} />

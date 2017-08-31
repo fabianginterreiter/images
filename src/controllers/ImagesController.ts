@@ -10,7 +10,7 @@ import BaseController from "./BaseController";
 
 export default class ImagesController extends BaseController {
   public create() {
-    return ImageInfo(this.file.path).then(function(info) {
+    return ImageInfo(this.file.path).then((info) => {
       const result = {
         filename: this.file.originalname,
         title: this.file.originalname,
@@ -30,7 +30,11 @@ export default class ImagesController extends BaseController {
       };
 
       return CopyImageFile(this.file.path, result);
-    }.bind(this)).then((result) => {
+    }).then((result) => {
+      return ResizeImage(result, config.getThumbnailPath(), 1000, 200);
+    }).then((result) => {
+      return ResizeImage(result, config.getPreviewPath(), 2000, 2000);
+    }).then((result) => {
       return new Image(result).save();
     }).then((result) => (result.toJSON()))
     .catch(console.log);

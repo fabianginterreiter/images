@@ -15,7 +15,7 @@ export default class BaseController {
     this.files = req.files || [];
     this.query = req.query || [];
     this.body = req.body || {};
-    this.path = req.path;
+    this.path = decodeURI(req.path);
     this.session = req.session || {} as Express.Session;
   }
 

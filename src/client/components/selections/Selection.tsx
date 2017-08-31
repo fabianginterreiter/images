@@ -6,6 +6,7 @@ import {Image} from "../../types";
 import { DialogStore } from "../../utils/Utils";
 import Title from "../Title";
 import SelectionOptions from "./SelectionOptions";
+import Download from "./Download";
 
 interface SelectionProps {
   selection: Image[];
@@ -40,6 +41,7 @@ class Selection extends React.Component<SelectionProps, {}> {
             <i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span>
           </div>
           <SelectionOptions />
+          <Download />
         </nav>
       </header>
     );

@@ -4,7 +4,7 @@ import * as ReactRedux from "react-redux";
 import * as ReactRouter from "react-router";
 import { applyMiddleware, createStore } from "redux";
 import ReduxThunk from "redux-thunk";
-import { addUser, setSession, setUsers, loadCookieValues } from "./actions";
+import { addUser, setSession, setUsers, loadCookieValues, loadNumberOfImages } from "./actions";
 import Album from "./components/Album";
 import Albums from "./components/Albums";
 import All from "./components/All";
@@ -30,8 +30,10 @@ const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = R
 const store = createStore(imagesApp, applyMiddleware(ReduxThunk));
 
 store.dispatch(loadCookieValues());
+store.dispatch(loadNumberOfImages());
 
 Ajax.get("/api/users").then((users) => store.dispatch(setUsers(users)));
+
 
 Ajax.get("/api/session").then((user) => {
   store.dispatch(setSession(user));

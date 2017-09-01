@@ -23,6 +23,7 @@ interface ImagesProps {
   offset: number;
   reload?: boolean;
   service: Service;
+  size?: number;
   select(image: Image): void;
   unselect(image: Image): void;
   toggle(image: Image): void;
@@ -99,7 +100,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
           next={this.handleNext.bind(this)}
           previous={this.handlePrevious.bind(this)}
           handleClose={this.handleFullscreenClose.bind(this)}
-          number={this.state.view + 1} size={this.props.images.length} />
+          number={this.state.view + 1} size={this.props.size ? this.props.size : this.props.images.length} />
       );
     }
 

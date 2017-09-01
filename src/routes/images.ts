@@ -21,6 +21,8 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/count", (req, res) => new ImagesController(req).count().then((result) => res.send(result)));
+
 router.get("/dates", (req, res) => new DatesController(req).index().then((result) => res.send(result))
 .catch((e) => {
   res.status(404).send(e);

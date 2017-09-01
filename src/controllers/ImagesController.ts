@@ -149,4 +149,11 @@ export default class ImagesController extends BaseController {
       patch: true
     }).then((result) => (result.toJSON()));
   }
+
+  public count() {
+    return new Image().query((qb) => {
+      qb.count("id AS count");
+      qb.where("images.deleted", false);
+    }).fetch((result) => (result.toJSON()));
+  }
 }

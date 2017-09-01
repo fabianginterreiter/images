@@ -7,18 +7,19 @@ import Images from "./Images";
 
 class All extends React.Component<{
   images: Image[];
+  numberOfImages: number;
 }, {}> {
-
   public render() {
     return (
-      <Images images={this.props.images} reload={true} />
+      <Images images={this.props.images} reload={true} size={this.props.numberOfImages} />
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    images: state.images
+    images: state.images,
+    numberOfImages: state.stats.numberOfImages
   };
 };
 

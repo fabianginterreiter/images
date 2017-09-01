@@ -131,7 +131,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     }
 
     switch (e.keyCode) {
-      case 32: {
+      case 32: { // space
         this._show();
         if (this.props.image.liked) {
           this.props.unlike(this.props.image);
@@ -141,9 +141,16 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
         break;
       }
 
-      case 66: {
+      case 66: { // b
         this._show();
         this.props.toggle(this.props.image);
+        break;
+      }
+
+      case 79: { // o
+        this.setState({
+          menu: !this.state.menu
+        });
         break;
       }
     }

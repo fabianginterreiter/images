@@ -18,7 +18,7 @@ class AlbumsList extends React.Component<AlbumsListProps, {}> {
 
     return (
       <div className="tags">
-        <h4><i className="fa fa-users" aria-hidden="true" /> Albums</h4>
+        <h4><i className="fa fa-book" aria-hidden="true" /> Albums</h4>
         <ul>
           {
             this.props.image.albums.map((album) => (<li key={album.id}>

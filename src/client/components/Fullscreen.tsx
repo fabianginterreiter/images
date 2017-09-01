@@ -1,6 +1,7 @@
 import * as $ from "jquery";
 import * as moment from "moment";
 import * as React from "react";
+import { Link } from "react-router";
 import {connect} from "react-redux";
 import {toggle} from "../actions";
 import {deleteImage, like, unlike} from "../actions/images";
@@ -113,7 +114,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
           <div className="body">
             <div>Filename: {this.props.image.filename}</div>
             <div>Resolution: {this.props.image.width}/{this.props.image.height}</div>
-            <div>Date: {moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</div>
+            <div>Date: <Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></div>
 
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <TagsList image={this.props.image} />

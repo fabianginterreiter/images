@@ -77,9 +77,9 @@ export const unlike = (image: Image) => {
 };
 
 export const addTagToImage = (image: Image, tag: Tag) => {
-  return (dispatch) => Ajax.put(`/api/images/${image.id}/tags`, tag).then(() => dispatch({
+  return (dispatch) => Ajax.put(`/api/images/${image.id}/tags`, tag).then((result) => dispatch({
     image,
-    tag,
+    tag: result,
     type: ADD_TAG_TO_IMAGE
   }));
 };

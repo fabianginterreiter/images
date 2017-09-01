@@ -35,7 +35,7 @@ export default function images(state = [], action) {
     case REMOVE_TAG:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.tags = image.tags.filter((tag) => (tag.id !== action.tag.id));
+          return {...image, tags: image.tags.filter((tag) => (tag.id !== action.tag.id))};
         }
         return image;
       });
@@ -49,7 +49,7 @@ export default function images(state = [], action) {
     case REMOVE_ALBUM_FROM_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.albums = image.albums.filter((album) => (album.id !== action.album.id));
+          return {...image, albums: image.albums.filter((album) => (album.id !== action.album.id))};
         }
         return image;
       });
@@ -63,7 +63,7 @@ export default function images(state = [], action) {
     case REMOVE_PERSON_TO_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.persons = image.persons.filter((person) => (person.id !== action.person.id));
+          return {...image, persons: image.persons.filter((person) => (person.id !== action.person.id))};
         }
         return image;
       });

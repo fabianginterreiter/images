@@ -1,4 +1,4 @@
-import {DELETE_PERSON, SAVE_PERSON, SET_PERSONS, SORT_PERSONS} from "../actionTypes";
+import {DELETE_PERSON, SAVE_PERSON, SET_PERSONS, SORT_PERSONS, ADD_PERSON_TO_IMAGE} from "../actionTypes";
 
 export default function persons(state = [], action) {
   switch (action.type) {
@@ -22,6 +22,16 @@ export default function persons(state = [], action) {
       });
     case DELETE_PERSON:
       return state.filter((person) => (person.id !== action.person.id));
+    case ADD_PERSON_TO_IMAGE:
+      return state.find((person) => person.id === action.person.id) ?
+        state.map((person) => {
+          if (person.id === action.person.id) {
+            return {...person, count: person.count + 1};
+          }
+
+          return person;
+        })
+        : [...state, action.person].sort((a, b) => a.name.localeCompare(b.name));
     default:
       return state;
   }

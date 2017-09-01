@@ -29,8 +29,7 @@ class TagsList extends React.Component<TagsListProps, {}> {
             this.props.image.tags.map((tag) => (<li key={tag.id}>
               <Link to={`/images/tags/${tag.id}`}>{tag.name}</Link>
               <span className="badge">
-                <i className="icon-remove" onClick={() => this.props.removeTag(this.props.image, tag)}>
-                  Remove</i>
+                <i className="fa fa-times" aria-hidden="true" onClick={() => this.props.removeTag(this.props.image, tag)} />
               </span>
             </li>))
           }

@@ -10,6 +10,7 @@ import Faces from "./Faces";
 import Like from "./Like";
 import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
+import AlbumsList from "./AlbumsList";
 
 interface FullscreenProps {
   image: Image;
@@ -116,7 +117,8 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
 
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <TagsList image={this.props.image} />
-            <PersonsList image={this.props.image} />
+            <PersonsList image={this.props.image} hideEmptyList={true} />
+            <AlbumsList image={this.props.image} hideEmptyList={true} />
           </div>
         </Panel>
       </div>

@@ -80,6 +80,8 @@ class Faces extends React.Component<FacesProps, FacesState> {
       return;
     }
 
+    console.log(event.target.className);
+
     this.offsetLeft = event.target.offsetLeft;
     this.offsetTop = event.target.offsetTop;
 

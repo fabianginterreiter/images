@@ -32,6 +32,8 @@ interface FacesState {
   };
   startX?: number;
   startY?: number;
+
+  time?: number;
 }
 
 class Faces extends React.Component<FacesProps, FacesState> {
@@ -50,7 +52,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
   }
 
   public render() {
-    const className = "faces" + (this.props.show || this.state.create || this.state.selection ? " show" : "");
+    const className = "faces" + (this.props.show || this.state.create || this.state.selection ? " show" : "") + (this.state.selection ? " top" : "");
 
     return (
       <div className={className} style={this.props.style}
@@ -92,6 +94,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
     this.setState({
       startX: position.x,
       startY: position.y,
+      time: new Date().getTime(),
 
       selection: {
         left: position.x,
@@ -130,6 +133,12 @@ class Faces extends React.Component<FacesProps, FacesState> {
   }
 
   private handleMouseUp(event) {
+    if (new Date().getTime() - this.state.time < 300) {
+      console.log("only click");
+
+      console.log(event);
+    }
+
     event.preventDefault();
 
     if (!this.state.selection) {
@@ -229,7 +238,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
       <Link to={`/images/persons/${person.id}`}><div className="border s" style={style}><div /></div></Link>
       <div style={style2} className="name">
         <Link to={`/images/persons/${person.id}`}>{person.name}</Link>&nbsp;
-        <span className="remove"><i className="icon-remove"
+        <span className="remove"><i className="fa fa-times"
           onClick={(e) => this.handleDeletePerson(e, person)} /></span>
       </div>
     </div>);

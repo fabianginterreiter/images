@@ -26,7 +26,7 @@ class TagsList extends React.Component<TagsListProps, {}> {
 
         <ul>
           {
-            this.props.image.tags.map((tag) => (<li key={tag.id}>
+            this.props.image.tags.sort((a, b) => a.name.localeCompare(b.name)).map((tag) => (<li key={tag.id}>
               <Link to={`/images/tags/${tag.id}`}>{tag.name}</Link>
               <span className="badge">
                 <i className="fa fa-times" aria-hidden="true" onClick={() => this.props.removeTag(this.props.image, tag)} />

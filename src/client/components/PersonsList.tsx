@@ -21,7 +21,7 @@ class PersonsList extends React.Component<PersonsListProps, {}> {
         <h4><i className="fa fa-users" aria-hidden="true" /> Persons</h4>
         <ul>
           {
-            this.props.image.persons.map((person) => (<li key={person.id}>
+            this.props.image.persons.sort((a, b) => a.name.localeCompare(b.name)).map((person) => (<li key={person.id}>
               <Link to={`/images/persons/${person.id}`}>{person.name}</Link>
               <span className="badge">
                 <i className="fa fa-times" aria-hidden="true" onClick={this.handleDeletePerson.bind(this, person)} />

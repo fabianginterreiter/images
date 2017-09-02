@@ -21,7 +21,7 @@ class AlbumsList extends React.Component<AlbumsListProps, {}> {
         <h4><i className="fa fa-book" aria-hidden="true" /> Albums</h4>
         <ul>
           {
-            this.props.image.albums.map((album) => (<li key={album.id}>
+            this.props.image.albums.sort((a, b) => a.name.localeCompare(b.name)).map((album) => (<li key={album.id}>
               <Link to={`/images/albums/${album.id}`}>{album.name}</Link>
               <span className="badge">
                 <i className="fa fa-times" aria-hidden="true" onClick={this.handleDeletePerson.bind(this, album)} />

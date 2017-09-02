@@ -93,6 +93,8 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
         <img ref="image" src={`/show/${this.props.image.path}`}
           alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
         <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
+        {this.props.number !== 1 && <div className="previous turning" onClick={this.props.previous}><i className="fa fa-chevron-left" aria-hidden="true" /></div>}
+        {this.props.number !== this.props.size && <div className="next turning" onClick={this.props.next}><i className="fa fa-chevron-right" aria-hidden="true" /></div>}
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.title} ({this.props.number}/{this.props.size})
@@ -105,8 +107,6 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
             </a>
           </div>
         </div>
-        <div className="previous" onClick={this.props.previous} />
-        <div className="next" onClick={this.props.next} />
         <Panel open={this.state.menu} clickCatcher={this.state.menu}
           side="right" onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
           <div className="title">

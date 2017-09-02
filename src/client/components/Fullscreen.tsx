@@ -99,12 +99,12 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
           <div onClick={this.props.handleClose} className="close">✕</div>
           {this.props.image.title} ({this.props.number}/{this.props.size})
           <div className="options">
-            <Like image={this.props.image} />&nbsp;
+            <Like image={this.props.image} />
             <i className={checkBoxClass} onClick={() => this.props.toggle(this.props.image)} />
-            <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
             <a href={`/org/${this.props.image.path}`} download={this.props.image.filename}>
               <i className="fa fa-download" aria-hidden="true" />
             </a>
+            <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>
         <Panel open={this.state.menu} clickCatcher={this.state.menu}
@@ -112,9 +112,12 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
           <div className="title">
           </div>
           <div className="body">
-            <div>Filename: {this.props.image.filename}</div>
-            <div>Resolution: {this.props.image.width}/{this.props.image.height}</div>
-            <div>Date: <Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></div>
+            <div className="details">
+              <h3>{this.props.image.title}</h3>
+              <div>Filename: <span>{this.props.image.filename}</span></div>
+              <div>Resolution: <span>{this.props.image.width}/{this.props.image.height}</span></div>
+              <div>Date: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
+            </div>
 
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <TagsList image={this.props.image} />

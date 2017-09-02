@@ -32,8 +32,6 @@ interface FacesState {
   };
   startX?: number;
   startY?: number;
-
-  time?: number;
 }
 
 class Faces extends React.Component<FacesProps, FacesState> {
@@ -76,13 +74,11 @@ class Faces extends React.Component<FacesProps, FacesState> {
     if (this.state.selection || this.state.create) {
 
       if (event.target.className.includes("resizer")) {
-        console.log("RESIZER");
+        // console.log("RESIZER");
       }
 
       return;
     }
-
-    console.log(event.target.className);
 
     this.offsetLeft = event.target.offsetLeft;
     this.offsetTop = event.target.offsetTop;
@@ -94,7 +90,6 @@ class Faces extends React.Component<FacesProps, FacesState> {
     this.setState({
       startX: position.x,
       startY: position.y,
-      time: new Date().getTime(),
 
       selection: {
         left: position.x,
@@ -108,7 +103,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
   private handleMouseMove(event) {
     if (!this.state.selection) {
       if (event.target.className.includes("resizer")) {
-        console.log("RESIZER");
+        // console.log("RESIZER");
       }
 
       return;
@@ -133,17 +128,11 @@ class Faces extends React.Component<FacesProps, FacesState> {
   }
 
   private handleMouseUp(event) {
-    if (new Date().getTime() - this.state.time < 300) {
-      console.log("only click");
-
-      console.log(event);
-    }
-
     event.preventDefault();
 
     if (!this.state.selection) {
       if (event.target.className.includes("resizer")) {
-        console.log("RESIZER");
+        // console.log("RESIZER");
       }
 
       return;

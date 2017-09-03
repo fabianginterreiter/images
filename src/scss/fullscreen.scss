@@ -147,6 +147,8 @@
 
     position: absolute;
 
+    transition:opacity 1s linear;
+    
     i {
       display: block;
       opacity: 0;

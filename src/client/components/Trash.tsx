@@ -47,13 +47,18 @@ class Trash extends React.Component<{
   }
 
   private handleRevert(): void {
+    let changed = false;
+
     this.props.images.forEach((image) => {
       if (this.props.isSelected(image)) {
+        changed = true;
         this.props.revertImage(image);
       }
     });
 
-    browserHistory.push("/images/selected");
+    if (changed) {
+      browserHistory.push("/images/selected");
+    }
   }
 }
 

@@ -12,7 +12,8 @@ export default {
     "albums": "Albums",
     "persons": "Persons",
     "tags": "Tags",
-    "dates": "Dates"
+    "dates": "Dates",
+    "trash": "Trash"
   },
 
   "users": {

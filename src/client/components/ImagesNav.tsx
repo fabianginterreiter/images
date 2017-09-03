@@ -33,7 +33,6 @@ class ImagesNav extends React.Component<{
 
 const mapStateToProps = (state) => {
   return {
-    images: state.images
   };
 };
 

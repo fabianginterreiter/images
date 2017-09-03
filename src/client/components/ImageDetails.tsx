@@ -40,7 +40,7 @@ class ImageDetails extends React.Component<{
           <div>Filename: <span>{this.props.image.filename}</span></div>
           <div>Resolution: <span>{this.props.image.width}/{this.props.image.height}</span></div>
           <div>Date: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
-          <div><i className="fa fa-trash-o" /> Delete</div>
+          <div><a onClick={() => this.handeDelete()}><i className="fa fa-trash-o" /> Delete</a></div>
         </div>
 
         <TagsList image={this.props.image} />
@@ -70,14 +70,9 @@ class ImageDetails extends React.Component<{
   }
 
 
-  private handleClick(option) {
-    switch (option.key) {
-      case "delete": {
-        DialogStore.open("Delete Image", "Do you really want to delete the image?")
-        .then(() => this.props.deleteImage(this.props.image));
-        break;
-      }
-    }
+  private handeDelete() {
+    DialogStore.open("Delete Image", "Do you really want to delete the image?")
+      .then(() => this.props.deleteImage(this.props.image));
   }
 }
 

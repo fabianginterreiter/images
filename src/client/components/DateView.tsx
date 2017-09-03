@@ -21,7 +21,7 @@ class DateView extends React.Component<DateViewProps, {}> {
       <div>
         <h1>
           <i className="fa fa-calendar" aria-hidden="true" /> {this.renderTitle()}
-          <ImagesNav />
+          <ImagesNav images={this.props.images} />
         </h1>
         <Images images={this.props.images} />
       </div>

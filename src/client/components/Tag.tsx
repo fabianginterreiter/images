@@ -38,7 +38,7 @@ class TagComponent extends React.Component<TagComponentProps, TagComponentState>
       <div>
         <h1>
           <i className="fa fa-tag" aria-hidden="true" /> {this.renderTitle()}
-          <ImagesNav>
+          <ImagesNav images={this.props.images}>
             <a onClick={this.handleEdit.bind(this)} className="primary">
               <i className="fa fa-pencil-square-o" /><span className="min500"> Edit</span>
             </a>

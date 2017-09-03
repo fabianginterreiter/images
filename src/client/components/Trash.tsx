@@ -19,7 +19,7 @@ class Trash extends React.Component<{
       <div>
         <h1>
           <i className="fa fa-trash-o"/> Trash
-          <ImagesNav>
+          <ImagesNav images={this.props.images}>
             <button className="danger" onClick={this.handleClear.bind(this)}>
               <i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span>
             </button>

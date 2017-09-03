@@ -14,7 +14,7 @@ class Favorites extends React.Component<{
       <div>
         <h1>
           <i className="fa fa-heart-o" aria-hidden="true" /> Favorites
-          <ImagesNav />
+          <ImagesNav images={this.props.images} />
         </h1>
         <Images images={this.props.images} />
       </div>

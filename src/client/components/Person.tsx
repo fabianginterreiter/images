@@ -24,7 +24,7 @@ class PersonComponent extends React.Component<PersonComponentProps, {}> {
       <div>
         <h1>
           <i className="fa fa-user" aria-hidden="true" /> {this.props.person.name}
-          <ImagesNav />
+          <ImagesNav images={this.props.images} />
         </h1>
         <Images images={this.props.images} />
       </div>

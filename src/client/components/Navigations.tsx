@@ -1,4 +1,3 @@
-import * as moment from "moment";
 import * as React from "react";
 import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
@@ -9,7 +8,7 @@ import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
 import {Year} from "./Dates";
 import Title from "./Title";
-import {translate} from "../libs/Translation";
+import {t, getLanguage} from "../libs/Translation";
 
 interface NavigationsProps {
   location: {
@@ -21,6 +20,7 @@ interface NavigationsProps {
   trash: Image[];
   closeNavigation(): void;
   setPinNavigation(pin: boolean): void;
+  translate(key: string): string;
 }
 
 interface NavigationsState {
@@ -56,7 +56,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     navigations.push({
       key: "all",
       type: "action",
-      name: translate("navigations.all"),
+      name: t("navigations.all"),
       service: "/api/images",
       link: "/images/",
       fontAwesome: "fa fa-picture-o"
@@ -65,7 +65,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     navigations.push({
       key: "favorites",
       type: "action",
-      name: translate("navigations.favorites"),
+      name: t("navigations.favorites"),
       service: "/api/images?liked=true",
       link: "/images/favorites",
       fontAwesome: "fa fa-heart-o"
@@ -79,7 +79,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       const albums = {
         key: "albums",
         type: "action",
-        name: translate("navigations.albums"),
+        name: t("navigations.albums"),
         link: "/images/albums",
         fontAwesome: "fa fa-book",
         options: props.albums.map((album) => {
@@ -99,7 +99,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       const persons = {
         key: "persons",
         type: "action",
-        name: translate("navigations.persons"),
+        name: t("navigations.persons"),
         link: "/images/persons",
         fontAwesome: "fa fa-users",
         options: props.persons.map((person) => {
@@ -119,7 +119,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       const tags = {
         key: "tags",
         type: "action",
-        name: translate("navigations.tags"),
+        name: t("navigations.tags"),
         link: "/images/tags",
         fontAwesome: "fa fa-tags",
         options: props.tags.map((tag) => {
@@ -138,7 +138,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     navigations.push({
       key: "dates",
       type: "action",
-      name: translate("navigations.dates"),
+      name: t("navigations.dates"),
       fontAwesome: "fa fa-calendar",
       link: "/images/dates",
       options: this.state.years.map((year) => {
@@ -151,7 +151,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
             return {
               key: "date" + year.year + month.month,
               type: "action",
-              name: moment().month(month.month - 1).year(year.year).format("MMMM YYYY"),
+              name: t(`months.${month.month}`) + " " + year.year,
               link: `/images/dates/${year.year}/${month.month}`
             };
           })
@@ -229,7 +229,8 @@ const mapStateToProps = (state) => {
     albums: state.albums,
     persons: state.persons,
     tags: state.tags,
-    trash: state.trash
+    trash: state.trash,
+    language: getLanguage(state)
   };
 };
 

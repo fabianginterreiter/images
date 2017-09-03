@@ -1,16 +1,22 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {setImageTitle} from "../actions";
+import {setImageTitle, deleteImage, like, unlike} from "../actions";
 import Ajax from "../libs/Ajax";
 import {Image} from "../types";
 import Images from "./Images";
 import { Link } from "react-router";
-import { Quickedit } from "../utils/Utils";
+import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener, Quickedit } from "../utils/Utils";
 import * as moment from "moment";
+import PersonsList from "./PersonsList";
+import TagsList from "./TagsList";
+import AlbumsList from "./AlbumsList";
 
 class ImageDetails extends React.Component<{
   image: Image;
+  visible: boolean;
+  handleClosePanel(): void;
   setImageTitle(image: Image, title: string);
+  deleteImage(image: Image): void;
 }, {
   edit: boolean;
 }> {
@@ -23,12 +29,25 @@ class ImageDetails extends React.Component<{
   }
 
   public render() {
-    return (<div className="details">
-      {this.renderTitle()}
-      <div>Filename: <span>{this.props.image.filename}</span></div>
-      <div>Resolution: <span>{this.props.image.width}/{this.props.image.height}</span></div>
-      <div>Date: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
-    </div>);
+    return (<Panel open={this.props.visible} clickCatcher={this.props.visible}
+        side="right" onClickCatcherClick={() => this.props.handleClosePanel()} header={true}>
+        <div className="title">
+        </div>
+        <div className="body">
+
+        <div className="details">
+          {this.renderTitle()}
+          <div>Filename: <span>{this.props.image.filename}</span></div>
+          <div>Resolution: <span>{this.props.image.width}/{this.props.image.height}</span></div>
+          <div>Date: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
+          <div><i className="fa fa-trash-o" /> Delete</div>
+        </div>
+
+        <TagsList image={this.props.image} />
+        <PersonsList image={this.props.image} hideEmptyList={true} />
+        <AlbumsList image={this.props.image} hideEmptyList={true} />
+      </div>
+      </Panel>);
   }
 
   private renderTitle() {
@@ -49,6 +68,17 @@ class ImageDetails extends React.Component<{
 
     this.props.setImageTitle(this.props.image, value);
   }
+
+
+  private handleClick(option) {
+    switch (option.key) {
+      case "delete": {
+        DialogStore.open("Delete Image", "Do you really want to delete the image?")
+        .then(() => this.props.deleteImage(this.props.image));
+        break;
+      }
+    }
+  }
 }
 
 const mapStateToProps = (state) => {
@@ -58,6 +88,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deleteImage: (image: Image) => dispatch(deleteImage(image)),
     setImageTitle: (image: Image, title: string) => dispatch(setImageTitle(image, title))
   };
 };

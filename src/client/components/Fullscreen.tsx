@@ -2,14 +2,11 @@ import * as $ from "jquery";
 import * as React from "react";
 import {connect} from "react-redux";
 import {toggle} from "../actions";
-import {deleteImage, like, unlike} from "../actions/images";
+import {like, unlike, deleteImage} from "../actions/images";
 import {Image} from "../types";
 import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
 import Faces from "./Faces";
 import Like from "./Like";
-import PersonsList from "./PersonsList";
-import TagsList from "./TagsList";
-import AlbumsList from "./AlbumsList";
 import ImageDetails from "./ImageDetails";
 
 interface FullscreenProps {
@@ -74,12 +71,6 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
       titleClass += " show";
     }
 
-    const options = [{
-        key: "delete",
-        type: "action",
-        name: "Delete"
-      }];
-
     let checkBoxClass = null;
     if (this.props.isSelected(this.props.image)) {
         checkBoxClass = "fa fa-check-square-o";
@@ -106,19 +97,8 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
             <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>
-        <Panel open={this.state.menu} clickCatcher={this.state.menu}
-          side="right" onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
-          <div className="title">
-          </div>
-          <div className="body">
-            <ImageDetails image={this.props.image} />
 
-            <OptionsList values={options} onClick={this.handleClick.bind(this)} />
-            <TagsList image={this.props.image} />
-            <PersonsList image={this.props.image} hideEmptyList={true} />
-            <AlbumsList image={this.props.image} hideEmptyList={true} />
-          </div>
-        </Panel>
+        <ImageDetails image={this.props.image} handleClosePanel={this.toggleMenu.bind(this)} visible={this.state.menu} />
       </div>
     );
   }
@@ -184,15 +164,6 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     this.timeout = setTimeout(this._hide.bind(this), 1000);
   }
 
-  private handleClick(option) {
-    switch (option.key) {
-      case "delete": {
-        DialogStore.open("Delete Image", "Do you really want to delete the image?")
-        .then(() => this.props.deleteImage(this.props.image));
-        break;
-      }
-    }
-  }
 
   private toggleMenu() {
     if (this.state.menu) {

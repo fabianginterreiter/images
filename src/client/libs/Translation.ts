@@ -1,8 +1,12 @@
+import cookie from "react-cookie";
+
 const SET_LANGUAGE = "SET_LANGUAGE";
 const ADD_LANGUAGE = "ADD_LANGUAGE";
 const SET_FALLBACK = "SET_FALLBACK";
 
 export const setLanguage = (language: string) => {
+  cookie.save("language", language);
+
   return {
     language,
     type: SET_LANGUAGE
@@ -74,6 +78,10 @@ export const localizeReducer = (state = {
 }, action) => {
     switch (action.type) {
       case SET_LANGUAGE:
+        if (!state.languages[action.language]) {
+          return state;
+        }
+
         return {
           ...state,
           language: action.language,

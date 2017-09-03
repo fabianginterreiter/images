@@ -12,6 +12,7 @@ interface OptionsPanelProps {
   session: User;
   showDate: boolean;
   open: boolean;
+  language: string;
   languages: string[];
   deleteSession(): void;
   setLanguage(language: string): void;
@@ -38,7 +39,9 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
             </ul>
 
             <ul>
-              {this.props.languages.map((language) => (<li key={language} onClick={() => this.props.setLanguage(language)}>{t(`settings.languages.${language}`)}</li>))}
+              {this.props.languages.map((language) => (<li key={language} onClick={() => this.props.setLanguage(language)}>
+                {language === this.props.language ? <b>{t(`settings.languages.${language}`)}</b> : t(`settings.languages.${language}`)}
+              </li>))}
             </ul>
           </div>
 

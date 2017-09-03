@@ -28,13 +28,19 @@ import {addLanguage, setLanguage, setDefaultLanguage, setLocalizeStore} from "./
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 import dataEn from "./localize/en";
 import dataDe from "./localize/de";
+import cookie from "react-cookie";
 
 const store = createStore(imagesApp, applyMiddleware(ReduxThunk));
 
 store.dispatch(addLanguage("en", dataEn));
 store.dispatch(addLanguage("de", dataDe));
 store.dispatch(setDefaultLanguage("en"));
-store.dispatch(setLanguage("en"));
+
+if (cookie.load("language")) {
+  store.dispatch(setLanguage(cookie.load("language")));
+} else {
+  store.dispatch(setLanguage("en"));
+}
 
 setLocalizeStore(store);
 

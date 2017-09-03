@@ -59,7 +59,7 @@ const load = (data: { [key:string]:string;}, path: string, object: object) => {
     if (typeof object[key] === "string") {
       data[path + key] = object[key];
     } else {
-      load(data, path + ".", object[key]);
+      load(data, path + key + ".", object[key]);
     }
   });
 

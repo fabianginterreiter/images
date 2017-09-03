@@ -1,4 +1,9 @@
 export default {
+  "header": {
+    "settings": "Settings",
+    "upload": "Upload"
+  },
+
   "navigations": {
     "all": "All",
     "favorites": "Favorites",
@@ -15,6 +20,11 @@ export default {
       "en": "English",
       "de": "German"
     }
+  },
+
+  "search": {
+    "title": "Search",
+    "placeholder": "Search"
   },
 
   "months": {

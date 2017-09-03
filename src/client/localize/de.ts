@@ -1,4 +1,9 @@
 export default {
+  "header": {
+    "settings": "Einstellungen",
+    "upload": "Hochladen"
+  },
+
   "navigations": {
     "all": "Alle",
     "favorites": "Favoriten",
@@ -7,7 +12,7 @@ export default {
     "tags": "Tags",
     "dates": "Datum"
   },
-  
+
   "settings": {
     "title": "Einstellungen",
     "showDates": "Datum anzeigen",
@@ -15,6 +20,11 @@ export default {
       "en": "Englisch",
       "de": "Deutsch"
     }
+  },
+
+  "search": {
+    "title": "Suche",
+    "placeholder": "Suche"
   },
 
   "months": {

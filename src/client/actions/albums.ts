@@ -3,10 +3,10 @@ import Ajax from "../libs/Ajax";
 import {Album} from "../types";
 
 export const loadAlbums = () => {
-  return (dispatch) => Ajax.get("/api/albums").then((albums) => dispatch({
+  return (dispatch) => setTimeout(() => Ajax.get("/api/albums").then((albums) => dispatch({
     albums,
     type: SET_ALBUMS
-  }));
+  })), 0);
 };
 
 export const sortAlbums = (key: string, asc: boolean) => {

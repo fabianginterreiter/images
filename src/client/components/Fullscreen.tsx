@@ -1,7 +1,5 @@
 import * as $ from "jquery";
-import * as moment from "moment";
 import * as React from "react";
-import { Link } from "react-router";
 import {connect} from "react-redux";
 import {toggle} from "../actions";
 import {deleteImage, like, unlike} from "../actions/images";
@@ -12,6 +10,7 @@ import Like from "./Like";
 import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
 import AlbumsList from "./AlbumsList";
+import ImageDetails from "./ImageDetails";
 
 interface FullscreenProps {
   image: Image;
@@ -97,7 +96,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
         {this.props.number !== this.props.size && <div className="next turning" onClick={this.props.next}><i className="fa fa-chevron-right" aria-hidden="true" /></div>}
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
-          {this.props.image.title} ({this.props.number}/{this.props.size})
+          {this.getTitle(this.props.image)} ({this.props.number}/{this.props.size})
           <div className="options">
             <Like image={this.props.image} />
             <i className={checkBoxClass} onClick={() => this.props.toggle(this.props.image)} />
@@ -112,12 +111,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
           <div className="title">
           </div>
           <div className="body">
-            <div className="details">
-              <h3>{this.props.image.title}</h3>
-              <div>Filename: <span>{this.props.image.filename}</span></div>
-              <div>Resolution: <span>{this.props.image.width}/{this.props.image.height}</span></div>
-              <div>Date: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
-            </div>
+            <ImageDetails image={this.props.image} />
 
             <OptionsList values={options} onClick={this.handleClick.bind(this)} />
             <TagsList image={this.props.image} />
@@ -127,6 +121,14 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
         </Panel>
       </div>
     );
+  }
+
+  private getTitle(image: Image) {
+    if (this.props.image.title === this.props.image.filename) {
+      return this.props.image.title;
+    } else {
+      return `${this.props.image.title} (${this.props.image.filename})`;
+    }
   }
 
   private handleKeyUp(e: KeyboardEvent) {

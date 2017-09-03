@@ -48,6 +48,8 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+router.put("/:id", (req, res) => new ImagesController(req).update().then((image) => res.send(image)));
+
 router.put("/:id/revert", (req, res) => new ImagesController(req)
 .revert().then(() => res.send({status: "OK"})).catch((e) => res.status(404).send("Fehler")));
 

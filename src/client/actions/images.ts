@@ -1,6 +1,6 @@
 import {ADD_ALBUM_TO_IMAGE, ADD_IMAGES, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE,
   LIKE_IMAGE, LOAD_MORE_IMAGES, REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE,
-  REMOVE_TAG, REVERT_IMAGE, SET_IMAGE_SERVICE, SET_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
+  REMOVE_TAG, REVERT_IMAGE, SET_IMAGE_SERVICE, SET_IMAGES, UNLIKE_IMAGE, SET_IMAGE_TITLE} from "../actionTypes";
 import Ajax from "../libs/Ajax";
 import {Album, Image, Person, Service, Tag} from "../types";
 
@@ -137,3 +137,10 @@ export const revertImage = (image: Image) => {
     type: REVERT_IMAGE
   }));
 };
+
+export const setImageTitle = (image: Image, title: string) => {
+  return (dispatch) => Ajax.put(`/api/images/${image.id}`, {...image, title: title}).then((result) => dispatch({
+    image: result,
+    type: SET_IMAGE_TITLE
+  }));
+}

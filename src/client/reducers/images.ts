@@ -83,7 +83,7 @@ export default function images(state = [], action) {
         return image;
       });
     case DELETE_IMAGE:
-      return state.filter((image) => image.id === action.image.id);
+      return state.filter((image) => image.id !== action.image.id);
     case REVERT_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {

@@ -62,3 +62,6 @@ export const SET_UPLOAD_COMPLETE = "SET_UPLOAD_COMPLETE";
 export const SET_UPLOAD_ERROR = "SET_UPLOAD_ERROR";
 
 export const SET_NUMBER_OF_IMAGES = "SET_NUMBER_OF_IMAGES";
+
+export const SET_TRASH = "SET_TRASH";
+export const CLEAR_TRASH = "CLEAR_TRASH";

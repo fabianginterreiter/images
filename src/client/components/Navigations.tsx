@@ -4,7 +4,7 @@ import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
 import {closeNavigation, openNavigation, setPinNavigation} from "../actions";
 import Ajax from "../libs/Ajax";
-import {Album} from "../types";
+import {Album, Image} from "../types";
 import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
 import {Year} from "./Dates";
@@ -17,6 +17,7 @@ interface NavigationsProps {
   open: boolean;
   pinned: boolean;
   albums: Album[];
+  trash: Image[];
   closeNavigation(): void;
   setPinNavigation(pin: boolean): void;
 }
@@ -157,6 +158,20 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       })
     });
 
+    if (this.props.trash.length > 0) {
+      navigations.push({
+        type: "divider"
+      });
+
+      navigations.push({
+        key: "trash",
+        type: "action",
+        name: "Trash",
+        link: "/images/trash",
+        fontAwesome: "fa fa-trash-o"
+      });
+    }
+
     return navigations;
   }
 
@@ -212,7 +227,8 @@ const mapStateToProps = (state) => {
     pinned: state.view.pinned,
     albums: state.albums,
     persons: state.persons,
-    tags: state.tags
+    tags: state.tags,
+    trash: state.trash
   };
 };
 

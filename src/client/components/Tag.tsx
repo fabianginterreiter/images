@@ -7,6 +7,7 @@ import {Image, Tag} from "../types";
 import { DialogStore, Quickedit } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
+import {t} from "../libs/Translation";
 
 interface TagComponentProps {
   params: {
@@ -40,10 +41,10 @@ class TagComponent extends React.Component<TagComponentProps, TagComponentState>
           <i className="fa fa-tag" aria-hidden="true" /> {this.renderTitle()}
           <ImagesNav images={this.props.images}>
             <a onClick={this.handleEdit.bind(this)} className="primary">
-              <i className="fa fa-pencil-square-o" /><span className="min500"> Edit</span>
+              <i className="fa fa-pencil-square-o" /><span className="min500"> {t("tag.edit")}</span>
             </a>
             <a onClick={this.handleDelete.bind(this)} className="warning">
-              <i className="fa fa-trash-o" /><span className="min500"> Delete</span>
+              <i className="fa fa-trash-o" /><span className="min500"> {t("tag.delete")}</span>
             </a>
           </ImagesNav>
         </h1>
@@ -85,7 +86,7 @@ class TagComponent extends React.Component<TagComponentProps, TagComponentState>
   }
 
   private handleDelete() {
-    DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
+    DialogStore.open(t("tag.deleteConfirm.title"), t("tag.deleteConfirm.message"))
     .then((result) => Ajax.delete("/api/tags/" + this.props.tag.id)).then(() => {
       browserHistory.push("/images");
     });

@@ -2,6 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {select, unselect} from "../actions";
 import {Image} from "../types";
+import {t, getLanguage} from "../libs/Translation";
 
 class ImagesNav extends React.Component<{
   images: Image[];
@@ -12,10 +13,10 @@ class ImagesNav extends React.Component<{
     return (
       <nav className="group">
         <a onClick={this.handleSelectAll.bind(this)}>
-          <i className="fa fa-check-square-o" /><span className="min500"> Select All</span>
+          <i className="fa fa-check-square-o" /><span className="min500"> {t("images.selectAll")}</span>
         </a>
         <a onClick={this.handleUnselectAll.bind(this)}>
-          <i className="fa fa-square-o" /><span className="min500"> Unselect All</span>
+          <i className="fa fa-square-o" /><span className="min500"> {t("images.unselectAll")}</span>
         </a>
         {this.props.children}
       </nav>
@@ -33,6 +34,7 @@ class ImagesNav extends React.Component<{
 
 const mapStateToProps = (state) => {
   return {
+    language: getLanguage(state)
   };
 };
 

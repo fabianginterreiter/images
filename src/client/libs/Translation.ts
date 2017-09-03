@@ -28,16 +28,22 @@ export const setDefaultLanguage = (language: string) => {
   }
 }
 
-export const translate = (store, key:string): string => {
-  if (store.localizeReducer.translation[key]) {
-    return store.localizeReducer.translation[key];
+export const translate = (store, key:string, values: string[]): string => {
+  let value = store.localizeReducer.translation[key];
+
+  if (!value) {
+    value = store.localizeReducer.fallback[key];
   }
 
-  if (store.localizeReducer.fallback[key]) {
-    return store.localizeReducer.fallback[key];
+  if (!value) {
+    return key;
   }
 
-  return key;
+  values.forEach((text, index) => {
+     value = value.replace(new RegExp("\\{" + index + "\\}", "g"), text);
+  });
+
+  return value;
 }
 
 let store = null;
@@ -46,12 +52,12 @@ export const setLocalizeStore = (object) => {
   store = object;
 }
 
-export const t = (key) => {
+export const t = (key, ...values: string[]) => {
   if (store == null) {
     return key;
   }
 
-  return translate(store.getState(), key);
+  return translate(store.getState(), key, values);
 }
 
 export const getLanguage = (state) => {

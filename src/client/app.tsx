@@ -24,7 +24,7 @@ import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
 import Ajax from "./libs/Ajax";
 import imagesApp from "./reducers";
-import {addLanguage, setLanguage, setDefaultLanguage, setLocalizeStore} from "./libs/Translation";
+import {t, addLanguage, setLanguage, setDefaultLanguage, setLocalizeStore} from "./libs/Translation";
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 import dataEn from "./localize/en";
 import dataDe from "./localize/de";

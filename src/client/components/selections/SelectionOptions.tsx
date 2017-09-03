@@ -6,6 +6,7 @@ import {addAlbum, addAlbumToImage, addTag, addTagToImage, removeAlbumFromImage, 
 import Ajax from "../../libs/Ajax";
 import {Album, Image, Person, Tag} from "../../types";
 import { Dropdown, OptionsList, SelectDialogStore, SingleSelectDialogStore } from "../../utils/Utils";
+import {t} from "../../libs/Translation";
 
 interface SelectionOptionsState {
   visible: boolean;
@@ -33,11 +34,11 @@ class SelectionOptions extends React.Component<{
   public render() {
     return (
       <div onClick={this.toggle.bind(this)} className="right">
-        <span><i className="fa fa-plus" aria-hidden="true" /><span className="min500"> Add</span></span>
+        <span><i className="fa fa-plus" aria-hidden="true" /><span className="min500"> {t("selection.manage.name")}</span></span>
         <Dropdown open={this.state.visible} onCancel={this.close.bind(this)}>
           <ul className="options">
-            <li><a onClick={this.handleTags.bind(this)}><i className="fa fa-tags" /> Manage Tags</a></li>
-            <li><a onClick={this.handleAlbums.bind(this)}><i className="fa fa-book" /> Add to Album</a></li>
+            <li><a onClick={this.handleTags.bind(this)}><i className="fa fa-tags" /> {t("selection.manage.tags")}</a></li>
+            <li><a onClick={this.handleAlbums.bind(this)}><i className="fa fa-book" /> {t("selection.manage.albums")}</a></li>
           </ul>
         </Dropdown>
       </div>
@@ -71,7 +72,7 @@ class SelectionOptions extends React.Component<{
       };
     });
 
-    SelectDialogStore.open("Manage Tags", options).then((result) => {
+    SelectDialogStore.open(t("selection.manage.tags"), options).then((result) => {
       const c = result.filter((tag) => tag.selected).map((obj) => {
         return {
           id: obj.id,
@@ -129,7 +130,7 @@ class SelectionOptions extends React.Component<{
       };
     });
 
-    SingleSelectDialogStore.open("Manage albums", options).then((result) => {
+    SingleSelectDialogStore.open(t("selection.manage.albums"), options).then((result) => {
       this.persist({
         id: result.id,
         name: result.name,

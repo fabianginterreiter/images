@@ -7,6 +7,7 @@ import Images from "./Images";
 import ImagesNav from "./ImagesNav";
 import { browserHistory } from "react-router";
 import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 
 class Trash extends React.Component<{
   images: Image[];
@@ -18,13 +19,13 @@ class Trash extends React.Component<{
     return (
       <div>
         <h1>
-          <i className="fa fa-trash-o"/> Trash
+          <i className="fa fa-trash-o"/> {t("trash.title")}
           <ImagesNav images={this.props.images}>
             <button className="danger" onClick={this.handleClear.bind(this)}>
-              <i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span>
+              <i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> {t("trash.clear")}</span>
             </button>
             <button className="success" onClick={this.handleRevert.bind(this)}>
-              <i className="fa fa-undo" aria-hidden="true" /><span className="min500"> Revert</span>
+              <i className="fa fa-undo" aria-hidden="true" /><span className="min500"> {t("trash.revert")}</span>
             </button>
           </ImagesNav>
         </h1>
@@ -37,7 +38,7 @@ class Trash extends React.Component<{
   }
 
   private handleClear(): void {
-    DialogStore.open("Delete Images", "Do you really want to delete all selected images?", {
+    DialogStore.open(t("trash.clearConfirm.title"), t("trash.clearConfirm.message"), {
       type: "danger"
     }).then((result) => {
       if (result) {

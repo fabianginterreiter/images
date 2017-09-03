@@ -167,7 +167,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       navigations.push({
         key: "trash",
         type: "action",
-        name: "Trash",
+        name: t("navigations.trash"),
         link: "/images/trash",
         fontAwesome: "fa fa-trash-o"
       });

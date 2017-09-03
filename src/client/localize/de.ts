@@ -1,4 +1,6 @@
 export default {
+  "name": "images",
+
   "header": {
     "settings": "Einstellungen",
     "upload": "Hochladen"
@@ -10,7 +12,17 @@ export default {
     "albums": "Alben",
     "persons": "Personen",
     "tags": "Tags",
-    "dates": "Datum"
+    "dates": "Datum",
+    "trash": "Papierkorb"
+  },
+
+  "users": {
+    "select": "Profil auswählen",
+    "create": "Erstellen",
+    "form": {
+      "placeholder": "Profil erstellen",
+      "submit": "Erstellen"
+    }
   },
 
   "settings": {
@@ -22,9 +34,102 @@ export default {
     }
   },
 
+  "images": {
+    "selectAll": "Alle auswählen",
+    "unselectAll": "Auswahl aufheben"
+  },
+
+  "image": {
+    "filename": "Dateiname",
+    "resolution": "Auflösung",
+    "date": "Datum",
+    "delete": "Entfernen",
+    "deleteConfirm": {
+      "title": "Bild entfernen",
+      "message": "Möchtest du das Bild in den Papierkorb verschieben?"
+    }
+  },
+
   "search": {
     "title": "Suche",
     "placeholder": "Suche"
+  },
+
+  "selection": {
+    "selected": "ausgewählt",
+    "clear": "Aufheben",
+    "delete": "Löschen",
+    "deleteConfirm": {
+      "title": "Bilder entfernen",
+      "message": "Möchtest du die ausgewählten Bilder entfernen?"
+    },
+    "download": "Download",
+    "downloadOriginalSize": "Original Größe",
+    "manage": {
+      "name": "Hinzufügen",
+      "tags": "Tags bearbeiten",
+      "albums": "Zu Album hinzufügen"
+    }
+  },
+
+  "persons": {
+    "title": "Personen",
+    "name": "Name",
+    "images": "Bilder",
+    "edit": "Bearbeiten",
+    "delete": "Entfernen",
+    "deleteConfirm": {
+      "title": "Person entfernen",
+      "message" : "Möchtest du wirklich '{0}' entfernen?"
+    }
+  },
+
+  "albums": {
+    "title": "Alben",
+    "name": "Name",
+    "images": "Bilder",
+    "edit": "Bearbeiten",
+    "public": "Öffentlich",
+    "delete": "Entfernen",
+    "deleteConfirm": {
+      "title": "Album entfernen",
+      "message" : "Möchtest du das Album '{0}' entfernen?"
+    }
+  },
+
+  "album": {
+    "remove": "Remove"
+  },
+
+  "tags": {
+    "title": "Tags",
+    "name": "Name",
+    "images": "Bilder",
+    "edit": "Bearbeiten",
+    "delete": "Entfernen",
+    "deleteConfirm": {
+      "title": "Tag entfernen",
+      "message" : "Möchtest du den Tag '{0}' entfernen?"
+    }
+  },
+
+  "tag": {
+    "edit": "Bearbeiten",
+    "delete": "Entfernen",
+    "deleteConfirm": {
+      "title": "Tag entfernen",
+      "message": "Möchtest du den Tag entfernen?"
+    }
+  },
+
+  "trash": {
+    "title": "Papierkorb",
+    "clear": "Leeren",
+    "revert": "Wiederherstellen",
+    "clearConfirm": {
+      "title": "Papierkorb leeren",
+      "message": "Möchtest du den Papierkorb leeren?"
+    }
   },
 
   "months": {
@@ -40,5 +145,12 @@ export default {
     "10": "Oktober",
     "11": "November",
     "12": "Dezember"
+  },
+
+  "utils": {
+    "dialog": {
+      "ok": "OK",
+      "cancel": "Abbrechen"
+    }
   }
 }

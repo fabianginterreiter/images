@@ -5,6 +5,7 @@ import {loadImages} from "../actions";
 import {Image} from "../types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
+import {t, getLanguage} from "../libs/Translation";
 
 interface DateViewProps {
   images: Image[];
@@ -36,10 +37,10 @@ class DateView extends React.Component<DateViewProps, {}> {
 
       if (this.props.params.day) {
         date.date(this.props.params.day);
-        return date.format("MMMM D. YYYY");
+        return t(`months.${this.props.params.month}`) + " " + date.format("D. YYYY");
       }
 
-      return date.format("MMMM YYYY");
+      return t(`months.${this.props.params.month}`) + " " + date.format("YYYY");
     }
 
     return date.format("YYYY");
@@ -48,7 +49,8 @@ class DateView extends React.Component<DateViewProps, {}> {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    images: state.images
+    images: state.images,
+    language: getLanguage(state)
   };
 };
 

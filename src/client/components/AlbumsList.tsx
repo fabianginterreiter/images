@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import { Link } from "react-router";
 import {removeAlbumFromImage} from "../actions";
 import {Image, Album} from "../types";
+import {t} from "../libs/Translation";
 
 interface AlbumsListProps {
   image: Image;
@@ -18,7 +19,7 @@ class AlbumsList extends React.Component<AlbumsListProps, {}> {
 
     return (
       <div className="tags">
-        <h4><i className="fa fa-book" aria-hidden="true" /> Albums</h4>
+        <h4><i className="fa fa-book" aria-hidden="true" /> {t("albums.title")}</h4>
         <ul>
           {
             this.props.image.albums.sort((a, b) => a.name.localeCompare(b.name)).map((album) => (<li key={album.id}>

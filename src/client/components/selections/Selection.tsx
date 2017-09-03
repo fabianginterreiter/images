@@ -7,6 +7,7 @@ import { DialogStore } from "../../utils/Utils";
 import Title from "../Title";
 import SelectionOptions from "./SelectionOptions";
 import Download from "./Download";
+import {t} from "../../libs/Translation";
 
 interface SelectionProps {
   selection: Image[];
@@ -31,15 +32,15 @@ class Selection extends React.Component<SelectionProps, {}> {
         <nav>
           <div onClick={this.handleShow.bind(this)}>
             <i className="fa fa-check-square-o" aria-hidden="true" /> {this.props.selection.length}
-            <span className="min500"> selected</span>
+            <span className="min500"> {t("selection.selected")}</span>
           </div>
           <div onClick={() => this.props.clear()}>
             <i className="fa fa-times" aria-hidden="true" />
-            <span className="min500"> Clear</span>
+            <span className="min500"> {t("selection.clear")}</span>
           </div>
 
           <div className="right" onClick={this.handleDelete.bind(this)}>
-            <i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> Delete</span>
+            <i className="fa fa-trash-o" aria-hidden="true" /><span className="min500"> {t("selection.delete")}</span>
           </div>
           <SelectionOptions />
           <Download />
@@ -53,7 +54,7 @@ class Selection extends React.Component<SelectionProps, {}> {
   }
 
   private handleDelete() {
-    DialogStore.open("Delete Images", "Do you really want to delete all selected images?").then(() => {
+    DialogStore.open(t("selection.deleteConfirm.title"), t("selection.deleteConfirm.message")).then(() => {
       this.props.selection.forEach((image) => this.props.deleteImage(image) && this.props.unselect(image));
     });
   }

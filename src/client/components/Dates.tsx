@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import { Link } from "react-router";
 import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 
 interface Day {
   day: number;
@@ -46,7 +47,7 @@ export default class Dates extends React.Component<{}, DatesState> {
           <ul>{date.months.map((month) => (
             <li key={date.year + "" + month.month}>
               <Link to={`/images/dates/${date.year}/${month.month}`}>
-                {moment().month(month.month - 1).format("MMMM")} ({month.count})
+                {t(`months.${month.month}`)} ({month.count})
               </Link>
               <ul>{month.days.map((day) => (
                 <li key={date.year + "" + month.month + "" + day.day}>

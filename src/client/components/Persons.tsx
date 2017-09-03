@@ -5,6 +5,7 @@ import {deletePerson, savePerson, sortPersons} from "../actions";
 import Ajax from "../libs/Ajax";
 import {Person} from "../types";
 import {DialogStore, ExtendedTable, Quickedit} from "../utils/Utils";
+import {t, getLanguage} from "../libs/Translation";
 
 interface PersonsComponentProps {
   persons: Person[];
@@ -28,12 +29,12 @@ class PersonsComponent extends React.Component<PersonsComponentProps, PersonsCom
 
   public render() {
     return (<div className="settings">
-      <h1><i className="fa fa-users" aria-hidden="true" /> Persons</h1>
+      <h1><i className="fa fa-users" aria-hidden="true" /> {t("persons.title")}</h1>
       <ExtendedTable columns={[
-        {title: "Name", name: "name"},
-        {title: "Images", name: "count", className: "option"},
-        {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]} data={this.props.persons}
+        {title: t("persons.name"), name: "name"},
+        {title: t("persons.images"), name: "count", className: "option"},
+        {title: t("persons.edit"), className: "option"},
+        {title: t("persons.delete"), className: "option"}]} data={this.props.persons}
         render={this._renderRow.bind(this)} order={(name, asc) => this.props.sort(name, asc)}
         name={"name"} asc={true} />
     </div>);
@@ -66,7 +67,7 @@ class PersonsComponent extends React.Component<PersonsComponentProps, PersonsCom
   }
 
   private handleDelete(person: Person) {
-    DialogStore.open("Delete Person", "Do you really want to delete the Person?", {
+    DialogStore.open(t("persons.deleteConfirm.title"), t("persons.deleteConfirm.message", person.name), {
       icon: "fa fa-trash",
       type: "warning"
     }).then(() => this.props.delete(person));
@@ -95,6 +96,7 @@ class PersonsComponent extends React.Component<PersonsComponentProps, PersonsCom
 
 const mapStateToProps = (state) => {
   return {
+    language: getLanguage(state),
     persons: state.persons
   };
 };

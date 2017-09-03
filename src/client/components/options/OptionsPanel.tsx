@@ -33,7 +33,7 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
 
           <div className="body">
             <ul className="options">
-              <li><a>Size: <ThumbnailsResizer /></a></li>
+              <li><a>{t("settings.size")}: <ThumbnailsResizer /></a></li>
               <li><a><label><input type="checkbox" checked={this.props.showDate}
               onChange={() => this.props.setShowDate(!this.props.showDate)} /> {t("settings.showDates")}</label></a></li>
             </ul>

@@ -9,6 +9,7 @@ import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
 import {Year} from "./Dates";
 import Title from "./Title";
+import {translate} from "../libs/Translation";
 
 interface NavigationsProps {
   location: {
@@ -55,7 +56,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     navigations.push({
       key: "all",
       type: "action",
-      name: "All",
+      name: translate("navigations.all"),
       service: "/api/images",
       link: "/images/",
       fontAwesome: "fa fa-picture-o"
@@ -64,7 +65,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     navigations.push({
       key: "favorites",
       type: "action",
-      name: "Favorites",
+      name: translate("navigations.favorites"),
       service: "/api/images?liked=true",
       link: "/images/favorites",
       fontAwesome: "fa fa-heart-o"
@@ -78,7 +79,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       const albums = {
         key: "albums",
         type: "action",
-        name: "Albums",
+        name: translate("navigations.albums"),
         link: "/images/albums",
         fontAwesome: "fa fa-book",
         options: props.albums.map((album) => {
@@ -98,7 +99,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       const persons = {
         key: "persons",
         type: "action",
-        name: "Persons",
+        name: translate("navigations.persons"),
         link: "/images/persons",
         fontAwesome: "fa fa-users",
         options: props.persons.map((person) => {
@@ -118,7 +119,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
       const tags = {
         key: "tags",
         type: "action",
-        name: "Tags",
+        name: translate("navigations.tags"),
         link: "/images/tags",
         fontAwesome: "fa fa-tags",
         options: props.tags.map((tag) => {
@@ -137,7 +138,7 @@ class Navigations extends React.Component<NavigationsProps, NavigationsState> {
     navigations.push({
       key: "dates",
       type: "action",
-      name: "Dates",
+      name: translate("navigations.dates"),
       fontAwesome: "fa fa-calendar",
       link: "/images/dates",
       options: this.state.years.map((year) => {

@@ -14,12 +14,16 @@
   }
 
   .panelm {
-    z-index:1200;
+    position: fixed;
+    z-index: 1200;
+
+    > .open {
+      z-index: 3000;
+    }
   }
 
   .faces {
     position: absolute;
-    z-index: 1100;
     top: 0;
     opacity:0;
     transition:opacity 1s linear;
@@ -33,11 +37,15 @@
         bottom: 0;
         z-index: 1110;
       }
+
       .border {
+        position: absolute;
+        z-index: 1160;
+
         border-style: solid;
         border-width: 5px;
-        border-color: white;        
-        position: absolute;
+        border-color: white;
+
         cursor: pointer;
 
         .resizer {
@@ -82,7 +90,7 @@
         width: 160px;
         height: 20px;
         position: absolute;
-        z-index: 1111;
+        z-index: 1300;
       }
 
       .name {
@@ -114,27 +122,51 @@
       }
 
       .name {
-        z-index: 1150;
+        z-index: 1300;
       }
     }
   }
 
-  .previous {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    bottom: 0;
-    width: 150px;
+  .top {
+    z-index: 1500;
+  }
+
+  .turning {
+    font-size: 70px;
+
+    display:flex;
+    align-items: center; /* Vertical center alignment */
+    justify-content: center; /* Horizontal center alignment */
+
+    min-width: 150px;
+    width: 10%;
     cursor: pointer;
+    z-index: 1150;
+    top: 40px;
+    bottom: 0;
+
+    position: absolute;
+
+    i {
+      display: block;
+      opacity: 0;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      color: white;
+    }
+  }
+
+  .turning:hover {
+    i {
+      opacity: 0.6;
+    }
+  }
+
+  .previous {
+    left: 0;
   }
 
   .next {
-    position: absolute;
-    top: 40px;
     right: 0;
-    bottom: 0;
-    width: 150px;
-    cursor: pointer;
   }
 
   .title {
@@ -162,10 +194,38 @@
       top: 0;
       right: 10px;
       cursor: pointer;
+
+      > * {
+          padding: 3px 5px;
+          display: inline-block;
+          color: white;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      }
+
+      > *:hover {
+        color: white;
+      }
     }
   }
 
   .show {
     opacity: 1;
+  }
+
+  .details {
+    padding: 5px;
+    text-align: left;
+
+    h3 {
+      font-weight: 500;
+      padding: 0;
+      margin: 10px 0;
+    }
+
+    div {
+      span {
+        font-weight: 500;
+      }
+    }
   }
 }

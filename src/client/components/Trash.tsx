@@ -1,13 +1,16 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {loadImages, revertImage} from "../actions";
+import {loadTrash, revertImage, clearTrash} from "../actions";
 import {Image} from "../types";
 import { DialogStore } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
+import { browserHistory } from "react-router";
+import Ajax from "../libs/Ajax";
 
 class Trash extends React.Component<{
   images: Image[];
+  clearTrash(): void;
   isSelected(image: Image): boolean
   revertImage(image: Image): void;
 }, {}> {
@@ -16,7 +19,7 @@ class Trash extends React.Component<{
       <div>
         <h1>
           <i className="fa fa-trash-o"/> Trash
-          <ImagesNav>
+          <ImagesNav images={this.props.images}>
             <button className="danger" onClick={this.handleClear.bind(this)}>
               <i className="fa fa-times-circle" aria-hidden="true"/><span className="min500"> Clear</span>
             </button>
@@ -38,10 +41,7 @@ class Trash extends React.Component<{
       type: "danger"
     }).then((result) => {
       if (result) {
-        fetch("/api/trash/clear", {
-          credentials: "include",
-          method: "DELETE"
-        });
+        this.props.clearTrash();
       }
     });
   }
@@ -52,19 +52,22 @@ class Trash extends React.Component<{
         this.props.revertImage(image);
       }
     });
+
+    browserHistory.push("/images/selected");
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    images: state.images,
+    images: state.trash,
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  dispatch(loadImages("/api/images?trash=true"));
+  dispatch(loadTrash());
   return {
+    clearTrash: () => dispatch(clearTrash()),
     revertImage: (image: Image) => dispatch(revertImage(image))
   };
 };

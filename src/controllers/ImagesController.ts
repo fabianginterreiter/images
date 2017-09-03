@@ -41,20 +41,7 @@ export default class ImagesController extends BaseController {
   }
 
   public get() {
-    return new Image().query((qb) => {
-      qb.select("images.*");
-
-      qb.select("likes.user_id AS liked");
-      const userId = this.session.user;
-      qb.leftJoin("likes", function() {
-        this.on("images.id", "likes.image_id");
-        this.on("likes.user_id", userId + "");
-      });
-
-      qb.where("images.id", this.params.id);
-    }).fetch({withRelated: ["user", "tags"]}).then((image) => {
-      return image.toJSON();
-    }).then((image) => ImageExtention(image));
+    return this.getImage(this.params.id);
   }
 
   public index() {
@@ -148,5 +135,39 @@ export default class ImagesController extends BaseController {
     }, {
       patch: true
     }).then((result) => (result.toJSON()));
+  }
+
+  public count() {
+    return new Image().query((qb) => {
+      qb.count("id AS count");
+      qb.where("images.deleted", false);
+    }).fetch((result) => (result.toJSON()));
+  }
+
+  public update() {
+    return new Image({
+      id: this.params.id
+    }).save({
+      title: this.body.title
+    }, {
+      patch: true
+    }).then(() => this.getImage(this.params.id));
+  }
+
+  private getImage(id: number) {
+    return new Image().query((qb) => {
+      qb.select("images.*");
+
+      qb.select("likes.user_id AS liked");
+      const userId = this.session.user;
+      qb.leftJoin("likes", function() {
+        this.on("images.id", "likes.image_id");
+        this.on("likes.user_id", userId + "");
+      });
+
+      qb.where("images.id", id);
+    }).fetch({withRelated: ["user", "tags"]}).then((image) => {
+      return image.toJSON();
+    }).then((image) => ImageExtention(image));
   }
 }

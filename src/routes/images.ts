@@ -21,6 +21,8 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/count", (req, res) => new ImagesController(req).count().then((result) => res.send(result)));
+
 router.get("/dates", (req, res) => new DatesController(req).index().then((result) => res.send(result))
 .catch((e) => {
   res.status(404).send(e);
@@ -46,8 +48,10 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+router.put("/:id", (req, res) => new ImagesController(req).update().then((image) => res.send(image)));
+
 router.put("/:id/revert", (req, res) => new ImagesController(req)
-.revert().then(() => res.send("ok")).catch((e) => res.status(404).send("Fehler")));
+.revert().then(() => res.send({status: "OK"})).catch((e) => res.status(404).send("Fehler")));
 
 router.put("/:id/tags", (req, res) => {
   new TagsController(req).addTag().then((tag) => res.send(tag)).catch((e) => res.status(404).send("Fehler"));
@@ -62,14 +66,14 @@ router.put("/:id/albums", (req, res) => {
 });
 
 router.delete("/:id/albums/:album_id", (req, res) => new AlbumsController(req)
-.deleteAlbum().then(() => res.send("OK")).catch((e) => res.status(404).send(e)));
+.deleteAlbum().then(() => res.send({status: "OK"})).catch((e) => res.status(404).send(e)));
 
 router.put("/:id/persons", (req, res) => {
   new PersonsController(req).addPerson().then((tag) => res.send(tag)).catch((e) => res.status(404).send("Fehler"));
 });
 
 router.delete("/:id/persons/:person_id", (req, res) => new PersonsController(req)
-.deletePerson().then(() => res.send("OK")).catch((e) => res.status(404).send(e)));
+.deletePerson().then(() => res.send({status: "OK"})).catch((e) => res.status(404).send(e)));
 
 router.post("/", upload.single("image"), (req, res) => {
   new ImagesController(req).create().then((result) => {

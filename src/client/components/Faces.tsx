@@ -50,7 +50,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
   }
 
   public render() {
-    const className = "faces" + (this.props.show || this.state.create || this.state.selection ? " show" : "");
+    const className = "faces" + (this.props.show || this.state.create || this.state.selection ? " show" : "") + (this.state.selection ? " top" : "");
 
     return (
       <div className={className} style={this.props.style}
@@ -74,7 +74,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
     if (this.state.selection || this.state.create) {
 
       if (event.target.className.includes("resizer")) {
-        console.log("RESIZER");
+        // console.log("RESIZER");
       }
 
       return;
@@ -103,7 +103,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
   private handleMouseMove(event) {
     if (!this.state.selection) {
       if (event.target.className.includes("resizer")) {
-        console.log("RESIZER");
+        // console.log("RESIZER");
       }
 
       return;
@@ -132,7 +132,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
 
     if (!this.state.selection) {
       if (event.target.className.includes("resizer")) {
-        console.log("RESIZER");
+        // console.log("RESIZER");
       }
 
       return;
@@ -227,7 +227,7 @@ class Faces extends React.Component<FacesProps, FacesState> {
       <Link to={`/images/persons/${person.id}`}><div className="border s" style={style}><div /></div></Link>
       <div style={style2} className="name">
         <Link to={`/images/persons/${person.id}`}>{person.name}</Link>&nbsp;
-        <span className="remove"><i className="icon-remove"
+        <span className="remove"><i className="fa fa-times"
           onClick={(e) => this.handleDeletePerson(e, person)} /></span>
       </div>
     </div>);

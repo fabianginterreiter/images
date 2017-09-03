@@ -6,20 +6,25 @@ import {Image, Person} from "../types";
 
 interface PersonsListProps {
   image: Image;
+  hideEmptyList?: boolean;
   removePersonToImage(image: Image, person: Person): void;
 }
 
 class PersonsList extends React.Component<PersonsListProps, {}> {
   public render() {
+    if (this.props.hideEmptyList && this.props.image.persons.length === 0) {
+      return <span />;
+    }
+
     return (
       <div className="tags">
         <h4><i className="fa fa-users" aria-hidden="true" /> Persons</h4>
         <ul>
           {
-            this.props.image.persons.map((person) => (<li key={person.id}>
+            this.props.image.persons.sort((a, b) => a.name.localeCompare(b.name)).map((person) => (<li key={person.id}>
               <Link to={`/images/persons/${person.id}`}>{person.name}</Link>
               <span className="badge">
-                <i className="icon-remove" onClick={this.handleDeletePerson.bind(this, person)} />
+                <i className="fa fa-times" aria-hidden="true" onClick={this.handleDeletePerson.bind(this, person)} />
               </span>
             </li>))
           }
@@ -44,4 +49,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect()(PersonsList);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonsList);

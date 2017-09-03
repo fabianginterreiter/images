@@ -1,0 +1,91 @@
+import * as React from "react";
+import {connect} from "react-redux";
+import {setImageTitle, deleteImage, like, unlike} from "../actions";
+import Ajax from "../libs/Ajax";
+import {Image} from "../types";
+import Images from "./Images";
+import { Link } from "react-router";
+import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener, Quickedit } from "../utils/Utils";
+import * as moment from "moment";
+import PersonsList from "./PersonsList";
+import TagsList from "./TagsList";
+import AlbumsList from "./AlbumsList";
+
+class ImageDetails extends React.Component<{
+  image: Image;
+  visible: boolean;
+  handleClosePanel(): void;
+  setImageTitle(image: Image, title: string);
+  deleteImage(image: Image): void;
+}, {
+  edit: boolean;
+}> {
+  public constructor(props) {
+    super(props);
+
+    this.state = {
+      edit: false
+    };
+  }
+
+  public render() {
+    return (<Panel open={this.props.visible} clickCatcher={this.props.visible}
+        side="right" onClickCatcherClick={() => this.props.handleClosePanel()} header={true}>
+        <div className="title">
+        </div>
+        <div className="body">
+
+        <div className="details">
+          {this.renderTitle()}
+          <div>Filename: <span>{this.props.image.filename}</span></div>
+          <div>Resolution: <span>{this.props.image.width}/{this.props.image.height}</span></div>
+          <div>Date: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
+          <div><a onClick={() => this.handeDelete()}><i className="fa fa-trash-o" /> Delete</a></div>
+        </div>
+
+        <TagsList image={this.props.image} />
+        <PersonsList image={this.props.image} hideEmptyList={true} />
+        <AlbumsList image={this.props.image} hideEmptyList={true} />
+      </div>
+      </Panel>);
+  }
+
+  private renderTitle() {
+    if (this.state.edit) {
+      return <Quickedit value={this.props.image.title} onCancel={() => this.setState({
+        edit: false
+      })} onChange={(value) => this.handleTitleChange(value)} />
+    }
+    return <h3>{this.props.image.title} <span className="badge" onClick={() => this.setState({
+      edit: true
+    })}><i className="fa fa-pencil-square-o" /></span></h3>;
+  }
+
+  private handleTitleChange(value: string) {
+    this.setState({
+      edit: false
+    });
+
+    this.props.setImageTitle(this.props.image, value);
+  }
+
+
+  private handeDelete() {
+    DialogStore.open("Delete Image", "Do you really want to delete the image?")
+      .then(() => this.props.deleteImage(this.props.image));
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteImage: (image: Image) => dispatch(deleteImage(image)),
+    setImageTitle: (image: Image, title: string) => dispatch(setImageTitle(image, title))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImageDetails);

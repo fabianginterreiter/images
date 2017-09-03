@@ -1,7 +1,7 @@
 import {ADD_ALBUM_TO_IMAGE, ADD_IMAGES, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE,
   DELETE_ALBUM, DELETE_IMAGE, DELETE_PERSON,
   DELETE_TAG, LIKE_IMAGE, REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE, REMOVE_TAG,
-  REVERT_IMAGE, SET_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
+  REVERT_IMAGE, SET_IMAGES, UNLIKE_IMAGE, SET_IMAGE_TITLE} from "../actionTypes";
 
 export default function images(state = [], action) {
   switch (action.type) {
@@ -35,7 +35,7 @@ export default function images(state = [], action) {
     case REMOVE_TAG:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.tags = image.tags.filter((tag) => (tag.id !== action.tag.id));
+          return {...image, tags: image.tags.filter((tag) => (tag.id !== action.tag.id))};
         }
         return image;
       });
@@ -49,7 +49,7 @@ export default function images(state = [], action) {
     case REMOVE_ALBUM_FROM_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.albums = image.albums.filter((album) => (album.id !== action.album.id));
+          return {...image, albums: image.albums.filter((album) => (album.id !== action.album.id))};
         }
         return image;
       });
@@ -63,7 +63,7 @@ export default function images(state = [], action) {
     case REMOVE_PERSON_TO_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
-          image.persons = image.persons.filter((person) => (person.id !== action.person.id));
+          return {...image, persons: image.persons.filter((person) => (person.id !== action.person.id))};
         }
         return image;
       });
@@ -83,11 +83,18 @@ export default function images(state = [], action) {
         return image;
       });
     case DELETE_IMAGE:
-      return state.filter((image) => image.id === action.image.id);
+      return state.filter((image) => image.id !== action.image.id);
     case REVERT_IMAGE:
       return state.map((image) => {
         if (image.id === action.image.id) {
           return {...image, deleted: false};
+        }
+        return image;
+      });
+    case SET_IMAGE_TITLE:
+      return state.map((image) => {
+        if (image.id === action.image.id) {
+          return {...image, title: action.image.title};
         }
         return image;
       });

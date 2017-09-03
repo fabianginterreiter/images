@@ -10,9 +10,11 @@ import tags from "./tags";
 import uploads from "./uploads";
 import users from "./users";
 import view from "./view";
+import stats from "./stats";
+import trash from "./trash";
 
 const imagesApp = combineReducers({
-  users, session, options, view, albums, tags, persons, selection, images, uploads, service
+  users, session, options, view, albums, tags, persons, selection, images, uploads, service, stats, trash
 });
 
 export default imagesApp;

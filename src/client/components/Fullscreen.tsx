@@ -1,15 +1,13 @@
 import * as $ from "jquery";
-import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {toggle} from "../actions";
-import {deleteImage, like, unlike} from "../actions/images";
+import {like, unlike, deleteImage} from "../actions/images";
 import {Image} from "../types";
 import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
 import Faces from "./Faces";
 import Like from "./Like";
-import PersonsList from "./PersonsList";
-import TagsList from "./TagsList";
+import ImageDetails from "./ImageDetails";
 
 interface FullscreenProps {
   image: Image;
@@ -73,12 +71,6 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
       titleClass += " show";
     }
 
-    const options = [{
-        key: "delete",
-        type: "action",
-        name: "Delete"
-      }];
-
     let checkBoxClass = null;
     if (this.props.isSelected(this.props.image)) {
         checkBoxClass = "fa fa-check-square-o";
@@ -91,36 +83,32 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
         <img ref="image" src={`/show/${this.props.image.path}`}
           alt={this.props.image.filename} onLoad={this.handleImageLoad.bind(this)} />
         <Faces style={this.state.style} image={this.props.image} show={this.state.show} />
+        {this.props.number !== 1 && <div className="previous turning" onClick={this.props.previous}><i className="fa fa-chevron-left" aria-hidden="true" /></div>}
+        {this.props.number !== this.props.size && <div className="next turning" onClick={this.props.next}><i className="fa fa-chevron-right" aria-hidden="true" /></div>}
         <div className={titleClass}>
           <div onClick={this.props.handleClose} className="close">✕</div>
-          {this.props.image.title} ({this.props.number}/{this.props.size})
+          {this.getTitle(this.props.image)} ({this.props.number}/{this.props.size})
           <div className="options">
-            <Like image={this.props.image} />&nbsp;
+            <Like image={this.props.image} />
             <i className={checkBoxClass} onClick={() => this.props.toggle(this.props.image)} />
-            <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
             <a href={`/org/${this.props.image.path}`} download={this.props.image.filename}>
               <i className="fa fa-download" aria-hidden="true" />
             </a>
+            <i className="fa fa-bars" onClick={this.toggleMenu.bind(this)} />
           </div>
         </div>
-        <div className="previous" onClick={this.props.previous} />
-        <div className="next" onClick={this.props.next} />
-        <Panel open={this.state.menu} clickCatcher={this.state.menu}
-          side="right" onClickCatcherClick={this.toggleMenu.bind(this)} header={true}>
-          <div className="title">
-          </div>
-          <div className="body">
-            <div>Filename: {this.props.image.filename}</div>
-            <div>Resolution: {this.props.image.width}/{this.props.image.height}</div>
-            <div>Date: {moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</div>
 
-            <OptionsList values={options} onClick={this.handleClick.bind(this)} />
-            <TagsList image={this.props.image} />
-            <PersonsList image={this.props.image} />
-          </div>
-        </Panel>
+        <ImageDetails image={this.props.image} handleClosePanel={this.toggleMenu.bind(this)} visible={this.state.menu} />
       </div>
     );
+  }
+
+  private getTitle(image: Image) {
+    if (this.props.image.title === this.props.image.filename) {
+      return this.props.image.title;
+    } else {
+      return `${this.props.image.title} (${this.props.image.filename})`;
+    }
   }
 
   private handleKeyUp(e: KeyboardEvent) {
@@ -129,7 +117,7 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     }
 
     switch (e.keyCode) {
-      case 32: {
+      case 32: { // space
         this._show();
         if (this.props.image.liked) {
           this.props.unlike(this.props.image);
@@ -139,9 +127,16 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
         break;
       }
 
-      case 66: {
+      case 66: { // b
         this._show();
         this.props.toggle(this.props.image);
+        break;
+      }
+
+      case 79: { // o
+        this.setState({
+          menu: !this.state.menu
+        });
         break;
       }
     }
@@ -169,15 +164,6 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     this.timeout = setTimeout(this._hide.bind(this), 1000);
   }
 
-  private handleClick(option) {
-    switch (option.key) {
-      case "delete": {
-        DialogStore.open("Delete Image", "Do you really want to delete the image?")
-        .then(() => this.props.deleteImage(this.props.image));
-        break;
-      }
-    }
-  }
 
   private toggleMenu() {
     if (this.state.menu) {

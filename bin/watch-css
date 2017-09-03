@@ -1,1 +1,1 @@
-nodemon -e src/scss -x "npm run build:css"
+nodemon --watch src/scss -e scss -x "npm run build:css"

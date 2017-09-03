@@ -26,7 +26,7 @@ class AlbumComponent extends React.Component<AlbumProps, {}> {
       <div>
         <h1>
           <i className="fa fa-book" aria-hidden="true" /> {this.props.album.name}
-          <ImagesNav>
+          <ImagesNav images={this.props.images}>
             <a onClick={this.handleRemoveFromAlbum.bind(this)}>
               <i className="fa fa-times" /><span className="min500"> Remove</span>
             </a>

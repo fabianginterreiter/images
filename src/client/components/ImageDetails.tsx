@@ -10,6 +10,7 @@ import * as moment from "moment";
 import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
 import AlbumsList from "./AlbumsList";
+import {t} from "../libs/Translation";
 
 class ImageDetails extends React.Component<{
   image: Image;
@@ -37,10 +38,10 @@ class ImageDetails extends React.Component<{
 
         <div className="details">
           {this.renderTitle()}
-          <div>Filename: <span>{this.props.image.filename}</span></div>
-          <div>Resolution: <span>{this.props.image.width}/{this.props.image.height}</span></div>
-          <div>Date: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
-          <div><a onClick={() => this.handeDelete()}><i className="fa fa-trash-o" /> Delete</a></div>
+          <div>{t("image.filename")}: <span>{this.props.image.filename}</span></div>
+          <div>{t("image.resolution")}: <span>{this.props.image.width}/{this.props.image.height}</span></div>
+          <div>{t("image.date")}: <span><Link to={`/images/dates/${moment(this.props.image.date).format("YYYY/MM/DD")}`}>{moment(this.props.image.date).format("YYYY MMMM DD HH:mm:ss")}</Link></span></div>
+          <div><a onClick={() => this.handeDelete()}><i className="fa fa-trash-o" /> {t("image.delete")}</a></div>
         </div>
 
         <TagsList image={this.props.image} />
@@ -71,7 +72,7 @@ class ImageDetails extends React.Component<{
 
 
   private handeDelete() {
-    DialogStore.open("Delete Image", "Do you really want to delete the image?")
+    DialogStore.open(t("image.deleteConfirm.title"), t("image.deleteConfirm.message"))
       .then(() => this.props.deleteImage(this.props.image));
   }
 }

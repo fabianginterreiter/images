@@ -4,6 +4,7 @@ import * as ReactRedux from "react-redux";
 import {addUser, setSession} from "../actions";
 import Ajax from "../libs/Ajax";
 import {User} from "../types";
+import {t} from "../libs/Translation";
 
 interface UsersManagementProps {
   users: User[];
@@ -31,8 +32,8 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
       createUser = (
         <div className="group">
           <form onSubmit={this.handleCreateUser.bind(this)}>
-            <input type="text" placeholder="Create" ref="name" autoFocus />
-            <button onClick={this.handleCreateUser.bind(this)} className="primary">Create</button>
+            <input type="text" placeholder={t("users.form.placeholder")} ref="name" autoFocus />
+            <button onClick={this.handleCreateUser.bind(this)} className="primary">{t("users.form.submit")}</button>
           </form>
         </div>
         );
@@ -40,7 +41,7 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
 
     return (
       <div className="users">
-        <h1>Select Profile</h1>
+        <h1>{t("users.select")}</h1>
         <div className="list">
           {
             this.props.users.map((user, idx) => (
@@ -51,7 +52,7 @@ class UsersManagement extends React.Component<UsersManagementProps, UsersManagem
           }
             <div onClick={this.openCreate.bind(this)}>
               <div><i className="fa fa-user-plus fa-3x" /></div>
-              <div>Create</div>
+              <div>{t("users.create")}</div>
             </div>
         </div>
 

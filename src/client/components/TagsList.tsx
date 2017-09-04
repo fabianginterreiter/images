@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import {addTag, addTagToImage, removeTag} from "../actions";
 import {Image, Tag} from "../types";
 import { AutoComplete } from "../utils/Utils";
+import {t} from "../libs/Translation";
 
 interface TagsListProps {
   image: Image;
@@ -17,7 +18,7 @@ class TagsList extends React.Component<TagsListProps, {}> {
   public render() {
     return (
       <div className="tags">
-        <h4><i className="fa fa-tag" aria-hidden="true" /> Tags</h4>
+        <h4><i className="fa fa-tag" aria-hidden="true" /> {t("tags.title")}</h4>
         <div className="input">
           <AutoComplete service="/api/tags"
           onSelect={(tag) => this.props.addTagToImage(this.props.image, tag as Tag)}

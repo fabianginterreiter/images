@@ -5,6 +5,7 @@ import {deleteTag, saveTag, sortTags} from "../actions";
 import Ajax from "../libs/Ajax";
 import {Tag} from "../types";
 import {DialogStore, ExtendedTable, Quickedit} from "../utils/Utils";
+import {t} from "../libs/Translation";
 
 interface TagsProps {
   tags: Tag[];
@@ -28,15 +29,15 @@ class Tags extends React.Component<TagsProps, TagsComponentState> {
 
   public render() {
     return (<div className="settings">
-      <h1><i className="fa fa-tags" aria-hidden="true" /> Tags</h1>
+      <h1><i className="fa fa-tags" aria-hidden="true" /> {t("tags.title")}</h1>
 
       <ExtendedTable columns={[
-        {title: "Name", name: "name"},
-        {title: "Images", name: "count", className: "option"},
-        {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]} data={this.props.tags}
+        {title: t("tags.name"), name: "name"},
+        {title: t("tags.images"), name: "count", className: "option"},
+        {title: t("tags.edit"), className: "option"},
+        {title: t("tags.delete"), className: "option"}]} data={this.props.tags}
         render={this._renderRow.bind(this)}
-        order={(name, asc) => this.props.sort.bind(name, asc)} name={"name"} asc={true} />
+        order={(name, asc) => this.props.sort(name, asc)} name={"name"} asc={true} />
 
     </div>);
   }
@@ -69,7 +70,7 @@ class Tags extends React.Component<TagsProps, TagsComponentState> {
   }
 
   private handleDelete(tag: Tag): void {
-    DialogStore.open("Delete Tag", "Do you really want to delete the Tags?")
+    DialogStore.open(t("tags.deleteConfirm.title"), t("tags.deleteConfirm.message", tag.name))
     .then((result) => this.props.delete(tag));
   }
 

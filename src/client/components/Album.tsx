@@ -5,6 +5,7 @@ import Ajax from "../libs/Ajax";
 import {Album, Image} from "../types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
+import {t} from "../libs/Translation";
 
 interface AlbumProps {
   album: Album;
@@ -28,7 +29,7 @@ class AlbumComponent extends React.Component<AlbumProps, {}> {
           <i className="fa fa-book" aria-hidden="true" /> {this.props.album.name}
           <ImagesNav images={this.props.images}>
             <a onClick={this.handleRemoveFromAlbum.bind(this)}>
-              <i className="fa fa-times" /><span className="min500"> Remove</span>
+              <i className="fa fa-times" /><span className="min500"> {t("album.remove")}</span>
             </a>
           </ImagesNav>
         </h1>

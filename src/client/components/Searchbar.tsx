@@ -3,6 +3,7 @@ import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
 import { KeyUpListener } from "../utils/Utils";
 import Title from "./Title";
+import {t, getLanguage} from "../libs/Translation";
 
 interface SearchbarState {
   s: string;
@@ -34,7 +35,7 @@ class Searchbar extends React.Component<{}, SearchbarState> {
       <a className="right">
         <span onClick={this.handleOpen.bind(this)}>
           <i className="fa fa-search" />
-          <span className="min500"> Search</span>
+          <span className="min500"> {t("search.title")}</span>
         </span>
         {this.renderBar()}
       </a>
@@ -103,7 +104,7 @@ class Searchbar extends React.Component<{}, SearchbarState> {
 
           <nav>
             <form onSubmit={this.handleSubmit.bind(this)}>
-              <input type="text" ref="search" placeholder="Search" value={this.state.s}
+              <input type="text" ref="search" placeholder={t("search.placeholder")} value={this.state.s}
                 onChange={this.handleChange.bind(this)} />
             </form>
             <span className="right" onClick={this.handleClose.bind(this)}><i className="fa fa-times" /></span>
@@ -115,6 +116,7 @@ class Searchbar extends React.Component<{}, SearchbarState> {
 
 const mapStateToProps = (state) => {
   return {
+    language: getLanguage(state),
     open: state.view.open
   };
 };

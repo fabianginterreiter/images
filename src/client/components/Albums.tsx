@@ -5,6 +5,7 @@ import {deleteAlbum, saveAlbum, sortAlbums} from "../actions";
 import Ajax from "../libs/Ajax";
 import {Album} from "../types";
 import { DialogStore, ExtendedTable, Quickedit } from "../utils/Utils";
+import {t} from "../libs/Translation";
 
 interface AlbumsProps {
   albums: Album[];
@@ -28,14 +29,14 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
 
   public render() {
     return (<div className="settings">
-      <h1><i className="fa fa-book" aria-hidden="true" /> Albums</h1>
+      <h1><i className="fa fa-book" aria-hidden="true" /> {t("albums.title")}</h1>
 
       <ExtendedTable columns={[
-        {title: "Name", name: "name"},
-        {title: "Images", name: "count", className: "option"},
-        {title: "Public", className: "option"},
-        {title: "Edit", className: "option"},
-        {title: "Delete", className: "option"}]}
+        {title: t("albums.name"), name: "name"},
+        {title: t("albums.images"), name: "count", className: "option"},
+        {title: t("albums.public"), className: "option"},
+        {title: t("albums.edit"), className: "option"},
+        {title: t("albums.delete"), className: "option"}]}
         data={this.props.albums}
         render={this._renderRow.bind(this)}
         order={this.order.bind(this)}
@@ -75,7 +76,7 @@ class Albums extends React.Component<AlbumsProps, AlbumsState> {
   }
 
   private handleDelete(album: Album) {
-    DialogStore.open("Delete Person", "Do you really want to delete the Album?")
+    DialogStore.open(t("albums.deleteConfirm.title"), t("albums.deleteConfirm.message", album.name))
     .then(() => this.props.delete(album));
   }
 

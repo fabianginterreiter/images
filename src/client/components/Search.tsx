@@ -4,6 +4,7 @@ import {loadImages} from "../actions";
 import {Image} from "../types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
+import {t, getLanguage} from "../libs/Translation";
 
 interface SearchProps {
   images: Image[];
@@ -19,7 +20,7 @@ class Search extends React.Component<SearchProps, {}> {
     return (
       <div>
         <h1>
-          <i className="fa fa-search" aria-hidden="true" /> Search: {this.props.location.query.s}
+          <i className="fa fa-search" aria-hidden="true" /> {t("search.title")}: {this.props.location.query.s}
           <ImagesNav />
         </h1>
         <Images images={this.props.images} />
@@ -30,7 +31,8 @@ class Search extends React.Component<SearchProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
-    images: state.images
+    images: state.images,
+    language: getLanguage(state)
   };
 };
 

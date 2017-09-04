@@ -24,17 +24,24 @@ import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
 import Ajax from "./libs/Ajax";
 import imagesApp from "./reducers";
-
+import {t, addLanguage, setLanguage, setDefaultLanguage, setLocalizeStore} from "./libs/Translation";
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
+import cookie from "react-cookie";
 
 const store = createStore(imagesApp, applyMiddleware(ReduxThunk));
+
+store.dispatch(addLanguage("en"));
+store.dispatch(addLanguage("de"));
+store.dispatch(setDefaultLanguage("en"));
+store.dispatch(setLanguage(cookie.load("language") || "en"));
+
+setLocalizeStore(store);
 
 store.dispatch(loadCookieValues());
 store.dispatch(loadNumberOfImages());
 store.dispatch(loadTrash());
 
 Ajax.get("/api/users").then((users) => store.dispatch(setUsers(users)));
-
 
 Ajax.get("/api/session").then((user) => {
   store.dispatch(setSession(user));

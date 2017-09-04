@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import { Link } from "react-router";
 import {removePersonToImage} from "../actions";
 import {Image, Person} from "../types";
+import {t, getLanguage} from "../libs/Translation";
 
 interface PersonsListProps {
   image: Image;
@@ -18,7 +19,7 @@ class PersonsList extends React.Component<PersonsListProps, {}> {
 
     return (
       <div className="tags">
-        <h4><i className="fa fa-users" aria-hidden="true" /> Persons</h4>
+        <h4><i className="fa fa-users" aria-hidden="true" /> {t("persons.title")}</h4>
         <ul>
           {
             this.props.image.persons.sort((a, b) => a.name.localeCompare(b.name)).map((person) => (<li key={person.id}>
@@ -40,6 +41,7 @@ class PersonsList extends React.Component<PersonsListProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
+    language: getLanguage(state)
   };
 };
 

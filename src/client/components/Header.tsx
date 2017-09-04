@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {addFilesToUploads, openNavigation, openOptionsPanel} from "../actions";
 import Searchbar from "./Searchbar";
 import Title from "./Title";
+import {t, getLanguage} from "../libs/Translation";
 
 interface HeaderProps {
   openNavigation(): void;
@@ -25,12 +26,12 @@ class Header extends React.Component<HeaderProps, {}> {
 
         <nav>
           <a className="right" onClick={this.handleOpenSettings.bind(this)}>
-            <span><i className="fa fa-cog" /><span className="min500"> Settings</span></span>
+            <span><i className="fa fa-cog" /><span className="min500"> {t("header.settings")}</span></span>
           </a>
           <a className="right" onClick={this.handleClick.bind(this)}>
             <input type="file" name="images" multiple={true} id="fileSelect"
               style={{display: "none"}} onChange={this.handleFileSelect.bind(this)} />
-            <i className="fa fa-cloud-upload" /><span className="min500"> Upload</span>
+            <i className="fa fa-cloud-upload" /><span className="min500"> {t("header.upload")}</span>
           </a>
           <Searchbar />
         </nav>
@@ -53,6 +54,7 @@ class Header extends React.Component<HeaderProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
+    language: getLanguage(state)
   };
 };
 

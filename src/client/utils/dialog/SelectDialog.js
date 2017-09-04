@@ -1,5 +1,6 @@
 import * as React from 'react'
 import SelectDialogStore from './SelectDialogStore'
+import {t} from "../../libs/Translation";
 
 class Dialog extends React.Component {
   constructor(props) {
@@ -102,14 +103,14 @@ class Dialog extends React.Component {
           <div className="title">{this.state.options.title}</div>
           <div className="body">
             <div className="group">
-              <input type="text" value={this.state.filter} onChange={this.handleChangeOnFilter.bind(this)} placeholder="Filter" />
-              <button disabled={this.state.match} onClick={this.handleCreate.bind(this)} className='primary'>Create</button>
+              <input type="text" value={this.state.filter} onChange={this.handleChangeOnFilter.bind(this)} placeholder={t("utils.dialog.filter")} />
+              <button disabled={this.state.match} onClick={this.handleCreate.bind(this)} className='primary'>{t("utils.dialog.create")}</button>
             </div>
             {this._renderOptions()}
           </div>
           <div className="bottom">
-            <button onClick={this.handleOk.bind(this)}>OK</button>
-            <button onClick={this.handleCancel.bind(this)}>Cancel</button>
+            <button onClick={this.handleOk.bind(this)}>{t("utils.dialog.ok")}</button>
+            <button onClick={this.handleCancel.bind(this)}>{t("utils.dialog.cancel")}</button>
           </div>
         </div>
       </div>

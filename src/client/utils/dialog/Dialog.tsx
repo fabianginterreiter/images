@@ -1,6 +1,7 @@
 import * as React from "react";
 import DialogStore from "./DialogStore";
 import {DialogStoreOption} from "./DialogStore";
+import {t} from "../../libs/Translation";
 
 interface DialgoState {
   options: DialogStoreOption;
@@ -51,8 +52,8 @@ class Dialog extends React.Component<{}, DialgoState> {
           </div>
           <div className="body">{this.state.options.text}</div>
           <div className="bottom">
-            <button onClick={this.handleOk.bind(this)} className={this.state.options.type}>OK</button>
-            <button onClick={this.handleCancel.bind(this)}>Cancel</button>
+            <button onClick={this.handleOk.bind(this)} className={this.state.options.type}>{t("utils.dialog.ok")}</button>
+            <button onClick={this.handleCancel.bind(this)}>{t("utils.dialog.cancel")}</button>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@
     "watch:css": "./bin/watch-css",
     "watch:client": "./bin/watch-javascript",
     "watch:server": "tsc -w",
+    "watch:static": "./bin/watch-static",
     "build": "./bin/build",
     "build:static": "node bin/copyStaticAssets.js",
     "build:css": "./bin/build-css",

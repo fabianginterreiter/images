@@ -18,6 +18,7 @@ import Person from "./components/Person";
 import Persons from "./components/Persons";
 import Search from "./components/Search";
 import Selected from "./components/Selected";
+import Statistics from "./components/Statistics";
 import Tag from "./components/Tag";
 import Tags from "./components/Tags";
 import Trash from "./components/Trash";
@@ -65,6 +66,7 @@ Ajax.get("/api/session").then((user) => {
             <Route path="selected" component={Selected} />
             <Route path="trash" component={Trash} />
             <Route path="search" component={Search} />
+            <Route path="statistics" component={Statistics} />
             <IndexRoute component={All} />
           </Route>
           <Route path="profiles" component={UsersManagement} />

@@ -133,6 +133,16 @@
     }
   },
 
+  "statistics": {
+    "title": "Statistics",
+    "path": "Path",
+    "cache": "Cache",
+    "images": {
+      "count": "Count",
+      "size": "Size"
+    }
+  },
+
   "months": {
     "1": "January",
     "2": "February",

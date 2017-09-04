@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
-import { location } from "react-router";
+import { location, Link } from "react-router";
 import {closeOptionsPanel, deleteSession, setShowDate} from "../../actions";
 import Ajax from "../../libs/Ajax";
 import {User} from "../../types";
@@ -43,6 +43,8 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
                 {language === this.props.language ? <b>{t(`settings.languages.${language}`)}</b> : t(`settings.languages.${language}`)}
               </li>))}
             </ul>
+
+            <Link to="/images/statistics"><i className="fa fa-line-chart" aria-hidden="true" /> Statistics</Link>
           </div>
 
           <div className="footer">

@@ -17,6 +17,7 @@ import sessionroute from "./routes/session";
 import tags from "./routes/tags";
 import trash from "./routes/trash";
 import users from "./routes/users";
+import statistics from "./routes/statistics";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/navigations", navigations);
 app.use("/api/trash", trash);
 app.use("/api/search", search);
 app.get("/api/translations/:language", (req, res) => res.sendFile(__dirname + `/localize/${req.params.language}.json`));
+app.use("/api/statistics", statistics);
 
 app.use(express.static(path.resolve(__dirname, "./public")));
 

@@ -1,1 +1,1 @@
-npm run watch:client & npm run watch:css & npm run watch:server
+npm run watch:client & npm run watch:css & npm run watch:static & npm run watch:server

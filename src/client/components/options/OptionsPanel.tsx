@@ -38,13 +38,16 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
               onChange={() => this.props.setShowDate(!this.props.showDate)} /> {t("settings.showDates")}</label></a></li>
             </ul>
 
-            <ul>
-              {this.props.languages.map((language) => (<li key={language} onClick={() => this.props.setLanguage(language)}>
-                {language === this.props.language ? <b>{t(`settings.languages.${language}`)}</b> : t(`settings.languages.${language}`)}
-              </li>))}
-            </ul>
+            <div>
+              {t("settings.language")}:
+              <select onChange={(event) => this.props.setLanguage(event.target.value)} value={this.props.language}>
+                {this.props.languages.map((language) => (<option key={language} value={language}>{t(`settings.languages.${language}`)}</option>))}
+              </select>
+            </div>
 
-            <Link to="/images/statistics"><i className="fa fa-line-chart" aria-hidden="true" /> Statistics</Link>
+            <br />
+
+            <Link to="/images/statistics"><i className="fa fa-line-chart" aria-hidden="true" /> {t("statistics.title")}</Link>
           </div>
 
           <div className="footer">

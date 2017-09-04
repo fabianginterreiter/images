@@ -28,6 +28,8 @@
   "settings": {
     "title": "Einstellungen",
     "showDates": "Datum anzeigen",
+    "size": "Größe",
+    "language": "Sprache",
     "languages": {
       "en": "Englisch",
       "de": "Deutsch"
@@ -129,6 +131,16 @@
     "clearConfirm": {
       "title": "Papierkorb leeren",
       "message": "Möchtest du den Papierkorb leeren?"
+    }
+  },
+
+  "statistics": {
+    "title": "Statistiken",
+    "path": "Pfad",
+    "cache": "Cache",
+    "images": {
+      "count": "Anzahl",
+      "size": "Größe"
     }
   },
 

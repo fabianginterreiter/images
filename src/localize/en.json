@@ -29,6 +29,7 @@
     "title": "Settings",
     "showDates": "Show Dates",
     "size": "Size",
+    "language": "Language",
     "languages": {
       "en": "English",
       "de": "German"

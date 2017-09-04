@@ -7,7 +7,6 @@ const SET_FALLBACK = "SET_FALLBACK";
 
 export const setLanguage = (language: string) => {
   cookie.save("language", language);
-  console.log("set language: " + language);
 
   return (dispatch) => Ajax.get(`/api/translations/${language}`).then((result) => dispatch({
     language,

@@ -33,7 +33,6 @@ const store = createStore(imagesApp, applyMiddleware(ReduxThunk));
 store.dispatch(addLanguage("en"));
 store.dispatch(addLanguage("de"));
 store.dispatch(setDefaultLanguage("en"));
-console.log("Cookie: " + cookie.load("language"));
 store.dispatch(setLanguage(cookie.load("language") || "en"));
 
 setLocalizeStore(store);

@@ -36,6 +36,7 @@ app.use("/api/options", options);
 app.use("/api/navigations", navigations);
 app.use("/api/trash", trash);
 app.use("/api/search", search);
+app.get("/api/translations/:language", (req, res) => res.sendFile(__dirname + `/localize/${req.params.language}.json`));
 
 app.use(express.static(path.resolve(__dirname, "./public")));
 

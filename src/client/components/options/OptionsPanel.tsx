@@ -57,7 +57,7 @@ class OptionsPanel extends React.Component<OptionsPanelProps, {}> {
 
 const mapStateToProps = (state) => {
   return {
-    languages: Object.keys(state.localizeReducer.languages),
+    languages: state.localizeReducer.languages,
     open: state.view.optionsPanelOpen,
     session: state.session,
     showDate: state.options.showDate,

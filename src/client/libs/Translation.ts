@@ -1,4 +1,5 @@
 import cookie from "react-cookie";
+import Ajax from "./Ajax";
 
 const SET_LANGUAGE = "SET_LANGUAGE";
 const ADD_LANGUAGE = "ADD_LANGUAGE";
@@ -6,26 +7,28 @@ const SET_FALLBACK = "SET_FALLBACK";
 
 export const setLanguage = (language: string) => {
   cookie.save("language", language);
+  console.log("set language: " + language);
 
-  return {
+  return (dispatch) => Ajax.get(`/api/translations/${language}`).then((result) => dispatch({
     language,
+    data: load({}, '', result),
     type: SET_LANGUAGE
-  }
+  }));
 };
 
-export const addLanguage = (language: string, data: object) => {
+export const addLanguage = (language: string) => {
   return {
     language: language,
-    data: data,
     type: ADD_LANGUAGE
   };
 };
 
 export const setDefaultLanguage = (language: string) => {
-  return {
-    language: language,
+  return (dispatch) => Ajax.get(`/api/translations/${language}`).then((result) => dispatch({
+    language,
+    fallback: load({}, '', result),
     type: SET_FALLBACK
-  }
+  }));
 }
 
 export const translate = (store, key:string, values: string[]): string => {
@@ -78,34 +81,31 @@ const load = (data: { [key:string]:string;}, path: string, object: object) => {
 
 export const localizeReducer = (state = {
   language: null,
-  languages: {},
+  languages: [],
   translation: {},
   fallback: {}
 }, action) => {
     switch (action.type) {
       case SET_LANGUAGE:
-        if (!state.languages[action.language]) {
+        if (!state.languages.find((language) => (language === action.language))) {
           return state;
         }
 
         return {
           ...state,
           language: action.language,
-          translation: load({}, '', state.languages[action.language])
+          translation: action.data
         };
       case SET_FALLBACK:
         return {
           ...state,
           defaultLanguage: action.language,
-          fallback: load({}, '', state.languages[action.language])
+          fallback: action.fallback
         };
       case ADD_LANGUAGE:
-        const languages = {...state.languages};
-        languages[action.language] = action.data;
-
         return {
           ...state,
-          languages
+          languages: [...state.languages, action.language]
         };
       default:
         return state;

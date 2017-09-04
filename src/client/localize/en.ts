@@ -151,7 +151,9 @@ export default {
   "utils": {
     "dialog": {
       "ok": "OK",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "create": "Create",
+      "filter": "Filter"
     }
   }
 }

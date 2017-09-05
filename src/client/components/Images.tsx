@@ -21,6 +21,7 @@ interface ImagesProps {
   pinned: boolean;
   images: Image[];
   offset: number;
+  loading: boolean;
   reload?: boolean;
   service: Service;
   size?: number;
@@ -79,13 +80,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
   }
 
   public render() {
-    if (!this.props.images) {
-      return (<div id="container">
-        Loading
-      </div>);
-    }
-
-    if (this.props.images.length === 0) {
+    if (this.props.images.length === 0 && !this.props.loading) {
       return (<div id="container">
         <Empty />
       </div>);
@@ -168,6 +163,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
         <div className={"container size" + this.props.thumbnailsSize}>
           {elements}
         </div>
+        {this.props.loading && <div>Loading</div>}
       </div>
     );
   }
@@ -362,6 +358,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 const mapStateToProps = (state) => {
   return {
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
+    loading: state.service.loading,
     pinned: state.view.pinned,
     service: state.service,
     showDate: state.options.showDate,

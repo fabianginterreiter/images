@@ -10,7 +10,7 @@ class Thumbnails extends React.Component<{
   width: number;
   thumbnailsSize: number;
   showDate: boolean;
-  renderContent(image: Image, idx: number);
+  renderContent(image: Image);
   onDateSelect(year: number, month: number, day: number);
 },{}> {
   public render() {
@@ -39,7 +39,7 @@ class Thumbnails extends React.Component<{
             </div>
             <div className="imgBorder">
               <ImageComponent image={image} style={style} />
-              {this.props.renderContent(image, idx)}
+              {this.props.renderContent(image)}
             </div>
           </div>);
 
@@ -48,7 +48,7 @@ class Thumbnails extends React.Component<{
         elements.push(
           <div className="item" key={image.id}>
             <ImageComponent image={image} style={style} />
-            {this.props.renderContent(image, idx)}
+            {this.props.renderContent(image)}
           </div>);
       }
     });

@@ -102,14 +102,14 @@ class Images extends React.Component<ImagesProps, ImagesState> {
         {view}
         <Thumbnails images={this.props.images}
           width={this.state.width}
-          renderContent={(image: Image, idx: number) => this.renderContent(image, idx)}
+          renderContent={(image: Image) => this.renderContent(image)}
           onDateSelect={(year: number, month: number, day: number) => this.handleDateSelect(year, month, day)} />
         {this.props.loading && <div>Loading</div>}
       </div>
     );
   }
 
-  private renderContent(image: Image, idx: number) {
+  private renderContent(image: Image) {
     let checkBoxClass = null;
     let className = "";
 
@@ -227,13 +227,11 @@ class Images extends React.Component<ImagesProps, ImagesState> {
   private handleSelect(event, image: Image) {
     const idx = this.props.images.findIndex((obj) => obj.id === image.id);
 
+    console.log(idx);
+
     if (event.shiftKey && this.lastSelection >= 0) {
-      if (this.props.isSelected(this.props.images[idx])) {
-        for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-          this.props.unselect(this.props.images[index]);
-        }
-      } else {
-        for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
+      for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
+        if (!this.props.isSelected(this.props.images[index])) {
           this.props.select(this.props.images[index]);
         }
       }

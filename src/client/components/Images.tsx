@@ -227,8 +227,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
   private handleSelect(event, image: Image) {
     const idx = this.props.images.findIndex((obj) => obj.id === image.id);
 
-    console.log(idx);
-
     if (event.shiftKey && this.lastSelection >= 0) {
       for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
         if (!this.props.isSelected(this.props.images[index])) {

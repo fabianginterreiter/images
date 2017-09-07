@@ -120,9 +120,9 @@ class Images extends React.Component<ImagesProps, ImagesState> {
       checkBoxClass = "fa fa-check-square-o";
     }
 
-    return <div className={className} onClick={(event) => this.handleClick(event, idx)}>
+    return <div className={className} onClick={(event) => this.handleClick(event, image)}>
       <div className="mark" />
-      <div className="select" onClick={(event) => this.handleSelect(event, idx)}>
+      <div className="select" onClick={(event) => this.handleSelect(event, image)}>
         <i className={checkBoxClass} aria-hidden="true" />
       </div>
       {this.renderLikeButton(image)}
@@ -208,7 +208,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     }
   }
 
-  private handleClick(event, idx: number) {
+  private handleClick(event, image: Image) {
     if ("mark" !== event.target.className) {
       return;
     }
@@ -217,12 +217,16 @@ class Images extends React.Component<ImagesProps, ImagesState> {
       return;
     }
 
+    const idx = this.props.images.findIndex((obj) => obj.id === image.id);
+
     this.setState({
       view: idx
     });
   }
 
-  private handleSelect(event, idx: number) {
+  private handleSelect(event, image: Image) {
+    const idx = this.props.images.findIndex((obj) => obj.id === image.id);
+
     if (event.shiftKey && this.lastSelection >= 0) {
       if (this.props.isSelected(this.props.images[idx])) {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {

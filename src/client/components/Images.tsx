@@ -1,5 +1,3 @@
-import * as $ from "jquery";
-import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
@@ -8,8 +6,8 @@ import {Image, Service} from "../types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
 import Fullscreen from "./Fullscreen";
-import ImageComponent from "./ImageComponent";
 import Like from "./Like";
+import Thumbnails from "./Thumbnails";
 
 interface ImagesProps {
   options?: {
@@ -99,73 +97,36 @@ class Images extends React.Component<ImagesProps, ImagesState> {
       );
     }
 
-    const elements = [];
-
-    let lastDate = "";
-
-    this._calcuateDisplayWidth(this.props.images);
-
-    this.props.images.forEach((image: Image, idx: number) => {
-      const newDate = image.year + "" + image.month + "" + image.day;
-
-      let className = "item";
-
-      const style = image.displayWidth > 0 ? {
-        height: image.displayHeight + "px",
-        width: image.displayWidth + "px"
-      } : {
-        height: this.props.thumbnailsSize + "px"
-      };
-
-      let checkBoxClass = null;
-
-      if (this.props.isSelected(image)) {
-        className += " selected";
-        checkBoxClass = "fa fa-check-square";
-      } else {
-        checkBoxClass = "fa fa-check-square-o";
-      }
-
-      if (this.props.showDate && lastDate !== newDate) {
-        elements.push(
-          <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
-            <div style={{width: image.displayWidth + "px"}}>
-              <i className="fa fa-check-square-o" onClick={this.handleDateSelect.bind(this, idx)} />
-              <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link>
-            </div>
-            <div className="imgBorder">
-              <ImageComponent image={image} style={style} />
-              <div className="select" onClick={(e) => this.handleSelect(idx, e)}>
-                <i className={checkBoxClass} aria-hidden="true" />
-              </div>
-              {this.renderLikeButton(image)}
-              <div className="mark" />
-            </div>
-          </div>);
-
-        lastDate = newDate;
-      } else {
-        elements.push(
-          <div className={className} key={image.id} onClick={this.handleClick.bind(this, idx)}>
-            <ImageComponent image={image} style={style} />
-            <div className="select" onClick={this.handleSelect.bind(this, idx)}>
-              <i className={checkBoxClass} aria-hidden="true" />
-            </div>
-            {this.renderLikeButton(image)}
-            <div className="mark" />
-          </div>);
-      }
-    });
-
     return (
       <div id="container">
         {view}
-        <div className={"container size" + this.props.thumbnailsSize}>
-          {elements}
-        </div>
+        <Thumbnails images={this.props.images}
+          width={this.state.width}
+          renderContent={(image: Image, idx: number) => this.renderContent(image, idx)}
+          onDateSelect={(year: number, month: number, day: number) => this.handleDateSelect(year, month, day)} />
         {this.props.loading && <div>Loading</div>}
       </div>
     );
+  }
+
+  private renderContent(image: Image, idx: number) {
+    let checkBoxClass = null;
+    let className = "";
+
+    if (this.props.isSelected(image)) {
+      className += "selected";
+      checkBoxClass = "fa fa-check-square";
+    } else {
+      checkBoxClass = "fa fa-check-square-o";
+    }
+
+    return <div className={className} onClick={(event) => this.handleClick(event, idx)}>
+      <div className="mark" />
+      <div className="select" onClick={(event) => this.handleSelect(event, idx)}>
+        <i className={checkBoxClass} aria-hidden="true" />
+      </div>
+      {this.renderLikeButton(image)}
+    </div>
   }
 
   private loadMore() {
@@ -247,7 +208,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     }
   }
 
-  private handleClick(idx: number, event) {
+  private handleClick(event, idx: number) {
     if ("mark" !== event.target.className) {
       return;
     }
@@ -261,7 +222,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     });
   }
 
-  private handleSelect(idx: number, event) {
+  private handleSelect(event, idx: number) {
     if (event.shiftKey && this.lastSelection >= 0) {
       if (this.props.isSelected(this.props.images[idx])) {
         for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
@@ -279,71 +240,21 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     this.lastSelection = idx;
   }
 
-  private handleDateSelect(idx: number) {
-    const date = this.props.images[idx].year + "" + this.props.images[idx].month + "" + this.props.images[idx].day;
 
-    let hasNotSelected = false;
+  private handleDateSelect(year: number, month: number, day: number) {
+    const images = this.props.images.filter((image) => (image.year === year && image.month === month && image.day === day));
 
-    let index = idx;
-
-    for (; index < this.props.images.length; index++) {
-      const newDate = this.props.images[index].year + ""
-        + this.props.images[index].month + ""
-        + this.props.images[index].day;
-
-      if (newDate !== date) {
-        break;
-      }
-
-      if (!this.props.isSelected(this.props.images[index])) {
-        hasNotSelected = true;
-      }
+    if (images.find((image) => this.props.isSelected(image))) {
+      images.forEach((image) => this.props.unselect(image));
+    } else {
+      images.forEach((image) => this.props.select(image));
     }
-
-    for (let i = idx; i < index; i++) {
-      if (hasNotSelected) {
-        this.props.select(this.props.images[i]);
-      } else {
-        this.props.unselect(this.props.images[i]);
-      }
-    }
-
-    this.forceUpdate();
   }
 
   private handleScroll(e) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
       this.loadMore();
     }
-  }
-
-  private _calcuateDisplayWidth(imgs: Image[]) {
-    let sum = 0;
-    let images = [];
-
-    if (!this.state.width) {
-      return;
-    }
-
-    const max = this.state.width / this.props.thumbnailsSize;
-
-    imgs.forEach((image: Image) => {
-      image.displayWidth = 0;
-
-      sum += image.proportion;
-      images.push(image);
-
-      if (sum > max) {
-        const widthSize = (this.state.width - 2 * 1 * images.length) / sum;
-        images.forEach((object: Image) => {
-          object.displayWidth = object.proportion * widthSize;
-          object.displayHeight = object.displayWidth / object.proportion;
-        });
-
-        sum = 0;
-        images = [];
-      }
-    });
   }
 
   private renderLikeButton(image: Image) {

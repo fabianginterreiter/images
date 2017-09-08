@@ -8,6 +8,7 @@ import Empty from "./Empty";
 import Like from "./Like";
 import Thumbnails from "./Thumbnails";
 
+
 interface ImagesProps {
   options?: {
     hideFullscreen: boolean;
@@ -85,32 +86,10 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     return (
       <div id="container">
         <Thumbnails images={this.props.images}
-          width={this.state.width}
-          renderContent={(image: Image) => this.renderContent(image)}
-          onDateSelect={(year: number, month: number, day: number) => this.handleDateSelect(year, month, day)} />
+          width={this.state.width} />
         {this.props.loading && <div>Loading</div>}
       </div>
     );
-  }
-
-  private renderContent(image: Image) {
-    let checkBoxClass = null;
-    let className = "";
-
-    if (this.props.isSelected(image)) {
-      className += "selected";
-      checkBoxClass = "fa fa-check-square";
-    } else {
-      checkBoxClass = "fa fa-check-square-o";
-    }
-
-    return <div className={className} onClick={(event) => this.handleClick(event, image)}>
-      <div className="mark" />
-      <div className="select" onClick={(event) => this.handleSelect(event, image)}>
-        <i className={checkBoxClass} aria-hidden="true" />
-      </div>
-      {this.renderLikeButton(image)}
-    </div>
   }
 
   private loadMore() {
@@ -142,8 +121,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     }
 
     switch (e.keyCode) {
-
-
       case 65: {
         if (e.ctrlKey) {
           this.props.images.forEach((image) => this.props.select(image));
@@ -153,60 +130,10 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     }
   }
 
-
-  private handleClick(event, image: Image) {
-    if ("mark" !== event.target.className) {
-      return;
-    }
-
-    if (this.props.options && this.props.options.hideFullscreen) {
-      return;
-    }
-
-    const idx = this.props.images.findIndex((obj) => obj.id === image.id);
-
-    this.props.setView(idx);
-  }
-
-  private handleSelect(event, image: Image) {
-    const idx = this.props.images.findIndex((obj) => obj.id === image.id);
-
-    if (event.shiftKey && this.lastSelection >= 0) {
-      for (let index = Math.min(this.lastSelection, idx); index <= Math.max(this.lastSelection, idx); index++) {
-        if (!this.props.isSelected(this.props.images[index])) {
-          this.props.select(this.props.images[index]);
-        }
-      }
-    } else {
-      this.props.toggle(this.props.images[idx]);
-    }
-
-    this.lastSelection = idx;
-  }
-
-
-  private handleDateSelect(year: number, month: number, day: number) {
-    const images = this.props.images.filter((image) => (image.year === year && image.month === month && image.day === day));
-
-    if (images.find((image) => this.props.isSelected(image))) {
-      images.forEach((image) => this.props.unselect(image));
-    } else {
-      images.forEach((image) => this.props.select(image));
-    }
-  }
-
   private handleScroll(e) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
       this.loadMore();
     }
-  }
-
-  private renderLikeButton(image: Image) {
-    if (this.props.options && this.props.options.hideLike) {
-      return null;
-    }
-
-    return (<Like image={image} />);
   }
 }
 

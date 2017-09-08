@@ -3,14 +3,19 @@ import {connect} from "react-redux";
 import { Link } from "react-router";
 import {Image} from "../types";
 import Like from "./Like";
+import ImageComponent from "./ImageComponent";
+import {select, unselect} from "../actions";
 
 class Thumbnails extends React.Component<{
   images: Image[];
+  allImages: Image[];
   width: number;
   thumbnailsSize: number;
   showDate: boolean;
   renderContent(image: Image);
-  onDateSelect(year: number, month: number, day: number);
+  isSelected(image: Image): boolean;
+  select(image: Image): void;
+  unselect(image: Image): void;
 },{}> {
   public render() {
     const elements = [];
@@ -33,12 +38,12 @@ class Thumbnails extends React.Component<{
         elements.push(
           <div className="item" key={image.id} >
             <div style={{width: image.displayWidth + "px"}}>
-              <i className="fa fa-check-square-o" onClick={() => this.props.onDateSelect(image.year, image.month, image.day)} />
+              <i className="fa fa-check-square-o" onClick={() => this.handleDateSelect(image.year, image.month, image.day)} />
               <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link>
             </div>
             <div className="imgBorder">
               <img src={"/thumbs/" + image.path} alt={image.filename} style={style} />
-              {this.props.renderContent(image)}
+              <ImageComponent image={image} />
             </div>
           </div>);
 
@@ -47,7 +52,7 @@ class Thumbnails extends React.Component<{
         elements.push(
           <div className="item" key={image.id}>
             <img src={"/thumbs/" + image.path} alt={image.filename} style={style} />
-            {this.props.renderContent(image)}
+            <ImageComponent image={image} />
           </div>);
       }
     });
@@ -85,17 +90,31 @@ class Thumbnails extends React.Component<{
       }
     });
   }
+
+  private handleDateSelect(year: number, month: number, day: number) {
+    const images = this.props.allImages.filter((image) => (image.year === year && image.month === month && image.day === day));
+
+    if (images.find((image) => this.props.isSelected(image))) {
+      images.forEach((image) => this.props.unselect(image));
+    } else {
+      images.forEach((image) => this.props.select(image));
+    }
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
+    isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     showDate: state.options.showDate,
     thumbnailsSize: state.options.thumbnailsSize,
+    allImages: state.images
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    select: (image: Image) => dispatch(select(image)),
+    unselect: (image: Image) => dispatch(unselect(image))
   };
 };
 

@@ -32,47 +32,18 @@ interface ImagesProps {
 }
 
 interface ImagesState {
-  width: number;
 }
 
 class Images extends React.Component<ImagesProps, ImagesState> {
-  private lastSelection: number;
-  private resizeTimer;
-  private pinned: boolean;
-
-  constructor(props: ImagesProps) {
-    super(props);
-
-    this.state = {
-      width: -1
-    };
-
-    this.lastSelection = -1;
-
-    this.pinned = props.pinned;
-  }
-
   public componentDidMount() {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
-    ResizeListener.addChangeListener(this, this.handleResize.bind(this));
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
-
-    this.setState({
-      width: document.getElementById("container").clientWidth
-    });
   }
 
-  public componentWillReceiveProps(props) {
-    if (this.pinned !== props.pinned) {
-      this.handleResize();
-    }
 
-    this.pinned = props.pinned;
-  }
 
   public componentWillUnmount() {
     KeyUpListener.removeChangeListener(this);
-    ResizeListener.removeChangeListener(this);
     ScrollListener.removeChangeListener(this);
   }
 
@@ -85,8 +56,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
     return (
       <div id="container">
-        <Thumbnails images={this.props.images}
-          width={this.state.width} />
+        <Thumbnails images={this.props.images} />
         {this.props.loading && <div>Loading</div>}
       </div>
     );
@@ -96,23 +66,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     if (this.props.reload) {
       this.props.loadMoreImages(this.props.service);
     }
-  }
-
-  private handleResize() {
-    clearTimeout(this.resizeTimer);
-    this.resizeTimer = setTimeout(() => {
-      const container = document.getElementById("container");
-      if (!container) {
-        return;
-      }
-      const width: number = container.clientWidth;
-
-      if (width !== this.state.width && width) {
-        this.setState({
-          width
-        });
-      }
-    }, 300);
   }
 
   private handleKeyUp(e: KeyboardEvent) {

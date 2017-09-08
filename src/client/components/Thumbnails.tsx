@@ -107,7 +107,8 @@ const mapStateToProps = (state) => {
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     showDate: state.options.showDate,
     thumbnailsSize: state.options.thumbnailsSize,
-    allImages: state.images
+    allImages: state.images,
+    width: state.view.width
   };
 };
 

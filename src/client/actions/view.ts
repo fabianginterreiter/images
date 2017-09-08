@@ -1,9 +1,16 @@
 import {CLOSE_NAVIGATION,
   CLOSE_OPTIONS_PANEL, OPEN_NAVIGATION, OPEN_OPTIONS_PANEL,
-  SET_PIN_NAVIGATION
+  SET_PIN_NAVIGATION, SET_WIDTH
 } from "../actionTypes";
 
 import cookie from "react-cookie";
+
+export const setWidth = (width: number) => {
+  return {
+    type: SET_WIDTH,
+    width
+  };
+};
 
 export const openNavigation = () => {
   return {

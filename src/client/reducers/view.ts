@@ -1,41 +1,40 @@
-import {CLOSE_NAVIGATION, CLOSE_OPTIONS_PANEL, OPEN_NAVIGATION, OPEN_OPTIONS_PANEL, SET_PIN_NAVIGATION} from "../actionTypes";
+import {CLOSE_NAVIGATION, CLOSE_OPTIONS_PANEL, OPEN_NAVIGATION, OPEN_OPTIONS_PANEL, SET_PIN_NAVIGATION, SET_WIDTH} from "../actionTypes";
 
 export default function options(state = {
   open: false,
   pinned: false,
-  optionsPanelOpen: false
-},                              action) {
+  optionsPanelOpen: false,
+  width: 0
+}, action) {
   switch (action.type) {
     case OPEN_NAVIGATION:
       return {
-        pinned: state.pinned,
-        open: true,
-        optionsPanelOpen: state.optionsPanelOpen
+        ...state,
+        open: true
       };
       case CLOSE_NAVIGATION:
         return {
-          pinned: state.pinned,
-          open: false,
-          optionsPanelOpen: state.optionsPanelOpen
+          ...state,
+          open: false
         };
     case SET_PIN_NAVIGATION:
       return {
-        pinned: action.pin,
-        open: state.open,
-        optionsPanelOpen: state.optionsPanelOpen
+        ...state,
+        pinned: action.pin
       };
     case OPEN_OPTIONS_PANEL:
       return {
-        pinned: state.pinned,
-        open: state.open,
+        ...state,
         optionsPanelOpen: true
       };
     case CLOSE_OPTIONS_PANEL:
       return {
-        pinned: state.pinned,
-        open: state.open,
+        ...state,
         optionsPanelOpen: false
       };
+
+    case SET_WIDTH:
+      return {...state, width: action.width};
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
 import {setImages} from "../actions";
-import { Main, ScrollUp } from "../utils/Utils";
+import { Main, ScrollUp, ResizeListener } from "../utils/Utils";
 import DragAndDropUpload from "./DragAndDropUpload";
 import Header from "./Header";
 import Navigations from "./Navigations";
@@ -10,22 +10,46 @@ import Selection from "./selections/Selection";
 import Uploader from "./Uploader";
 import UsersManagement from "./UsersManagement";
 import Fullscreen from "./Fullscreen";
+import {setWidth} from "../actions";
 
 interface ImagesAppProps {
   location: {
     pathname: string;
   };
   pinned: boolean;
+  width: number;
   isLoggedIn(): boolean;
+  isFullscreen(): boolean;
+  setWidth(width: number): boolean;
 }
 
 class ImagesApp extends React.Component<ImagesAppProps, {}> {
+  private resizeTimer;
+  private pinned: boolean;
+
   constructor(props) {
     super(props);
+
+    this.pinned = props.pinned;
+  }
+
+  public componentDidMount() {
+    this.props.setWidth(document.getElementById("main").clientWidth);
+    ResizeListener.addChangeListener(this, this.handleResize.bind(this));
+  }
+
+  public componentWillUnmount() {
+    ResizeListener.removeChangeListener(this);
   }
 
   public componentWillReceiveProps(props) {
     this.handleNavigationChange();
+
+    if (this.pinned !== props.pinned) {
+      this.handleResize();
+    }
+
+    this.pinned = props.pinned;
   }
 
   public render() {
@@ -48,7 +72,7 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
         <div className={contentClass}>
           <Selection />
           <Header />
-          <div className="main">
+          <div className="main" id="main">
             {this.props.children}
           </div>
         </div>
@@ -56,11 +80,25 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
         <Uploader />
         <DragAndDropUpload />
         <Main />
-        <Fullscreen />
-
+        {this.props.isFullscreen() && <Fullscreen />}
         <ScrollUp />
       </div>
     );
+  }
+
+  private handleResize() {
+    clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(() => {
+      const container = document.getElementById("main");
+      if (!container) {
+        return;
+      }
+      const width: number = container.clientWidth;
+
+      if (width !== this.props.width && width) {
+        this.props.setWidth(width);
+      }
+    }, 300);
   }
 
   private handleNavigationChange() {
@@ -71,8 +109,16 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: () => state.session !== null,
-    pinned: state.view.pinned
+    pinned: state.view.pinned,
+    isFullscreen: () => state.fullscreen >= 0,
+    width: state.view.width
   };
 };
 
-export default ReactRedux.connect(mapStateToProps)(ImagesApp);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setWidth: (width: number) => dispatch(setWidth(width))
+  }
+}
+
+export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(ImagesApp);

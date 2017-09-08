@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import { Link } from "react-router";
 import {Image} from "../types";
 import Like from "./Like";
+import * as Lozad from "Lozad";
 
 class Thumbnails extends React.Component<{
   images: Image[];
@@ -12,6 +13,12 @@ class Thumbnails extends React.Component<{
   renderContent(image: Image);
   onDateSelect(year: number, month: number, day: number);
 },{}> {
+
+  public componentDidUpdate() {
+    const lozad = new Lozad();
+    lozad.activate();
+  }
+
   public render() {
     const elements = [];
 
@@ -46,7 +53,7 @@ class Thumbnails extends React.Component<{
       } else {
         elements.push(
           <div className="item" key={image.id}>
-            <img src={"/thumbs/" + image.path} alt={image.filename} style={style} />
+            <img data-src={"/thumbs/" + image.path} className="lozad" alt={image.filename} style={style} />
             {this.props.renderContent(image)}
           </div>);
       }

@@ -2,7 +2,6 @@ import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
 import {Image} from "../types";
-import ImageComponent from "./ImageComponent";
 import Like from "./Like";
 
 class Thumbnails extends React.Component<{
@@ -38,7 +37,7 @@ class Thumbnails extends React.Component<{
               <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link>
             </div>
             <div className="imgBorder">
-              <ImageComponent image={image} style={style} />
+              <img src={"/thumbs/" + image.path} alt={image.filename} style={style} />
               {this.props.renderContent(image)}
             </div>
           </div>);
@@ -47,7 +46,7 @@ class Thumbnails extends React.Component<{
       } else {
         elements.push(
           <div className="item" key={image.id}>
-            <ImageComponent image={image} style={style} />
+            <img src={"/thumbs/" + image.path} alt={image.filename} style={style} />
             {this.props.renderContent(image)}
           </div>);
       }

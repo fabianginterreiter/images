@@ -9,6 +9,31 @@ import Fullscreen from "./Fullscreen";
 import Like from "./Like";
 import Thumbnails from "./Thumbnails";
 
+class BigPreview extends React.Component<{
+  image: Image;
+  width: number;
+  renderContent(image: Image);
+}, {}> {
+  public render() {
+    if (!this.props.image) {
+      return <span />;
+    }
+
+    const style = {
+      width: this.props.width + "px",
+      height: this.props.width / this.props.image.proportion + "px"
+    };
+
+    return (<div className="container">
+      <div className="item">
+        <img ref="image" src={`/show/${this.props.image.path}`}
+          alt={this.props.image.filename} style={style} />
+        {this.props.renderContent(this.props.image)}
+      </div>
+    </div>);
+  }
+}
+
 interface ImagesProps {
   options?: {
     hideFullscreen: boolean;
@@ -100,6 +125,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     return (
       <div id="container">
         {view}
+        <BigPreview image={this.props.images[0]} width={this.state.width} renderContent={(image: Image) => this.renderContent(image)}/>
         <Thumbnails images={this.props.images}
           width={this.state.width}
           renderContent={(image: Image) => this.renderContent(image)}

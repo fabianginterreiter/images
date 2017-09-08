@@ -24,6 +24,7 @@ export const loadImagesWithOffset = (path: string) => {
       dispatch({
         path,
         offset: 0,
+        reload: true,
         type: SET_IMAGE_SERVICE
       });
 

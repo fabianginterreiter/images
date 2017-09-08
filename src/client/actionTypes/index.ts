@@ -65,3 +65,5 @@ export const SET_NUMBER_OF_IMAGES = "SET_NUMBER_OF_IMAGES";
 
 export const SET_TRASH = "SET_TRASH";
 export const CLEAR_TRASH = "CLEAR_TRASH";
+
+export const SET_VIEW = "SET_VIEW";

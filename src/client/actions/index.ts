@@ -14,6 +14,7 @@ export * from "./images";
 export * from "./uploads";
 export * from "./stats";
 export * from "./trash";
+export * from "./fullscreen";
 
 export const loadCookieValues = () => {
   return (dispatch) => {

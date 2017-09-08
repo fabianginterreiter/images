@@ -11,7 +11,7 @@ class All extends React.Component<{
 }, {}> {
   public render() {
     return (
-      <Images images={this.props.images} reload={true} size={this.props.numberOfImages} />
+      <Images images={this.props.images} size={this.props.numberOfImages} />
     );
   }
 }

@@ -12,10 +12,11 @@ import users from "./users";
 import view from "./view";
 import stats from "./stats";
 import trash from "./trash";
+import fullscreen from "./fullscreen";
 import {localizeReducer} from "../libs/Translation";
 
 const imagesApp = combineReducers({
-  users, session, options, view, albums, tags, persons, selection, images, uploads, service, stats, trash, localizeReducer
+  users, session, options, view, albums, tags, persons, selection, images, uploads, service, stats, trash, localizeReducer, fullscreen
 });
 
 export default imagesApp;

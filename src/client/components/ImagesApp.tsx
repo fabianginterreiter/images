@@ -9,6 +9,7 @@ import OptionsPanel from "./options/OptionsPanel";
 import Selection from "./selections/Selection";
 import Uploader from "./Uploader";
 import UsersManagement from "./UsersManagement";
+import Fullscreen from "./Fullscreen";
 
 interface ImagesAppProps {
   location: {
@@ -55,6 +56,7 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
         <Uploader />
         <DragAndDropUpload />
         <Main />
+        <Fullscreen />
 
         <ScrollUp />
       </div>

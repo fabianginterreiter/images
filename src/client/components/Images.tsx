@@ -1,11 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
-import {loadMoreImages, select, toggle, unselect} from "../actions";
+import {loadMoreImages, select, toggle, unselect, setView} from "../actions";
 import {Image, Service} from "../types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
-import Fullscreen from "./Fullscreen";
 import Like from "./Like";
 import Thumbnails from "./Thumbnails";
 
@@ -24,6 +23,7 @@ interface ImagesProps {
   service: Service;
   size?: number;
   select(image: Image): void;
+  setView(index: number): void;
   unselect(image: Image): void;
   toggle(image: Image): void;
   isSelected(image: Image): boolean;
@@ -31,7 +31,6 @@ interface ImagesProps {
 }
 
 interface ImagesState {
-  view: number;
   width: number;
 }
 
@@ -44,7 +43,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     super(props);
 
     this.state = {
-      view: -1,
       width: -1
     };
 
@@ -84,22 +82,8 @@ class Images extends React.Component<ImagesProps, ImagesState> {
       </div>);
     }
 
-    let view = (<span></span>);
-
-    if (this.state.view >= 0) {
-      view = (
-        <Fullscreen
-          image={this.props.images[this.state.view]}
-          next={this.handleNext.bind(this)}
-          previous={this.handlePrevious.bind(this)}
-          handleClose={this.handleFullscreenClose.bind(this)}
-          number={this.state.view + 1} size={this.props.size ? this.props.size : this.props.images.length} />
-      );
-    }
-
     return (
       <div id="container">
-        {view}
         <Thumbnails images={this.props.images}
           width={this.state.width}
           renderContent={(image: Image) => this.renderContent(image)}
@@ -158,20 +142,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     }
 
     switch (e.keyCode) {
-      case 27: {
-        this.handleFullscreenClose();
-        break;
-      }
 
-      case 37: {
-        this.handlePrevious();
-        break;
-      }
-
-      case 39: {
-        this.handleNext();
-        break;
-      }
 
       case 65: {
         if (e.ctrlKey) {
@@ -182,31 +153,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     }
   }
 
-  private handleFullscreenClose() {
-    this.setState({
-      view: -1
-    });
-  }
-
-  private handleNext() {
-    if (this.state.view < this.props.images.length - 1) {
-      this.setState({
-        view: this.state.view + 1
-      }, () => {
-        if (this.state.view === this.props.images.length - 5) {
-          this.loadMore();
-        }
-      });
-    }
-  }
-
-  private handlePrevious() {
-    if (this.state.view > 0) {
-      this.setState({
-        view: this.state.view - 1
-      });
-    }
-  }
 
   private handleClick(event, image: Image) {
     if ("mark" !== event.target.className) {
@@ -219,9 +165,7 @@ class Images extends React.Component<ImagesProps, ImagesState> {
 
     const idx = this.props.images.findIndex((obj) => obj.id === image.id);
 
-    this.setState({
-      view: idx
-    });
+    this.props.setView(idx);
   }
 
   private handleSelect(event, image: Image) {
@@ -271,6 +215,7 @@ const mapStateToProps = (state) => {
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     loading: state.service.loading,
     pinned: state.view.pinned,
+    reload: state.service.reload,
     service: state.service,
     showDate: state.options.showDate,
     thumbnailsSize: state.options.thumbnailsSize,
@@ -282,6 +227,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadMoreImages: (service: Service) => dispatch(loadMoreImages(service)),
     select: (image: Image) => dispatch(select(image)),
+    setView: (index: number) => dispatch(setView(index)),
     toggle: (image: Image) => dispatch(toggle(image)),
     unselect: (image: Image) => dispatch(unselect(image))
   };

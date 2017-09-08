@@ -4,11 +4,12 @@ export default function session(state = {
   end: false,
   loading: false,
   offset: 0,
+  reload: false,
   url: null
 }, action) {
   switch (action.type) {
     case SET_IMAGE_SERVICE:
-      return {path: action.path, loading: true, offset: 0, end: false};
+      return {path: action.path, loading: true, offset: 0, end: false, reload: action.reload};
     case LOAD_MORE_IMAGES:
       return {...state, offset: action.offset, loading: true};
     case ADD_IMAGES:

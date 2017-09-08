@@ -1,6 +1,6 @@
 import {ADD_ALBUM_TO_IMAGE, ADD_IMAGES, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE,
   LIKE_IMAGE, LOAD_MORE_IMAGES, REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE,
-  REMOVE_TAG, REVERT_IMAGE, SET_IMAGE_SERVICE, SET_IMAGE_TITLE, SET_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
+  REMOVE_TAG, REVERT_IMAGE, SET_IMAGE_SERVICE, SET_IMAGE_TITLE, SET_IMAGES, UNLIKE_IMAGE, SET_NUMBER_OF_IMAGES} from "../actionTypes";
 import Ajax from "../libs/Ajax";
 import {Album, Image, Person, Service, Tag} from "../types";
 
@@ -13,7 +13,13 @@ export const loadImages = (path: string) => {
       });
 
       dispatch(setImages([]));
-      Ajax.get(path).then((images) => dispatch(setImages(images)));
+      Ajax.get(path).then((images) => {
+        dispatch(setImages(images));
+        dispatch({
+          numberOfImages: images.length,
+          type: SET_NUMBER_OF_IMAGES
+        });
+      });
     }, 0);
   };
 };
@@ -30,6 +36,10 @@ export const loadImagesWithOffset = (path: string) => {
 
       dispatch(setImages([]));
       Ajax.get(path + (path.indexOf("?") > 0 ? "&" : "?") + "limit=100").then((images) => dispatch(setImages(images)));
+      Ajax.get("/api/images/count").then((result) => dispatch({
+        numberOfImages: result.count,
+        type: SET_NUMBER_OF_IMAGES
+      }));
     }, 0);
   };
 };

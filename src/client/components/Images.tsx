@@ -13,8 +13,6 @@ interface ImagesProps {
     hideFullscreen: boolean;
     hideLike: boolean;
   };
-  thumbnailsSize: number;
-  showDate: boolean;
   pinned: boolean;
   images: Image[];
   offset: number;
@@ -94,8 +92,6 @@ const mapStateToProps = (state) => {
     pinned: state.view.pinned,
     reload: state.service.reload,
     service: state.service,
-    showDate: state.options.showDate,
-    thumbnailsSize: state.options.thumbnailsSize,
     offset: state.service.offset
   };
 };

@@ -11,7 +11,6 @@ import Like from "./Like";
 interface FullscreenProps {
   images: Image[];
   size: number;
-  number: number;
   view: number;
   service: Service;
   reload: boolean;
@@ -90,11 +89,11 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
         <img ref="image" src={`/show/${image.path}`}
           alt={image.filename} onLoad={this.handleImageLoad.bind(this)} />
         <Faces style={this.state.style} image={image} show={this.state.show} />
-        {this.props.number !== 1 && <div className="previous turning" onClick={() => this.handlePrevious()}><i className="fa fa-chevron-left" aria-hidden="true" /></div>}
-        {this.props.number !== this.props.size && <div className="next turning" onClick={() => this.handleNext()}><i className="fa fa-chevron-right" aria-hidden="true" /></div>}
+        {this.props.view !== 0 && <div className="previous turning" onClick={() => this.handlePrevious()}><i className="fa fa-chevron-left" aria-hidden="true" /></div>}
+        {this.props.view < this.props.size - 1 && <div className="next turning" onClick={() => this.handleNext()}><i className="fa fa-chevron-right" aria-hidden="true" /></div>}
         <div className={titleClass}>
           <div onClick={() => this.handleClose()} className="close">✕</div>
-          {this.getTitle(image)} ({this.props.number}/{this.props.size})
+          {this.getTitle(image)} ({this.props.view + 1}/{this.props.size})
           <div className="options">
             <Like image={image} />
             <i className={checkBoxClass} onClick={() => this.props.toggle(image)} />
@@ -247,6 +246,7 @@ const mapStateToProps = (state) => {
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     view: state.fullscreen,
     service: state.service,
+    size: state.stats.numberOfImages
   };
 };
 

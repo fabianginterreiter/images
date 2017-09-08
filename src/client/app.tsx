@@ -4,7 +4,7 @@ import * as ReactRedux from "react-redux";
 import * as ReactRouter from "react-router";
 import { applyMiddleware, createStore } from "redux";
 import ReduxThunk from "redux-thunk";
-import { addUser, loadCookieValues, loadNumberOfImages, loadTrash, setSession, setUsers } from "./actions";
+import { addUser, loadCookieValues, loadTrash, setSession, setUsers } from "./actions";
 import Album from "./components/Album";
 import Albums from "./components/Albums";
 import All from "./components/All";
@@ -39,7 +39,6 @@ store.dispatch(setLanguage(cookie.load("language") || "en"));
 setLocalizeStore(store);
 
 store.dispatch(loadCookieValues());
-store.dispatch(loadNumberOfImages());
 store.dispatch(loadTrash());
 
 Ajax.get("/api/users").then((users) => store.dispatch(setUsers(users)));

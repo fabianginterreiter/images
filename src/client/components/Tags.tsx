@@ -3,9 +3,9 @@ import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
 import {deleteTag, saveTag, sortTags} from "../actions";
 import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 import {Tag} from "../types";
 import {DialogStore, ExtendedTable, Quickedit} from "../utils/Utils";
-import {t} from "../libs/Translation";
 
 interface TagsProps {
   tags: Tag[];

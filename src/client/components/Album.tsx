@@ -2,10 +2,10 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {loadImages, removeAlbumFromImage} from "../actions";
 import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 import {Album, Image} from "../types";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
-import {t} from "../libs/Translation";
 
 interface AlbumProps {
   album: Album;

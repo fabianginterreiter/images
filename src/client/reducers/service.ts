@@ -6,7 +6,7 @@ export default function session(state = {
   offset: 0,
   reload: false,
   url: null
-}, action) {
+},                              action) {
   switch (action.type) {
     case SET_IMAGE_SERVICE:
       return {path: action.path, loading: true, offset: 0, end: false, reload: action.reload};

@@ -1,4 +1,4 @@
-import {SET_TRASH, CLEAR_TRASH} from "../actionTypes";
+import {CLEAR_TRASH, SET_TRASH} from "../actionTypes";
 import Ajax from "../libs/Ajax";
 import {Album, Image, Person, Service, Tag} from "../types";
 
@@ -21,4 +21,4 @@ export const clearTrash = () => {
   return (dispatch) => Ajax.delete("/api/trash/clear").then(() => dispatch({
     type: CLEAR_TRASH
   }));
-}
+};

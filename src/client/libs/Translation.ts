@@ -10,14 +10,14 @@ export const setLanguage = (language: string) => {
 
   return (dispatch) => Ajax.get(`/api/translations/${language}`).then((result) => dispatch({
     language,
-    data: load({}, '', result),
+    data: load({}, "", result),
     type: SET_LANGUAGE
   }));
 };
 
 export const addLanguage = (language: string) => {
   return {
-    language: language,
+    language,
     type: ADD_LANGUAGE
   };
 };
@@ -25,12 +25,12 @@ export const addLanguage = (language: string) => {
 export const setDefaultLanguage = (language: string) => {
   return (dispatch) => Ajax.get(`/api/translations/${language}`).then((result) => dispatch({
     language,
-    fallback: load({}, '', result),
+    fallback: load({}, "", result),
     type: SET_FALLBACK
   }));
-}
+};
 
-export const translate = (store, key:string, values: string[]): string => {
+export const translate = (store, key: string, values: string[]): string => {
   let value = store.localizeReducer.translation[key];
 
   if (!value) {
@@ -46,13 +46,13 @@ export const translate = (store, key:string, values: string[]): string => {
   });
 
   return value;
-}
+};
 
 let store = null;
 
 export const setLocalizeStore = (object) => {
   store = object;
-}
+};
 
 export const t = (key, ...values: string[]) => {
   if (store == null) {
@@ -60,13 +60,13 @@ export const t = (key, ...values: string[]) => {
   }
 
   return translate(store.getState(), key, values);
-}
-
-export const getLanguage = (state) => {
-  return state.localizeReducer.language
 };
 
-const load = (data: { [key:string]:string;}, path: string, object: object) => {
+export const getLanguage = (state) => {
+  return state.localizeReducer.language;
+};
+
+const load = (data: { [key: string]: string; }, path: string, object: object) => {
   Object.keys(object).forEach((key) => {
     if (typeof object[key] === "string") {
       data[path + key] = object[key];
@@ -76,14 +76,14 @@ const load = (data: { [key:string]:string;}, path: string, object: object) => {
   });
 
   return data;
-}
+};
 
 export const localizeReducer = (state = {
   language: null,
   languages: [],
   translation: {},
   fallback: {}
-}, action) => {
+},                              action) => {
     switch (action.type) {
       case SET_LANGUAGE:
         if (!state.languages.find((language) => (language === action.language))) {

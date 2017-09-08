@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
+import {getLanguage, t} from "../libs/Translation";
 import { KeyUpListener } from "../utils/Utils";
 import Title from "./Title";
-import {t, getLanguage} from "../libs/Translation";
 
 interface SearchbarState {
   s: string;

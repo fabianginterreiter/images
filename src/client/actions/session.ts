@@ -15,7 +15,7 @@ export const setSession = (user: User) => {
       dispatch(loadPersons());
       dispatch(loadTags());
     }, 0);
-  }
+  };
 };
 
 export const deleteSession = () => {

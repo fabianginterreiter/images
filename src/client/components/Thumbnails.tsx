@@ -1,10 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
-import {Image} from "../types";
-import Like from "./Like";
-import ImageComponent from "./ImageComponent";
 import {select, unselect} from "../actions";
+import {Image} from "../types";
+import ImageComponent from "./ImageComponent";
+import Like from "./Like";
 
 class Thumbnails extends React.Component<{
   images: Image[];
@@ -16,7 +16,7 @@ class Thumbnails extends React.Component<{
   isSelected(image: Image): boolean;
   select(image: Image): void;
   unselect(image: Image): void;
-},{}> {
+}, {}> {
   public render() {
     const elements = [];
 

@@ -1,16 +1,16 @@
+import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {setImageTitle, deleteImage, like, unlike} from "../actions";
-import Ajax from "../libs/Ajax";
-import {Image} from "../types";
-import Images from "./Images";
 import { Link } from "react-router";
-import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener, Quickedit } from "../utils/Utils";
-import * as moment from "moment";
+import {deleteImage, like, setImageTitle, unlike} from "../actions";
+import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
+import {Image} from "../types";
+import { DialogStore, KeyUpListener, OptionsList, Panel, Quickedit, ResizeListener } from "../utils/Utils";
+import AlbumsList from "./AlbumsList";
+import Images from "./Images";
 import PersonsList from "./PersonsList";
 import TagsList from "./TagsList";
-import AlbumsList from "./AlbumsList";
-import {t} from "../libs/Translation";
 
 class ImageDetails extends React.Component<{
   image: Image;
@@ -55,7 +55,7 @@ class ImageDetails extends React.Component<{
     if (this.state.edit) {
       return <Quickedit value={this.props.image.title} onCancel={() => this.setState({
         edit: false
-      })} onChange={(value) => this.handleTitleChange(value)} />
+      })} onChange={(value) => this.handleTitleChange(value)} />;
     }
     return <h3>{this.props.image.title} <span className="badge" onClick={() => this.setState({
       edit: true
@@ -69,7 +69,6 @@ class ImageDetails extends React.Component<{
 
     this.props.setImageTitle(this.props.image, value);
   }
-
 
   private handeDelete() {
     DialogStore.open(t("image.deleteConfirm.title"), t("image.deleteConfirm.message"))

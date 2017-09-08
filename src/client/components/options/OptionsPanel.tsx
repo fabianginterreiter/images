@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
-import { location, Link } from "react-router";
+import { Link, location } from "react-router";
 import {closeOptionsPanel, deleteSession, setShowDate} from "../../actions";
 import Ajax from "../../libs/Ajax";
+import {getLanguage, setLanguage, t} from "../../libs/Translation";
 import {User} from "../../types";
 import { Panel } from "../../utils/Utils";
 import ThumbnailsResizer from "../ThumbnailsResizer";
-import {setLanguage, getLanguage, t} from "../../libs/Translation";
 
 interface OptionsPanelProps {
   session: User;

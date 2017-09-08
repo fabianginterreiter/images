@@ -5,7 +5,7 @@ export default function options(state = {
   pinned: false,
   optionsPanelOpen: false,
   width: 0
-}, action) {
+},                              action) {
   switch (action.type) {
     case OPEN_NAVIGATION:
       return {

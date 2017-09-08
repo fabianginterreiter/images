@@ -1,4 +1,4 @@
-import {DELETE_PERSON, SAVE_PERSON, SET_PERSONS, SORT_PERSONS, ADD_PERSON_TO_IMAGE} from "../actionTypes";
+import {ADD_PERSON_TO_IMAGE, DELETE_PERSON, SAVE_PERSON, SET_PERSONS, SORT_PERSONS} from "../actionTypes";
 
 export default function persons(state = [], action) {
   switch (action.type) {

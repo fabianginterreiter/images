@@ -2,9 +2,9 @@ import * as $ from "jquery";
 import * as React from "react";
 import {connect} from "react-redux";
 import {addFilesToUploads, openNavigation, openOptionsPanel} from "../actions";
+import {getLanguage, t} from "../libs/Translation";
 import Searchbar from "./Searchbar";
 import Title from "./Title";
-import {t, getLanguage} from "../libs/Translation";
 
 interface HeaderProps {
   openNavigation(): void;

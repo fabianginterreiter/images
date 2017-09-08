@@ -4,7 +4,7 @@ import * as ReactRedux from "react-redux";
 import * as ReactRouter from "react-router";
 import { applyMiddleware, createStore } from "redux";
 import ReduxThunk from "redux-thunk";
-import { addUser, setSession, setUsers, loadCookieValues, loadNumberOfImages, loadTrash } from "./actions";
+import { addUser, loadCookieValues, loadNumberOfImages, loadTrash, setSession, setUsers } from "./actions";
 import Album from "./components/Album";
 import Albums from "./components/Albums";
 import All from "./components/All";
@@ -24,8 +24,8 @@ import Tags from "./components/Tags";
 import Trash from "./components/Trash";
 import UsersManagement from "./components/UsersManagement";
 import Ajax from "./libs/Ajax";
+import {addLanguage, setDefaultLanguage, setLanguage, setLocalizeStore, t} from "./libs/Translation";
 import imagesApp from "./reducers";
-import {t, addLanguage, setLanguage, setDefaultLanguage, setLocalizeStore} from "./libs/Translation";
 const { Router, Route, browserHistory, Redirect, IndexRoute, IndexRedirect } = ReactRouter;
 import cookie from "react-cookie";
 

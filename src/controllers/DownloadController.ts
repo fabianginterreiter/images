@@ -1,9 +1,9 @@
-import BaseController from "./BaseController";
-import * as Express from "express";
 import * as Archiver from "archiver";
-import Image from "../model/Image";
+import * as Express from "express";
 import * as sharp from "sharp";
 import config from "../lib/Configuration";
+import Image from "../model/Image";
+import BaseController from "./BaseController";
 
 export default class DownloadController extends BaseController {
   public getImages(res: Express.Response) {
@@ -17,21 +17,21 @@ export default class DownloadController extends BaseController {
     const maxWidth = this.query.width ? parseInt(this.query.width) : 0;
     const maxHeight = this.query.height ? parseInt(this.query.height) : 0;
 
-    const archive = Archiver('zip');
+    const archive = Archiver("zip");
     archive.pipe(res);
 
-    const name = 'images.zip'
+    const name = "images.zip";
 
     res.writeHead(200, {
-        'Content-Type': 'application/zip',
-        'Content-disposition': 'attachment; filename=' + name
+        "Content-Type": "application/zip",
+        "Content-disposition": "attachment; filename=" + name
     });
 
     Promise.all(images.map((image) => {
       const p = sharp(config.getImagesPath() + "/" + image.path).withMetadata();
 
       if (maxWidth > 0 || maxHeight > 0) {
-        p.resize(maxWidth, maxHeight).max()
+        p.resize(maxWidth, maxHeight).max();
       }
 
       return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ export default class DownloadController extends BaseController {
       });
     })).then(() => archive.finalize()).catch((e) => {
       console.log(e);
-      res.send(e)
+      res.send(e);
     });
   }
 }

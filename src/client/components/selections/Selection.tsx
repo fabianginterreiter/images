@@ -2,12 +2,12 @@ import * as React from "react";
 import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
 import {clear, deleteImage, openNavigation, unselect} from "../../actions";
+import {t} from "../../libs/Translation";
 import {Image} from "../../types";
 import { DialogStore } from "../../utils/Utils";
 import Title from "../Title";
-import SelectionOptions from "./SelectionOptions";
 import Download from "./Download";
-import {t} from "../../libs/Translation";
+import SelectionOptions from "./SelectionOptions";
 
 interface SelectionProps {
   selection: Image[];

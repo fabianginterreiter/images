@@ -3,9 +3,9 @@ import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
 import {deleteAlbum, saveAlbum, sortAlbums} from "../actions";
 import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 import {Album} from "../types";
 import { DialogStore, ExtendedTable, Quickedit } from "../utils/Utils";
-import {t} from "../libs/Translation";
 
 interface AlbumsProps {
   albums: Album[];

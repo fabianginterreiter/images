@@ -1,16 +1,16 @@
 import * as React from "react";
 import * as ReactRedux from "react-redux";
 import {setImages} from "../actions";
-import { Main, ScrollUp, ResizeListener } from "../utils/Utils";
+import {setWidth} from "../actions";
+import { Main, ResizeListener, ScrollUp } from "../utils/Utils";
 import DragAndDropUpload from "./DragAndDropUpload";
+import Fullscreen from "./Fullscreen";
 import Header from "./Header";
 import Navigations from "./Navigations";
 import OptionsPanel from "./options/OptionsPanel";
 import Selection from "./selections/Selection";
 import Uploader from "./Uploader";
 import UsersManagement from "./UsersManagement";
-import Fullscreen from "./Fullscreen";
-import {setWidth} from "../actions";
 
 interface ImagesAppProps {
   location: {
@@ -118,7 +118,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setWidth: (width: number) => dispatch(setWidth(width))
-  }
-}
+  };
+};
 
 export default ReactRedux.connect(mapStateToProps, mapDispatchToProps)(ImagesApp);

@@ -3,9 +3,9 @@ import * as ReactRedux from "react-redux";
 import { Link } from "react-router";
 import {deletePerson, savePerson, sortPersons} from "../actions";
 import Ajax from "../libs/Ajax";
+import {getLanguage, t} from "../libs/Translation";
 import {Person} from "../types";
 import {DialogStore, ExtendedTable, Quickedit} from "../utils/Utils";
-import {t, getLanguage} from "../libs/Translation";
 
 interface PersonsComponentProps {
   persons: Person[];

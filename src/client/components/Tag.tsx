@@ -3,11 +3,11 @@ import {connect} from "react-redux";
 import { browserHistory } from "react-router";
 import {loadImages} from "../actions";
 import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 import {Image, Tag} from "../types";
 import { DialogStore, Quickedit } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
-import {t} from "../libs/Translation";
 
 interface TagComponentProps {
   params: {

@@ -2,8 +2,8 @@ import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
 import {removeAlbumFromImage} from "../actions";
-import {Image, Album} from "../types";
 import {t} from "../libs/Translation";
+import {Album, Image} from "../types";
 
 interface AlbumsListProps {
   image: Image;

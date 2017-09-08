@@ -1,13 +1,12 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import { Link } from "react-router";
-import {loadMoreImages, select, toggle, unselect, setView} from "../actions";
+import {loadMoreImages, select, setView, toggle, unselect} from "../actions";
 import {Image, Service} from "../types";
 import {KeyUpListener, ResizeListener, ScrollListener} from "../utils/Utils";
 import Empty from "./Empty";
 import Like from "./Like";
 import Thumbnails from "./Thumbnails";
-
 
 interface ImagesProps {
   options?: {
@@ -39,8 +38,6 @@ class Images extends React.Component<ImagesProps, ImagesState> {
     KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
     ScrollListener.addChangeListener(this, this.handleScroll.bind(this));
   }
-
-
 
   public componentWillUnmount() {
     KeyUpListener.removeChangeListener(this);

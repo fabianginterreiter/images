@@ -2,9 +2,9 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {loadImagesWithOffset} from "../actions";
 import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 import {Image} from "../types";
 import Images from "./Images";
-import {t} from "../libs/Translation";
 
 class Statistics extends React.Component<{}, {
   statistics;

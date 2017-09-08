@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {loadMoreImages, select, setView, toggle, unselect} from "../actions";
 import {Image, Service} from "../types";
-import {loadMoreImages, select, toggle, unselect, setView} from "../actions";
 import Like from "./Like";
 
 class ImageComponent extends React.Component<{
@@ -36,7 +36,7 @@ class ImageComponent extends React.Component<{
         <i className={checkBoxClass} aria-hidden="true" />
       </div>
       {this.renderLikeButton(this.props.image)}
-    </div>
+    </div>;
   }
 
   private handleClick(event, image: Image) {

@@ -1,13 +1,13 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {loadTrash, revertImage, clearTrash} from "../actions";
+import { browserHistory } from "react-router";
+import {clearTrash, loadTrash, revertImage} from "../actions";
+import Ajax from "../libs/Ajax";
+import {t} from "../libs/Translation";
 import {Image} from "../types";
 import { DialogStore } from "../utils/Utils";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
-import { browserHistory } from "react-router";
-import Ajax from "../libs/Ajax";
-import {t} from "../libs/Translation";
 
 class Trash extends React.Component<{
   images: Image[];

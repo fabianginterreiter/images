@@ -1,4 +1,4 @@
-import {SET_TRASH, REVERT_IMAGE, DELETE_IMAGE, CLEAR_TRASH} from "../actionTypes";
+import {CLEAR_TRASH, DELETE_IMAGE, REVERT_IMAGE, SET_TRASH} from "../actionTypes";
 
 export default function options(state = [], action) {
   switch (action.type) {

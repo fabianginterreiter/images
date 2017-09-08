@@ -7,17 +7,17 @@ import CacheController from "./controllers/CacheController";
 import config from "./lib/Configuration";
 import bookshelf from "./model/bookshelf";
 import albums from "./routes/albums";
+import download from "./routes/download";
 import images from "./routes/images";
 import navigations from "./routes/navigations";
 import options from "./routes/options";
 import persons from "./routes/persons";
 import search from "./routes/search";
-import download from "./routes/download";
 import sessionroute from "./routes/session";
+import statistics from "./routes/statistics";
 import tags from "./routes/tags";
 import trash from "./routes/trash";
 import users from "./routes/users";
-import statistics from "./routes/statistics";
 
 const app = express();
 

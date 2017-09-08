@@ -1,7 +1,7 @@
 import * as React from "react";
+import {t} from "../../libs/Translation";
 import DialogStore from "./DialogStore";
 import {DialogStoreOption} from "./DialogStore";
-import {t} from "../../libs/Translation";
 
 interface DialgoState {
   options: DialogStoreOption;

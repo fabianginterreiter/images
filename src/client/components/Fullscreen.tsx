@@ -1,12 +1,12 @@
 import * as $ from "jquery";
 import * as React from "react";
 import {connect} from "react-redux";
-import {like, unlike, deleteImage, setView, toggle, loadMoreImages} from "../actions";
+import {deleteImage, like, loadMoreImages, setView, toggle, unlike} from "../actions";
 import {Image, Service} from "../types";
 import { DialogStore, KeyUpListener, OptionsList, Panel, ResizeListener } from "../utils/Utils";
 import Faces from "./Faces";
-import Like from "./Like";
 import ImageDetails from "./ImageDetails";
+import Like from "./Like";
 
 interface FullscreenProps {
   images: Image[];
@@ -207,7 +207,6 @@ class Fullscreen extends React.Component<FullscreenProps, FullscreenState> {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(this._hide.bind(this), 1000);
   }
-
 
   private toggleMenu() {
     if (this.state.menu) {

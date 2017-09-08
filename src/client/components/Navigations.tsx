@@ -3,12 +3,12 @@ import * as ReactRedux from "react-redux";
 import { browserHistory } from "react-router";
 import {closeNavigation, openNavigation, setPinNavigation} from "../actions";
 import Ajax from "../libs/Ajax";
+import {getLanguage, t} from "../libs/Translation";
 import {Album, Image} from "../types";
 import { Option } from "../utils/component/OptionsList";
 import { OptionsList, Panel } from "../utils/Utils";
 import {Year} from "./Dates";
 import Title from "./Title";
-import {t, getLanguage} from "../libs/Translation";
 
 interface NavigationsProps {
   location: {

@@ -2,7 +2,7 @@ import {SET_NUMBER_OF_IMAGES} from "../actionTypes";
 
 export default function stats(state = {
  numberOfImages: false
-},                              action) {
+},                            action) {
  switch (action.type) {
    case SET_NUMBER_OF_IMAGES:
      return {

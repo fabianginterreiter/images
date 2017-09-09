@@ -1,6 +1,8 @@
 import Album from "../model/Album";
 import AlbumImage from "../model/AlbumImage";
 import BaseController from "./BaseController";
+import Image from "../model/Image";
+import ImagesExtention from "../lib/ImagesExtention";
 
 export default class AlbumsController extends BaseController {
   public create() {
@@ -82,5 +84,71 @@ export default class AlbumsController extends BaseController {
 
   public deleteAlbum() {
     return new AlbumImage().where({image_id: this.params.id, album_id: this.params.album_id}).destroy();
+  }
+
+  public images() {
+    return new AlbumImage().where({album_id: this.params.id})
+    .orderBy("albums_images.order")
+    .fetchAll()
+    .then((result) => result.toJSON()).then((entries) => {
+      entries.forEach((entry) => entry.big = entry.big === 1);
+
+      return this.getImages(this.params.id).then((images) => {
+        return {
+          entries: entries,
+          images: images
+        };
+      });
+    });
+  }
+
+  public order() {
+    return new AlbumImage().query((qb) => {
+      qb.select("albums_images.*");
+
+      qb.join("images", function() {
+        this.on("images.id", "albums_images.image_id");
+      });
+
+      qb.where("albums_images.album_id", this.params.id);
+
+      qb.orderBy("images.date");
+    }).fetchAll().then((result) => result.toJSON()).then((entries) => {
+      return Promise.all(entries.map((entry, idx) => new AlbumImage({
+        id: entry.id
+      }).save({
+        order: (idx + 1) * 10
+      }).then(() => entry)));
+    })
+  }
+
+  public updateEntry() {
+    return new AlbumImage({
+      id: this.params.id
+    }).save({
+      big: this.body.big
+    }).then((result) => result.toJSON());
+  }
+
+  private getImages(albumId) {
+    return new Image().query((qb) => {
+      const userId = this.session.user;
+
+      qb.select("images.*");
+      qb.select("likes.user_id AS liked");
+
+      qb.leftJoin("likes", function() {
+        this.on("images.id", "likes.image_id");
+        this.on("likes.user_id", userId + "");
+      });
+
+      qb.join("albums_images", function() {
+        this.on("images.id", "albums_images.image_id"),
+        this.on("albums_images.album_id", albumId);
+      });
+
+      qb.where("images.deleted", false);
+    }).orderBy("albums_images.order").fetchAll({withRelated: ["user", "tags", "albums", "persons"]})
+    .then((images) => (images.toJSON())).then((images) => ImagesExtention(images))
   }
 }

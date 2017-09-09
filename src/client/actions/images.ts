@@ -12,7 +12,6 @@ export const loadImages = (path: string) => {
         type: SET_IMAGE_SERVICE
       });
 
-      dispatch(setImages([]));
       Ajax.get(path).then((images) => {
         dispatch(setImages(images));
         dispatch({
@@ -34,7 +33,6 @@ export const loadImagesWithOffset = (path: string) => {
         type: SET_IMAGE_SERVICE
       });
 
-      dispatch(setImages([]));
       Ajax.get(path + (path.indexOf("?") > 0 ? "&" : "?") + "limit=100").then((images) => dispatch(setImages(images)));
       Ajax.get("/api/images/count").then((result) => dispatch({
         numberOfImages: result.count,

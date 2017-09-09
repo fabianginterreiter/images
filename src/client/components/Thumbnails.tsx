@@ -43,7 +43,7 @@ class Thumbnails extends React.Component<{
             </div>
             <div className="imgBorder">
               <img src={"/thumbs/" + image.path} alt={image.filename} style={style} />
-              <ImageComponent image={image} />
+              {this.props.renderContent ? this.props.renderContent(image) : <ImageComponent image={image} />}
             </div>
           </div>);
 
@@ -52,7 +52,7 @@ class Thumbnails extends React.Component<{
         elements.push(
           <div className="item" key={image.id}>
             <img src={"/thumbs/" + image.path} alt={image.filename} style={style} />
-            <ImageComponent image={image} />
+            {this.props.renderContent ? this.props.renderContent(image) : <ImageComponent image={image} />}
           </div>);
       }
     });
@@ -102,13 +102,13 @@ class Thumbnails extends React.Component<{
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     showDate: state.options.showDate,
     thumbnailsSize: state.options.thumbnailsSize,
     allImages: state.images,
-    width: state.view.width
+    width: ownProps.width || state.view.width
   };
 };
 

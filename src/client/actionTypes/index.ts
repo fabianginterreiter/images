@@ -68,3 +68,6 @@ export const SET_TRASH = "SET_TRASH";
 export const CLEAR_TRASH = "CLEAR_TRASH";
 
 export const SET_VIEW = "SET_VIEW";
+
+export const SET_ALBUM = "SET_ALBUM";
+export const UPDATE_ENTRY = "UPDATE_ENTRY";

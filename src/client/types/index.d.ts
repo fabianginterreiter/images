@@ -2,6 +2,12 @@ export interface PersistedObject {
   readonly id: number;
 }
 
+export interface AlbumImage extends PersistedObject {
+  big: boolean;
+  image_id: number;
+  album_id: number;
+}
+
 export interface Person extends PersistedObject {
   name: string;
   count?: number;

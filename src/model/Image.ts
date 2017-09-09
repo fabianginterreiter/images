@@ -4,6 +4,7 @@ import ImageTag from "./ImageTag";
 import Person from "./Person";
 import Tag from "./Tag";
 import User from "./User";
+import Like from "./Like";
 
 export default class Image extends bookshelf.Model<Image> {
   get tableName() {

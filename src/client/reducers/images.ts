@@ -1,12 +1,16 @@
 import {ADD_ALBUM_TO_IMAGE, ADD_IMAGES, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE,
   DELETE_ALBUM, DELETE_IMAGE, DELETE_PERSON,
   DELETE_TAG, LIKE_IMAGE, REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE, REMOVE_TAG,
-  REVERT_IMAGE, SET_IMAGE_TITLE, SET_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
+  REVERT_IMAGE, SET_IMAGE_TITLE, SET_IMAGES, UNLIKE_IMAGE, SET_IMAGE_SERVICE, SET_ALBUM} from "../actionTypes";
 
 export default function images(state = [], action) {
   switch (action.type) {
     case SET_IMAGES:
       return action.images;
+    case SET_ALBUM:
+      return action.images;
+    case SET_IMAGE_SERVICE:
+      return [];
     case ADD_IMAGES:
       return state.concat(action.images);
     case LIKE_IMAGE:

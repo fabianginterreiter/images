@@ -12,11 +12,12 @@ $navigationPanelWidth: 300px;
 @import 'images';
 @import 'options';
 @import 'header';
+@import 'album';
 
 html {
 }
 
-body { 
+body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   padding: 0;
   margin: 40px 0 0 0;
@@ -213,7 +214,7 @@ input[type=range] {
 
 .preloaded {
   background: #eee;
-} 
+}
 
 .date:hover > .dateSelect {
   visibility: visible;
@@ -266,7 +267,7 @@ input[type=range] {
     margin: 0 auto;
 
     >div {
-      display: inline-block;      
+      display: inline-block;
       margin: 5px;
       padding: 10px;
     }
@@ -289,4 +290,3 @@ input[type=range] {
       display: none;
     }
 }
-

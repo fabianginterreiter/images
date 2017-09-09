@@ -14,9 +14,10 @@ import trash from "./trash";
 import uploads from "./uploads";
 import users from "./users";
 import view from "./view";
+import album from "./album";
 
 const imagesApp = combineReducers({
-  users, session, options, view, albums, tags, persons, selection, images, uploads, service, stats, trash, localizeReducer, fullscreen
+  users, session, options, view, album, albums, tags, persons, selection, images, uploads, service, stats, trash, localizeReducer, fullscreen
 });
 
 export default imagesApp;

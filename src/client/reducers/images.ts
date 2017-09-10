@@ -7,8 +7,6 @@ export default function images(state = [], action) {
   switch (action.type) {
     case SET_IMAGES:
       return action.images;
-    case SET_ALBUM:
-      return action.images;
     case SET_IMAGE_SERVICE:
       return [];
     case ADD_IMAGES:

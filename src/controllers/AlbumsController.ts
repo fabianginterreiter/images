@@ -92,13 +92,7 @@ export default class AlbumsController extends BaseController {
     .fetchAll()
     .then((result) => result.toJSON()).then((entries) => {
       entries.forEach((entry) => entry.big = entry.big === 1);
-
-      return this.getImages(this.params.id).then((images) => {
-        return {
-          entries: entries,
-          images: images
-        };
-      });
+      return entries;
     });
   }
 
@@ -129,27 +123,5 @@ export default class AlbumsController extends BaseController {
       big: this.body.big,
       order: this.body.order
     }).then((result) => result.toJSON());
-  }
-
-  private getImages(albumId) {
-    return new Image().query((qb) => {
-      const userId = this.session.user;
-
-      qb.select("images.*");
-      qb.select("likes.user_id AS liked");
-
-      qb.leftJoin("likes", function() {
-        this.on("images.id", "likes.image_id");
-        this.on("likes.user_id", userId + "");
-      });
-
-      qb.join("albums_images", function() {
-        this.on("images.id", "albums_images.image_id"),
-        this.on("albums_images.album_id", albumId);
-      });
-
-      qb.where("images.deleted", false);
-    }).orderBy("albums_images.order").fetchAll({withRelated: ["user", "tags", "albums", "persons"]})
-    .then((images) => (images.toJSON())).then((images) => ImagesExtention(images))
   }
 }

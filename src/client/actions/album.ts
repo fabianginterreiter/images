@@ -9,17 +9,12 @@ export const loadAlbum = (id) => {
       type: SET_IMAGE_SERVICE
     });
 
-    Ajax.get(`/api/albums/${id}/images`).then((result) => {
+    Ajax.get(`/api/albums/${id}/images`).then((entries) => {
       dispatch({
-        entries: result.entries,
-        images: result.images,
+        entries,
         type: SET_ALBUM
       });
-
-      dispatch({
-        numberOfImages: result.images.length,
-        type: SET_NUMBER_OF_IMAGES
-      });
+      
     });
   }, 0);
 };

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {removeAlbumFromImage, loadAlbum, updateEntry} from "../actions";
+import {removeAlbumFromImage, loadAlbum, updateEntry, loadImages} from "../actions";
 import Ajax from "../libs/Ajax";
 import {t} from "../libs/Translation";
 import {Album, Image, AlbumImage} from "../types";
@@ -44,9 +44,11 @@ class AlbumComponent extends React.Component<AlbumProps, {
           <i className="fa fa-book" aria-hidden="true" /> {this.props.album.name}
           <ImagesNav images={this.props.images}>
             <a onClick={this.handleRemoveFromAlbum.bind(this)}>
-              <i className="fa fa-times" /><span className="min500"> {t("album.remove")}</span>
+              <i className="fa fa-times" aria-hidden="true" /><span className="min500"> {t("album.remove")}</span>
             </a>
-            <a onClick={() => this.setState({show:true})}>Show</a>
+            <a onClick={() => this.setState({show:true})}>
+              <i className="fa fa-map-o" aria-hidden="true" /> Show
+            </a>
           </ImagesNav>
         </h1>
         <Images images={this.props.images} />
@@ -58,7 +60,7 @@ class AlbumComponent extends React.Component<AlbumProps, {
     this.props.selection.forEach((image) => this.props.removeAlbumFromImage(image, this.props.album));
   }
 
-  
+
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -71,6 +73,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+  dispatch(loadImages(`/api/images?album=${ownProps.params.id}&orderBy=albums_images.order`));
   dispatch(loadAlbum(ownProps.params.id));
   return {
     removeAlbumFromImage: (image: Image, album: Album) => dispatch(removeAlbumFromImage(image, album)),

@@ -111,7 +111,11 @@ export default class ImagesController extends BaseController {
         qb.offset(this.query.offset);
       }
 
-      qb.orderBy("date", "DESC");
+      if (this.query.orderBy) {
+        qb.orderBy(this.query.orderBy, "ASC");
+      } else {
+        qb.orderBy("date", "DESC");
+      }
     }).fetchAll({withRelated: ["user", "tags", "albums", "persons"]})
     .then((images) => (images.toJSON())).then((images) => ImagesExtention(images))
     .catch(console.log);

@@ -15,8 +15,8 @@ router.get("/:id", (req: express.Request, res: express.Response) => {
   });
 });
 
-router.get("/:id/images", (req: express.Request, res: express.Response) => {
-  new AlbumsController(req).images().then((result) => (res.send(result))).catch((e) => {
+router.get("/:id/entries", (req: express.Request, res: express.Response) => {
+  new AlbumsController(req).entries().then((result) => (res.send(result))).catch((e) => {
     res.status(404).send("Fehler");
   });
 });

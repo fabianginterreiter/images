@@ -94,7 +94,7 @@ export default class AlbumsController extends BaseController {
     return new AlbumImage().where({image_id: this.params.id, album_id: this.params.album_id}).destroy();
   }
 
-  public images() {
+  public entries() {
     return new AlbumImage().where({album_id: this.params.id})
     .orderBy("albums_images.order")
     .fetchAll()

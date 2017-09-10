@@ -9,7 +9,7 @@ export const loadAlbum = (id) => {
       type: SET_IMAGE_SERVICE
     });
 
-    Ajax.get(`/api/albums/${id}/images`).then((entries) => {
+    Ajax.get(`/api/albums/${id}/entries`).then((entries) => {
       dispatch({
         entries,
         type: SET_ALBUM

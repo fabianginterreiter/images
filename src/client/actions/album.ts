@@ -32,3 +32,10 @@ export const updateEntry = (entry: AlbumImage) => {
     });
   });
 };
+
+export const updateDisplay = (entry: AlbumImage) => {
+  return {
+    entry,
+    type: UPDATE_ENTRY
+  }
+}

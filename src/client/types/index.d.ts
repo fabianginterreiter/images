@@ -6,6 +6,7 @@ export interface AlbumImage extends PersistedObject {
   big: boolean;
   image_id: number;
   album_id: number;
+  order: number;
 }
 
 export interface Person extends PersistedObject {

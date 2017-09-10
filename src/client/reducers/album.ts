@@ -3,7 +3,7 @@ import {SET_ALBUM, SET_IMAGE_SERVICE, UPDATE_ENTRY, REMOVE_ALBUM_FROM_IMAGE} fro
 export default function options(state = [], action) {
   switch (action.type) {
     case SET_ALBUM:
-      return action.entries;
+      return action.entries.sort((a, b) => a.order - b.order);;
     case SET_IMAGE_SERVICE:
       return [];
     case UPDATE_ENTRY:
@@ -12,7 +12,7 @@ export default function options(state = [], action) {
           return {...action.entry};
         }
         return entry;
-      });
+      }).sort((a, b) => a.order - b.order);
     case REMOVE_ALBUM_FROM_IMAGE:
       return state.filter((entry) => action.image.id !== entry.image_id);
     default:

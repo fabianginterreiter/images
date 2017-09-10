@@ -126,7 +126,8 @@ export default class AlbumsController extends BaseController {
     return new AlbumImage({
       id: this.params.id
     }).save({
-      big: this.body.big
+      big: this.body.big,
+      order: this.body.order
     }).then((result) => result.toJSON());
   }
 

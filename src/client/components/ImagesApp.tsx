@@ -78,12 +78,12 @@ class ImagesApp extends React.Component<ImagesAppProps, {}> {
         </div>
 
         <Uploader />
-        <DragAndDropUpload />
+
         <Main />
         {this.props.isFullscreen() && <Fullscreen />}
         <ScrollUp />
       </div>
-    );
+    ); // <DragAndDropUpload /> after uploader
   }
 
   private handleResize() {

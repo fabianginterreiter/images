@@ -58,13 +58,7 @@ class AlbumComponent extends React.Component<AlbumProps, {
     this.props.selection.forEach((image) => this.props.removeAlbumFromImage(image, this.props.album));
   }
 
-  private handleMakeBig() {
-    const entries = this.props.entries.filter((entry) => (this.props.selection.find((image) => image.id === entry.image_id)));
-
-    entries.forEach((entry) => entry.big = !entry.big);
-
-    entries.forEach((entry) => this.props.updateEntry(entry));
-  }
+  
 }
 
 const mapStateToProps = (state, ownProps) => {

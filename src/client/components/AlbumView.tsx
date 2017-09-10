@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Album, Image, AlbumImage} from "../types";
 import Thumbnails from "./Thumbnails";
 import BigPreview from "./BigPreview";
-import {setView, updateEntry, updateDisplay} from "../actions";
+import {setView, updateEntry, updateDisplay, updateOrder, setImages} from "../actions";
 import { KeyUpListener } from "../utils/Utils";
 
 class AlbumView extends React.Component<{
@@ -15,6 +15,8 @@ class AlbumView extends React.Component<{
   setView(index: number): void;
   updateEntry(entry: AlbumImage): void;
   updateDisplay(entry: AlbumImage): void;
+  updateOrder(entries: AlbumImage[]): void;
+  setImages(images: Image[]): void;
 }, {
   edit: boolean;
   dragging?: {
@@ -71,7 +73,9 @@ class AlbumView extends React.Component<{
     return (
       <div className="album">
         <div className="close" onClick={() => this.props.onClose()}><i className="fa fa-times" aria-hidden="true"/> Close</div>
-        <div className="edit" onClick={() => this.setState({edit:!this.state.edit})}><i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit</div>
+        {this.state.edit ?
+          <div className="edit" onClick={() => this.handleStopEditMode()}><i className="fa fa-pencil-square-o" aria-hidden="true" /> Stop</div>
+          : <div className="edit" onClick={() => this.handleStartEditMode()}><i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit</div>}
         <div className="content" style={{width: width + "px"}}>
           <h1>
             <i className="fa fa-book" aria-hidden="true" /> {this.props.album.name}
@@ -89,7 +93,7 @@ class AlbumView extends React.Component<{
       return <div className="entry" draggable={true}
         onDragStart={() => this.handleDragStart(entry)}
         onDragOver={(event) => this.handleDragOver(event, entry)}
-        onDragEnd={() => this.handleDragEnd(entry)}>
+        onDragEnd={() => this.handleDragEnd()}>
         <div className="big" onClick={() => this.handleMakeBig(image)}>
           {entry.big ? <i className="fa fa-compress" aria-hidden="true" /> : <i className="fa fa-expand" aria-hidden="true" />}
         </div>
@@ -129,8 +133,9 @@ class AlbumView extends React.Component<{
     this.props.updateDisplay(this.state.dragging.entry);
   }
 
-  private handleDragEnd(entry: AlbumImage) {
-    this.props.updateEntry(this.state.dragging.entry);
+  private handleDragEnd() {
+    this.props.updateOrder(this.props.entries);
+
     this.setState({
       dragging: null
     });
@@ -153,6 +158,20 @@ class AlbumView extends React.Component<{
 
     this.props.updateEntry(entry);
   }
+
+  private handleStartEditMode() {
+    this.setState({
+      edit: true
+    });
+  }
+
+  private handleStopEditMode() {
+    this.setState({
+      edit: false
+    });
+
+    this.props.setImages(this.props.entries.filter((entry) => entry.image_id > 0).map((entry) => this.props.images.find((image) => entry.image_id === image.id)));
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -164,7 +183,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     setView: (idx:number) => dispatch(setView(idx)),
     updateEntry: (entry: AlbumImage) => dispatch(updateEntry(entry)),
-    updateDisplay: (entry: AlbumImage) => dispatch(updateDisplay(entry))
+    updateOrder: (entries: AlbumImage[]) => dispatch(updateOrder(entries)),
+    updateDisplay: (entry: AlbumImage) => dispatch(updateDisplay(entry)),
+    setImages: (images: Image[]) => dispatch(setImages(images))
   };
 };
 

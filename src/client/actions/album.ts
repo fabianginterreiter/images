@@ -14,7 +14,7 @@ export const loadAlbum = (id) => {
         entries,
         type: SET_ALBUM
       });
-      
+
     });
   }, 0);
 };
@@ -32,5 +32,22 @@ export const updateDisplay = (entry: AlbumImage) => {
   return {
     entry,
     type: UPDATE_ENTRY
+  }
+}
+
+export const updateOrder = (entries: AlbumImage[]) => {
+  return (dispatch) => {
+    entries.filter((entry, index) => {
+      const order = (index + 1) * 10;
+      if (entry.order !== order) {
+        entry.order = order;
+        return true;
+      } else {
+        return false;
+      }
+    }).map((entry) => Ajax.put(`/api/albums/${entry.album_id}/entries/${entry.id}`, entry).then(() => dispatch({
+      entry,
+      type: UPDATE_ENTRY
+    })));
   }
 }

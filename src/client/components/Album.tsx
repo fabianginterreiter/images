@@ -59,8 +59,6 @@ class AlbumComponent extends React.Component<AlbumProps, {
   private handleRemoveFromAlbum() {
     this.props.selection.forEach((image) => this.props.removeAlbumFromImage(image, this.props.album));
   }
-
-
 }
 
 const mapStateToProps = (state, ownProps) => {

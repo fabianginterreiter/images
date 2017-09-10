@@ -65,10 +65,17 @@ export default class AlbumsController extends BaseController {
     const album = this.body;
 
     if (album.id) {
-      return new AlbumImage({
-        album_id: album.id,
-        image_id: this.params.id
-      }).save().then(() => album);
+      return new AlbumImage().query((qb) => {
+        qb.count("album_id AS count");
+        qb.where("album_id", album.id);
+      }).fetch((result) => result.toJSON()).then((a) => {
+        return new AlbumImage({
+          album_id: album.id,
+          image_id: this.params.id,
+          order: (a.get("count") + 1) * 10,
+          big: false
+        }).save().then(() => album);
+      });
     } else {
       return new Album({
         name: album.name,
@@ -76,7 +83,8 @@ export default class AlbumsController extends BaseController {
       }).save().then((result) => {
         return new AlbumImage({
           album_id: result.get("id"),
-          image_id: this.params.id
+          image_id: this.params.id,
+          order: 10
         }).save().then(() => result.toJSON());
       });
     }

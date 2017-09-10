@@ -11,6 +11,7 @@ class AlbumView extends React.Component<{
   entries: AlbumImage[];
   images: Image[];
   album: Album;
+  view: number;
   onClose(): void;
   setView(index: number): void;
   updateEntry(entry: AlbumImage): void;
@@ -104,12 +105,15 @@ class AlbumView extends React.Component<{
 
   private handleKeyUp(event) {
     switch (event.keyCode) {
-      case 27: return this.props.onClose();
+      case 27:
+        if (this.props.view >= 0) {
+          break;
+        }
+        return this.props.onClose();
     }
   }
 
   private handleDragStart(entry: AlbumImage) {
-    console.log("Start: " + entry.id);
     this.setState({
       dragging: {entry}
     });
@@ -139,6 +143,8 @@ class AlbumView extends React.Component<{
     this.setState({
       dragging: null
     });
+
+    this.props.setImages(this.props.entries.filter((entry) => entry.image_id > 0).map((entry) => this.props.images.find((image) => entry.image_id === image.id)));
   }
 
   private handleClick(event, image: Image) {
@@ -169,13 +175,12 @@ class AlbumView extends React.Component<{
     this.setState({
       edit: false
     });
-
-    this.props.setImages(this.props.entries.filter((entry) => entry.image_id > 0).map((entry) => this.props.images.find((image) => entry.image_id === image.id)));
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    view: state.fullscreen
   };
 };
 

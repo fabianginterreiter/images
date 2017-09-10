@@ -5,6 +5,7 @@ import {Album, Image, AlbumImage} from "../types";
 import Thumbnails from "./Thumbnails";
 import BigPreview from "./BigPreview";
 import {setView, updateEntry, updateDisplay} from "../actions";
+import { KeyUpListener } from "../utils/Utils";
 
 class AlbumView extends React.Component<{
   entries: AlbumImage[];
@@ -24,6 +25,14 @@ class AlbumView extends React.Component<{
   public constructor(props) {
     super(props);
     this.state = {edit:false, dragging: null};
+  }
+
+  public componentDidMount() {
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
+  }
+
+  public componentWillUnmount() {
+    KeyUpListener.addChangeListener(this, this.handleKeyUp.bind(this));
   }
 
   public render() {
@@ -87,6 +96,12 @@ class AlbumView extends React.Component<{
       </div>;
     }
     return <div className="entry" onClick={(event) => this.handleClick(event, image)} />;
+  }
+
+  private handleKeyUp(event) {
+    switch (event.keyCode) {
+      case 27: return this.props.onClose();
+    }
   }
 
   private handleDragStart(entry: AlbumImage) {

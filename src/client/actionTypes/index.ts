@@ -71,3 +71,5 @@ export const SET_VIEW = "SET_VIEW";
 
 export const SET_ALBUM = "SET_ALBUM";
 export const UPDATE_ENTRY = "UPDATE_ENTRY";
+export const ADD_ENTRY = "ADD_ENTRY";
+export const REMOVE_ENTRY = "REMOVE_ENTRY";

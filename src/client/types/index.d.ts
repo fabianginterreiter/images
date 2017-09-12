@@ -7,6 +7,7 @@ export interface AlbumImage extends PersistedObject {
   image_id: number;
   album_id: number;
   order: number;
+  text: string;
 }
 
 export interface Person extends PersistedObject {

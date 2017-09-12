@@ -1,4 +1,4 @@
-import {SET_ALBUM, SET_IMAGES, SET_IMAGE_SERVICE, SET_NUMBER_OF_IMAGES, UPDATE_ENTRY} from "../actionTypes";
+import {SET_ALBUM, SET_IMAGES, SET_IMAGE_SERVICE, SET_NUMBER_OF_IMAGES, UPDATE_ENTRY, ADD_ENTRY, REMOVE_ENTRY} from "../actionTypes";
 import Ajax from "../libs/Ajax";
 import {AlbumImage} from "../types";
 
@@ -49,5 +49,25 @@ export const updateOrder = (entries: AlbumImage[]) => {
       entry,
       type: UPDATE_ENTRY
     })));
+  }
+}
+
+export const addEntry = (entry: AlbumImage) => {
+  return (dispatch) => {
+    Ajax.post(`/api/albums/${entry.album_id}/entries`, entry).then((result) => {
+      dispatch({
+        entry: result,
+        type: ADD_ENTRY
+      });
+    })
+  }
+}
+
+export const removeEntry = (entry: AlbumImage) => {
+  return (dispatch) => {
+    Ajax.delete(`/api/albums/${entry.album_id}/entries/${entry.id}`).then(() => dispatch({
+      entry,
+      type: REMOVE_ENTRY
+    }));
   }
 }

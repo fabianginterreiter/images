@@ -129,7 +129,24 @@ export default class AlbumsController extends BaseController {
       id: this.params.id
     }).save({
       big: this.body.big,
-      order: this.body.order
+      order: this.body.order,
+      text: this.body.text
     }).then((result) => result.toJSON());
   }
+
+  public deleteEntry() {
+    return new AlbumImage({id:this.params.entry_id}).destroy();
+  }
+
+  public addEntry() {
+    return new AlbumImage({
+      album_id: this.body.album_id,
+      image_id: this.body.image_id,
+      order: this.body.order,
+      big: this.body.big,
+      text: this.body.text
+    }).save().then((result) => result.toJSON());
+  }
+
+
 }

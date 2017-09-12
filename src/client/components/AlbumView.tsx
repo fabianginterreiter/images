@@ -1,10 +1,11 @@
 import * as React from "react";
 import * as $ from "jquery";
+import { HtmlRenderer, Parser } from 'commonmark';
 import {connect} from "react-redux";
 import {Album, Image, AlbumImage} from "../types";
 import Thumbnails from "./Thumbnails";
 import BigPreview from "./BigPreview";
-import {setView, updateEntry, updateDisplay, updateOrder, setImages} from "../actions";
+import {setView, updateEntry, updateDisplay, updateOrder, setImages, addEntry, removeEntry} from "../actions";
 import { KeyUpListener } from "../utils/Utils";
 
 class AlbumView extends React.Component<{
@@ -18,6 +19,8 @@ class AlbumView extends React.Component<{
   updateDisplay(entry: AlbumImage): void;
   updateOrder(entries: AlbumImage[]): void;
   setImages(images: Image[]): void;
+  addEntry(entry: AlbumImage): void;
+  removeEntry(entry: AlbumImage): void;
 }, {
   edit: boolean;
   dragging?: {
@@ -25,9 +28,15 @@ class AlbumView extends React.Component<{
     target?: AlbumImage;
   }
 }> {
+  private parser;
+  private renderer;
+
   public constructor(props) {
     super(props);
     this.state = {edit:false, dragging: null};
+
+    this.parser = new Parser();
+    this.renderer = new HtmlRenderer();
   }
 
   public componentDidMount() {
@@ -52,6 +61,18 @@ class AlbumView extends React.Component<{
       const image = this.props.images.find((image) => image.id === entry.image_id);
 
       if (!image) {
+
+        if (entry.text) {
+          if (temp.length > 0) {
+            images.push(<Thumbnails key={"b" + (++box)} images={temp} width={width} renderContent={(image) => this.renderContent(image)} />);
+            temp = [];
+          }
+
+          ++box;
+
+          images.push(this.renderText(entry, box));
+        }
+
         return;
       }
 
@@ -87,6 +108,28 @@ class AlbumView extends React.Component<{
     );
   }
 
+  private renderText(entry: AlbumImage, b: number) {
+    if (this.state.edit) {
+      return <div key={b} className="container">
+        <div className="item" draggable={true}
+        onDragStart={() => this.handleDragStart(entry)}
+        onDragOver={(event) => this.handleDragOver(event, entry)}
+        onDragEnd={() => this.handleDragEnd()}>
+          <textarea onChange={(event) => this.handleChange(event, entry)} value={entry.text} />
+          <span onClick={() => this.handleDelete(entry)}>Delete</span>
+        </div>
+      </div>;
+    }
+
+    const text: string = this.renderer.render(this.parser.parse(entry.text));
+
+    return <div key={b} className="container">
+      <div className="item">
+        <div dangerouslySetInnerHTML={ {__html: text} } />
+      </div>
+    </div>;
+  }
+
   private renderContent(image: Image) {
     if (this.state.edit) {
       const entry = this.props.entries.find((entry) => image.id === entry.image_id);
@@ -98,9 +141,20 @@ class AlbumView extends React.Component<{
         <div className="big" onClick={() => this.handleMakeBig(image)}>
           {entry.big ? <i className="fa fa-compress" aria-hidden="true" /> : <i className="fa fa-expand" aria-hidden="true" />}
         </div>
+        <div className="text" onClick={() => this.handleAddText(entry)}>Text</div>
       </div>;
     }
     return <div className="entry" onClick={(event) => this.handleClick(event, image)} />;
+  }
+
+  private handleChange(event, entry: AlbumImage) {
+    entry.text = event.target.value;
+
+    this.props.updateEntry(entry);
+  }
+
+  private handleDelete(entry: AlbumImage) {
+    this.props.removeEntry(entry);
   }
 
   private handleKeyUp(event) {
@@ -176,6 +230,17 @@ class AlbumView extends React.Component<{
       edit: false
     });
   }
+
+  private handleAddText(entry: AlbumImage) {
+    this.props.addEntry({
+      id: 0,
+      album_id: this.props.album.id,
+      big: false,
+      text: "Hello",
+      image_id: 0,
+      order: entry.order - 1
+    });
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -186,11 +251,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    addEntry: (entry: AlbumImage) => dispatch(addEntry(entry)),
     setView: (idx:number) => dispatch(setView(idx)),
     updateEntry: (entry: AlbumImage) => dispatch(updateEntry(entry)),
     updateOrder: (entries: AlbumImage[]) => dispatch(updateOrder(entries)),
     updateDisplay: (entry: AlbumImage) => dispatch(updateDisplay(entry)),
-    setImages: (images: Image[]) => dispatch(setImages(images))
+    setImages: (images: Image[]) => dispatch(setImages(images)),
+    removeEntry: (entry: AlbumImage) => dispatch(removeEntry(entry))
   };
 };
 

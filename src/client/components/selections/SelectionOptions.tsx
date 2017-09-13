@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import * as React from "react";
 import {connect} from "react-redux";
 import { location } from "react-router";
-import {addAlbum, addAlbumToImage, addTag, addTagToImage, removeAlbumFromImage, removeTag} from "../../actions";
+import {addAlbum, addImagesToAlbum, addTag, addTagToImage, removeAlbumFromImage, removeTag} from "../../actions";
 import Ajax from "../../libs/Ajax";
 import {t} from "../../libs/Translation";
 import {Album, Image, Person, Tag} from "../../types";
@@ -21,7 +21,7 @@ class SelectionOptions extends React.Component<{
   addTag(tag: Tag): void;
   addAlbum(album: Album): void;
   removeAlbumFromImage(image: Image, album: Album): void;
-  addAlbumToImage(image: Image, album: Album): void;
+  addImagesToAlbum(images: Image[], album: Album): void;
 }, SelectionOptionsState> {
   constructor(props) {
     super(props);
@@ -136,8 +136,7 @@ class SelectionOptions extends React.Component<{
         name: result.name,
         public: false
       }).then((album: Album) => {
-        images.filter((image: Image) => (!image.albums.find((a) => album.id === a.id)))
-          .forEach((image: Image) => this.props.addAlbumToImage(image, album));
+        this.props.addImagesToAlbum(images.filter((image: Image) => (!image.albums.find((a) => album.id === a.id))), album);
       });
     });
   }
@@ -154,7 +153,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addAlbum: (album: Album) => dispatch(addAlbum(album)),
-    addAlbumToImage: (image: Image, album: Album) => dispatch(addAlbumToImage(image, album)),
+    addImagesToAlbum: (images: Image[], album: Album) => dispatch(addImagesToAlbum(images, album)),
     addTag: (tag: Tag) => dispatch(addTag(tag)),
     addTagToImage: (image: Image, tag: Tag) => dispatch(addTagToImage(image, tag)),
     removeAlbumFromImage: (image: Image, album: Album) => dispatch(removeAlbumFromImage(image, album)),

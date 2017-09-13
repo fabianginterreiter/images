@@ -8,7 +8,9 @@ export default class AlbumsController extends BaseController {
   public create() {
     return new Album({
       name: this.body.name,
-      user_id: this.session.user
+      user_id: this.session.user,
+      description: this.body.description,
+      public: false
     }).save().then((result) => (result.toJSON()));
   }
 
@@ -48,7 +50,8 @@ export default class AlbumsController extends BaseController {
 
       return new Album({id: this.params.id}).save({
         name: this.body.name,
-        public: this.body.public
+        public: this.body.public,
+        description: this.body.description
       }, {patch: true}).then((result) => (result.toJSON()));
     });
   }

@@ -37,7 +37,7 @@ export const updateDisplay = (entry: AlbumImage) => {
 
 export const updateOrder = (entries: AlbumImage[]) => {
   return (dispatch) => {
-    entries.filter((entry, index) => {
+    entries.sort((a, b) => a.order - b.order).filter((entry, index) => {
       const order = (index + 1) * 10;
       if (entry.order !== order) {
         entry.order = order;
@@ -45,21 +45,21 @@ export const updateOrder = (entries: AlbumImage[]) => {
       } else {
         return false;
       }
-    }).map((entry) => Ajax.put(`/api/albums/${entry.album_id}/entries/${entry.id}`, entry).then(() => dispatch({
-      entry,
-      type: UPDATE_ENTRY
-    })));
-  }
-}
-
-export const addEntry = (entry: AlbumImage) => {
-  return (dispatch) => {
-    Ajax.post(`/api/albums/${entry.album_id}/entries`, entry).then((result) => {
-      dispatch({
-        entry: result,
-        type: ADD_ENTRY
-      });
-    })
+    }).map((entry) => {
+      if (entry.id) {
+        Ajax.put(`/api/albums/${entry.album_id}/entries/${entry.id}`, entry).then(() => dispatch({
+          entry,
+          type: UPDATE_ENTRY
+        }));
+      } else {
+        Ajax.post(`/api/albums/${entry.album_id}/entries`, entry).then((result) => {
+          dispatch({
+            entry: result,
+            type: ADD_ENTRY
+          });
+        });
+      }
+    });
   }
 }
 

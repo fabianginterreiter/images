@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {Album, Image, AlbumImage} from "../types";
 import Thumbnails from "./Thumbnails";
 import BigPreview from "./BigPreview";
-import {setView, updateEntry, updateDisplay, updateOrder, setImages, addEntry, removeEntry} from "../actions";
+import {setView, updateEntry, updateDisplay, updateOrder, setImages, removeEntry} from "../actions";
 import { KeyUpListener } from "../utils/Utils";
 
 class AlbumView extends React.Component<{
@@ -19,7 +19,6 @@ class AlbumView extends React.Component<{
   updateDisplay(entry: AlbumImage): void;
   updateOrder(entries: AlbumImage[]): void;
   setImages(images: Image[]): void;
-  addEntry(entry: AlbumImage): void;
   removeEntry(entry: AlbumImage): void;
 }, {
   edit: boolean;
@@ -232,14 +231,14 @@ class AlbumView extends React.Component<{
   }
 
   private handleAddText(entry: AlbumImage) {
-    this.props.addEntry({
+    this.props.updateOrder([...this.props.entries, {
       id: 0,
       album_id: this.props.album.id,
       big: false,
       text: "Hello",
       image_id: 0,
       order: entry.order - 1
-    });
+    }]);
   }
 }
 
@@ -251,7 +250,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addEntry: (entry: AlbumImage) => dispatch(addEntry(entry)),
     setView: (idx:number) => dispatch(setView(idx)),
     updateEntry: (entry: AlbumImage) => dispatch(updateEntry(entry)),
     updateOrder: (entries: AlbumImage[]) => dispatch(updateOrder(entries)),

@@ -56,6 +56,7 @@ export interface Image extends PersistedObject {
 export interface Album extends PersistedObject {
   name: string;
   public: boolean;
+  description?: string;
 }
 
 export interface User extends PersistedObject {

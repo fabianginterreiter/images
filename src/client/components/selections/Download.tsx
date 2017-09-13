@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import * as React from "react";
 import {connect} from "react-redux";
 import { location } from "react-router";
-import {addAlbum, addAlbumToImage, addTag, addTagToImage, removeAlbumFromImage, removeTag} from "../../actions";
+import {addAlbum, addTag, addTagToImage, removeAlbumFromImage, removeTag} from "../../actions";
 import Ajax from "../../libs/Ajax";
 import {t} from "../../libs/Translation";
 import {Album, Image, Person, Tag} from "../../types";

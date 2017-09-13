@@ -101,13 +101,20 @@ export const removeTag = (image: Image, tag: Tag) => {
   }));
 };
 
-export const addAlbumToImage = (image: Image, album: Album) => {
-  return (dispatch) => Ajax.put(`/api/images/${image.id}/albums`, album).then(() => dispatch({
-    album,
-    image,
-    type: ADD_ALBUM_TO_IMAGE
-  }));
-};
+export const addImagesToAlbum = (images: Image[], album: Album) => {
+  return (dispatch) => {
+    const load = (index: number) => index < images.length && Ajax.put(`/api/images/${images[index].id}/albums`, album).then(() => {
+        dispatch({
+        album,
+        image: images[index],
+        type: ADD_ALBUM_TO_IMAGE
+      });
+      load(index+1);
+    });
+
+    load(0);
+  };
+}
 
 export const removeAlbumFromImage = (image: Image, album: Album) => {
   return (dispatch) => Ajax.delete(`/api/images/${image.id}/albums/${album.id}`).then(() => dispatch({

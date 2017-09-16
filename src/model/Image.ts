@@ -1,10 +1,10 @@
 import Album from "./Album";
 import bookshelf from "./bookshelf";
 import ImageTag from "./ImageTag";
+import Like from "./Like";
 import Person from "./Person";
 import Tag from "./Tag";
 import User from "./User";
-import Like from "./Like";
 
 export default class Image extends bookshelf.Model<Image> {
   get tableName() {

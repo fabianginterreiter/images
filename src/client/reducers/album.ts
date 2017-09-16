@@ -1,4 +1,4 @@
-import {SET_ALBUM, SET_IMAGE_SERVICE, UPDATE_ENTRY, REMOVE_ALBUM_FROM_IMAGE, ADD_ENTRY, REMOVE_ENTRY} from "../actionTypes";
+import {ADD_ENTRY, REMOVE_ALBUM_FROM_IMAGE, REMOVE_ENTRY, SET_ALBUM, SET_IMAGE_SERVICE, UPDATE_ENTRY} from "../actionTypes";
 
 export default function options(state = [], action) {
   switch (action.type) {

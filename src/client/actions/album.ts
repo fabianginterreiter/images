@@ -1,4 +1,4 @@
-import {SET_ALBUM, SET_IMAGES, SET_IMAGE_SERVICE, SET_NUMBER_OF_IMAGES, UPDATE_ENTRY, ADD_ENTRY, REMOVE_ENTRY} from "../actionTypes";
+import {ADD_ENTRY, REMOVE_ENTRY, SET_ALBUM, SET_IMAGE_SERVICE, SET_IMAGES, SET_NUMBER_OF_IMAGES, UPDATE_ENTRY} from "../actionTypes";
 import Ajax from "../libs/Ajax";
 import {AlbumImage} from "../types";
 
@@ -32,8 +32,8 @@ export const updateDisplay = (entry: AlbumImage) => {
   return {
     entry,
     type: UPDATE_ENTRY
-  }
-}
+  };
+};
 
 export const updateOrder = (entries: AlbumImage[]) => {
   return (dispatch) => {
@@ -60,8 +60,8 @@ export const updateOrder = (entries: AlbumImage[]) => {
         });
       }
     });
-  }
-}
+  };
+};
 
 export const removeEntry = (entry: AlbumImage) => {
   return (dispatch) => {
@@ -69,5 +69,5 @@ export const removeEntry = (entry: AlbumImage) => {
       entry,
       type: REMOVE_ENTRY
     }));
-  }
-}
+  };
+};

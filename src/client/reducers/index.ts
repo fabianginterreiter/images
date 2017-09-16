@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import {localizeReducer} from "../libs/Translation";
+import album from "./album";
 import albums from "./albums";
 import fullscreen from "./fullscreen";
 import images from "./images";
@@ -14,7 +15,6 @@ import trash from "./trash";
 import uploads from "./uploads";
 import users from "./users";
 import view from "./view";
-import album from "./album";
 
 const imagesApp = combineReducers({
   users, session, options, view, album, albums, tags, persons, selection, images, uploads, service, stats, trash, localizeReducer, fullscreen

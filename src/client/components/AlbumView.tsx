@@ -1,12 +1,12 @@
-import * as React from "react";
+import { HtmlRenderer, Parser } from "commonmark";
 import * as $ from "jquery";
-import { HtmlRenderer, Parser } from 'commonmark';
+import * as React from "react";
 import {connect} from "react-redux";
-import {Album, Image, AlbumImage} from "../types";
-import Thumbnails from "./Thumbnails";
-import BigPreview from "./BigPreview";
-import {setView, updateEntry, updateDisplay, updateOrder, setImages, removeEntry} from "../actions";
+import {removeEntry, setImages, setView, updateDisplay, updateEntry, updateOrder} from "../actions";
+import {Album, AlbumImage, Image} from "../types";
 import { KeyUpListener } from "../utils/Utils";
+import BigPreview from "./BigPreview";
+import Thumbnails from "./Thumbnails";
 
 class AlbumView extends React.Component<{
   entries: AlbumImage[];
@@ -32,7 +32,7 @@ class AlbumView extends React.Component<{
 
   public constructor(props) {
     super(props);
-    this.state = {edit:false, dragging: null};
+    this.state = {edit: false, dragging: null};
 
     this.parser = new Parser();
     this.renderer = new HtmlRenderer();
@@ -250,7 +250,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setView: (idx:number) => dispatch(setView(idx)),
+    setView: (idx: number) => dispatch(setView(idx)),
     updateEntry: (entry: AlbumImage) => dispatch(updateEntry(entry)),
     updateOrder: (entries: AlbumImage[]) => dispatch(updateOrder(entries)),
     updateDisplay: (entry: AlbumImage) => dispatch(updateDisplay(entry)),

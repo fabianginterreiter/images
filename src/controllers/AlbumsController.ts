@@ -1,8 +1,8 @@
+import ImagesExtention from "../lib/ImagesExtention";
 import Album from "../model/Album";
 import AlbumImage from "../model/AlbumImage";
-import BaseController from "./BaseController";
 import Image from "../model/Image";
-import ImagesExtention from "../lib/ImagesExtention";
+import BaseController from "./BaseController";
 
 export default class AlbumsController extends BaseController {
   public create() {
@@ -124,7 +124,7 @@ export default class AlbumsController extends BaseController {
       }).save({
         order: (idx + 1) * 10
       }).then(() => entry)));
-    })
+    });
   }
 
   public updateEntry() {
@@ -138,7 +138,7 @@ export default class AlbumsController extends BaseController {
   }
 
   public deleteEntry() {
-    return new AlbumImage({id:this.params.entry_id}).destroy();
+    return new AlbumImage({id: this.params.entry_id}).destroy();
   }
 
   public addEntry() {
@@ -150,6 +150,5 @@ export default class AlbumsController extends BaseController {
       text: this.body.text
     }).save().then((result) => result.toJSON());
   }
-
 
 }

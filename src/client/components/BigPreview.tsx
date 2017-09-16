@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Image} from "../types";
 import {connect} from "react-redux";
+import {Image} from "../types";
 import ImageComponent from "./ImageComponent";
 
 class BigPreview extends React.Component<{

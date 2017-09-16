@@ -1,6 +1,6 @@
 import {ADD_ALBUM_TO_IMAGE, ADD_IMAGES, ADD_PERSON_TO_IMAGE, ADD_TAG_TO_IMAGE, DELETE_IMAGE,
   LIKE_IMAGE, LOAD_MORE_IMAGES, REMOVE_ALBUM_FROM_IMAGE, REMOVE_PERSON_TO_IMAGE,
-  REMOVE_TAG, REVERT_IMAGE, SET_IMAGE_SERVICE, SET_IMAGE_TITLE, SET_IMAGES, UNLIKE_IMAGE, SET_NUMBER_OF_IMAGES} from "../actionTypes";
+  REMOVE_TAG, REVERT_IMAGE, SET_IMAGE_SERVICE, SET_IMAGE_TITLE, SET_IMAGES, SET_NUMBER_OF_IMAGES, UNLIKE_IMAGE} from "../actionTypes";
 import Ajax from "../libs/Ajax";
 import {Album, Image, Person, Service, Tag} from "../types";
 
@@ -109,12 +109,12 @@ export const addImagesToAlbum = (images: Image[], album: Album) => {
         image: images[index],
         type: ADD_ALBUM_TO_IMAGE
       });
-      load(index+1);
+        load(index + 1);
     });
 
     load(0);
   };
-}
+};
 
 export const removeAlbumFromImage = (image: Image, album: Album) => {
   return (dispatch) => Ajax.delete(`/api/images/${image.id}/albums/${album.id}`).then(() => dispatch({

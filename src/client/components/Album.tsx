@@ -1,12 +1,12 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {removeAlbumFromImage, loadAlbum, updateEntry, loadImages} from "../actions";
+import {loadAlbum, loadImages, removeAlbumFromImage, updateEntry} from "../actions";
 import Ajax from "../libs/Ajax";
 import {t} from "../libs/Translation";
-import {Album, Image, AlbumImage} from "../types";
+import {Album, AlbumImage, Image} from "../types";
+import AlbumView from "./AlbumView";
 import Images from "./Images";
 import ImagesNav from "./ImagesNav";
-import AlbumView from "./AlbumView";
 
 interface AlbumProps {
   album: Album;
@@ -39,14 +39,14 @@ class AlbumComponent extends React.Component<AlbumProps, {
       <div>
         {this.state.show && (<AlbumView images={this.props.images} entries={this.props.entries}
           album={this.props.album}
-          onClose={() => this.setState({show:false})}/>)}
+          onClose={() => this.setState({show: false})}/>)}
         <h1>
           <i className="fa fa-book" aria-hidden="true" /> {this.props.album.name}
           <ImagesNav images={this.props.images}>
             <a onClick={this.handleRemoveFromAlbum.bind(this)}>
               <i className="fa fa-times" aria-hidden="true" /><span className="min500"> {t("album.remove")}</span>
             </a>
-            <a onClick={() => this.setState({show:true})}>
+            <a onClick={() => this.setState({show: true})}>
               <i className="fa fa-map-o" aria-hidden="true" /> Show
             </a>
           </ImagesNav>

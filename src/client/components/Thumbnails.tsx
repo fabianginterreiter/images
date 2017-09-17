@@ -22,7 +22,7 @@ class Thumbnails extends React.Component<{
 
     let lastDate = "";
 
-    this._calcuateDisplayWidth(this.props.images);
+    this.calcuateDisplayWidth(this.props.images);
 
     this.props.images.forEach((image: Image, idx: number) => {
       const newDate = image.year + "" + image.month + "" + image.day;
@@ -38,7 +38,8 @@ class Thumbnails extends React.Component<{
         elements.push(
           <div className="item" key={image.id} >
             <div style={{width: image.displayWidth + "px"}}>
-              <i className="fa fa-check-square-o" onClick={() => this.handleDateSelect(image.year, image.month, image.day)} />
+              <i className="fa fa-check-square-o"
+                onClick={() => this.handleDateSelect(image.year, image.month, image.day)} />
               <Link to={`/images/dates/${image.year}/${image.month}/${image.day}`}>{newDate}</Link>
             </div>
             <div className="imgBorder">
@@ -62,7 +63,7 @@ class Thumbnails extends React.Component<{
     </div>);
   }
 
-  private _calcuateDisplayWidth(imgs: Image[]) {
+  private calcuateDisplayWidth(imgs: Image[]) {
     let sum = 0;
     let images = [];
 
@@ -92,7 +93,8 @@ class Thumbnails extends React.Component<{
   }
 
   private handleDateSelect(year: number, month: number, day: number) {
-    const images = this.props.allImages.filter((image) => (image.year === year && image.month === month && image.day === day));
+    const images = this.props.allImages.filter((image) =>
+      (image.year === year && image.month === month && image.day === day));
 
     if (images.find((image) => this.props.isSelected(image))) {
       images.forEach((image) => this.props.unselect(image));
@@ -104,10 +106,10 @@ class Thumbnails extends React.Component<{
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    allImages: state.images,
     isSelected: (image: Image) => state.selection.findIndex((obj) => obj.id === image.id) >= 0,
     showDate: state.options.showDate,
-    thumbnailsSize: state.options.thumbnailsSize,
-    allImages: state.images,
+    thumbnailsSize: ownProps.size ? ownProps.size : state.options.thumbnailsSize,
     width: ownProps.width || state.view.width
   };
 };

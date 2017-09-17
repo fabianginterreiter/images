@@ -18,7 +18,7 @@ div.album {
     left: 0;
   }
 
-  .edit {
+  .editButton {
     position: fixed;
     top: 0;
     right: 0;
@@ -30,5 +30,38 @@ div.album {
     bottom: 0;
     left: 0;
     right: 0;
+  }
+
+  .textbox {
+    width: 100%;
+  }
+
+  .editMode {
+    .textbox {
+      textarea {
+        width: 100%;
+      }
+    }
+
+    .buttonsLeft > span:hover, .buttonsRight > span:hover {
+      color: $selectedColor;
+    }
+
+    .buttonsLeft > span, .buttonsRight > span {
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      color: white;
+    }
+
+    .buttonsLeft {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .buttonsRight {
+      position: absolute;;
+      top: 0;
+      right: 0;
+    }
   }
 }

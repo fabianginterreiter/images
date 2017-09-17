@@ -27,7 +27,6 @@
     "archiver": "^2.0.3",
     "body-parser": "^1.15.2",
     "bookshelf": "^0.10.4",
-    "commonmark": "^0.28.1",
     "connect-redis": "^3.2.0",
     "exif": "^0.6.0",
     "express": "^4.14.0",

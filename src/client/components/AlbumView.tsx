@@ -7,6 +7,7 @@ import {Album, AlbumImage, Image} from "../types";
 import { KeyUpListener } from "../utils/Utils";
 import BigPreview from "./BigPreview";
 import Thumbnails from "./Thumbnails";
+import Markdown from "./Markdown";
 
 class AlbumView extends React.Component<{
   entries: AlbumImage[];
@@ -57,13 +58,15 @@ class AlbumView extends React.Component<{
     let box = 0;
 
     this.props.entries.forEach((entry: AlbumImage) => {
-      const image = this.props.images.find((image) => image.id === entry.image_id);
+      const image = this.props.images.find((object: Image) => object.id === entry.image_id);
 
       if (!image) {
 
-        if (entry.text) {
+        if (entry.text !== null) {
           if (temp.length > 0) {
-            images.push(<Thumbnails key={"b" + (++box)} images={temp} width={width} renderContent={(image) => this.renderContent(image)} />);
+            images.push(<Thumbnails key={"b" + (++box)}
+              images={temp} width={width}
+              renderContent={(object: Image) => this.renderContent(object)} />);
             temp = [];
           }
 
@@ -77,27 +80,36 @@ class AlbumView extends React.Component<{
 
       if (entry.big) {
         if (temp.length > 0) {
-          images.push(<Thumbnails key={"b" + (++box)} images={temp} width={width} renderContent={(image) => this.renderContent(image)} />);
+          images.push(<Thumbnails key={"b" + (++box)} images={temp} width={width}
+            renderContent={(object) => this.renderContent(object)} />);
           temp = [];
         }
 
-        images.push(<BigPreview key={"b" + (++box)} image={image} width={width} renderContent={(image) => this.renderContent(image)} />);
+        images.push(<BigPreview key={"b" + (++box)} image={image} width={width}
+          renderContent={(object) => this.renderContent(object)} />);
       } else {
         temp.push(image);
       }
     });
 
     if (temp.length > 0) {
-      images.push(<Thumbnails key={"b" + (++box)} images={temp} width={width} renderContent={(image) => this.renderContent(image)}/>);
+      images.push(<Thumbnails key={"b" + (++box)} images={temp} width={width}
+        renderContent={(object) => this.renderContent(object)}/>);
     }
 
     return (
       <div className="album">
-        <div className="close" onClick={() => this.props.onClose()}><i className="fa fa-times" aria-hidden="true"/> Close</div>
+        <div className="close" onClick={() => this.props.onClose()}>
+          <i className="fa fa-times" aria-hidden="true"/> Close
+        </div>
         {this.state.edit ?
-          <div className="edit" onClick={() => this.handleStopEditMode()}><i className="fa fa-pencil-square-o" aria-hidden="true" /> Stop</div>
-          : <div className="edit" onClick={() => this.handleStartEditMode()}><i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit</div>}
-        <div className="content" style={{width: width + "px"}}>
+          <div className="editButton" onClick={() => this.handleStopEditMode()}>
+            <i className="fa fa-pencil-square-o" aria-hidden="true" /> Stop
+          </div>
+          : <div className="editButton" onClick={() => this.handleStartEditMode()}>
+            <i className="fa fa-pencil-square-o" aria-hidden="true" /> Edit
+          </div>}
+        <div className={"content" + (this.state.edit ? " editMode" : "")} style={{width: width + "px"}}>
           <h1>
             <i className="fa fa-book" aria-hidden="true" /> {this.props.album.name}
           </h1>
@@ -110,21 +122,23 @@ class AlbumView extends React.Component<{
   private renderText(entry: AlbumImage, b: number) {
     if (this.state.edit) {
       return <div key={b} className="container">
-        <div className="item" draggable={true}
+        <div className="item textbox" draggable={true}
         onDragStart={() => this.handleDragStart(entry)}
         onDragOver={(event) => this.handleDragOver(event, entry)}
         onDragEnd={() => this.handleDragEnd()}>
-          <textarea onChange={(event) => this.handleChange(event, entry)} value={entry.text} />
-          <span onClick={() => this.handleDelete(entry)}>Delete</span>
+          <Markdown value={entry.text}
+            edit={true}
+            onChange={(value) => this.handleChange(value, entry)}/>
+          <div className="buttonsRight">
+            <span onClick={() => this.handleDelete(entry)} className="deleteButton">Delete</span>
+          </div>
         </div>
       </div>;
     }
 
-    const text: string = this.renderer.render(this.parser.parse(entry.text));
-
     return <div key={b} className="container">
-      <div className="item">
-        <div dangerouslySetInnerHTML={ {__html: text} } />
+      <div className="item textbox">
+        <Markdown value={entry.text} />
       </div>
     </div>;
   }
@@ -137,17 +151,23 @@ class AlbumView extends React.Component<{
         onDragStart={() => this.handleDragStart(entry)}
         onDragOver={(event) => this.handleDragOver(event, entry)}
         onDragEnd={() => this.handleDragEnd()}>
-        <div className="big" onClick={() => this.handleMakeBig(image)}>
-          {entry.big ? <i className="fa fa-compress" aria-hidden="true" /> : <i className="fa fa-expand" aria-hidden="true" />}
+        <div className="buttonsLeft">
+          <span className="bigButton" onClick={() => this.handleMakeBig(entry)}>
+            {entry.big ? <i className="fa fa-compress" aria-hidden="true" /> :
+              <i className="fa fa-expand" aria-hidden="true" />}
+          </span>
+          <span className="addTextButton" onClick={() => this.handleAddText(entry)}>Text</span>
         </div>
-        <div className="text" onClick={() => this.handleAddText(entry)}>Text</div>
+        <div className="buttonsRight">
+          <span onClick={() => this.handleDelete(entry)} className="deleteButton">Delete</span>
+        </div>
       </div>;
     }
     return <div className="entry" onClick={(event) => this.handleClick(event, image)} />;
   }
 
-  private handleChange(event, entry: AlbumImage) {
-    entry.text = event.target.value;
+  private handleChange(value: string, entry: AlbumImage) {
+    entry.text = value;
 
     this.props.updateEntry(entry);
   }
@@ -162,6 +182,14 @@ class AlbumView extends React.Component<{
         if (this.props.view >= 0) {
           break;
         }
+
+        if (this.state.edit) {
+          this.setState({
+            edit: false
+          });
+          break;
+        }
+
         return this.props.onClose();
     }
   }
@@ -197,7 +225,8 @@ class AlbumView extends React.Component<{
       dragging: null
     });
 
-    this.props.setImages(this.props.entries.filter((entry) => entry.image_id > 0).map((entry) => this.props.images.find((image) => entry.image_id === image.id)));
+    this.props.setImages(this.props.entries.filter((entry) => entry.image_id > 0).map((entry) =>
+      this.props.images.find((image) => entry.image_id === image.id)));
   }
 
   private handleClick(event, image: Image) {
@@ -210,9 +239,7 @@ class AlbumView extends React.Component<{
     this.props.setView(idx);
   }
 
-  private handleMakeBig(image: Image) {
-    const entry = this.props.entries.find((entry) => image.id === entry.image_id);
-
+  private handleMakeBig(entry: AlbumImage) {
     entry.big = !entry.big;
 
     this.props.updateEntry(entry);
@@ -232,12 +259,12 @@ class AlbumView extends React.Component<{
 
   private handleAddText(entry: AlbumImage) {
     this.props.updateOrder([...this.props.entries, {
-      id: 0,
       album_id: this.props.album.id,
       big: false,
-      text: "Hello",
+      id: 0,
       image_id: 0,
-      order: entry.order - 1
+      order: entry.order - 1,
+      text: "Hello"
     }]);
   }
 }
@@ -250,12 +277,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setView: (idx: number) => dispatch(setView(idx)),
-    updateEntry: (entry: AlbumImage) => dispatch(updateEntry(entry)),
-    updateOrder: (entries: AlbumImage[]) => dispatch(updateOrder(entries)),
-    updateDisplay: (entry: AlbumImage) => dispatch(updateDisplay(entry)),
+    removeEntry: (entry: AlbumImage) => dispatch(removeEntry(entry)),
     setImages: (images: Image[]) => dispatch(setImages(images)),
-    removeEntry: (entry: AlbumImage) => dispatch(removeEntry(entry))
+    setView: (idx: number) => dispatch(setView(idx)),
+    updateDisplay: (entry: AlbumImage) => dispatch(updateDisplay(entry)),
+    updateEntry: (entry: AlbumImage) => dispatch(updateEntry(entry)),
+    updateOrder: (entries: AlbumImage[]) => dispatch(updateOrder(entries))
   };
 };
 
